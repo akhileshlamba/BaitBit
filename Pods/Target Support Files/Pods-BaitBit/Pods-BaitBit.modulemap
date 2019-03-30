@@ -1,0 +1,6 @@
+framework module Pods_BaitBit {
+  umbrella header "Pods-BaitBit-umbrella.h"
+
+  export *
+  module * { export * }
+}
