@@ -14,6 +14,10 @@
 		E6277047224F13E400492B1A /* BaitBit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6277045224F13E400492B1A /* BaitBit.xcdatamodeld */; };
 		E6277049224F13E400492B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6277048224F13E400492B1A /* Assets.xcassets */; };
 		E627704C224F13E400492B1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E627704A224F13E400492B1A /* LaunchScreen.storyboard */; };
+		E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770532250696900492B1A /* IntroductionPageViewController.swift */; };
+		E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770552250B4A700492B1A /* SecondPageViewController.swift */; };
+		E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770572250BCEB00492B1A /* HomeViewController.swift */; };
+		E627705A2250F85E00492B1A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770592250F85E00492B1A /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		E6277048224F13E400492B1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E627704B224F13E400492B1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E627704D224F13E400492B1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E62770532250696900492B1A /* IntroductionPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionPageViewController.swift; sourceTree = "<group>"; };
+		E62770552250B4A700492B1A /* SecondPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPageViewController.swift; sourceTree = "<group>"; };
+		E62770572250BCEB00492B1A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E62770592250F85E00492B1A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.debug.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.debug.xcconfig"; sourceTree = "<group>"; };
 		F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.release.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -56,7 +64,6 @@
 				EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */,
 				F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -83,11 +90,15 @@
 			children = (
 				E627703E224F13E400492B1A /* AppDelegate.swift */,
 				E6277040224F13E400492B1A /* ViewController.swift */,
+				E62770532250696900492B1A /* IntroductionPageViewController.swift */,
 				E6277042224F13E400492B1A /* Main.storyboard */,
 				E6277048224F13E400492B1A /* Assets.xcassets */,
 				E627704A224F13E400492B1A /* LaunchScreen.storyboard */,
 				E627704D224F13E400492B1A /* Info.plist */,
 				E6277045224F13E400492B1A /* BaitBit.xcdatamodeld */,
+				E62770552250B4A700492B1A /* SecondPageViewController.swift */,
+				E62770572250BCEB00492B1A /* HomeViewController.swift */,
+				E62770592250F85E00492B1A /* MapViewController.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -167,15 +178,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-BaitBit-checkManifestLockResult.txt",
 			);
@@ -189,8 +196,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
@@ -200,8 +205,6 @@
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
@@ -222,8 +225,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6277047224F13E400492B1A /* BaitBit.xcdatamodeld in Sources */,
+				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
+				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
+				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
+				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

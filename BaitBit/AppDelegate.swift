@@ -16,7 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let defaults = UserDefaults.standard
+        let skipTutorialPages = defaults.bool(forKey:"skipTutorialPages")
+        
+        if skipTutorialPages
+        {
+            let mainStoryBoard: UIStoryboard = UIStoryboard(name:"Main", bundle:nil)
+            
+            let mainView: HomeViewController = mainStoryBoard.instantiateViewController(withIdentifier: "SecondViewController") as! HomeViewController
+            
+            window?.rootViewController = mainView
+            
+        } else {
+            UIPageControl.appearance().pageIndicatorTintColor = UIColor.lightGray
+            UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.red
+        }
+        
         return true
     }
 
