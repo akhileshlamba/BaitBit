@@ -19,4 +19,10 @@ class Occurrence: NSObject {
         self.eventDate = eventDate
         self.species = species
     }
+    
+    init(latitude: CLLocationDegrees, longitude: CLLocationDegrees, eventDate: NSDate, species: String) {
+        self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        self.eventDate = eventDate
+        self.species = species
+    }
 }
