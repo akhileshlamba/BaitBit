@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		752DE288F2BF59A2D1279D4E /* Pods_BaitBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */; };
 		E627703F224F13E400492B1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E627703E224F13E400492B1A /* AppDelegate.swift */; };
 		E6277041224F13E400492B1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6277040224F13E400492B1A /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaitBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703B224F13E400492B1A /* BaitBit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaitBit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703E224F13E400492B1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		E627703D224F13E400492B1A /* BaitBit */ = {
 			isa = PBXGroup;
 			children = (
+				02AA7F102252081E00824685 /* GoogleService-Info.plist */,
 				E627703E224F13E400492B1A /* AppDelegate.swift */,
 				E6277040224F13E400492B1A /* ViewController.swift */,
 				E62770532250696900492B1A /* IntroductionPageViewController.swift */,
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E627704C224F13E400492B1A /* LaunchScreen.storyboard in Resources */,
+				02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */,
 				E6277049224F13E400492B1A /* Assets.xcassets in Resources */,
 				E6277044224F13E400492B1A /* Main.storyboard in Resources */,
 			);

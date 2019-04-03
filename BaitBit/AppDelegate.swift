@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let defaults = UserDefaults.standard
         let skipTutorialPages = defaults.bool(forKey:"skipTutorialPages")
+        
+        FirebaseApp.configure()
         
         if skipTutorialPages
         {
