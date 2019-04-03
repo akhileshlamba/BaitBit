@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02157E6C225573E80007A170 /* Occurrence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02157E6B225573E80007A170 /* Occurrence.swift */; };
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		752DE288F2BF59A2D1279D4E /* Pods_BaitBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */; };
 		E627703F224F13E400492B1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E627703E224F13E400492B1A /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02157E6B225573E80007A170 /* Occurrence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Occurrence.swift; sourceTree = "<group>"; };
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaitBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703B224F13E400492B1A /* BaitBit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaitBit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 				E62770552250B4A700492B1A /* SecondPageViewController.swift */,
 				E62770572250BCEB00492B1A /* HomeViewController.swift */,
 				E62770592250F85E00492B1A /* MapViewController.swift */,
+				02157E6B225573E80007A170 /* Occurrence.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
+				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
 				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
