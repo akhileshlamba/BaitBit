@@ -7,21 +7,16 @@
 //
 
 import UIKit
-import MapKit
 
 class Occurrence: NSObject {
-    var location: CLLocationCoordinate2D?
+    var latitude: Double
+    var longitude: Double
     var eventDate: NSDate?
     var species: String?
     
-    init(location: CLLocationCoordinate2D, eventDate: NSDate, species: String) {
-        self.location = location
-        self.eventDate = eventDate
-        self.species = species
-    }
-    
-    init(latitude: CLLocationDegrees, longitude: CLLocationDegrees, eventDate: NSDate, species: String) {
-        self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    init(latitude: Double, longitude: Double, eventDate: NSDate, species: String) {
+        self.latitude = latitude
+        self.longitude = longitude
         self.eventDate = eventDate
         self.species = species
     }
