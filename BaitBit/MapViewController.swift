@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
+    let databaseRef: DatabaseReference = Database.database().reference().child("baitbit")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
     }
 
+    // This method is to load data from remote dataset
+    func loadData() {
+        
+    }
     
     // This method is to keep track of the user's current location.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
