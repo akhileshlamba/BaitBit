@@ -140,9 +140,8 @@
                                     <navigationItem title="Title" id="sGP-QB-Xxb"/>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mlS-fe-nAR">
-                                <rect key="frame" x="16" y="87" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select a species" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mlS-fe-nAR">
+                                <rect key="frame" x="16" y="587.5" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -151,6 +150,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="top" secondItem="ZCt-dd-ytN" secondAttribute="top" id="7fA-0v-vpP"/>
+                            <constraint firstItem="MKo-ha-TOa" firstAttribute="baseline" secondItem="mlS-fe-nAR" secondAttribute="firstBaseline" constant="11" symbolType="layoutAnchor" id="87u-Vb-Gnq"/>
+                            <constraint firstItem="mlS-fe-nAR" firstAttribute="centerX" secondItem="MKo-ha-TOa" secondAttribute="centerX" id="DKq-EV-dkZ"/>
+                            <constraint firstItem="mlS-fe-nAR" firstAttribute="leading" secondItem="BnD-oG-H72" secondAttribute="leadingMargin" id="Gol-E4-mTS"/>
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="leading" secondItem="BnD-oG-H72" secondAttribute="leading" id="Wug-UN-bxM"/>
                             <constraint firstAttribute="trailing" secondItem="MKo-ha-TOa" secondAttribute="trailing" id="cfP-yc-Pxm"/>
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="bottom" secondItem="ZCt-dd-ytN" secondAttribute="bottom" id="vmO-I7-mga"/>
@@ -167,10 +169,10 @@
             </objects>
             <point key="canvasLocation" x="2880.8000000000002" y="-641.82908545727139"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Baiting Info-->
         <scene sceneID="aTf-6w-MMM">
             <objects>
-                <tabBarController id="PR4-ih-JDC" sceneMemberID="viewController">
+                <tabBarController title="Baiting Info" id="PR4-ih-JDC" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Q90-At-wkk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

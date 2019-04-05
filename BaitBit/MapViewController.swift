@@ -19,7 +19,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
     
     var picker = UIPickerView()
-    let dataSource: [String] = ["vulpes", "rabbits"]
+    let dataSource: [String] = ["All species", "vulpes", "rabbits"]
     @IBOutlet weak var speciesTextField: UITextField!
     
     override func viewDidLoad() {
@@ -36,7 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-        loadData(species: "vulpes")
+        loadData()
         
     }
 
@@ -44,9 +44,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.view.endEditing(true)
     }
     
+    func addMyAnnotation() {
+        
+    }
+    
     // This method is to load data from remote dataset
     func loadData(species: String) {
-        self.mapView.removeAnnotations(self.mapView.annotations)
+        for annotation in self.mapView.annotations {
+            if !(annotation is PinAnnotation) {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
+//        self.mapView.removeAnnotations(self.mapView.annotations)
+        
         self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
             guard let dataset = snapshot.value as? NSArray else {
                 return
@@ -67,49 +77,47 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    // MARK: - Manage Annotations
-    
-    func addAnnotation(annotation: MKAnnotation) {
-        guard let annotation = annotation as? OccurrenceAnnotation else { return }
-        self.mapView.addAnnotation(annotation)
+    func loadData() {
+//        self.mapView.removeAnnotations(self.mapView.annotations)
         
-//        // Set up Geofence
-//        geoLocation = annotation.geoLocation
-//        geoLocation!.notifyOnExit = true
-//        geoLocation!.notifyOnEntry = true
+        for annotation in self.mapView.annotations {
+            if !(annotation is PinAnnotation) {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
         
-        self.locationManager.requestAlwaysAuthorization()
-//        self.locationManager.startMonitoring(for: geoLocation!)
-        self.locationManager.allowsBackgroundLocationUpdates = true
+        self.occurrenceAnnotations.removeAll()
+        for species in dataSource {
+            self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
+                guard let dataset = snapshot.value as? NSArray else {
+                    return
+                }
+                
+                for record in dataset {
+                    let record = record as! NSDictionary
+                    let lat = record["Latitude"] as! Double
+                    let long = record["Longitude"] as! Double
+                    let month = record["Month"] as! Int
+                    let year = record["Year"] as! Int
+                    let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
+                    self.occurrenceAnnotations.append(occurrence)
+                }
+                self.mapView.addAnnotations(self.occurrenceAnnotations)
+            }
+        }
         
-        print("\(String(describing: annotation.title!)) is added.") // this line is just for debugging
-    }
-    
-    func removeAnnotation(annotation: MKAnnotation) {
-        guard let annotation = annotation as? OccurrenceAnnotation else { return }
-        self.mapView.removeAnnotation(annotation)
-//        self.locationManager.stopMonitoring(for: annotation.geoLocation)
-        self.mapView.removeOverlays(self.mapView.overlays)
-    }
-    
-    func focusOn(annotation: MKAnnotation) {
-        
-        self.mapView.region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 500, 500)
-        self.mapView.selectAnnotation(annotation, animated: true)
-        
-//        if let annotation = annotation as? OccurrenceAnnotation {
-//            self.mapView.removeOverlays(self.mapView.overlays)
-//            let circle: MKCircle = MKCircle(center: annotation.geoLocation.center, radius: annotation.geoLocation.radius)
-//            self.mapView.add(circle)
-//        }
     }
     
     // This method is to keep track of the user's current location.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 400, 400)
+        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 40000, 40000)
         self.mapView.setRegion(viewRegion, animated: true)
+        
+        let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation")
+        self.mapView.addAnnotation(annotation)
+//        focusOn(annotation: annotation)
     }
     
     override func didReceiveMemoryWarning() {
@@ -127,6 +135,35 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annoationView = MKAnnotationView()
+        
+        if let fencedAnnotation = annotation as? OccurrenceAnnotation {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: fencedAnnotation.identifier) {
+                annoationView = dequeuedView
+            } else {
+                annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
+            }
+            
+            annoationView.image = UIImage(named: fencedAnnotation.identifier)
+            annoationView.canShowCallout = true
+            annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
+            
+            return annoationView
+        } else if let myLocationAnnotation = annotation as? PinAnnotation {
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: myLocationAnnotation.identifier) {
+                annoationView = dequeuedView
+            } else {
+                annoationView = MKAnnotationView(annotation: myLocationAnnotation, reuseIdentifier: myLocationAnnotation.identifier)
+            }
+            
+            annoationView.image = UIImage(named: "pin")
+        }
+        
+        
+        return annoationView
+    }
 
 }
 
@@ -143,7 +180,11 @@ extension MapViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         speciesTextField.text = dataSource[row]
-        loadData(species: dataSource[row])
+        if row == 0 {
+            loadData()
+        } else {
+            loadData(species: dataSource[row])
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
