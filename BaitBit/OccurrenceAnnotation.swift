@@ -13,11 +13,13 @@ class OccurrenceAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var identifier: String
     var title: String?
+    var subtitle: String?
     
-    init(title: String, coordinate: CLLocationCoordinate2D) {
+    init(title: String, coordinate: CLLocationCoordinate2D, subtitle: String?) {
         self.coordinate = coordinate
         self.title = title
         self.identifier = title
+        self.subtitle = subtitle
     }
     
 }

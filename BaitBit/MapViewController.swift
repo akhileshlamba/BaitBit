@@ -15,7 +15,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
-    let databaseRef: DatabaseReference = Database.database().reference().child("baitbit")
+    let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
+    var occurrenceAnnotations: [OccurrenceAnnotation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +28,68 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
+        loadData(species: "vulpes")
+        
     }
 
     // This method is to load data from remote dataset
-    func loadData() {
+    func loadData(species: String) {
+        self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
+            guard let dataset = snapshot.value as? NSArray else {
+                return
+            }
+            
+            self.occurrenceAnnotations.removeAll()
+            for record in dataset {
+                let record = record as! NSDictionary
+                let lat = record["Latitude"] as! Double
+                let long = record["Longitude"] as! Double
+                let month = record["Month"] as! Int
+                let year = record["Year"] as! Int
+                let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
+                self.occurrenceAnnotations.append(occurrence)
+            }
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.mapView.addAnnotations(self.occurrenceAnnotations)
+            
+        }
+    }
+    
+    // MARK: - Manage Annotations
+    
+    func addAnnotation(annotation: MKAnnotation) {
+        guard let annotation = annotation as? OccurrenceAnnotation else { return }
+        self.mapView.addAnnotation(annotation)
         
+//        // Set up Geofence
+//        geoLocation = annotation.geoLocation
+//        geoLocation!.notifyOnExit = true
+//        geoLocation!.notifyOnEntry = true
+        
+        self.locationManager.requestAlwaysAuthorization()
+//        self.locationManager.startMonitoring(for: geoLocation!)
+        self.locationManager.allowsBackgroundLocationUpdates = true
+        
+        print("\(String(describing: annotation.title!)) is added.") // this line is just for debugging
+    }
+    
+    func removeAnnotation(annotation: MKAnnotation) {
+        guard let annotation = annotation as? OccurrenceAnnotation else { return }
+        self.mapView.removeAnnotation(annotation)
+//        self.locationManager.stopMonitoring(for: annotation.geoLocation)
+        self.mapView.removeOverlays(self.mapView.overlays)
+    }
+    
+    func focusOn(annotation: MKAnnotation) {
+        
+        self.mapView.region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 500, 500)
+        self.mapView.selectAnnotation(annotation, animated: true)
+        
+//        if let annotation = annotation as? OccurrenceAnnotation {
+//            self.mapView.removeOverlays(self.mapView.overlays)
+//            let circle: MKCircle = MKCircle(center: annotation.geoLocation.center, radius: annotation.geoLocation.radius)
+//            self.mapView.add(circle)
+//        }
     }
     
     // This method is to keep track of the user's current location.
