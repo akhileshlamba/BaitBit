@@ -18,8 +18,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
     
+    var picker = UIPickerView()
+    let dataSource: [String] = ["vulpes", "rabbits"]
+    @IBOutlet weak var speciesTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        picker.dataSource = self
+        picker.delegate = self
+        speciesTextField.inputView = picker
         
         mapView.delegate = self
         locationManager.delegate = self
@@ -32,8 +40,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     // This method is to load data from remote dataset
     func loadData(species: String) {
+        self.mapView.removeAnnotations(self.mapView.annotations)
         self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
             guard let dataset = snapshot.value as? NSArray else {
                 return
@@ -49,7 +62,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
                 self.occurrenceAnnotations.append(occurrence)
             }
-            self.mapView.removeAnnotations(self.mapView.annotations)
             self.mapView.addAnnotations(self.occurrenceAnnotations)
             
         }
@@ -116,4 +128,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     */
 
+}
+
+extension MapViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        speciesTextField.text = dataSource[row]
+        loadData(species: dataSource[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return dataSource[row]
+    }
 }
