@@ -14,6 +14,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var bait_laid_date: UITextField!
     @IBOutlet weak var location: UITextField!
+    var program: Bait_program!
     
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
@@ -83,15 +84,18 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
             displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
         } else {
             
-            let baits_info = NSEntityDescription.insertNewObject(forEntityName: "Baits_info", into: context) as! Baits_Info
+            let baits_info = NSEntityDescription.insertNewObject(forEntityName: "Baits_Info", into: context) as! Baits_Info
             baits_info.laid_date = NSDate()
             
             if(!(location.text?.contains(","))!){
                 displayMessage("You have not entered the correct coordinates format. They are of the form 12.23, 42.123", "Coordinates Error")
             } else{
                 let latlong = location.text?.components(separatedBy: ",")
-                baits_info.latitude = Double(latlong![0])! as? NSDecimalNumber
-                baits_info.longitude = Double(latlong![1])! as? NSDecimalNumber
+                baits_info.latitude = Double(latlong![0]) as! Double
+                baits_info.longitude = Double(latlong![1]) as! Double
+                baits_info.status = true
+                program.addToBaits(baits_info)
+                baits_info.program = program
             }
             
             do {

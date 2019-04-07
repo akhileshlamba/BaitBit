@@ -64,17 +64,18 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             }
         }
         
+//        self.baitAnnotations.removeAll()
         if let baitList = self.program.baits {
             for element in baitList {
                 if let bait = element as? Baits_Info {
+                    print(bait)
                     let baitAnnotation = BaitAnnotation(bait_info: bait)
                     baitAnnotations.append(baitAnnotation)
                 }
             }
-            
+            self.mapView.addAnnotations(baitAnnotations)
         }
         
-        self.baitAnnotations.removeAll()
 //        for species in dataSource {
 //            self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
 //                guard let dataset = snapshot.value as? NSArray else {
@@ -112,14 +113,14 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var annoationView = MKAnnotationView()
         
-        if let fencedAnnotation = annotation as? OccurrenceAnnotation {
+        if let fencedAnnotation = annotation as? BaitAnnotation {
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: fencedAnnotation.identifier) {
                 annoationView = dequeuedView
             } else {
                 annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: fencedAnnotation.identifier)
+            annoationView.image = UIImage(named: fencedAnnotation.bait_info.program!.name!)
             annoationView.canShowCallout = true
             annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
             
@@ -139,14 +140,18 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     }
     
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "AddBaitSegue" {
+            let controller = segue.destination as! BaitsViewController
+            controller.program = self.program
+        }
     }
-    */
+    
 
 }
