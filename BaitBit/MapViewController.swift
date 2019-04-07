@@ -10,24 +10,35 @@ import UIKit
 import MapKit
 import Firebase
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+protocol FilterUpdateDelegate {
+    func updateData(year: String, month: String, species: String)
+}
+
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, FilterUpdateDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
+    var filteredOccurrenceAnnotations: [OccurrenceAnnotation] = []
     
-    var picker = UIPickerView()
-    let dataSource: [String] = ["All species", "vulpes", "rabbits"]
+    var speciesPicker = UIPickerView()
+    var yearPicker = UIPickerView()
+    let speciesDataSource: [String] = ["All species", "vulpes", "rabbits"]
+    var yearDataSource: [String] = ["All years"]
     @IBOutlet weak var speciesTextField: UITextField!
+    @IBOutlet weak var yearTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        picker.dataSource = self
-        picker.delegate = self
-        speciesTextField.inputView = picker
+        speciesPicker.dataSource = self
+        speciesPicker.delegate = self
+        speciesTextField.inputView = speciesPicker
+        yearPicker.dataSource = self
+        yearPicker.delegate = self
+        yearTextField.inputView = yearPicker
         
         mapView.delegate = self
         locationManager.delegate = self
@@ -36,8 +47,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
         
-        loadData()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        let year = Int(dateFormatter.string(from: Date()))!
         
+        var years = Array(1950...year)
+        years.reverse()
+        
+        for year in years {
+            yearDataSource.append("\(year)")
+        }
+
+        loadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        loadData()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -49,32 +75,37 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // This method is to load data from remote dataset
-    func loadData(species: String) {
+    func updateData(year: String, month: String, species: String) {
         for annotation in self.mapView.annotations {
             if !(annotation is PinAnnotation) {
                 self.mapView.removeAnnotation(annotation)
             }
         }
+        
+        for annotation in occurrenceAnnotations {
+            if annotation.title == species && annotation.subtitle == "\(year) - \(month)" {
+                self.mapView.addAnnotation(annotation)
+            }
+        }
 //        self.mapView.removeAnnotations(self.mapView.annotations)
         
-        self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dataset = snapshot.value as? NSArray else {
-                return
-            }
-            
-            self.occurrenceAnnotations.removeAll()
-            for record in dataset {
-                let record = record as! NSDictionary
-                let lat = record["Latitude"] as! Double
-                let long = record["Longitude"] as! Double
-                let month = record["Month"] as! Int
-                let year = record["Year"] as! Int
-                let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
-                self.occurrenceAnnotations.append(occurrence)
-            }
-            self.mapView.addAnnotations(self.occurrenceAnnotations)
-            
-        }
+//        self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
+//            guard let dataset = snapshot.value as? NSArray else {
+//                return
+//            }
+//
+//            self.occurrenceAnnotations.removeAll()
+//            for record in dataset {
+//                let record = record as! NSDictionary
+//                let lat = record["Latitude"] as! Double
+//                let long = record["Longitude"] as! Double
+//                let month = record["Month"] as! Int
+//                let year = record["Year"] as! Int
+//                let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
+//                self.occurrenceAnnotations.append(occurrence)
+//            }
+//            self.mapView.addAnnotations(self.occurrenceAnnotations)
+//        }
     }
     
     func loadData() {
@@ -87,7 +118,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         
         self.occurrenceAnnotations.removeAll()
-        for species in dataSource {
+        for species in speciesDataSource {
             self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
                 guard let dataset = snapshot.value as? NSArray else {
                     return
@@ -148,7 +179,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             annoationView.image = UIImage(named: fencedAnnotation.identifier)
             annoationView.canShowCallout = true
-            annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
+//            annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
             
             return annoationView
         } else if let myLocationAnnotation = annotation as? PinAnnotation {
@@ -175,19 +206,46 @@ extension MapViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return dataSource.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        speciesTextField.text = dataSource[row]
-        if row == 0 {
-            loadData()
+        if speciesTextField.isFirstResponder {
+            return speciesDataSource.count
         } else {
-            loadData(species: dataSource[row])
+            return yearDataSource.count
         }
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if speciesTextField.isFirstResponder {
+            if row == 0 {
+                speciesTextField.text = ""
+            } else {
+            speciesTextField.text = speciesDataSource[row]
+            }
+        } else {
+            if row == 0 {
+                yearTextField.text = ""
+            } else {
+                yearTextField.text = yearDataSource[row]
+            }
+        }
+        
+//        if row == 0 {
+//            loadData()
+//        } else {
+//            loadData(species: speciesDataSource[row])
+//        }
+    }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return dataSource[row]
+        if speciesTextField.isFirstResponder {
+            return speciesDataSource[row]
+        } else {
+            return yearDataSource[row]
+        }
     }
 }
+
+//extension MapViewController: UITextViewDelegate {
+//    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+//
+//    }
+//}
