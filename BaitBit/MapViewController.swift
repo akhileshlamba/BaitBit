@@ -93,7 +93,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     let long = record["Longitude"] as! Double
                     let month = record["Month"] as! Int
                     let year = record["Year"] as! Int
-                    let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
+                    let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), year: "\(year)", month: "\(month)")
                     self.occurrenceAnnotations.append(occurrence)
                 }
                 self.mapView.addAnnotations(self.occurrenceAnnotations)
