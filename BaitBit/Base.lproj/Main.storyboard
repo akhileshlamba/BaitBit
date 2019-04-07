@@ -264,12 +264,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="add_bait_button" destination="G53-yk-s4u" id="JOl-c4-oYJ"/>
                         <outlet property="mapView" destination="qW3-A6-8pv" id="QSt-hR-wlc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p1P-Td-8WD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4151" y="968"/>
+            <point key="canvasLocation" x="3559" y="1119"/>
         </scene>
         <!--Baits View Controller-->
         <scene sceneID="Mka-Ak-mw8">
@@ -378,7 +379,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1a0-pt-2OW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5472.8000000000002" y="187.55622188905548"/>
+            <point key="canvasLocation" x="4452" y="1119"/>
         </scene>
         <!--Home-->
         <scene sceneID="yAs-Z1-rDr">
@@ -388,6 +389,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
+                                <rect key="frame" x="67" y="101" width="240" height="310"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGo-dL-OA8">
                                 <rect key="frame" x="67" y="444" width="240" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -426,17 +430,34 @@
                                     <segue destination="Fm5-ls-XGP" kind="show" id="E05-ID-tpO"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
-                                <rect key="frame" x="67" y="101" width="240" height="310"/>
-                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09x-Ad-XMy">
+                                <rect key="frame" x="67" y="560" width="240" height="50"/>
+                                <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="View All Baites">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="ZSX-rJ-Ras" kind="show" identifier="baitsSegue" id="2Er-Ea-1h9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="09x-Ad-XMy" firstAttribute="leading" secondItem="xdq-Sc-Ce0" secondAttribute="leading" id="1cv-2H-Bep"/>
+                            <constraint firstItem="09x-Ad-XMy" firstAttribute="trailing" secondItem="xdq-Sc-Ce0" secondAttribute="trailing" id="Cas-Bc-kgm"/>
                             <constraint firstItem="xdq-Sc-Ce0" firstAttribute="top" secondItem="qGo-dL-OA8" secondAttribute="bottom" constant="8" symbolic="YES" id="D9t-Hc-20m"/>
                             <constraint firstItem="xdq-Sc-Ce0" firstAttribute="leading" secondItem="QhP-U5-66t" secondAttribute="leading" constant="67" id="GKq-6r-SyW"/>
                             <constraint firstItem="qGo-dL-OA8" firstAttribute="top" secondItem="oeP-Zi-7TK" secondAttribute="bottom" constant="33" id="JGR-sM-z5G"/>
                             <constraint firstItem="xdq-Sc-Ce0" firstAttribute="leading" secondItem="qGo-dL-OA8" secondAttribute="leading" id="Oxr-nR-86Z"/>
                             <constraint firstItem="xdq-Sc-Ce0" firstAttribute="centerX" secondItem="kS2-9T-CNs" secondAttribute="centerX" id="SQl-P2-8Yd"/>
+                            <constraint firstItem="QhP-U5-66t" firstAttribute="bottom" secondItem="09x-Ad-XMy" secondAttribute="bottom" constant="57" id="VTm-8W-0fY"/>
+                            <constraint firstItem="09x-Ad-XMy" firstAttribute="top" secondItem="xdq-Sc-Ce0" secondAttribute="bottom" constant="8" symbolic="YES" id="WJL-WU-50o"/>
                             <constraint firstItem="oeP-Zi-7TK" firstAttribute="leading" secondItem="qGo-dL-OA8" secondAttribute="leading" id="buw-CM-6xZ"/>
                             <constraint firstItem="oeP-Zi-7TK" firstAttribute="top" secondItem="QhP-U5-66t" secondAttribute="top" constant="37" id="jYt-fd-avQ"/>
                             <constraint firstItem="oeP-Zi-7TK" firstAttribute="trailing" secondItem="qGo-dL-OA8" secondAttribute="trailing" id="uPT-Gf-g06"/>
@@ -449,7 +470,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ALT-Fi-2pw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2172" y="-322.48875562218893"/>
+            <point key="canvasLocation" x="2151" y="1"/>
         </scene>
         <!--Baiting Programs-->
         <scene sceneID="Uln-aq-nSL">
@@ -533,7 +554,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5c-Jn-x1j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1230" y="-322"/>
+            <point key="canvasLocation" x="1161" y="0.0"/>
         </scene>
     </scenes>
     <resources>
@@ -541,6 +562,7 @@
         <image name="logo" width="134" height="164"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YBN-ya-J7T"/>
+        <segue reference="sI4-JR-YS7"/>
+        <segue reference="2Er-Ea-1h9"/>
     </inferredMetricsTieBreakers>
 </document>

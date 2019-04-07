@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeViewController: UIViewController {
 
+    var baits: [Baits_Info] = []
+    private var context : NSManagedObjectContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        fetchData()
         // Do any additional setup after loading the view.
     }
 
@@ -21,15 +25,30 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
+    func fetchData() {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Baits_Info")
+        do{
+            baits = try context.fetch(fetchRequest) as! [Baits_Info]
+        } catch  {
+            fatalError("Failed to fetch animal list")
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        context = (appDelegate?.persistentContainer.viewContext)!
+        super.init(coder: aDecoder)
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "baitsSegue" {
+            let controller = segue.destination as! BaitsProgramMapViewController
+            controller.baits = baits
+        }
     }
-    */
+   
 
 }
