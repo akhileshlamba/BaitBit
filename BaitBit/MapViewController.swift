@@ -10,7 +10,11 @@ import UIKit
 import MapKit
 import Firebase
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+protocol FilterUpdateDelegate {
+    func updateData(year: String, month: String, species: String)
+}
+
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, FilterUpdateDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
@@ -22,7 +26,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var speciesPicker = UIPickerView()
     var yearPicker = UIPickerView()
     let speciesDataSource: [String] = ["All species", "vulpes", "rabbits"]
-    var yearDataSource: [Int]?
+    var yearDataSource: [String] = ["All years"]
     @IBOutlet weak var speciesTextField: UITextField!
     @IBOutlet weak var yearTextField: UITextField!
     
@@ -47,10 +51,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         dateFormatter.dateFormat = "yyyy"
         let year = Int(dateFormatter.string(from: Date()))!
         
-        yearDataSource = Array(1950...year)
-        yearDataSource?.reverse()
-
+        var years = Array(1950...year)
+        years.reverse()
         
+        for year in years {
+            yearDataSource.append("\(year)")
+        }
+
         loadData()
     }
     
@@ -68,32 +75,37 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // This method is to load data from remote dataset
-    func updateData(species: String) {
+    func updateData(year: String, month: String, species: String) {
         for annotation in self.mapView.annotations {
             if !(annotation is PinAnnotation) {
                 self.mapView.removeAnnotation(annotation)
             }
         }
+        
+        for annotation in occurrenceAnnotations {
+            if annotation.title == species && annotation.subtitle == "\(year) - \(month)" {
+                self.mapView.addAnnotation(annotation)
+            }
+        }
 //        self.mapView.removeAnnotations(self.mapView.annotations)
         
-        
-        self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dataset = snapshot.value as? NSArray else {
-                return
-            }
-            
-            self.occurrenceAnnotations.removeAll()
-            for record in dataset {
-                let record = record as! NSDictionary
-                let lat = record["Latitude"] as! Double
-                let long = record["Longitude"] as! Double
-                let month = record["Month"] as! Int
-                let year = record["Year"] as! Int
-                let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
-                self.occurrenceAnnotations.append(occurrence)
-            }
-            self.mapView.addAnnotations(self.occurrenceAnnotations)
-        }
+//        self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
+//            guard let dataset = snapshot.value as? NSArray else {
+//                return
+//            }
+//
+//            self.occurrenceAnnotations.removeAll()
+//            for record in dataset {
+//                let record = record as! NSDictionary
+//                let lat = record["Latitude"] as! Double
+//                let long = record["Longitude"] as! Double
+//                let month = record["Month"] as! Int
+//                let year = record["Year"] as! Int
+//                let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), subtitle: "\(year) - \(month)")
+//                self.occurrenceAnnotations.append(occurrence)
+//            }
+//            self.mapView.addAnnotations(self.occurrenceAnnotations)
+//        }
     }
     
     func loadData() {
@@ -197,15 +209,23 @@ extension MapViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if speciesTextField.isFirstResponder {
             return speciesDataSource.count
         } else {
-            return yearDataSource!.count
+            return yearDataSource.count
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if speciesTextField.isFirstResponder {
+            if row == 0 {
+                speciesTextField.text = ""
+            } else {
             speciesTextField.text = speciesDataSource[row]
+            }
         } else {
-            yearTextField.text = "\(yearDataSource![row])"
+            if row == 0 {
+                yearTextField.text = ""
+            } else {
+                yearTextField.text = yearDataSource[row]
+            }
         }
         
 //        if row == 0 {
@@ -219,7 +239,7 @@ extension MapViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if speciesTextField.isFirstResponder {
             return speciesDataSource[row]
         } else {
-            return "\(yearDataSource![row])"
+            return yearDataSource[row]
         }
     }
 }
