@@ -33,12 +33,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        speciesPicker.dataSource = self
-        speciesPicker.delegate = self
-        speciesTextField.inputView = speciesPicker
-        yearPicker.dataSource = self
-        yearPicker.delegate = self
-        yearTextField.inputView = yearPicker
+//        speciesPicker.dataSource = self
+//        speciesPicker.delegate = self
+//        speciesTextField.inputView = speciesPicker
+//        yearPicker.dataSource = self
+//        yearPicker.delegate = self
+//        yearTextField.inputView = yearPicker
         
         mapView.delegate = self
         locationManager.delegate = self
