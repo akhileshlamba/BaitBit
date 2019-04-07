@@ -18,6 +18,7 @@ class ProgramViewController: UIViewController {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var species: UITextField!
     @IBOutlet weak var start_date: UITextField!
+    var program: Bait_program?
     
     let formatter = DateFormatter()
     var currentTextFieldTag : Int = 1
@@ -32,7 +33,7 @@ class ProgramViewController: UIViewController {
                                 ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild dog capsule", "Perishable Fox Bait",
                                  "Perishable Wild Dog Bait", "Perishable Rabbit Bait"]
     
-    let speciesType: [String] = ["Please Select", "Dogs", "Pigs", "Rabbits", "Fox"]
+    let speciesType: [String] = ["Please Select", "Dog", "Pig", "Rabbit", "Fox"]
     
     
     let datePicker = UIDatePicker()
@@ -90,6 +91,7 @@ class ProgramViewController: UIViewController {
     func showDatePicker(){
         
         datePicker.datePickerMode = .date
+        datePicker.minimumDate = Date()
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -109,6 +111,7 @@ class ProgramViewController: UIViewController {
             formatter.dateStyle = .medium
             formatter.timeStyle = .none
             start_date.text = formatter.string(from: datePicker.date)
+            self.view.endEditing(true)
         }
     }
     
@@ -129,26 +132,22 @@ class ProgramViewController: UIViewController {
                 return
             }
             
-            if formatter.date(from: start_date.text!)! < Date() {
-                displayMessage("Cannot set previous date for your program", "Wrong Date")
-            }
-            
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
             
             let defaults = UserDefaults.standard
             defaults.setValue(true, forKey:"program_counter")
         
-            let program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
-            program.name = name.text
-            program.program_id = Int64(defaults.integer(forKey: "baits_program_counter") + 1)
-            program.species = species.text
-            program.start_date = NSDate()
-            program.active = true
+            program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
+            program?.name = name.text
+            program?.program_id = Int64(defaults.integer(forKey: "baits_program_counter") + 1)
+            program?.species = species.text
+            program?.start_date = NSDate()
+            program?.active = true
             
             do {
                 try context.save()
                 defaults.set(defaults.integer(forKey: "baits_program_counter") + 1, forKey: "baits_program_counter")
-                delegate?.didAddBaitProgram(program)
+                delegate?.didAddBaitProgram(program!)
                 performSegue(withIdentifier: "addbait", sender: nil)
             } catch let error {
                 print("Could not save to core data: \(error)")
@@ -164,15 +163,19 @@ class ProgramViewController: UIViewController {
             UIAlertActionStyle.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "addbait" {
+            let controller = segue.destination as! BaitsViewController
+            controller.program = self.program
+        }
     }
-    */
+    
 
 }
 
@@ -208,6 +211,7 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             species.text = speciesType[row]
         }
         
+        self.view.endEditing(true)
         
     }
     

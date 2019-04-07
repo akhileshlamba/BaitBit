@@ -245,7 +245,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mj2-C6-84x">
-                                <rect key="frame" x="0.0" y="21" width="375" height="646"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Species" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uHh-aZ-khq">
                                         <rect key="frame" x="8" y="210" width="359" height="30"/>
@@ -479,20 +479,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="82.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:  Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssC-O5-QI4">
-                                            <rect key="frame" x="16" y="63" width="77" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status : Active" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gH9-Ja-aUU">
-                                            <rect key="frame" x="255" y="63" width="99" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name: Program Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbP-AG-s30">
-                                            <rect key="frame" x="16" y="11" width="338" height="28"/>
+                                            <rect key="frame" x="16" y="11" width="179" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="lOo-03-m22"/>
                                             </constraints>
@@ -500,23 +489,24 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:  Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssC-O5-QI4">
+                                            <rect key="frame" x="16" y="54" width="77" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="rbP-AG-s30" firstAttribute="top" secondItem="P9G-j4-AP3" secondAttribute="topMargin" id="HeH-9Q-0KV"/>
-                                        <constraint firstItem="rbP-AG-s30" firstAttribute="leading" secondItem="ssC-O5-QI4" secondAttribute="leading" id="KeY-Pj-pPM"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="gH9-Ja-aUU" secondAttribute="bottom" constant="-9" id="VsV-nr-Iwx"/>
-                                        <constraint firstItem="gH9-Ja-aUU" firstAttribute="firstBaseline" secondItem="ssC-O5-QI4" secondAttribute="firstBaseline" id="d5K-0L-uso"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="gH9-Ja-aUU" secondAttribute="trailing" constant="5" id="ixz-Zl-PLv"/>
-                                        <constraint firstItem="ssC-O5-QI4" firstAttribute="top" secondItem="rbP-AG-s30" secondAttribute="bottom" constant="24" id="kMY-7K-FNe"/>
-                                        <constraint firstItem="gH9-Ja-aUU" firstAttribute="centerY" secondItem="ssC-O5-QI4" secondAttribute="centerY" id="lE1-mn-QDL"/>
-                                        <constraint firstItem="rbP-AG-s30" firstAttribute="trailing" secondItem="gH9-Ja-aUU" secondAttribute="trailing" id="neP-iX-3JM"/>
+                                        <constraint firstItem="ssC-O5-QI4" firstAttribute="top" secondItem="rbP-AG-s30" secondAttribute="bottom" constant="15" id="Iqe-ou-oPJ"/>
+                                        <constraint firstItem="ssC-O5-QI4" firstAttribute="leading" secondItem="rbP-AG-s30" secondAttribute="leading" id="N8V-ji-jr2"/>
+                                        <constraint firstItem="ssC-O5-QI4" firstAttribute="bottom" secondItem="P9G-j4-AP3" secondAttribute="bottomMargin" id="ckg-qP-vxc"/>
                                         <constraint firstItem="rbP-AG-s30" firstAttribute="leading" secondItem="P9G-j4-AP3" secondAttribute="leadingMargin" id="wH5-rQ-CcN"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="program_name" destination="rbP-AG-s30" id="vOC-UB-fft"/>
                                     <outlet property="start_date" destination="ssC-O5-QI4" id="AUy-HQ-aF9"/>
-                                    <outlet property="status" destination="gH9-Ja-aUU" id="avk-23-QlH"/>
                                     <segue destination="ZSX-rJ-Ras" kind="show" identifier="ProgramMapSegue" id="bml-W1-PPG"/>
                                 </connections>
                             </tableViewCell>
