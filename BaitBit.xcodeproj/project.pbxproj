@@ -22,13 +22,13 @@
 		E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770552250B4A700492B1A /* SecondPageViewController.swift */; };
 		E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770572250BCEB00492B1A /* HomeViewController.swift */; };
 		E627705A2250F85E00492B1A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770592250F85E00492B1A /* MapViewController.swift */; };
+		E64B71B42259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */; };
+		E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */; };
+		E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */; };
+		E64B71B72259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */; };
 		E64EF8C522586BDD00D96892 /* BaitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C422586BDD00D96892 /* BaitsViewController.swift */; };
 		E64EF8C72258927300D96892 /* BaitProgramTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C62258927300D96892 /* BaitProgramTableViewController.swift */; };
 		E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */; };
-		E6EA550722580DB300E4AA5C /* Baits_Info+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550322580DB300E4AA5C /* Baits_Info+CoreDataProperties.swift */; };
-		E6EA550822580DB300E4AA5C /* Bait_program+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550422580DB300E4AA5C /* Bait_program+CoreDataClass.swift */; };
-		E6EA550922580DB400E4AA5C /* Baits_Info+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550522580DB300E4AA5C /* Baits_Info+CoreDataClass.swift */; };
-		E6EA550A22580DB400E4AA5C /* Bait_program+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550622580DB300E4AA5C /* Bait_program+CoreDataProperties.swift */; };
 		E6EA550C2258141300E4AA5C /* ProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550B2258141300E4AA5C /* ProgramViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,13 +50,13 @@
 		E62770552250B4A700492B1A /* SecondPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPageViewController.swift; sourceTree = "<group>"; };
 		E62770572250BCEB00492B1A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E62770592250F85E00492B1A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Baits_Info+CoreDataClass.swift"; sourceTree = "<group>"; };
+		E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Bait_program+CoreDataClass.swift"; path = "/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Bait_program+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Baits_Info+CoreDataProperties.swift"; path = "/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Baits_Info+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bait_program+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E64EF8C422586BDD00D96892 /* BaitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsViewController.swift; sourceTree = "<group>"; };
 		E64EF8C62258927300D96892 /* BaitProgramTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitProgramTableViewController.swift; sourceTree = "<group>"; };
 		E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsProgramMapViewController.swift; sourceTree = "<group>"; };
-		E6EA550322580DB300E4AA5C /* Baits_Info+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Baits_Info+CoreDataProperties.swift"; path = "/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Baits_Info+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		E6EA550422580DB300E4AA5C /* Bait_program+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Bait_program+CoreDataClass.swift"; path = "/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Bait_program+CoreDataClass.swift"; sourceTree = "<absolute>"; };
-		E6EA550522580DB300E4AA5C /* Baits_Info+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Baits_Info+CoreDataClass.swift"; path = "/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Baits_Info+CoreDataClass.swift"; sourceTree = "<absolute>"; };
-		E6EA550622580DB300E4AA5C /* Bait_program+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Bait_program+CoreDataProperties.swift"; path = "/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Bait_program+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		E6EA550B2258141300E4AA5C /* ProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewController.swift; sourceTree = "<group>"; };
 		EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.debug.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.debug.xcconfig"; sourceTree = "<group>"; };
 		F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.release.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.release.xcconfig"; sourceTree = "<group>"; };
@@ -115,11 +115,11 @@
 				02AA7F102252081E00824685 /* GoogleService-Info.plist */,
 				E627703E224F13E400492B1A /* AppDelegate.swift */,
 				E6277040224F13E400492B1A /* ViewController.swift */,
-				E6EA550422580DB300E4AA5C /* Bait_program+CoreDataClass.swift */,
-				E6EA550622580DB300E4AA5C /* Bait_program+CoreDataProperties.swift */,
-				E6EA550522580DB300E4AA5C /* Baits_Info+CoreDataClass.swift */,
-				E6EA550322580DB300E4AA5C /* Baits_Info+CoreDataProperties.swift */,
 				E62770532250696900492B1A /* IntroductionPageViewController.swift */,
+				E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */,
+				E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */,
+				E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */,
+				E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */,
 				E6277042224F13E400492B1A /* Main.storyboard */,
 				E6277048224F13E400492B1A /* Assets.xcassets */,
 				E627704A224F13E400492B1A /* LaunchScreen.storyboard */,
@@ -265,20 +265,20 @@
 				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
 				E6EA550C2258141300E4AA5C /* ProgramViewController.swift in Sources */,
 				02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */,
+				E64B71B72259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift in Sources */,
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
-				E6EA550822580DB300E4AA5C /* Bait_program+CoreDataClass.swift in Sources */,
+				E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */,
 				E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */,
 				E64EF8C522586BDD00D96892 /* BaitsViewController.swift in Sources */,
-				E6EA550722580DB300E4AA5C /* Baits_Info+CoreDataProperties.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
 				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
-				E6EA550A22580DB400E4AA5C /* Bait_program+CoreDataProperties.swift in Sources */,
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
 				E64EF8C72258927300D96892 /* BaitProgramTableViewController.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
+				E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */,
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
-				E6EA550922580DB400E4AA5C /* Baits_Info+CoreDataClass.swift in Sources */,
 				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
+				E64B71B42259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
