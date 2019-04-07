@@ -14,16 +14,16 @@ class OccurrenceAnnotation: NSObject, MKAnnotation {
     var identifier: String
     var title: String?
     var subtitle: String?
-    var year: String
-    var month: String
+    var year: Int
+    var month: Int
     
-    init(title: String, coordinate: CLLocationCoordinate2D, year: String, month: String) {
+    init(title: String, coordinate: CLLocationCoordinate2D, year: Int, month: Int) {
         self.coordinate = coordinate
         self.title = title
         self.identifier = title
         self.year = year
         self.month = month
-        self.subtitle = year + " " + month
+        self.subtitle = "\(year) - \(month)"
     }
     
 }

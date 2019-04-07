@@ -54,6 +54,8 @@ class FilterViewController: UIViewController {
         for month in months {
             monthDataSource.append("\(month)")
         }
+        
+        reset()
     }
     
     @objc func reset() {
@@ -61,6 +63,12 @@ class FilterViewController: UIViewController {
         monthTextField.text = ""
         speciesTextField.text = ""
     }
+    
+    @IBAction func search(_ sender: Any) {
+        delegate!.updateData(year: yearTextField.text ?? "", month: monthTextField.text ?? "", species: speciesTextField.text ?? "")
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)

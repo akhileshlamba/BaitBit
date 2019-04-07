@@ -34,24 +34,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.distanceFilter = 10
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy"
-//        let year = Int(dateFormatter.string(from: Date()))!
-//        
-//        var years = Array(1950...year)
-//        years.reverse()
-//        
-//        for year in years {
-//            yearDataSource.append("\(year)")
-//        }
 
         loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        loadData()
+//        loadData()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -67,7 +56,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         
         for annotation in occurrenceAnnotations {
-            if annotation.title == species && annotation.subtitle == "\(year) - \(month)" {
+            if annotation.title == species && annotation.year == Int(year) && annotation.month == Int(month) {
                 self.mapView.addAnnotation(annotation)
             }
         }
@@ -93,7 +82,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     let long = record["Longitude"] as! Double
                     let month = record["Month"] as! Int
                     let year = record["Year"] as! Int
-                    let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), year: "\(year)", month: "\(month)")
+                    let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), year: year, month: month)
                     self.occurrenceAnnotations.append(occurrence)
                 }
                 self.mapView.addAnnotations(self.occurrenceAnnotations)
@@ -106,7 +95,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 100000, 100000)
         self.mapView.setRegion(viewRegion, animated: true)
         
         let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation")

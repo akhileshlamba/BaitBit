@@ -122,7 +122,7 @@
                     <navigationItem key="navigationItem" title="Title" id="Jow-3m-sRG">
                         <barButtonItem key="rightBarButtonItem" title="Filters" id="Mqd-yW-YIr">
                             <connections>
-                                <segue destination="Lvd-mc-y7R" kind="show" id="Jtz-r7-WOi"/>
+                                <segue destination="Lvd-mc-y7R" kind="show" identifier="FilterSegue" id="Jtz-r7-WOi"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -181,6 +181,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Wk-wE-LFH">
                                 <rect key="frame" x="163.5" y="351" width="48" height="30"/>
                                 <state key="normal" title="Search"/>
+                                <connections>
+                                    <action selector="search:" destination="Lvd-mc-y7R" eventType="touchUpInside" id="OkU-SE-ujD"/>
+                                </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rSg-4S-87o">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
