@@ -120,12 +120,12 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
             let controller = segue.destination as! BaitsProgramMapViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 controller.program = self.programList[indexPath.row]
-            } else {
-                
             }
-            
+        }
+        
+        if segue.identifier == "AddProgramSegue" {
+            let controller = segue.destination as! ProgramViewController
+            controller.delegate = self
         }
     }
-    
-
 }
