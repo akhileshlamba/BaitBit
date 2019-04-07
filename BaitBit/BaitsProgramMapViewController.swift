@@ -14,12 +14,14 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
+    var program: Bait_program!
     
     var baitsLocationAnnotation: [OccurrenceAnnotation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print(self.program)
         loadData()
         
         mapView.delegate = self

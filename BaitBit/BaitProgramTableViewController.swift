@@ -109,14 +109,23 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "ProgramMapSegue" {
+            let controller = segue.destination as! BaitsProgramMapViewController
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                controller.program = self.programList[indexPath.row]
+            } else {
+                
+            }
+            
+        }
     }
-    */
+    
 
 }
