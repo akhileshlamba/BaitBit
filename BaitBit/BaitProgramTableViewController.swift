@@ -14,9 +14,13 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     var programList: [Bait_program] = []
     private var context : NSManagedObjectContext
     
+    let dateFormatter = DateFormatter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
         do{
             programList = try context.fetch(fetchRequest) as! [Bait_program]
@@ -59,10 +63,19 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //tableView.reloadData()
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "programBait", for: indexPath) as! BaitProgramTableViewCell
+        
+        
         if programList.count != 0{
             let a:Bait_program = self.programList[indexPath.row]
-            cell.textLabel?.text = a.name
+            cell.program_name.text = "Name: " + a.name!
+            cell.start_date.text = "Date: " + dateFormatter.string(from: a.start_date! as Date)
+            if a.active {
+                cell.status.text = "Status: Active"
+            } else {
+                cell.status.text = "Status: Inactive"
+            }
+            
         }
         return cell
     }

@@ -19,6 +19,7 @@ class ProgramViewController: UIViewController {
     @IBOutlet weak var species: UITextField!
     @IBOutlet weak var start_date: UITextField!
     
+    let formatter = DateFormatter()
     var currentTextFieldTag : Int = 1
     
     var defaults = UserDefaults.standard
@@ -51,11 +52,11 @@ class ProgramViewController: UIViewController {
         name.tag = 1
         species.tag = 2
         
-        showDatePicker()
         
-        if defaults.integer(forKey: "baits_program_counter") == 0{
-            defaults.set(1, forKey: "baits_program_counter")
-        }
+        formatter.dateFormat = "dd/MM/yyyy"
+        
+        
+        showDatePicker()
         
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
@@ -63,6 +64,9 @@ class ProgramViewController: UIViewController {
             animalList = try context.fetch(fetchRequest) as! [Bait_program]
             print("asdasdsduhqd qwod hqw")
             print(animalList.count)
+            if(animalList.count != 0){
+                print(animalList[animalList.count-1].program_id)
+            }
         } catch  {
             fatalError("Failed to fetch animal list")
         }
@@ -101,8 +105,6 @@ class ProgramViewController: UIViewController {
     }
     
     @objc func donedatePicker(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
         if start_date.isFirstResponder {
             formatter.dateStyle = .medium
             formatter.timeStyle = .none
@@ -119,42 +121,38 @@ class ProgramViewController: UIViewController {
         if (name.text?.isEmpty)! || (start_date.text?.isEmpty)! || (species.text?.isEmpty)!{
             displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
         } else {
+            let speciesName = species.text
+            let baitName = name.text
             
-//            var list : [Bait_program] = []
-//            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-//            let predicate = NSPredicate(format: "name = \(String(describing: name.text))")
-//            fetchRequest.predicate = predicate
-//            do{
-//                list = try context.fetch(fetchRequest) as! [Bait_program]
-//            } catch  {
-//                fatalError("Failed to fetch animal list")
-//            }
-//
-//            if list.count > 0{
-//                displayMessage("This program is already active", "Duplicate record")
-//                return
-//            } else {
-                let program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
-                program.name = name.text
-                
-                program.program_id = Int64(defaults.integer(forKey: "baits_program_counter"))
-                program.species = species.text
-                
-                
-                program.start_date = NSDate()
-                program.active = true
-                
-                do {
-                    try context.save()
-                    defaults.set(defaults.integer(forKey: "baits_program_counter")+1, forKey: "baits_program_counter")
-                    delegate?.didAddBaitProgram(program)
-                    //                let vc = BaitsViewController()
-                    //                self.present(vc, animated: true, completion: nil)
-                    performSegue(withIdentifier: "addbait", sender: nil)
-                } catch let error {
-                    print("Could not save to core data: \(error)")
-                }
-            //}
+            if !(baitName!.contains(speciesName!)) {
+                displayMessage("Inavlid Bait for selected Species", "Invalid Selection")
+                return
+            }
+            
+            if formatter.date(from: start_date.text!)! < Date() {
+                displayMessage("Cannot set previous date for your program", "Wrong Date")
+            }
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
+            
+            let defaults = UserDefaults.standard
+            defaults.setValue(true, forKey:"program_counter")
+        
+            let program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
+            program.name = name.text
+            program.program_id = Int64(defaults.integer(forKey: "baits_program_counter") + 1)
+            program.species = species.text
+            program.start_date = NSDate()
+            program.active = true
+            
+            do {
+                try context.save()
+                defaults.set(defaults.integer(forKey: "baits_program_counter") + 1, forKey: "baits_program_counter")
+                delegate?.didAddBaitProgram(program)
+                performSegue(withIdentifier: "addbait", sender: nil)
+            } catch let error {
+                print("Could not save to core data: \(error)")
+            }
         }
         
     }
