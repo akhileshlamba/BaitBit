@@ -101,7 +101,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 40000, 40000)
+        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
         self.mapView.setRegion(viewRegion, animated: true)
         
         let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation")
@@ -122,7 +122,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             
             annoationView.image = UIImage(named: fencedAnnotation.bait_info.program!.name!)
             annoationView.canShowCallout = true
-            annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
+            //annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
             
             return annoationView
         } else if let myLocationAnnotation = annotation as? PinAnnotation {

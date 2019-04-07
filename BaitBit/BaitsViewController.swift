@@ -15,6 +15,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var bait_laid_date: UITextField!
     @IBOutlet weak var location: UITextField!
     var program: Bait_program!
+    let formatter = DateFormatter()
     
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
@@ -23,6 +24,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
     private var context : NSManagedObjectContext
     
     override func viewDidLoad() {
+        formatter.dateFormat = "dd/MM/yyyy"
         super.viewDidLoad()
         showDatePicker()
     }
@@ -36,6 +38,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
     func showDatePicker(){
         
         datePicker.datePickerMode = .date
+        datePicker.minimumDate = Date()
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -51,8 +54,6 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func donedatePicker(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
         if bait_laid_date.isFirstResponder {
             formatter.dateStyle = .medium
             formatter.timeStyle = .none
