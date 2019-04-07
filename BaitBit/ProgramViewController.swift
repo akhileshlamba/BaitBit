@@ -16,17 +16,23 @@ protocol newBaitProgramDelegate {
 class ProgramViewController: UIViewController {
 
     @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var species: UITextField!
     @IBOutlet weak var start_date: UITextField!
-    @IBOutlet weak var duration: UITextField!
-    @IBOutlet weak var limit: UITextField!
+    
+    var currentTextFieldTag : Int = 1
+    
+    var defaults = UserDefaults.standard
     
     var delegate : newBaitProgramDelegate?
     
     var animalList: [Bait_program] = []
     var picker = UIPickerView()
-    let dataSource: [String] = ["All species", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
+    let baitTypes: [String] = ["All species", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
                                 ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild dog capsule", "Perishable Fox Bait",
                                  "Perishable Wild Dog Bait", "Perishable Rabbit Bait"]
+    
+    let speciesType: [String] = ["Please Select", "Dogs", "Pigs", "Rabbits", "Fox"]
+    
     
     let datePicker = UIDatePicker()
     
@@ -37,7 +43,19 @@ class ProgramViewController: UIViewController {
         picker.dataSource = self
         picker.delegate = self
         name.inputView = picker
+        species.inputView = picker
+        
+        name.delegate = self
+        species.delegate = self
+        
+        name.tag = 1
+        species.tag = 2
+        
         showDatePicker()
+        
+        if defaults.integer(forKey: "baits_program_counter") == 0{
+            defaults.set(1, forKey: "baits_program_counter")
+        }
         
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
@@ -98,38 +116,37 @@ class ProgramViewController: UIViewController {
     
     
     @IBAction func addProgram(_ sender: Any) {
-        if (name.text?.isEmpty)! || (limit.text?.isEmpty)! || (start_date.text?.isEmpty)! || (duration.text?.isEmpty)!{
+        if (name.text?.isEmpty)! || (start_date.text?.isEmpty)! || (species.text?.isEmpty)!{
             displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
         } else {
-            var list : [Bait_program] = []
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-            let predicate = NSPredicate(format: "name = \(String(describing: name.text))")
-            fetchRequest.predicate = predicate
-            do{
-                list = try context.fetch(fetchRequest) as! [Bait_program]
-            } catch  {
-                fatalError("Failed to fetch animal list")
-            }
             
-            if list.count > 0{
-                displayMessage("This program is already active", "Duplicate record")
-                return
-            } else {
+//            var list : [Bait_program] = []
+//            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
+//            let predicate = NSPredicate(format: "name = \(String(describing: name.text))")
+//            fetchRequest.predicate = predicate
+//            do{
+//                list = try context.fetch(fetchRequest) as! [Bait_program]
+//            } catch  {
+//                fatalError("Failed to fetch animal list")
+//            }
+//
+//            if list.count > 0{
+//                displayMessage("This program is already active", "Duplicate record")
+//                return
+//            } else {
                 let program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
                 program.name = name.text
                 
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "dd-mm-yyyy" //Your date format
-                dateFormatter.timeZone = TimeZone(abbreviation: "GMT+10:00") //Current time zone
-                //according to date format your date string
-                //            guard let start_date = dateFormatter.date(from: start_date.text!) else {
-                //                fatalError()
-                //            }
+                program.program_id = Int64(defaults.integer(forKey: "baits_program_counter"))
+                program.species = species.text
+                
                 
                 program.start_date = NSDate()
                 program.active = true
+                
                 do {
                     try context.save()
+                    defaults.set(defaults.integer(forKey: "baits_program_counter")+1, forKey: "baits_program_counter")
                     delegate?.didAddBaitProgram(program)
                     //                let vc = BaitsViewController()
                     //                self.present(vc, animated: true, completion: nil)
@@ -137,7 +154,7 @@ class ProgramViewController: UIViewController {
                 } catch let error {
                     print("Could not save to core data: \(error)")
                 }
-            }
+            //}
         }
         
     }
@@ -169,14 +186,59 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return dataSource.count
+        if currentTextFieldTag == 1 {
+            return baitTypes.count
+        }
+        if currentTextFieldTag == 2 {
+            return speciesType.count
+        }
+        
+        return 0;
+        
+//        if species.isFirstResponder{
+//            return speciesType.count
+//        }
+//        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        name.text = dataSource[row]
+        
+        if currentTextFieldTag == 1 {
+            name.text = baitTypes[row]
+        }
+        if currentTextFieldTag == 2 {
+            species.text = speciesType[row]
+        }
+        
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return dataSource[row]
+        if currentTextFieldTag == 1 {
+            return baitTypes[row]
+        }
+        if currentTextFieldTag == 2 {
+            return speciesType[row]
+        }
+        
+       return ""
+        
+//        if species.isFirstResponder{
+//            return baitTypes[row]
+//        }
+//        return "";
+    }
+}
+
+extension ProgramViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField.tag == 1 {
+            currentTextFieldTag = textField.tag
+        }
+        if textField.tag == 2 {
+            currentTextFieldTag = textField.tag
+        }
+        picker.reloadAllComponents()
+        return true
     }
 }

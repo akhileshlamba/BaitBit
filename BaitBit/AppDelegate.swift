@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         let skipTutorialPages = defaults.bool(forKey:"skipTutorialPages")
         
+        defaults.set(0, forKey: "baits_program_counter")
+        
         FirebaseApp.configure()
         
         if skipTutorialPages
