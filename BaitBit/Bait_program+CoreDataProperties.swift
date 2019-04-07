@@ -2,7 +2,7 @@
 //  Bait_program+CoreDataProperties.swift
 //  
 //
-//  Created by Akhilesh Lamba on 6/4/19.
+//  Created by Akhilesh Lamba on 7/4/19.
 //
 //
 
@@ -16,12 +16,12 @@ extension Bait_program {
         return NSFetchRequest<Bait_program>(entityName: "Bait_program")
     }
 
+    @NSManaged public var active: Bool
+    @NSManaged public var species: String?
     @NSManaged public var name: String?
     @NSManaged public var start_date: NSDate?
-    @NSManaged public var duration: Int
-    @NSManaged public var baits_limit: Int
+    @NSManaged public var program_id: Int64
     @NSManaged public var baits: NSSet?
-    @NSManaged public var active: Bool
 
 }
 

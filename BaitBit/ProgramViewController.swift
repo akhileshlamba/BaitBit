@@ -103,7 +103,7 @@ class ProgramViewController: UIViewController {
         } else {
             var list : [Bait_program] = []
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-            let predicate = NSPredicate(format: "name = \(name)")
+            let predicate = NSPredicate(format: "name = \(String(describing: name.text))")
             fetchRequest.predicate = predicate
             do{
                 list = try context.fetch(fetchRequest) as! [Bait_program]
@@ -117,7 +117,6 @@ class ProgramViewController: UIViewController {
             } else {
                 let program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
                 program.name = name.text
-                program.baits_limit = (limit.text! as NSString).integerValue
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd-mm-yyyy" //Your date format
@@ -128,7 +127,6 @@ class ProgramViewController: UIViewController {
                 //            }
                 
                 program.start_date = NSDate()
-                program.duration = (duration.text! as NSString).integerValue
                 program.active = true
                 do {
                     try context.save()

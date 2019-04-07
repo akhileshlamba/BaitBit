@@ -2,7 +2,7 @@
 //  Baits_Info+CoreDataProperties.swift
 //  
 //
-//  Created by Akhilesh Lamba on 6/4/19.
+//  Created by Akhilesh Lamba on 7/4/19.
 //
 //
 
@@ -16,10 +16,12 @@ extension Baits_Info {
         return NSFetchRequest<Baits_Info>(entityName: "Baits_Info")
     }
 
-    @NSManaged public var program_id: Int32
-    @NSManaged public var laid_date: NSDate
+    @NSManaged public var laid_date: NSDate?
     @NSManaged public var latitude: NSDecimalNumber?
     @NSManaged public var longitude: NSDecimalNumber?
+    @NSManaged public var program_id: Int64
+    @NSManaged public var status: Bool
+    @NSManaged public var path: String?
     @NSManaged public var program: Bait_program?
 
 }
