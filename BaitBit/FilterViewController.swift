@@ -26,6 +26,8 @@ class FilterViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(reset))
+        
         speciesPicker.dataSource = self
         speciesPicker.delegate = self
         speciesTextField.inputView = speciesPicker
@@ -52,6 +54,12 @@ class FilterViewController: UIViewController {
         for month in months {
             monthDataSource.append("\(month)")
         }
+    }
+    
+    @objc func reset() {
+        yearTextField.text = ""
+        monthTextField.text = ""
+        speciesTextField.text = ""
     }
 
     /*
