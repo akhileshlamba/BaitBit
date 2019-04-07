@@ -17,9 +17,9 @@ extension Baits_Info {
     }
 
     @NSManaged public var laid_date: NSDate?
-    @NSManaged public var latitude: NSDecimalNumber?
-    @NSManaged public var longitude: NSDecimalNumber?
-    @NSManaged public var program_id: Int64
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
+//    @NSManaged public var program_id: Int64
     @NSManaged public var status: Bool
     @NSManaged public var path: String?
     @NSManaged public var program: Bait_program?

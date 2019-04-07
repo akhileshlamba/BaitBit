@@ -13,10 +13,12 @@ class BaitAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var identifier: String
     var bait_info: Baits_Info
+    var title: String?
     
     init(bait_info: Baits_Info) {
         self.bait_info = bait_info
-        self.coordinate = CLLocationCoordinate2D(latitude: self.bait_info.latitude as! CLLocationDegrees, longitude: self.bait_info.longitude as! CLLocationDegrees)
-        self.identifier = self.bait_info.program!.name!
+        self.coordinate = CLLocationCoordinate2D(latitude: bait_info.latitude as! CLLocationDegrees, longitude: bait_info.longitude as! CLLocationDegrees)
+        self.identifier = bait_info.program!.name!
+        self.title = bait_info.program!.name!
     }
 }

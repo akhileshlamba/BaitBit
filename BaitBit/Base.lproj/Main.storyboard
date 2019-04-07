@@ -155,7 +155,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mj2-C6-84x">
-                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
+                                <rect key="frame" x="0.0" y="21" width="375" height="646"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Species" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uHh-aZ-khq">
                                         <rect key="frame" x="8" y="210" width="359" height="30"/>
@@ -255,7 +255,7 @@
                     <navigationItem key="navigationItem" title="Baits Map" id="F5K-TH-2k7">
                         <barButtonItem key="rightBarButtonItem" title="Add Bait" id="G53-yk-s4u">
                             <connections>
-                                <segue destination="hxk-qI-7fy" kind="show" id="sI4-JR-YS7"/>
+                                <segue destination="hxk-qI-7fy" kind="show" identifier="AddBaitSegue" id="sI4-JR-YS7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -459,6 +459,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="YBN-ya-J7T"/>
+        <segue reference="sI4-JR-YS7"/>
     </inferredMetricsTieBreakers>
 </document>
