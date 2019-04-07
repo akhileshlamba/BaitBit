@@ -12,8 +12,10 @@ class FilterViewController: UIViewController {
 
     var speciesPicker = UIPickerView()
     var yearPicker = UIPickerView()
-    let speciesDataSource: [String] = ["All species", "vulpes", "rabbits"]
-    var yearDataSource: [String] = ["All years"]
+    var monthPicker = UIPickerView()
+    let speciesDataSource: [String] = ["(All species)", "vulpes", "rabbits"]
+    var yearDataSource: [String] = ["(All years)"]
+    var monthDataSource: [String] = ["(All months)"]
     @IBOutlet weak var yearTextField: UITextField!
     @IBOutlet weak var monthTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
@@ -27,9 +29,14 @@ class FilterViewController: UIViewController {
         speciesPicker.dataSource = self
         speciesPicker.delegate = self
         speciesTextField.inputView = speciesPicker
+        
         yearPicker.dataSource = self
         yearPicker.delegate = self
         yearTextField.inputView = yearPicker
+        
+        monthPicker.dataSource = self
+        monthPicker.delegate = self
+        monthTextField.inputView = monthPicker
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy"
@@ -37,9 +44,13 @@ class FilterViewController: UIViewController {
 
         var years = Array(1950...year)
         years.reverse()
-
         for year in years {
             yearDataSource.append("\(year)")
+        }
+        
+        let months = Array(1...12)
+        for month in months {
+            monthDataSource.append("\(month)")
         }
     }
 
@@ -65,8 +76,10 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if speciesTextField.isFirstResponder {
             return speciesDataSource.count
-        } else {
+        } else if yearTextField.isFirstResponder {
             return yearDataSource.count
+        } else {
+            return monthDataSource.count
         }
     }
     
@@ -77,26 +90,28 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             } else {
                 speciesTextField.text = speciesDataSource[row]
             }
-        } else {
+        } else if yearTextField.isFirstResponder {
             if row == 0 {
                 yearTextField.text = ""
             } else {
                 yearTextField.text = yearDataSource[row]
             }
+        } else {
+            if row == 0 {
+                monthTextField.text = ""
+            } else {
+                monthTextField.text = monthDataSource[row]
+            }
         }
-        
-        //        if row == 0 {
-        //            loadData()
-        //        } else {
-        //            loadData(species: speciesDataSource[row])
-        //        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if speciesTextField.isFirstResponder {
             return speciesDataSource[row]
-        } else {
+        } else if yearTextField.isFirstResponder {
             return yearDataSource[row]
+        } else {
+            return monthDataSource[row]
         }
     }
 }
