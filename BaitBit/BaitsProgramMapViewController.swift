@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
@@ -16,7 +17,14 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     var locationManager: CLLocationManager = CLLocationManager()
     var program: Bait_program!
     
-    var baitsLocationAnnotation: [OccurrenceAnnotation] = []
+    var baitAnnotations: [BaitAnnotation] = []
+    private var context : NSManagedObjectContext
+    
+    required init?(coder aDecoder: NSCoder) {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        context = (appDelegate?.persistentContainer.viewContext)!
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +40,15 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         locationManager.startUpdatingLocation()
         
         // Do any additional setup after loading the view.
+        
+//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
+//        do{
+//            programList = try context.fetch(fetchRequest) as! [Bait_program]
+//            print("asdasdsduhqd qwod hqw")
+//            print(programList.count)
+//        } catch  {
+//            fatalError("Failed to fetch animal list")
+//        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,7 +64,17 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             }
         }
         
-        self.baitsLocationAnnotation.removeAll()
+        if let baitList = self.program.baits {
+            for element in baitList {
+                if let bait = element as? Baits_Info {
+                    let baitAnnotation = BaitAnnotation(bait_info: bait)
+                    baitAnnotations.append(baitAnnotation)
+                }
+            }
+            
+        }
+        
+        self.baitAnnotations.removeAll()
 //        for species in dataSource {
 //            self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
 //                guard let dataset = snapshot.value as? NSArray else {
