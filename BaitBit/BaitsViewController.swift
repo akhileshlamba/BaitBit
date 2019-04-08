@@ -24,7 +24,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
     private var context : NSManagedObjectContext
     
     override func viewDidLoad() {
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "MMM dd, yyyy"
         
         bait_laid_date.text = formatter.string(from: Date())
         
