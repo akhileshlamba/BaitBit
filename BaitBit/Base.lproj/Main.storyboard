@@ -563,7 +563,7 @@
                                 <rect key="frame" x="67" y="560" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="View All Baites">
+                                <state key="normal" title="View All Baits">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -617,8 +617,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="82.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name: Program Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbP-AG-s30">
-                                            <rect key="frame" x="16" y="11" width="179" height="28"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbP-AG-s30">
+                                            <rect key="frame" x="16" y="11" width="0.0" height="28"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="28" id="lOo-03-m22"/>
                                             </constraints>
@@ -626,8 +626,8 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:  Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssC-O5-QI4">
-                                            <rect key="frame" x="16" y="54" width="77" height="18"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssC-O5-QI4">
+                                            <rect key="frame" x="16" y="54" width="0.0" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -644,7 +644,6 @@
                                 <connections>
                                     <outlet property="program_name" destination="rbP-AG-s30" id="vOC-UB-fft"/>
                                     <outlet property="start_date" destination="ssC-O5-QI4" id="AUy-HQ-aF9"/>
-                                    <segue destination="ZSX-rJ-Ras" kind="show" identifier="ProgramMapSegue" id="bml-W1-PPG"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -660,6 +659,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="ZSX-rJ-Ras" kind="show" identifier="ProgramMapSegue" id="cgO-rr-2hd"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yG2-gh-RAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -695,6 +697,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YBN-ya-J7T"/>
-        <segue reference="bml-W1-PPG"/>
+        <segue reference="cgO-rr-2hd"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -83,7 +83,13 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return list[section].count
+        if list[section].count == 0{
+            return 1
+        }
+        else {
+            return list[section].count
+        }
+        
     }
 
     
@@ -91,12 +97,12 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         //tableView.reloadData()
         let cell = tableView.dequeueReusableCell(withIdentifier: "programBait", for: indexPath) as! BaitProgramTableViewCell
         
-        
         if programList.count != 0 {
             let a:Bait_program = self.list[indexPath.section][indexPath.row]
             cell.program_name.text = a.name!
             cell.start_date.text = dateFormatter.string(from: a.start_date! as Date)
-            
+        } else {
+            cell.program_name.text = "No programs"
         }
         return cell
     }
@@ -107,6 +113,18 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         label.font = label.font.withSize(20)
         label.text = self.sections[section]
         return label
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if list[indexPath.section].count != 0{
+            let program = self.list[indexPath.section][indexPath.row]
+            if program.start_date! as Date > Date() {
+                displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
+            } else {
+                performSegue(withIdentifier: "ProgramMapSegue", sender: nil)
+            }
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -163,7 +181,13 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         return nil
     }
     
-    
+    func displayMessage(_ message: String,_ title: String) {
+        let alertController = UIAlertController(title: title, message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+            UIAlertActionStyle.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     // MARK: - Navigation
 

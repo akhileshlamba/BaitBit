@@ -144,7 +144,13 @@ class ProgramViewController: UIViewController {
                 try context.save()
                 defaults.set(defaults.integer(forKey: "baits_program_counter") + 1, forKey: "baits_program_counter")
                 delegate?.didAddBaitProgram(program!)
-                performSegue(withIdentifier: "addbait", sender: nil)
+                
+                if !(formatter.date(from: start_date.text!)!  > Date()) {
+                    performSegue(withIdentifier: "addbait", sender: nil)
+                } else {
+                    displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
+                }
+                
             } catch let error {
                 print("Could not save to core data: \(error)")
             }
