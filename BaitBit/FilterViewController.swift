@@ -8,9 +8,9 @@
 
 import UIKit
 
-//enum Month: Int {
-//    case Jan = 1, Feb, Mar, Apr,
-//}
+enum Month: Int, CaseIterable {
+    case January = 1, February, March, April, May, June, July, August, September, October, November, December
+}
 
 class FilterViewController: UIViewController {
 
@@ -24,7 +24,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var monthTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
     var selectedYear: String?
-    var selectedMonth: String?
+    var selectedMonth: Int = 0
     var selectedSpecies: String?
     
     var delegate: FilterUpdateDelegate?
@@ -52,14 +52,13 @@ class FilterViewController: UIViewController {
         dateFormatter.dateFormat = "yyyy"
         let year = Int(dateFormatter.string(from: Date()))!
 
-        var years = Array(0...4)
+        let years = Array(0...4)
         for number in years {
             yearDataSource.append("\(year - number)")
         }
         
         // initialise monthDataSource
-        let months = Array(1...12)
-        for month in months {
+        for month in Month.allCases {
             monthDataSource.append("\(month)")
         }
         
@@ -73,12 +72,19 @@ class FilterViewController: UIViewController {
     
     @objc func reset() {
         yearTextField.text = selectedYear ?? yearDataSource[0]
-        monthTextField.text = selectedMonth ?? ""
+        if selectedMonth != 0 {
+            monthTextField.text = monthDataSource[selectedMonth]
+        } else {
+            monthTextField.text = ""
+        }
+        monthPicker.selectRow(selectedMonth, inComponent: 0, animated: false)
         speciesTextField.text = selectedSpecies ?? ""
     }
     
     @IBAction func search(_ sender: Any) {
-        delegate!.updateData(year: yearTextField.text ?? "", month: monthTextField.text ?? "", species: speciesTextField.text ?? "")
+        let m = monthPicker.selectedRow(inComponent: 0)
+        print(m)
+        delegate!.updateData(year: yearTextField.text ?? "", month: m, species: speciesTextField.text ?? "")
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -124,11 +130,7 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                 speciesTextField.text = speciesDataSource[row]
             }
         } else if yearTextField.isFirstResponder {
-            if row == 0 {
-                yearTextField.text = ""
-            } else {
-                yearTextField.text = yearDataSource[row]
-            }
+            yearTextField.text = yearDataSource[row]
         } else {
             if row == 0 {
                 monthTextField.text = ""

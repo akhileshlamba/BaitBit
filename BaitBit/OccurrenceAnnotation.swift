@@ -34,11 +34,11 @@ class OccurrenceAnnotation: NSObject, MKAnnotation {
         }
     }
     
-    func isWithin(month: String) -> Bool {
-        if month == "" {
+    func isWithin(month: Int) -> Bool {
+        if month == 0 {
             return true
         } else {
-            return self.month == Int(month)
+            return self.month == month
         }
     }
     

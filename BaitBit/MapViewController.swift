@@ -11,7 +11,7 @@ import MapKit
 import Firebase
 
 protocol FilterUpdateDelegate {
-    func updateData(year: String, month: String, species: String)
+    func updateData(year: String, month: Int, species: String)
 }
 
 enum Species: String, CaseIterable {
@@ -29,7 +29,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
     var selectedYear: String = ""
-    var selectedMonth: String = ""
+    var selectedMonth: Int = 0
     var selectedSpecies: String = ""
     
     override func viewDidLoad() {
@@ -55,7 +55,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // This method is to load data from remote dataset
-    func updateData(year: String, month: String, species: String) {
+    func updateData(year: String, month: Int, species: String) {
         for annotation in self.mapView.annotations {
             if !(annotation is PinAnnotation) {
                 self.mapView.removeAnnotation(annotation)
@@ -101,7 +101,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy"
                 let currentYear = dateFormatter.string(from: Date())
-                self.updateData(year: currentYear, month: "", species: "")
+                self.updateData(year: currentYear, month: 0, species: "")
             }
         }
     }
