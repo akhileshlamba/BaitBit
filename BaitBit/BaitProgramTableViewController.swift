@@ -22,8 +22,8 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        sections.append("Active")
-        sections.append("Inactive")
+        sections.append("Programs in Progress")
+        sections.append("Completed Programs")
         
         dateFormatter.dateFormat = "dd-MM-yyyy"
         

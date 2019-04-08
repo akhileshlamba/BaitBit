@@ -27,6 +27,7 @@ class ProgramViewController: UIViewController {
     
     var delegate : newBaitProgramDelegate?
     
+    var alternateSpecies : [String] = []
     var animalList: [Bait_program] = []
     var picker = UIPickerView()
     let baitTypes: [String] = ["Please select Your Bait", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
@@ -170,12 +171,6 @@ class ProgramViewController: UIViewController {
             controller.program = self.program
         }
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-
-    
 
 }
 
@@ -191,7 +186,7 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return baitTypes.count
         }
         if currentTextFieldTag == 2 {
-            return speciesType.count
+            return alternateSpecies.count
         }
         
         return 0;
@@ -203,13 +198,23 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
         if currentTextFieldTag == 1 {
+            alternateSpecies = []
+            let speciesName = baitTypes[row]
+            alternateSpecies.append("Select Animal")
+            for a in speciesType {
+                if speciesName.contains(a){
+                    alternateSpecies.append(a)
+                }
+            }
+            
             name.text = baitTypes[row]
+            
         }
         if currentTextFieldTag == 2 {
-            species.text = speciesType[row]
+            species.text = alternateSpecies[row]
         }
+        self.view.endEditing(true)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -217,7 +222,7 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return baitTypes[row]
         }
         if currentTextFieldTag == 2 {
-            return speciesType[row]
+            return alternateSpecies[row]
         }
         
        return ""

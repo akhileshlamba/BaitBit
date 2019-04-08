@@ -197,10 +197,10 @@
             </objects>
             <point key="canvasLocation" x="4383.1999999999998" y="-642.72863568215894"/>
         </scene>
-        <!--Program View Controller-->
+        <!--New Program-->
         <scene sceneID="jHs-3P-Apk">
             <objects>
-                <viewController id="MBa-sb-IJs" customClass="ProgramViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="New Program" id="MBa-sb-IJs" customClass="ProgramViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UW7-rz-gyY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -367,10 +367,10 @@
             </objects>
             <point key="canvasLocation" x="3559" y="1119"/>
         </scene>
-        <!--Baits View Controller-->
+        <!--New Bait-->
         <scene sceneID="Mka-Ak-mw8">
             <objects>
-                <viewController id="hxk-qI-7fy" customClass="BaitsViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="New Bait" id="hxk-qI-7fy" customClass="BaitsViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fnO-Mp-sfn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -400,7 +400,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="10"/>

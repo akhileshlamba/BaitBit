@@ -69,10 +69,6 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         self.view.endEditing(true)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
     
     @IBAction func get_Location(_ sender: Any) {
         locationManager.delegate = self
@@ -100,6 +96,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
                 displayMessage("You have not entered the correct coordinates format. They are of the form 12.23, 42.123", "Coordinates Error")
             } else{
                 let latlong = location.text?.components(separatedBy: ",")
+                
                 baits_info.latitude = Double(latlong![0]) as! Double
                 baits_info.longitude = Double(latlong![1]) as! Double
                 baits_info.status = true
