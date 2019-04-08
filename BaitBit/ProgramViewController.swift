@@ -49,6 +49,8 @@ class ProgramViewController: UIViewController {
         name.inputView = picker
         species.inputView = picker
         
+        species.isEnabled = false
+        
         name.delegate = self
         species.delegate = self
         
@@ -213,7 +215,7 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
                     alternateSpecies.append(a)
                 }
             }
-            
+            species.isEnabled = true
             name.text = baitTypes[row]
             
         }
