@@ -12,10 +12,12 @@ import CoreData
 
 class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
+    @IBOutlet weak var add_bait_button: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
     var program: Bait_program!
+    var baits: [Baits_Info] = []
     
     var baitAnnotations: [BaitAnnotation] = []
     private var context : NSManagedObjectContext
@@ -29,7 +31,19 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print(self.program)
+        if let navController = self.navigationController, navController.viewControllers.count >= 2 {
+            let controller = navController.viewControllers[navController.viewControllers.count - 2]
+            if (controller.isKind(of: HomeViewController.self)) {
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+                self.navigationItem.rightBarButtonItem?.tintColor = .clear
+            }
+        }
+        
+        //let controller = self.navigationController?.topViewController
+        
+        
+        
+        print(self.baits.count)
         loadData()
         
         mapView.delegate = self
@@ -64,14 +78,25 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             }
         }
         
-//        self.baitAnnotations.removeAll()
-        if let baitList = self.program.baits {
-            for element in baitList {
-                if let bait = element as? Baits_Info {
-                    print(bait)
-                    let baitAnnotation = BaitAnnotation(bait_info: bait)
-                    baitAnnotations.append(baitAnnotation)
+        if self.program != nil {
+            //        self.baitAnnotations.removeAll()
+            if let baitList = self.program.baits {
+                for element in baitList {
+                    if let bait = element as? Baits_Info {
+                        print(bait)
+                        let baitAnnotation = BaitAnnotation(bait_info: bait)
+                        baitAnnotations.append(baitAnnotation)
+                    }
                 }
+                self.mapView.addAnnotations(baitAnnotations)
+            }
+        }
+        
+        if !self.baits.isEmpty {
+            for bait in self.baits {
+                print(bait)
+                let baitAnnotation = BaitAnnotation(bait_info: bait)
+                baitAnnotations.append(baitAnnotation)
             }
             self.mapView.addAnnotations(baitAnnotations)
         }
