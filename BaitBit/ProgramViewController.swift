@@ -55,7 +55,7 @@ class ProgramViewController: UIViewController {
         species.tag = 2
         
         
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "MMM dd, yyyy"
         
         // Set current date to textfield
         start_date.text = formatter.string(from: Date())
