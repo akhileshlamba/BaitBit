@@ -28,21 +28,22 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         dateFormatter.dateFormat = "dd-MM-yyyy"
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-        do{
+        do {
             programList = try context.fetch(fetchRequest) as! [Bait_program]
-            var activeList: [Bait_program] = []
-            var inactiveList: [Bait_program] = []
-            for bait_program in programList {
-                if bait_program.active{
-                    activeList.append(bait_program)
-                } else {
-                    inactiveList.append(bait_program)
-                }
-            }
-            list.append(activeList)
-            list.append(inactiveList)
-            print(list)
-        } catch  {
+            updateList()
+//            var activeList: [Bait_program] = []
+//            var inactiveList: [Bait_program] = []
+//            for bait_program in programList {
+//                if bait_program.active{
+//                    activeList.append(bait_program)
+//                } else {
+//                    inactiveList.append(bait_program)
+//                }
+//            }
+//            list.append(activeList)
+//            list.append(inactiveList)
+//            print(list)
+        } catch {
             fatalError("Failed to fetch animal list")
         }
         
@@ -53,10 +54,32 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    func updateList() {
+        list.removeAll()
+        var activeList: [Bait_program] = []
+        var inactiveList: [Bait_program] = []
+        for bait_program in programList {
+            if bait_program.active{
+                activeList.append(bait_program)
+            } else {
+                inactiveList.append(bait_program)
+            }
+        }
+        list.append(activeList)
+        list.append(inactiveList)
+        print(list)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         context = (appDelegate?.persistentContainer.viewContext)!
         super.init(coder: aDecoder)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tableView.reloadData()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,7 +105,7 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: "programBait", for: indexPath) as! BaitProgramTableViewCell
         
         
-        if programList.count != 0{
+        if programList.count != 0 {
             let a:Bait_program = self.list[indexPath.section][indexPath.row]
             cell.program_name.text = a.name!
             cell.start_date.text = dateFormatter.string(from: a.start_date! as Date)
@@ -106,6 +129,7 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     func didAddBaitProgram(_ program: Bait_program) {
         print("Inside protocol")
         programList.append(program)
+        updateList()
         self.tableView.reloadData()
     }
  
@@ -163,7 +187,7 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         if segue.identifier == "ProgramMapSegue" {
             let controller = segue.destination as! BaitsProgramMapViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                controller.program = self.programList[indexPath.row]
+                controller.program = self.list[indexPath.section][indexPath.row]
             }
         }
         

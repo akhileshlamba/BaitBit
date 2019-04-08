@@ -16,7 +16,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
-    var program: Bait_program!
+    var program: Bait_program?
     var baits: [Baits_Info] = []
     
     var baitAnnotations: [BaitAnnotation] = []
@@ -70,6 +70,11 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        loadData()
+    }
+    
 
     func loadData() {
         for annotation in self.mapView.annotations {
@@ -80,7 +85,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         
         if self.program != nil {
             //        self.baitAnnotations.removeAll()
-            if let baitList = self.program.baits {
+            if let baitList = self.program!.baits {
                 for element in baitList {
                     if let bait = element as? Baits_Info {
                         print(bait)
@@ -127,7 +132,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         let loc = locations.last!
         currentLocation = loc.coordinate
         let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
-        self.mapView.setRegion(viewRegion, animated: true)
+        self.mapView.setRegion(viewRegion, animated: false)
         
         let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation")
         self.mapView.addAnnotation(annotation)
