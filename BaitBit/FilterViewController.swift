@@ -17,7 +17,7 @@ class FilterViewController: UIViewController {
     var speciesPicker = UIPickerView()
     var yearPicker = UIPickerView()
     var monthPicker = UIPickerView()
-    let speciesDataSource: [String] = ["(All species)", "vulpes", "rabbits"]
+    var speciesDataSource: [String] = ["(All animals)"]
     var yearDataSource: [String] = [] //["(All years)"]
     var monthDataSource: [String] = ["(All months)"]
     @IBOutlet weak var yearTextField: UITextField!
@@ -47,19 +47,25 @@ class FilterViewController: UIViewController {
         monthPicker.delegate = self
         monthTextField.inputView = monthPicker
         
+        // initialise yearDataSource
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy"
         let year = Int(dateFormatter.string(from: Date()))!
 
-        var years = Array(1950...year)
-        years.reverse()
-        for year in years {
-            yearDataSource.append("\(year)")
+        var years = Array(0...4)
+        for number in years {
+            yearDataSource.append("\(year - number)")
         }
         
+        // initialise monthDataSource
         let months = Array(1...12)
         for month in months {
             monthDataSource.append("\(month)")
+        }
+        
+        // initialise speciesDataSource
+        for species in Species.allCases {
+            speciesDataSource.append("\(species)")
         }
         
         reset()

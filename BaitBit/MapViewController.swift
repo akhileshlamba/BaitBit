@@ -31,7 +31,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedYear: String = ""
     var selectedMonth: String = ""
     var selectedSpecies: String = ""
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
