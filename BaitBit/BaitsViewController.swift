@@ -69,6 +69,10 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         self.view.endEditing(true)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     
     @IBAction func get_Location(_ sender: Any) {
         locationManager.delegate = self
@@ -113,14 +117,14 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
                 self.present(alertController, animated: true, completion: {
                     let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
                         alertController.dismiss(animated: true, completion: {
-                            let controller = self.navigationController?.viewControllers[2]
-                            
-                            if controller is ProgramViewController {
-                                let programTableViewController = self.navigationController?.viewControllers[1]
-                                self.navigationController?.popToViewController(programTableViewController!, animated: true)
-                            } else {
-                                self.navigationController?.popViewController(animated: true)
-                            }
+//                            let controller = self.navigationController?.viewControllers[2]
+//                            
+//                            if controller is ProgramViewController {
+//                                let programTableViewController = self.navigationController?.viewControllers[1]
+//                                self.navigationController?.popToViewController(programTableViewController!, animated: true)
+//                            } else {
+//                                self.navigationController?.popViewController(animated: true)
+//                            }
                         })
                     })
                 })
