@@ -23,8 +23,8 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var yearTextField: UITextField!
     @IBOutlet weak var monthTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
-    var selectedYear: Int = 0
-    var selectedMonth: Int = 0
+    var selectedYearIndex: Int = 0
+    var selectedMonthIndex: Int = 0
     var selectedSpecies: String?
     
     var delegate: FilterUpdateDelegate?
@@ -83,15 +83,15 @@ class FilterViewController: UIViewController {
     
     // this function will load the previous map filter parameters in this filter view
     func loadFilter() {
-        yearTextField.text = yearDataSource[selectedYear]
-        yearPicker.selectRow(selectedYear, inComponent: 0, animated: true)
+        yearTextField.text = yearDataSource[selectedYearIndex]
+        yearPicker.selectRow(selectedYearIndex, inComponent: 0, animated: true)
         
-        if selectedMonth != 0 {
-            monthTextField.text = monthDataSource[selectedMonth]
+        if selectedMonthIndex != 0 {
+            monthTextField.text = monthDataSource[selectedMonthIndex]
         } else {
             monthTextField.text = ""
         }
-        monthPicker.selectRow(selectedMonth, inComponent: 0, animated: true)
+        monthPicker.selectRow(selectedMonthIndex, inComponent: 0, animated: true)
         
         speciesTextField.text = selectedSpecies ?? ""
     }

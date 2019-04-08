@@ -28,8 +28,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var locationManager: CLLocationManager = CLLocationManager()
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
-    var selectedYear: Int = 0
-    var selectedMonth: Int = 0
+    var selectedYearIndex: Int = 0
+    var selectedMonthIndex: Int = 0
     var selectedSpecies: String = ""
     
     override func viewDidLoad() {
@@ -71,8 +71,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
         }
         
-        self.selectedYear = yearIndex
-        self.selectedMonth = monthIndex
+        self.selectedYearIndex = yearIndex
+        self.selectedMonthIndex = monthIndex
         self.selectedSpecies = species
     }
     
@@ -134,8 +134,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if segue.identifier == "FilterSegue" {
             let controller = segue.destination as! FilterViewController
             controller.delegate = self
-            controller.selectedYear = self.selectedYear
-            controller.selectedMonth = self.selectedMonth
+            controller.selectedYearIndex = self.selectedYearIndex
+            controller.selectedMonthIndex = self.selectedMonthIndex
             controller.selectedSpecies = self.selectedSpecies
         }
     }
