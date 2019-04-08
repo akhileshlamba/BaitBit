@@ -30,18 +30,7 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
         do{
             programList = try context.fetch(fetchRequest) as! [Bait_program]
-            var activeList: [Bait_program] = []
-            var inactiveList: [Bait_program] = []
-            for bait_program in programList {
-                if bait_program.active{
-                    activeList.append(bait_program)
-                } else {
-                    inactiveList.append(bait_program)
-                }
-            }
-            list.append(activeList)
-            list.append(inactiveList)
-            print(list)
+            divideDataIntoSection()
         } catch  {
             fatalError("Failed to fetch animal list")
         }
@@ -51,6 +40,20 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    func divideDataIntoSection(){
+        var activeList: [Bait_program] = []
+        var inactiveList: [Bait_program] = []
+        for bait_program in programList {
+            if bait_program.active{
+                activeList.append(bait_program)
+            } else {
+                inactiveList.append(bait_program)
+            }
+        }
+        list.append(activeList)
+        list.append(inactiveList)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -104,8 +107,9 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     }
     
     func didAddBaitProgram(_ program: Bait_program) {
-        print("Inside protocol")
         programList.append(program)
+        list = []
+        divideDataIntoSection()
         self.tableView.reloadData()
     }
  

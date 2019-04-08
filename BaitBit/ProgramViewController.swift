@@ -29,8 +29,8 @@ class ProgramViewController: UIViewController {
     
     var animalList: [Bait_program] = []
     var picker = UIPickerView()
-    let baitTypes: [String] = ["All species", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
-                                ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild dog capsule", "Perishable Fox Bait",
+    let baitTypes: [String] = ["Please select Your Bait", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
+                                ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild Dog capsule", "Perishable Fox Bait",
                                  "Perishable Wild Dog Bait", "Perishable Rabbit Bait"]
     
     let speciesType: [String] = ["Please Select", "Dog", "Pig", "Rabbit", "Fox"]
@@ -42,6 +42,7 @@ class ProgramViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         picker.dataSource = self
         picker.delegate = self
         name.inputView = picker
@@ -56,18 +57,14 @@ class ProgramViewController: UIViewController {
         
         formatter.dateFormat = "dd/MM/yyyy"
         
-        
+        // Set current date to textfield
+        start_date.text = formatter.string(from: Date())
         showDatePicker()
         
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
         do{
             animalList = try context.fetch(fetchRequest) as! [Bait_program]
-            print("asdasdsduhqd qwod hqw")
-            print(animalList.count)
-            if(animalList.count != 0){
-                print(animalList[animalList.count-1].program_id)
-            }
         } catch  {
             fatalError("Failed to fetch animal list")
         }
@@ -132,8 +129,6 @@ class ProgramViewController: UIViewController {
                 return
             }
             
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-            
             let defaults = UserDefaults.standard
             defaults.setValue(true, forKey:"program_counter")
         
@@ -141,7 +136,7 @@ class ProgramViewController: UIViewController {
             program?.name = name.text
             program?.program_id = Int64(defaults.integer(forKey: "baits_program_counter") + 1)
             program?.species = species.text
-            program?.start_date = NSDate()
+            program?.start_date = formatter.date(from: start_date.text!)! as NSDate
             program?.active = true
             
             do {
