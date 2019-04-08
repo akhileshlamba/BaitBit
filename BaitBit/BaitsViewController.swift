@@ -43,6 +43,8 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         datePicker.datePickerMode = .date
         datePicker.minimumDate = Date()
         
+        bait_laid_date.isEnabled = false
+        
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
