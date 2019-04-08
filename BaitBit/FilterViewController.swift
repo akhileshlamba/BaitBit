@@ -23,8 +23,8 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var yearTextField: UITextField!
     @IBOutlet weak var monthTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
-    var selectedYear: String?
-    var selectedMonth: Int = 0
+    var selectedYearIndex: Int = 0
+    var selectedMonthIndex: Int = 0
     var selectedSpecies: String?
     
     var delegate: FilterUpdateDelegate?
@@ -67,24 +67,40 @@ class FilterViewController: UIViewController {
             speciesDataSource.append("\(species)")
         }
         
-        reset()
+        loadFilter()
     }
     
     @objc func reset() {
-        yearTextField.text = selectedYear ?? yearDataSource[0]
-        if selectedMonth != 0 {
-            monthTextField.text = monthDataSource[selectedMonth]
+        yearTextField.text = yearDataSource[0]
+        yearPicker.selectRow(0, inComponent: 0, animated: true)
+        
+        monthTextField.text = ""
+        monthPicker.selectRow(0, inComponent: 0, animated: true)
+        
+        speciesTextField.text = ""
+        speciesPicker.selectRow(0, inComponent: 0, animated: true)
+    }
+    
+    // this function will load the previous map filter parameters in this filter view
+    func loadFilter() {
+        yearTextField.text = yearDataSource[selectedYearIndex]
+        yearPicker.selectRow(selectedYearIndex, inComponent: 0, animated: true)
+        
+        if selectedMonthIndex != 0 {
+            monthTextField.text = monthDataSource[selectedMonthIndex]
         } else {
             monthTextField.text = ""
         }
-        monthPicker.selectRow(selectedMonth, inComponent: 0, animated: false)
+        monthPicker.selectRow(selectedMonthIndex, inComponent: 0, animated: true)
+        
         speciesTextField.text = selectedSpecies ?? ""
     }
     
     @IBAction func search(_ sender: Any) {
+        let y = yearPicker.selectedRow(inComponent: 0)
         let m = monthPicker.selectedRow(inComponent: 0)
         print(m)
-        delegate!.updateData(year: yearTextField.text ?? "", month: m, species: speciesTextField.text ?? "")
+        delegate!.updateData(yearIndex: y, monthIndex: m, species: speciesTextField.text ?? "")
         self.navigationController?.popViewController(animated: true)
     }
     
