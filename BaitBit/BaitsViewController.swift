@@ -105,15 +105,34 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
             
             do {
                 try context.save()
-                let controller = self.navigationController?.viewControllers[2]
                 
-                if controller is ProgramViewController {
-                    let programTableViewController = self.navigationController?.viewControllers[1]
-                    self.navigationController?.popToViewController(programTableViewController!, animated: true)
-                } else {
-                    self.navigationController?.popViewController(animated: true)
-                }
-                //performSegue(withIdentifier: "addbait", sender: nil)
+                // create a success message
+                let alertController = UIAlertController(title: "Success", message: "Bait Successfully Added", preferredStyle: UIAlertController.Style.alert)
+                
+                // display it for 1 second
+                self.present(alertController, animated: true, completion: {
+                    let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
+                        alertController.dismiss(animated: true, completion: {
+                            let controller = self.navigationController?.viewControllers[2]
+                            
+                            if controller is ProgramViewController {
+                                let programTableViewController = self.navigationController?.viewControllers[1]
+                                self.navigationController?.popToViewController(programTableViewController!, animated: true)
+                            } else {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        })
+                    })
+                })
+                
+//                let controller = self.navigationController?.viewControllers[2]
+//
+//                if controller is ProgramViewController {
+//                    let programTableViewController = self.navigationController?.viewControllers[1]
+//                    self.navigationController?.popToViewController(programTableViewController!, animated: true)
+//                } else {
+//                    self.navigationController?.popViewController(animated: true)
+//                }
             } catch let error {
                 print("Could not save to core data: \(error)")
             }
