@@ -67,10 +67,22 @@ class FilterViewController: UIViewController {
             speciesDataSource.append("\(species)")
         }
         
-        reset()
+        loadFilter()
     }
     
     @objc func reset() {
+        yearTextField.text = yearDataSource[0]
+        yearPicker.selectRow(0, inComponent: 0, animated: true)
+        
+        monthTextField.text = ""
+        monthPicker.selectRow(0, inComponent: 0, animated: true)
+        
+        speciesTextField.text = ""
+        speciesPicker.selectRow(0, inComponent: 0, animated: true)
+    }
+    
+    // this function will load the previous map filter parameters in this filter view
+    func loadFilter() {
         yearTextField.text = yearDataSource[selectedYear]
         yearPicker.selectRow(selectedYear, inComponent: 0, animated: true)
         
@@ -79,7 +91,7 @@ class FilterViewController: UIViewController {
         } else {
             monthTextField.text = ""
         }
-        monthPicker.selectRow(selectedMonth, inComponent: 0, animated: false)
+        monthPicker.selectRow(selectedMonth, inComponent: 0, animated: true)
         
         speciesTextField.text = selectedSpecies ?? ""
     }
