@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
         // Do any additional setup after loading the view.
     }
 
@@ -45,6 +44,7 @@ class HomeViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "baitsSegue" {
+            fetchData()
             let controller = segue.destination as! BaitsProgramMapViewController
             controller.baits = baits
         }

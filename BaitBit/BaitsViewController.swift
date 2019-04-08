@@ -25,6 +25,9 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         formatter.dateFormat = "dd/MM/yyyy"
+        
+        bait_laid_date.text = formatter.string(from: Date())
+        
         super.viewDidLoad()
         showDatePicker()
     }
@@ -58,6 +61,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
             formatter.dateStyle = .medium
             formatter.timeStyle = .none
             bait_laid_date.text = formatter.string(from: datePicker.date)
+            self.view.endEditing(true)
         }
     }
     

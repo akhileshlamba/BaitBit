@@ -42,9 +42,8 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         //let controller = self.navigationController?.topViewController
         
         
-        
-        print(self.baits.count)
         loadData()
+        print(self.baits.count)
         
         mapView.delegate = self
         locationManager.delegate = self
@@ -88,7 +87,6 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             if let baitList = self.program!.baits {
                 for element in baitList {
                     if let bait = element as? Baits_Info {
-                        print(bait)
                         let baitAnnotation = BaitAnnotation(bait_info: bait)
                         baitAnnotations.append(baitAnnotation)
                     }
@@ -99,7 +97,6 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         
         if !self.baits.isEmpty {
             for bait in self.baits {
-                print(bait)
                 let baitAnnotation = BaitAnnotation(bait_info: bait)
                 baitAnnotations.append(baitAnnotation)
             }
