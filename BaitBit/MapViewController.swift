@@ -21,6 +21,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var locationManager: CLLocationManager = CLLocationManager()
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
+    var selectedYear: String = ""
+    var selectedMonth: String = ""
+    var selectedSpecies: String = ""
 //    var filteredOccurrenceAnnotations: [OccurrenceAnnotation] = []
     
     let speciesDataSource: [String] = ["All species", "vulpes", "rabbits"]
@@ -56,10 +59,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         
         for annotation in occurrenceAnnotations {
-            if annotation.title == species && annotation.year == Int(year) && annotation.month == Int(month) {
+            if annotation.isWithin(year: year) && annotation.isWithin(month: month) && annotation.isWithin(species: species) {
                 self.mapView.addAnnotation(annotation)
             }
         }
+        
+        self.selectedYear = year
+        self.selectedMonth = month
+        self.selectedSpecies = species
     }
     
     func loadData() {
@@ -86,9 +93,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     self.occurrenceAnnotations.append(occurrence)
                 }
                 self.mapView.addAnnotations(self.occurrenceAnnotations)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy"
+                let currentYear = dateFormatter.string(from: Date())
+                self.updateData(year: currentYear, month: "", species: "")
             }
         }
-        
     }
     
     // This method is to keep track of the user's current location.
@@ -119,6 +130,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if segue.identifier == "FilterSegue" {
             let controller = segue.destination as! FilterViewController
             controller.delegate = self
+            controller.selectedYear = self.selectedYear
+            controller.selectedMonth = self.selectedMonth
+            controller.selectedSpecies = self.selectedSpecies
         }
     }
     

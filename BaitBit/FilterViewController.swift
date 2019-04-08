@@ -14,11 +14,14 @@ class FilterViewController: UIViewController {
     var yearPicker = UIPickerView()
     var monthPicker = UIPickerView()
     let speciesDataSource: [String] = ["(All species)", "vulpes", "rabbits"]
-    var yearDataSource: [String] = ["(All years)"]
+    var yearDataSource: [String] = [] //["(All years)"]
     var monthDataSource: [String] = ["(All months)"]
     @IBOutlet weak var yearTextField: UITextField!
     @IBOutlet weak var monthTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
+    var selectedYear: String?
+    var selectedMonth: String?
+    var selectedSpecies: String?
     
     var delegate: FilterUpdateDelegate?
     
@@ -59,9 +62,9 @@ class FilterViewController: UIViewController {
     }
     
     @objc func reset() {
-        yearTextField.text = ""
-        monthTextField.text = ""
-        speciesTextField.text = ""
+        yearTextField.text = selectedYear ?? yearDataSource[0]
+        monthTextField.text = selectedMonth ?? ""
+        speciesTextField.text = selectedSpecies ?? ""
     }
     
     @IBAction func search(_ sender: Any) {
