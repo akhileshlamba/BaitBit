@@ -105,9 +105,11 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
             
             do {
                 try context.save()
-                let controller = self.navigationController?.viewControllers[1]
-                if controller is BaitProgramTableViewController {
-                    self.navigationController?.popToViewController(controller!, animated: true)
+                let controller = self.navigationController?.viewControllers[2]
+                
+                if controller is ProgramViewController {
+                    let programTableViewController = self.navigationController?.viewControllers[1]
+                    self.navigationController?.popToViewController(programTableViewController!, animated: true)
                 } else {
                     self.navigationController?.popViewController(animated: true)
                 }
