@@ -26,11 +26,11 @@ class OccurrenceAnnotation: NSObject, MKAnnotation {
         self.subtitle = "\(year) - \(month)"
     }
     
-    func isWithin(year: String) -> Bool {
-        if year == "" {
+    func isWithin(year: Int) -> Bool {
+        if year == 0 {
             return true
         } else {
-            return self.year == Int(year)
+            return self.year == year
         }
     }
     

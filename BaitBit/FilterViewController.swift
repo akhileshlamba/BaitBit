@@ -23,7 +23,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var yearTextField: UITextField!
     @IBOutlet weak var monthTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
-    var selectedYear: String?
+    var selectedYear: Int = 0
     var selectedMonth: Int = 0
     var selectedSpecies: String?
     
@@ -71,20 +71,24 @@ class FilterViewController: UIViewController {
     }
     
     @objc func reset() {
-        yearTextField.text = selectedYear ?? yearDataSource[0]
+        yearTextField.text = yearDataSource[selectedYear]
+        yearPicker.selectRow(selectedYear, inComponent: 0, animated: true)
+        
         if selectedMonth != 0 {
             monthTextField.text = monthDataSource[selectedMonth]
         } else {
             monthTextField.text = ""
         }
         monthPicker.selectRow(selectedMonth, inComponent: 0, animated: false)
+        
         speciesTextField.text = selectedSpecies ?? ""
     }
     
     @IBAction func search(_ sender: Any) {
+        let y = yearPicker.selectedRow(inComponent: 0)
         let m = monthPicker.selectedRow(inComponent: 0)
         print(m)
-        delegate!.updateData(year: yearTextField.text ?? "", month: m, species: speciesTextField.text ?? "")
+        delegate!.updateData(yearIndex: y, monthIndex: m, species: speciesTextField.text ?? "")
         self.navigationController?.popViewController(animated: true)
     }
     

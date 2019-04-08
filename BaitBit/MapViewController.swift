@@ -11,7 +11,7 @@ import MapKit
 import Firebase
 
 protocol FilterUpdateDelegate {
-    func updateData(year: String, month: Int, species: String)
+    func updateData(yearIndex: Int, monthIndex: Int, species: String)
 }
 
 enum Species: String, CaseIterable {
@@ -28,7 +28,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var locationManager: CLLocationManager = CLLocationManager()
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
-    var selectedYear: String = ""
+    var selectedYear: Int = 0
     var selectedMonth: Int = 0
     var selectedSpecies: String = ""
     
@@ -55,21 +55,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // This method is to load data from remote dataset
-    func updateData(year: String, month: Int, species: String) {
+    func updateData(yearIndex: Int, monthIndex: Int, species: String) {
         for annotation in self.mapView.annotations {
             if !(annotation is PinAnnotation) {
                 self.mapView.removeAnnotation(annotation)
             }
         }
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        let currentYear = dateFormatter.string(from: Date())
         for annotation in occurrenceAnnotations {
-            if annotation.isWithin(year: year) && annotation.isWithin(month: month) && annotation.isWithin(species: species) {
+            if annotation.isWithin(year: Int(currentYear)! - yearIndex) && annotation.isWithin(month: monthIndex) && annotation.isWithin(species: species) {
                 self.mapView.addAnnotation(annotation)
             }
         }
         
-        self.selectedYear = year
-        self.selectedMonth = month
+        self.selectedYear = yearIndex
+        self.selectedMonth = monthIndex
         self.selectedSpecies = species
     }
     
@@ -98,10 +101,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 self.mapView.addAnnotations(self.occurrenceAnnotations)
                 
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy"
-                let currentYear = dateFormatter.string(from: Date())
-                self.updateData(year: currentYear, month: 0, species: "")
+                self.updateData(yearIndex: 0, monthIndex: 0, species: "")
             }
         }
     }
