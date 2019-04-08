@@ -171,6 +171,11 @@ class ProgramViewController: UIViewController {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+
+    
 
 }
 
@@ -205,9 +210,6 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         if currentTextFieldTag == 2 {
             species.text = speciesType[row]
         }
-        
-        self.view.endEditing(true)
-        
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
