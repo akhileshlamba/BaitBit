@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CHe-NX-fzz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CHe-NX-fzz">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -113,14 +112,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select a species" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mlS-fe-nAR">
-                                <rect key="frame" x="16.000000000000007" y="256" width="126.66666666666669" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(All animals)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v0R-py-ywA">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(All animals)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v0R-py-ywA">
                                 <rect key="frame" x="16" y="281" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -138,13 +130,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Animal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LaK-We-GAv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Animal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LaK-We-GAv">
                                 <rect key="frame" x="16" y="252" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Wk-wE-LFH">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Wk-wE-LFH">
                                 <rect key="frame" x="163.5" y="351" width="48" height="30"/>
                                 <state key="normal" title="Search"/>
                                 <connections>
@@ -160,6 +152,12 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(All months)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Rb-Nr-hfP">
+                                <rect key="frame" x="16" y="202" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -169,9 +167,13 @@
                             <constraint firstItem="5kz-SF-rnm" firstAttribute="top" secondItem="iHn-bv-WRW" secondAttribute="bottom" constant="8" id="AQ8-JL-9r0"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="f0U-9i-KzB" secondAttribute="trailing" constant="16" id="Cst-5H-nCN"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="5kz-SF-rnm" secondAttribute="trailing" constant="16" id="D0W-Dx-zTY"/>
+                            <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="9Rb-Nr-hfP" secondAttribute="trailing" constant="16" id="Dbw-9X-iCC"/>
                             <constraint firstItem="5kz-SF-rnm" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="EE7-dC-8p9"/>
                             <constraint firstItem="rSg-4S-87o" firstAttribute="top" secondItem="6Vp-K5-usF" secondAttribute="top" constant="20" id="JT4-Vm-htx"/>
+                            <constraint firstItem="9Rb-Nr-hfP" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="NKM-VX-HAY"/>
+                            <constraint firstItem="9Rb-Nr-hfP" firstAttribute="top" secondItem="f0U-9i-KzB" secondAttribute="bottom" constant="8" id="P5k-Mj-lJY"/>
                             <constraint firstItem="8Wk-wE-LFH" firstAttribute="centerX" secondItem="6Vp-K5-usF" secondAttribute="centerX" id="Qxd-VE-uMN"/>
+                            <constraint firstItem="LaK-We-GAv" firstAttribute="top" secondItem="9Rb-Nr-hfP" secondAttribute="bottom" constant="20" id="TRC-di-iPX"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="iHn-bv-WRW" secondAttribute="trailing" constant="16" id="V1U-YR-nex"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="LaK-We-GAv" secondAttribute="trailing" constant="16" id="V25-KC-Ghn"/>
                             <constraint firstItem="rSg-4S-87o" firstAttribute="leading" secondItem="6Vp-K5-usF" secondAttribute="leading" id="bUu-Oc-iDD"/>
@@ -181,13 +183,13 @@
                             <constraint firstItem="v0R-py-ywA" firstAttribute="top" secondItem="LaK-We-GAv" secondAttribute="bottom" constant="8" id="gXr-YY-abJ"/>
                             <constraint firstItem="8Wk-wE-LFH" firstAttribute="top" secondItem="v0R-py-ywA" secondAttribute="bottom" constant="40" id="i3X-PX-5YE"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="v0R-py-ywA" secondAttribute="trailing" constant="16" id="jbh-3r-Xt3"/>
-                            <constraint firstAttribute="top" secondItem="f0U-9i-KzB" secondAttribute="bottom" constant="8" id="oEx-0Q-AZ2"/>
                             <constraint firstItem="f0U-9i-KzB" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="puM-QU-GOC"/>
                             <constraint firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="wQy-sE-xW5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LiH-Ya-5ci"/>
                     </view>
                     <connections>
+                        <outlet property="monthTextField" destination="9Rb-Nr-hfP" id="jkK-xH-bFi"/>
                         <outlet property="speciesTextField" destination="v0R-py-ywA" id="4vS-OS-7TJ"/>
                         <outlet property="yearTextField" destination="5kz-SF-rnm" id="C5y-Ow-owI"/>
                     </connections>
