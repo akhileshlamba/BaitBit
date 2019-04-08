@@ -14,6 +14,13 @@ protocol FilterUpdateDelegate {
     func updateData(year: String, month: String, species: String)
 }
 
+enum Species: String, CaseIterable {
+    case foxes = "vulpes"
+    case rabbits
+    case dogs
+    case pigs
+}
+
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, FilterUpdateDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -24,10 +31,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedYear: String = ""
     var selectedMonth: String = ""
     var selectedSpecies: String = ""
-//    var filteredOccurrenceAnnotations: [OccurrenceAnnotation] = []
-    
-    let speciesDataSource: [String] = ["All species", "vulpes", "rabbits"]
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,8 +81,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         
         self.occurrenceAnnotations.removeAll()
-        for species in speciesDataSource {
-            self.databaseRef.child(species).observeSingleEvent(of: .value) { (snapshot) in
+        for species in Species.allCases {
+            self.databaseRef.child(species.rawValue).observeSingleEvent(of: .value) { (snapshot) in
                 guard let dataset = snapshot.value as? NSArray else {
                     return
                 }
@@ -89,7 +93,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     let long = record["Longitude"] as! Double
                     let month = record["Month"] as! Int
                     let year = record["Year"] as! Int
-                    let occurrence = OccurrenceAnnotation(title: species, coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), year: year, month: month)
+                    let occurrence = OccurrenceAnnotation(title: "\(species)", coordinate: CLLocationCoordinate2D(latitude: lat, longitude: long), year: year, month: month)
                     self.occurrenceAnnotations.append(occurrence)
                 }
                 self.mapView.addAnnotations(self.occurrenceAnnotations)
