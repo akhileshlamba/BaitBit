@@ -137,8 +137,16 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Wk-wE-LFH">
-                                <rect key="frame" x="163.5" y="351" width="48" height="30"/>
-                                <state key="normal" title="Search"/>
+                                <rect key="frame" x="16" y="351" width="343" height="30"/>
+                                <color key="backgroundColor" red="0.95183354616165161" green="0.74185460805892944" blue="0.29788175225257874" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Search">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="search:" destination="Lvd-mc-y7R" eventType="touchUpInside" id="OkU-SE-ujD"/>
                                 </connections>
@@ -162,6 +170,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="LaK-We-GAv" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="2h3-50-lEw"/>
+                            <constraint firstItem="8Wk-wE-LFH" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="3ED-Zt-oZ2"/>
                             <constraint firstItem="v0R-py-ywA" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="4y9-i1-aCm"/>
                             <constraint firstItem="f0U-9i-KzB" firstAttribute="top" secondItem="5kz-SF-rnm" secondAttribute="bottom" constant="20" id="7cb-IR-8g1"/>
                             <constraint firstItem="5kz-SF-rnm" firstAttribute="top" secondItem="iHn-bv-WRW" secondAttribute="bottom" constant="8" id="AQ8-JL-9r0"/>
@@ -169,6 +178,7 @@
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="5kz-SF-rnm" secondAttribute="trailing" constant="16" id="D0W-Dx-zTY"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="9Rb-Nr-hfP" secondAttribute="trailing" constant="16" id="Dbw-9X-iCC"/>
                             <constraint firstItem="5kz-SF-rnm" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="EE7-dC-8p9"/>
+                            <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="8Wk-wE-LFH" secondAttribute="trailing" constant="16" id="IVm-xf-YZV"/>
                             <constraint firstItem="rSg-4S-87o" firstAttribute="top" secondItem="6Vp-K5-usF" secondAttribute="top" constant="20" id="JT4-Vm-htx"/>
                             <constraint firstItem="9Rb-Nr-hfP" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="NKM-VX-HAY"/>
                             <constraint firstItem="9Rb-Nr-hfP" firstAttribute="top" secondItem="f0U-9i-KzB" secondAttribute="bottom" constant="8" id="P5k-Mj-lJY"/>
@@ -685,6 +695,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YBN-ya-J7T"/>
-        <segue reference="2Er-Ea-1h9"/>
+        <segue reference="bml-W1-PPG"/>
     </inferredMetricsTieBreakers>
 </document>
