@@ -10,12 +10,72 @@ import UIKit
 
 class FilterViewController: UIViewController {
 
+    var speciesPicker = UIPickerView()
+    var yearPicker = UIPickerView()
+    var monthPicker = UIPickerView()
+    let speciesDataSource: [String] = ["(All species)", "vulpes", "rabbits"]
+    var yearDataSource: [String] = [] //["(All years)"]
+    var monthDataSource: [String] = ["(All months)"]
+    @IBOutlet weak var yearTextField: UITextField!
+    @IBOutlet weak var monthTextField: UITextField!
+    @IBOutlet weak var speciesTextField: UITextField!
+    var selectedYear: String?
+    var selectedMonth: String?
+    var selectedSpecies: String?
+    
+    var delegate: FilterUpdateDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(reset))
+        
+        speciesPicker.dataSource = self
+        speciesPicker.delegate = self
+        speciesTextField.inputView = speciesPicker
+        
+        yearPicker.dataSource = self
+        yearPicker.delegate = self
+        yearTextField.inputView = yearPicker
+        
+        monthPicker.dataSource = self
+        monthPicker.delegate = self
+        monthTextField.inputView = monthPicker
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        let year = Int(dateFormatter.string(from: Date()))!
+
+        var years = Array(1950...year)
+        years.reverse()
+        for year in years {
+            yearDataSource.append("\(year)")
+        }
+        
+        let months = Array(1...12)
+        for month in months {
+            monthDataSource.append("\(month)")
+        }
+        
+        reset()
     }
     
+    @objc func reset() {
+        yearTextField.text = selectedYear ?? yearDataSource[0]
+        monthTextField.text = selectedMonth ?? ""
+        speciesTextField.text = selectedSpecies ?? ""
+    }
+    
+    @IBAction func search(_ sender: Any) {
+        delegate!.updateData(year: yearTextField.text ?? "", month: monthTextField.text ?? "", species: speciesTextField.text ?? "")
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     /*
     // MARK: - Navigation
@@ -27,4 +87,54 @@ class FilterViewController: UIViewController {
     }
     */
 
+}
+
+extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if speciesTextField.isFirstResponder {
+            return speciesDataSource.count
+        } else if yearTextField.isFirstResponder {
+            return yearDataSource.count
+        } else {
+            return monthDataSource.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if speciesTextField.isFirstResponder {
+            if row == 0 {
+                speciesTextField.text = ""
+            } else {
+                speciesTextField.text = speciesDataSource[row]
+            }
+        } else if yearTextField.isFirstResponder {
+            if row == 0 {
+                yearTextField.text = ""
+            } else {
+                yearTextField.text = yearDataSource[row]
+            }
+        } else {
+            if row == 0 {
+                monthTextField.text = ""
+            } else {
+                monthTextField.text = monthDataSource[row]
+            }
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if speciesTextField.isFirstResponder {
+            return speciesDataSource[row]
+        } else if yearTextField.isFirstResponder {
+            return yearDataSource[row]
+        } else {
+            return monthDataSource[row]
+        }
+    }
 }
