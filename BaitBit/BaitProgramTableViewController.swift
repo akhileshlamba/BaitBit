@@ -83,13 +83,7 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if list[section].count == 0{
-            return 1
-        }
-        else {
-            return list[section].count
-        }
-        
+        return list[section].count
     }
 
     
@@ -97,13 +91,13 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         //tableView.reloadData()
         let cell = tableView.dequeueReusableCell(withIdentifier: "programBait", for: indexPath) as! BaitProgramTableViewCell
         
+        
         if programList.count != 0 {
             let a:Bait_program = self.list[indexPath.section][indexPath.row]
             cell.program_name.text = a.name!
             cell.start_date.text = dateFormatter.string(from: a.start_date! as Date)
-        } else {
-            cell.program_name.text = "No programs"
-        }
+            
+        } 
         return cell
     }
     
@@ -116,15 +110,12 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if list[indexPath.section].count != 0{
-            let program = self.list[indexPath.section][indexPath.row]
-            if program.start_date! as Date > Date() {
-                displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
-            } else {
-                performSegue(withIdentifier: "ProgramMapSegue", sender: nil)
-            }
+        let program = self.list[indexPath.section][indexPath.row]
+        if program.start_date! as Date > Date() {
+            displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
+        } else {
+            performSegue(withIdentifier: "ProgramMapSegue", sender: nil)
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
