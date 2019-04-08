@@ -184,7 +184,6 @@
                             <constraint firstItem="8Wk-wE-LFH" firstAttribute="top" secondItem="v0R-py-ywA" secondAttribute="bottom" constant="40" id="i3X-PX-5YE"/>
                             <constraint firstItem="LiH-Ya-5ci" firstAttribute="trailing" secondItem="v0R-py-ywA" secondAttribute="trailing" constant="16" id="jbh-3r-Xt3"/>
                             <constraint firstItem="f0U-9i-KzB" firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="puM-QU-GOC"/>
-                            <constraint firstAttribute="leading" secondItem="LiH-Ya-5ci" secondAttribute="leading" constant="16" id="wQy-sE-xW5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LiH-Ya-5ci"/>
                     </view>
@@ -456,7 +455,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
                                 <rect key="frame" x="67" y="101" width="241" height="310"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGo-dL-OA8">
