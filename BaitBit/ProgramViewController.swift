@@ -29,7 +29,10 @@ class ProgramViewController: UIViewController {
     
     var alternateSpecies : [String] = []
     var animalList: [Bait_program] = []
-    var picker = UIPickerView()
+    
+    var baitTypePicker = UIPickerView()
+    var speciesPicker = UIPickerView()
+    
     let baitTypes: [String] = ["Please select Your Bait", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
                                 ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild Dog capsule", "Perishable Fox Bait",
                                  "Perishable Wild Dog Bait", "Perishable Rabbit Bait"]
@@ -44,18 +47,22 @@ class ProgramViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        picker.dataSource = self
-        picker.delegate = self
-        name.inputView = picker
-        species.inputView = picker
+        baitTypePicker.dataSource = self
+        baitTypePicker.delegate = self
+        
+        speciesPicker.dataSource = self
+        speciesPicker.delegate = self
+        
+        name.inputView = baitTypePicker
+        species.inputView = speciesPicker
         
         species.isEnabled = false
         
-        name.delegate = self
-        species.delegate = self
-        
-        name.tag = 1
-        species.tag = 2
+//        name.delegate = self
+//        species.delegate = self
+//
+//        name.tag = 1
+//        species.tag = 2
         
         
         formatter.dateFormat = "MMM dd, yyyy"
@@ -150,7 +157,7 @@ class ProgramViewController: UIViewController {
                 if !(formatter.date(from: start_date.text!)!  > Date()) {
                     performSegue(withIdentifier: "addbait", sender: nil)
                 } else {
-                    displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
+                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
                 }
                 
             } catch let error {
@@ -190,14 +197,17 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if currentTextFieldTag == 1 {
+        if name.isFirstResponder {
             return baitTypes.count
-        }
-        if currentTextFieldTag == 2 {
+        } else {
             return alternateSpecies.count
         }
-        
-        return 0;
+//        if currentTextFieldTag == 1 {
+//            return baitTypes.count
+//        }
+//        if currentTextFieldTag == 2 {
+//            return alternateSpecies.count
+//        }
         
 //        if species.isFirstResponder{
 //            return speciesType.count
@@ -206,34 +216,71 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if currentTextFieldTag == 1 {
-            alternateSpecies = []
-            let speciesName = baitTypes[row]
-            alternateSpecies.append("Select Animal")
-            for a in speciesType {
-                if speciesName.contains(a){
-                    alternateSpecies.append(a)
+        
+        if name.isFirstResponder {
+            if row == 0{
+                name.text = ""
+            } else {
+                alternateSpecies = []
+                let speciesName = baitTypes[row]
+                alternateSpecies.append("Select Animal")
+                for a in speciesType {
+                    if speciesName.contains(a){
+                        alternateSpecies.append(a)
+                    }
                 }
+                species.isEnabled = true
+                name.text = baitTypes[row]
             }
-            species.isEnabled = true
-            name.text = baitTypes[row]
-            
+        } else {
+            if row == 0{
+                species.text = ""
+            } else {
+                species.text = alternateSpecies[row]
+            }
         }
-        if currentTextFieldTag == 2 {
-            species.text = alternateSpecies[row]
-        }
+        
+//        if currentTextFieldTag == 1 {
+//            if row == 0{
+//                name.text = ""
+//            } else {
+//                alternateSpecies = []
+//                let speciesName = baitTypes[row]
+//                alternateSpecies.append("Select Animal")
+//                for a in speciesType {
+//                    if speciesName.contains(a){
+//                        alternateSpecies.append(a)
+//                    }
+//                }
+//                species.isEnabled = true
+//                name.text = baitTypes[row]
+//            }
+//        }
+//        if currentTextFieldTag == 2 {
+//            if row == 0{
+//                species.text = ""
+//            } else {
+//                species.text = alternateSpecies[row]
+//            }
+//        }
         self.view.endEditing(true)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if currentTextFieldTag == 1 {
+        if name.isFirstResponder {
             return baitTypes[row]
-        }
-        if currentTextFieldTag == 2 {
+        } else {
             return alternateSpecies[row]
         }
         
-       return ""
+//        if currentTextFieldTag == 1 {
+//            return baitTypes[row]
+//        }
+//        if currentTextFieldTag == 2 {
+//            return alternateSpecies[row]
+//        }
+//
+//       return ""
         
 //        if species.isFirstResponder{
 //            return baitTypes[row]
@@ -242,15 +289,15 @@ extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
-extension ProgramViewController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField.tag == 1 {
-            currentTextFieldTag = textField.tag
-        }
-        if textField.tag == 2 {
-            currentTextFieldTag = textField.tag
-        }
-        picker.reloadAllComponents()
-        return true
-    }
-}
+//extension ProgramViewController: UITextFieldDelegate {
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        if textField.tag == 1 {
+//            currentTextFieldTag = textField.tag
+//        }
+//        if textField.tag == 2 {
+//            currentTextFieldTag = textField.tag
+//        }
+//        speciesPicker.reloadAllComponents()
+//        return true
+//    }
+//}

@@ -87,8 +87,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             if let baitList = self.program!.baits {
                 for element in baitList {
                     if let bait = element as? Baits_Info {
-                        let baitAnnotation = BaitAnnotation(bait_info: bait)
-                        baitAnnotations.append(baitAnnotation)
+                        if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil{
+                            let baitAnnotation = BaitAnnotation(bait_info: bait)
+                            baitAnnotations.append(baitAnnotation)
+                        }
                     }
                 }
                 self.mapView.addAnnotations(baitAnnotations)
@@ -97,8 +99,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         
         if !self.baits.isEmpty {
             for bait in self.baits {
-                let baitAnnotation = BaitAnnotation(bait_info: bait)
-                baitAnnotations.append(baitAnnotation)
+                if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil{
+                    let baitAnnotation = BaitAnnotation(bait_info: bait)
+                    baitAnnotations.append(baitAnnotation)
+                }
             }
             self.mapView.addAnnotations(baitAnnotations)
         }

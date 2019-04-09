@@ -98,47 +98,54 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
                 displayMessage("You have not entered the correct coordinates format. They are of the form 12.23, 42.123", "Coordinates Error")
             } else{
                 let latlong = location.text?.components(separatedBy: ",")
+                if (Double(latlong![0]) != nil) && (Double(latlong![1]) != nil) {
+                    baits_info.latitude = Double(latlong![0]) as! Double
+                    baits_info.longitude = Double(latlong![1]) as! Double
+                    baits_info.status = true
+                    program.addToBaits(baits_info)
+                    baits_info.program = program
+                    
+                    do {
+                        try context.save()
+                        
+                        // create a success message
+                        let alertController = UIAlertController(title: "Success", message: "Bait Successfully Added", preferredStyle: UIAlertController.Style.alert)
+                        
+                        // display it for 1 second
+                        self.present(alertController, animated: true, completion: {
+                            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
+                                alertController.dismiss(animated: true, completion: {
+                                    //                            let controller = self.navigationController?.viewControllers[2]
+                                    //
+                                    //                            if controller is ProgramViewController {
+                                    //                                let programTableViewController = self.navigationController?.viewControllers[1]
+                                    //                                self.navigationController?.popToViewController(programTableViewController!, animated: true)
+                                    //                            } else {
+                                    //                                self.navigationController?.popViewController(animated: true)
+                                    //                            }
+                                })
+                            })
+                        })
+                        
+                        //                let controller = self.navigationController?.viewControllers[2]
+                        //
+                        //                if controller is ProgramViewController {
+                        //                    let programTableViewController = self.navigationController?.viewControllers[1]
+                        //                    self.navigationController?.popToViewController(programTableViewController!, animated: true)
+                        //                } else {
+                        //                    self.navigationController?.popViewController(animated: true)
+                        //                }
+                    } catch let error {
+                        print("Could not save to core data: \(error)")
+                    }
+                    
+                } else {
+                    displayMessage("Coordinates should be in numbers", "Coordinates Error")
+                }
                 
-                baits_info.latitude = Double(latlong![0]) as! Double
-                baits_info.longitude = Double(latlong![1]) as! Double
-                baits_info.status = true
-                program.addToBaits(baits_info)
-                baits_info.program = program
             }
             
-            do {
-                try context.save()
-                
-                // create a success message
-                let alertController = UIAlertController(title: "Success", message: "Bait Successfully Added", preferredStyle: UIAlertController.Style.alert)
-                
-                // display it for 1 second
-                self.present(alertController, animated: true, completion: {
-                    let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
-                        alertController.dismiss(animated: true, completion: {
-//                            let controller = self.navigationController?.viewControllers[2]
-//                            
-//                            if controller is ProgramViewController {
-//                                let programTableViewController = self.navigationController?.viewControllers[1]
-//                                self.navigationController?.popToViewController(programTableViewController!, animated: true)
-//                            } else {
-//                                self.navigationController?.popViewController(animated: true)
-//                            }
-                        })
-                    })
-                })
-                
-//                let controller = self.navigationController?.viewControllers[2]
-//
-//                if controller is ProgramViewController {
-//                    let programTableViewController = self.navigationController?.viewControllers[1]
-//                    self.navigationController?.popToViewController(programTableViewController!, animated: true)
-//                } else {
-//                    self.navigationController?.popViewController(animated: true)
-//                }
-            } catch let error {
-                print("Could not save to core data: \(error)")
-            }
+            
         }
     }
     

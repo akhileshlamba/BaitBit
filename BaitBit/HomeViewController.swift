@@ -45,6 +45,9 @@ class HomeViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "baitsSegue" {
             fetchData()
+            for bait in baits {
+                print(bait.program?.name)
+            }
             let controller = segue.destination as! BaitsProgramMapViewController
             controller.baits = baits
         }
