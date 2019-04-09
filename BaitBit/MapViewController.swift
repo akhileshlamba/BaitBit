@@ -113,7 +113,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 100000, 100000)
         self.mapView.setRegion(viewRegion, animated: true)
         
-        let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation")
+        let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation", title: "You are here")
         self.mapView.addAnnotation(annotation)
 //        focusOn(annotation: annotation)
     }
@@ -164,6 +164,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             
             annoationView.image = UIImage(named: "pin")
+            annoationView.canShowCallout = true
         }
         
         

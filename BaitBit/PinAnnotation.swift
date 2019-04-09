@@ -12,9 +12,11 @@ import MapKit
 class PinAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var identifier: String
+    var title: String?
     
-    init(coordinate: CLLocationCoordinate2D, identifier: String) {
+    init(coordinate: CLLocationCoordinate2D, identifier: String, title: String) {
         self.coordinate = coordinate
         self.identifier = identifier
+        self.title = title
     }
 }

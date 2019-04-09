@@ -62,6 +62,8 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
 //        } catch  {
 //            fatalError("Failed to fetch animal list")
 //        }
+        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+        self.mapView.setRegion(viewRegion, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -132,10 +134,15 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
-        self.mapView.setRegion(viewRegion, animated: false)
+        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
         
-        let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation")
+        let annotations = mapView.annotations
+        for annotation in annotations {
+            if annotation is PinAnnotation {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
+        let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation", title: "You are here")
         self.mapView.addAnnotation(annotation)
         //        focusOn(annotation: annotation)
     }
@@ -164,6 +171,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             }
             
             annoationView.image = UIImage(named: "pin")
+            annoationView.canShowCallout = true
         }
         
         

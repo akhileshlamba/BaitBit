@@ -30,6 +30,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         
         super.viewDidLoad()
         showDatePicker()
+        location.isEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
