@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +17,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let defaults = UserDefaults.standard
+        let skipTutorialPages = defaults.bool(forKey:"skipTutorialPages")
+        
+        let startCounter = defaults.bool(forKey:"program_counter")
+        
+        if !startCounter{
+            defaults.set(0, forKey: "baits_program_counter")
+        }
+        
+        FirebaseApp.configure()
+        
+        if skipTutorialPages
+        {
+            let mainStoryBoard: UIStoryboard = UIStoryboard(name:"Main", bundle:nil)
+            
+            let mainView: HomeViewController = mainStoryBoard.instantiateViewController(withIdentifier: "SecondViewController") as! HomeViewController
+            
+            window?.rootViewController = mainView
+            
+        } else {
+            UIPageControl.appearance().pageIndicatorTintColor = UIColor.lightGray
+            UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.red
+        }
+        
         return true
     }
 
