@@ -43,6 +43,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.startUpdatingLocation()
 
         loadData()
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+
+    }
+    
+    @objc func filter() {
+        performSegue(withIdentifier: "FilterSegue", sender: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
