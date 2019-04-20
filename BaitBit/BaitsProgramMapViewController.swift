@@ -62,8 +62,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
 //        } catch  {
 //            fatalError("Failed to fetch animal list")
 //        }
-        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
-        self.mapView.setRegion(viewRegion, animated: false)
+//        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+//        self.mapView.setRegion(viewRegion, animated: false)
+        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -134,7 +136,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: false)
         
         let annotations = mapView.annotations
         for annotation in annotations {

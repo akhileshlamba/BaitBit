@@ -45,6 +45,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         loadData()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+        
+//        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+//        self.mapView.setRegion(viewRegion, animated: true)
+        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
 
     }
     
@@ -59,6 +63,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+        touches.forEach { (t) in
+            print(t.type)
+        }
+        if self.navigationController!.isNavigationBarHidden {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        } else {
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
     }
     
     // This method is to load data from remote dataset
@@ -117,9 +129,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 100000, 100000)
-        self.mapView.setRegion(viewRegion, animated: true)
+        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: false)
         
+        let annotations = mapView.annotations
+        for annotation in annotations {
+            if annotation is PinAnnotation {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
         let annotation = PinAnnotation(coordinate: currentLocation, identifier: "currentLocation", title: "You are here")
         self.mapView.addAnnotation(annotation)
 //        focusOn(annotation: annotation)
