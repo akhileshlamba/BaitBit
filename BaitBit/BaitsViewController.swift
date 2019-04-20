@@ -14,6 +14,9 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var bait_laid_date: UITextField!
     @IBOutlet weak var location: UITextField!
+    @IBOutlet weak var baitPhoto: UIImageView!
+    var actionSheet: UIAlertController?
+
     var program: Bait_program!
     let formatter = DateFormatter()
     
@@ -31,6 +34,19 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         showDatePicker()
         location.isEnabled = false
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+    }
+    
+    @objc func done() {
+        let controller = self.navigationController?.viewControllers[2]
+
+        if controller is ProgramViewController {
+            let programTableViewController = self.navigationController?.viewControllers[1]
+            self.navigationController?.popToViewController(programTableViewController!, animated: true)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -103,39 +119,31 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
                     baits_info.latitude = Double(latlong![0]) as! Double
                     baits_info.longitude = Double(latlong![1]) as! Double
                     baits_info.status = true
+                    if let image = self.baitPhoto.image {
+                        baits_info.path = self.savePhoto(image)
+                    }
+                    
                     program.addToBaits(baits_info)
                     baits_info.program = program
                     
+                    print("bait_info: ")
+                    print(baits_info)
+                    print("")
                     do {
                         try context.save()
                         
-                        // create a success message
-                        let alertController = UIAlertController(title: "Success", message: "Bait Successfully Added", preferredStyle: UIAlertController.Style.alert)
+//                        // create a success message
+//                        let alertController = UIAlertController(title: "Success", message: "Bait Successfully Added", preferredStyle: UIAlertController.Style.alert)
+//
+//                        // display it for 1 second
+//                        self.present(alertController, animated: true, completion: {
+//                            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
+//                                alertController.dismiss(animated: true, completion: nil)
+//                            })
+//                        })
                         
-                        // display it for 1 second
-                        self.present(alertController, animated: true, completion: {
-                            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
-                                alertController.dismiss(animated: true, completion: {
-                                    //                            let controller = self.navigationController?.viewControllers[2]
-                                    //
-                                    //                            if controller is ProgramViewController {
-                                    //                                let programTableViewController = self.navigationController?.viewControllers[1]
-                                    //                                self.navigationController?.popToViewController(programTableViewController!, animated: true)
-                                    //                            } else {
-                                    //                                self.navigationController?.popViewController(animated: true)
-                                    //                            }
-                                })
-                            })
-                        })
+                        displayMessage("Baiting Recorded Successfully", "Success", "OK")
                         
-                        //                let controller = self.navigationController?.viewControllers[2]
-                        //
-                        //                if controller is ProgramViewController {
-                        //                    let programTableViewController = self.navigationController?.viewControllers[1]
-                        //                    self.navigationController?.popToViewController(programTableViewController!, animated: true)
-                        //                } else {
-                        //                    self.navigationController?.popViewController(animated: true)
-                        //                }
                     } catch let error {
                         print("Could not save to core data: \(error)")
                     }
@@ -164,6 +172,14 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    func displayMessage(_ message: String, _ title: String, _ actionTitle: String) {
+        let alertController = UIAlertController(title: title, message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: actionTitle, style:
+            UIAlertActionStyle.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+
     /*
     // MARK: - Navigation
 
@@ -173,5 +189,142 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func displayPhotoOptions(_ sender: Any) {
+        // create an actionSheet
+        self.actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // add a Take Photo option
+        self.actionSheet!.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (_) in
+            self.takePhoto()
+        }))
+        
+        // add a Choose from Album option
+        self.actionSheet!.addAction(UIAlertAction(title: "Choose from Album", style: .default, handler: { (_) in
+            self.chooseFromAlum()
+        }))
+        
+        // add a Cancel option
+        self.actionSheet!.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        // display the actionSheet
+        self.present(self.actionSheet!, animated: true, completion: nil)
+    }
+    
+
+}
+
+extension BaitsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func takePhoto() {
+        let controller = UIImagePickerController()
+        guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) else {
+            displayMessage("Camera unvailable", "Error")
+            return
+        }
+        
+        controller.sourceType = UIImagePickerController.SourceType.camera
+        controller.allowsEditing = true
+        controller.delegate = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    func chooseFromAlum() {
+        let controller = UIImagePickerController()
+        
+        controller.sourceType = UIImagePickerController.SourceType.photoLibrary
+        controller.allowsEditing = true
+        controller.delegate = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let actionSheet = self.actionSheet {
+            actionSheet.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - ImagePickerController Delegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("did finish picking photo.")
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            print("did get into the if statement")
+//            self.savePhoto(pickedImage)
+            self.baitPhoto.image = pickedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        displayMessage("There was an error in getting the photo", "Error")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func savePhoto(_ pickedImage: UIImage?) -> String? {
+        guard let image = pickedImage else {
+            displayMessage("Cannot save until a photo has been taken!", "Error")
+            return nil
+        }
+//        guard let userID = Auth.auth().currentUser?.uid else {
+//            displayMessage("Cannot upload image until logged in", "Error")
+//            return
+//        }
+        
+//        self.busy.startAnimating()
+        
+        // Preparing timestamp and image data
+        let date = UInt(Date().timeIntervalSince1970)
+        var data = Data()
+        data = UIImageJPEGRepresentation(image, 0.1)!
+        
+        // Save image data to firebase storage
+//        let imageRef = storageRef.child("\(userID)/\(date)")
+//        let metadata = StorageMetadata()
+//        metadata.contentType = "image/jpg"
+//        imageRef.putData(data, metadata: metadata) { (metaData, error) in
+//            if error != nil {
+//                self.displayMessage("Could not upload image", "Error")
+//            } else {
+//                // get image downloadURL, and save it to firebase database
+//                imageRef.downloadURL(completion: { (url, error) in
+//                    // get image downloadURL in firebase storage
+//                    guard let downloadURL = url?.absoluteString else {
+//                        return
+//                    }
+//
+//                    // save to firebase database
+//                    self.databaseRef.child(userID).child("pet/photopath").setValue(downloadURL)
+//                    self.databaseRef.child(userID).child("pet/filepath").setValue("\(date)")
+//
+//                    self.photoView.image = image
+//                    self.busy.stopAnimating()
+//
+//                    // create a success message
+//                    let alertController = UIAlertController(title: "Success", message: "Image saved to Firebase", preferredStyle: UIAlertController.Style.alert)
+//
+//                    // display it for 1 second
+//                    self.present(alertController, animated: true, completion: {
+//                        let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
+//                            alertController.dismiss(animated: true, completion: nil)
+//                        })
+//                    })
+//                })
+//            }
+//        }
+        
+        // save the image to a local file
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent("\(date)") {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
+            return "\(date)"
+        }
+        
+        // update photo for previous page
+//        self.photoDelegate.updatePhoto("\(date)")
+        return nil
+    }
 
 }
