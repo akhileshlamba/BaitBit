@@ -761,7 +761,7 @@
                                 <viewLayoutGuide key="safeArea" id="HBj-we-i83"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A1C-Dn-iUp">
                                 <rect key="frame" x="67" y="448" width="240" height="40"/>
@@ -934,7 +934,7 @@
                                                     <action selector="register:" destination="nl2-2M-EeA" eventType="touchUpInside" id="T9o-Co-9Qh"/>
                                                 </connections>
                                             </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67D-bd-Whr">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67D-bd-Whr">
                                                 <rect key="frame" x="8" y="509" width="359" height="41"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="41" id="Ih4-cD-9cg"/>
@@ -1003,8 +1003,8 @@
                     </view>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
-                        <outlet property="image" destination="Wc4-nJ-iqV" id="ehm-rJ-kQA"/>
                         <outlet property="licenseExpiryDate" destination="67D-bd-Whr" id="9v6-bO-b9d"/>
+                        <outlet property="licenseImage" destination="Wc4-nJ-iqV" id="Ck9-Kw-7xu"/>
                         <outlet property="password" destination="8fi-3x-658" id="hgJ-Vn-5yM"/>
                         <outlet property="username" destination="uq1-B6-7ad" id="yHg-5y-Dob"/>
                     </connections>
@@ -1050,7 +1050,7 @@
         <image name="logo" width="134" height="164"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sI4-JR-YS7"/>
+        <segue reference="YBN-ya-J7T"/>
         <segue reference="2Er-Ea-1h9"/>
     </inferredMetricsTieBreakers>
 </document>

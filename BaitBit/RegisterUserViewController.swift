@@ -14,13 +14,22 @@ class RegisterUserViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var licenseExpiryDate: UITextField!
-    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var licenseImage: UIImageView!
     let formatter = DateFormatter()
     var db: Firestore!
     let datePicker = UIDatePicker()
     
+    var actionSheet: UIAlertController?
+    
+    var storage: Storage!
+    var storageRef: StorageReference!
+    var userId: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        storage = Storage.storage()
+        storageRef = storage.reference()
         
         formatter.dateFormat = "MMM dd, yyyy"
         showDatePicker()
@@ -34,6 +43,26 @@ class RegisterUserViewController: UIViewController {
     }
     
     @IBAction func takePhoto(_ sender: Any) {
+        
+        // create an actionSheet
+        self.actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // add a Take Photo option
+        self.actionSheet!.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (_) in
+            self.takePicture()
+        }))
+        
+        // add a Choose from Album option
+        self.actionSheet!.addAction(UIAlertAction(title: "Choose from Album", style: .default, handler: { (_) in
+            self.chooseFromAlum()
+        }))
+        
+        // add a Cancel option
+        self.actionSheet!.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        // display the actionSheet
+        self.present(self.actionSheet!, animated: true, completion: nil)
+        
     }
     
     @IBAction func register(_ sender: Any) {
@@ -53,6 +82,11 @@ class RegisterUserViewController: UIViewController {
             return
         }
         
+        guard let image = licenseImage.image else {
+            displayErrorMessage("Please select or take image of License")
+            return
+        }
+        
         
         var ref: DocumentReference? = nil
         ref = db.collection("users").addDocument(data: [
@@ -63,7 +97,10 @@ class RegisterUserViewController: UIViewController {
             if let err = err {
                 print("Error adding document: \(err)")
             } else {
+                self.userId = ref!.documentID
                 print("Document added with ID: \(ref!.documentID)")
+                self.savePhoto(image)
+                
             }
         }
         
@@ -117,4 +154,99 @@ class RegisterUserViewController: UIViewController {
     }
     
 
+}
+
+extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func takePicture() {
+        let controller = UIImagePickerController()
+        guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) else {
+            self.displayErrorMessage("Camera unvailable")
+            return
+        }
+        
+        controller.sourceType = UIImagePickerController.SourceType.camera
+        controller.allowsEditing = true
+        controller.delegate = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    func chooseFromAlum() {
+        let controller = UIImagePickerController()
+        
+        controller.sourceType = UIImagePickerController.SourceType.photoLibrary
+        controller.allowsEditing = true
+        controller.delegate = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let actionSheet = self.actionSheet {
+            actionSheet.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - ImagePickerController Delegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("did finish picking photo.")
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            print("did get into the if statement")
+            //            self.savePhoto(pickedImage)
+            self.licenseImage.image = pickedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        displayErrorMessage("There was an error in getting the photo")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func savePhoto(_ pickedImage: UIImage?) -> String? {
+        guard let image = pickedImage else {
+            displayErrorMessage("Cannot save until a photo has been taken!")
+            return nil
+        }
+       
+        // Preparing timestamp and image data
+        let date = UInt(Date().timeIntervalSince1970)
+        var data = Data()
+        data = UIImageJPEGRepresentation(image, 0.1)!
+        
+        
+        let imageRef = storageRef.child("\(userId)/License/\(date)")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        imageRef.putData(data, metadata: metadata) { (metaData, error) in
+            if error != nil {
+            } else {
+                self.displayErrorMessage("Could not upload image")
+                
+                imageRef.downloadURL(completion: {(url, error) in
+                    if let error = error{
+                        self.displayErrorMessage(error.localizedDescription)
+                        return
+                    }else{
+                        if let imageURL = url?.absoluteString{
+                            let userRef = self.db.collection("users").document(self.userId)
+                            userRef.updateData([
+                                "licensePath": imageURL
+                            ]) {
+                                err in
+                                if let err = err {
+                                    print("Error updating document: \(err)")
+                                } else {
+                                    print("Document successfully updated")
+                                }
+                            }
+                            self.displayErrorMessage("Image saved to Firebase")
+                        }
+                    }
+                })
+            }
+        }
+        
+        return nil
+    }
+    
 }
