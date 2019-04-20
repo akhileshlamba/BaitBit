@@ -11,6 +11,7 @@ target 'BaitBit' do
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
+  pod 'Firebase/Firestore'
   pod 'Charts', '~> 3.0.2'
 
 end

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0348D001C01D170EEDCD193F525CDFE3"
+               BlueprintIdentifier = "E2538FFBADC7E18963C4B33E16CA2D66"
                BuildableName = "Pods_BaitBit.framework"
                BlueprintName = "Pods-BaitBit"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,7 +26,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -37,7 +36,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -47,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0348D001C01D170EEDCD193F525CDFE3"
+            BlueprintIdentifier = "E2538FFBADC7E18963C4B33E16CA2D66"
             BuildableName = "Pods_BaitBit.framework"
             BlueprintName = "Pods-BaitBit"
             ReferencedContainer = "container:Pods.xcodeproj">
