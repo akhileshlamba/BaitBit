@@ -48,7 +48,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
         loadData()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+//        self.navigationController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+//        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+
         
 //        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
 //        self.mapView.setRegion(viewRegion, animated: true)

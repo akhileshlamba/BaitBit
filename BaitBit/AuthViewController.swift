@@ -30,22 +30,22 @@ class AuthViewController: UIViewController {
         
         db = Firestore.firestore()
         
-        let vision = Vision.vision()
-        textRecognizer = vision.onDeviceTextRecognizer()
+//        let vision = Vision.vision()
+//        textRecognizer = vision.onDeviceTextRecognizer()
         
-        let visionImage = VisionImage(image: UIImage(named: "test2.jpg")!)
-        textRecognizer.process(visionImage) { result, error in
-            
-            guard error == nil, let result = result else {
-                return
-            }
-            let substrings = result.text.split(separator: "\n")
-            if !substrings.contains("Agricultural Chemical User Permit") {
-                print("Inside")
-            }
-            
-            print(result.text)
-        }
+//        let visionImage = VisionImage(image: UIImage(named: "test2.jpg")!)
+//        textRecognizer.process(visionImage) { result, error in
+//
+//            guard error == nil, let result = result else {
+//                return
+//            }
+//            let substrings = result.text.split(separator: "\n")
+//            if !substrings.contains("Agricultural Chemical User Permit") {
+//                print("Inside")
+//            }
+//
+//            print(result.text)
+//        }
         
         // Do any additional setup after loading the view.
     }
