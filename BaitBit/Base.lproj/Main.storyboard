@@ -622,10 +622,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
-                                <rect key="frame" x="67" y="101" width="241" height="261"/>
+                                <rect key="frame" x="67" y="101" width="241" height="310"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGo-dL-OA8">
-                                <rect key="frame" x="67" y="395" width="241" height="50"/>
+                                <rect key="frame" x="67" y="444" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="r8S-ji-x19"/>
@@ -641,7 +641,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdq-Sc-Ce0">
-                                <rect key="frame" x="67" y="453" width="241" height="50"/>
+                                <rect key="frame" x="67" y="502" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728086471558" green="0.70047885179519653" blue="0.2468855082988739" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="eEP-Un-Rjs"/>
@@ -660,7 +660,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09x-Ad-XMy">
-                                <rect key="frame" x="67" y="511" width="241" height="50"/>
+                                <rect key="frame" x="67" y="560" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Start New Program">
@@ -963,18 +963,7 @@
                                     <constraint firstItem="XxZ-Ka-BaQ" firstAttribute="leading" secondItem="H7O-8h-Cw0" secondAttribute="leading" id="bk2-sX-L5z"/>
                                     <constraint firstItem="XxZ-Ka-BaQ" firstAttribute="top" secondItem="H7O-8h-Cw0" secondAttribute="top" id="elM-lg-4NY"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bx4-2u-yZa">
-                                <rect key="frame" x="132" y="557" width="111" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign in as Guest"/>
-                                <connections>
-                                    <segue destination="CXf-Ic-kst" kind="show" id="IoQ-Ba-lHc"/>
-                                </connections>
-                            </button>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1260,8 +1249,8 @@
         <image name="logo" width="134" height="164"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IBc-QQ-0uh"/>
         <segue reference="XSh-ec-wXm"/>
+        <segue reference="qn9-nE-EkH"/>
         <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>
 </document>
