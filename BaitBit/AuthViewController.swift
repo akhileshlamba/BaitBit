@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-import FirebaseMLVision
+//import FirebaseMLVision
 
 
 //import TesseractOCR
@@ -18,11 +18,13 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    var textRecognizer: VisionTextRecognizer!
+    //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.hideKeyboard()
         
         let settings = FirestoreSettings()
         settings.areTimestampsInSnapshotsEnabled = true
@@ -30,22 +32,22 @@ class AuthViewController: UIViewController {
         
         db = Firestore.firestore()
         
-        let vision = Vision.vision()
-        textRecognizer = vision.onDeviceTextRecognizer()
-        
-        let visionImage = VisionImage(image: UIImage(named: "test2.jpg")!)
-        textRecognizer.process(visionImage) { result, error in
-            
-            guard error == nil, let result = result else {
-                return
-            }
-            let substrings = result.text.split(separator: "\n")
-            if !substrings.contains("Agricultural Chemical User Permit") {
-                print("Inside")
-            }
-            
-            print(result.text)
-        }
+//        let vision = Vision.vision()
+//        textRecognizer = vision.onDeviceTextRecognizer()
+//
+//        let visionImage = VisionImage(image: UIImage(named: "test2.jpg")!)
+//        textRecognizer.process(visionImage) { result, error in
+//
+//            guard error == nil, let result = result else {
+//                return
+//            }
+//            let substrings = result.text.split(separator: "\n")
+//            if !substrings.contains("Agricultural Chemical User Permit") {
+//                print("Inside")
+//            }
+//
+//            print(result.text)
+//        }
         
         // Do any additional setup after loading the view.
     }
@@ -140,3 +142,21 @@ class AuthViewController: UIViewController {
     */
 
 }
+
+extension AuthViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(AuthViewController.dismissKeyboard))
+
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
+}
+

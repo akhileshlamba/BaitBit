@@ -2,6 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Bait_program+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Bait_program+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Baits_Info+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/akhileshlamba/Documents/GitHub/BaitBit/BaitBit/Baits_Info+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:BaitBit/Monash University Caulfield.gpx">
    </FileRef>
    <FileRef

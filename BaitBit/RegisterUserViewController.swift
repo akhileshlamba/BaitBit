@@ -34,6 +34,8 @@ class RegisterUserViewController: UIViewController {
         storage = Storage.storage()
         storageRef = storage.reference()
         
+        self.hideKeyboard()
+        
         formatter.dateFormat = "MMM dd, yyyy"
         showDatePicker()
         
@@ -42,6 +44,29 @@ class RegisterUserViewController: UIViewController {
         Firestore.firestore().settings = settings
         
         db = Firestore.firestore()
+        
+        
+        let vision = Vision.vision()
+        textRecognizer = vision.onDeviceTextRecognizer()
+        
+        let visionImage = VisionImage(image: UIImage(named: "test.jpg")!)
+        textRecognizer.process(visionImage) { result, error in
+            
+            guard error == nil, let result = result else {
+                return
+            }
+            
+            let range = NSRange(location: 0, length: result.text.utf16.count)
+            print(range)
+            print(result.text)
+            let regex = try! NSRegularExpression(pattern: "[0-9]{2}[-/][0-9]{2}[-/][0-9]{4}")
+            
+            let date = regex.firstMatch(in: result.text, options: [], range: range)
+            
+            let substrings = result.text.split(separator: "\n")
+            
+        }
+        
         // Do any additional setup after loading the view.
     }
     
@@ -90,25 +115,7 @@ class RegisterUserViewController: UIViewController {
             return
         }
         
-        let vision = Vision.vision()
-        textRecognizer = vision.onDeviceTextRecognizer()
         
-        let visionImage = VisionImage(image: image)
-        textRecognizer.process(visionImage) { result, error in
-            
-            guard error == nil, let result = result else {
-                self.displayErrorMessage("Problem in recognising the image", "Error")
-                return
-            }
-            let substrings = result.text.split(separator: "\n")
-            for string in substrings{
-                if string != "Agricultural Chemical User Permit" {
-                    self.displayErrorMessage("Invalid license.", "Error")
-                    return
-                }
-            }
-            print(result.text)
-        }
         
         let usersRef = db.collection("users")
         let query = usersRef.whereField("username", isEqualTo: username)
@@ -126,8 +133,10 @@ class RegisterUserViewController: UIViewController {
                     } else {
                         self.userId = ref.documentID
                         print("Document added with ID: \(ref!.documentID)")
-                        self.savePhoto(image)
-                        
+                        let success = self.savePhoto(image)
+                        if success ?? false {
+                            self.navigationController?.popViewController(animated: true)
+                        }
                     }
                 }
             } else {
@@ -224,6 +233,30 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
             print("did get into the if statement")
             //            self.savePhoto(pickedImage)
             self.licenseImage.image = pickedImage
+            let vision = Vision.vision()
+            textRecognizer = vision.onDeviceTextRecognizer()
+            
+            let visionImage = VisionImage(image: pickedImage)
+            textRecognizer.process(visionImage) { result, error in
+                
+                guard error == nil, let result = result else {
+                    self.displayErrorMessage("Problem in recognising the image", "Error")
+                    return
+                }
+                
+                let range = NSRange(location: 0, length: result.text.utf16.count)
+                let regex = try! NSRegularExpression(pattern: "[0-9]{2}[-/][0-9]{2}[-/][0-9]{4}")
+                
+                let matches = regex.firstMatch(in: result.text, options: [], range: range)
+                
+                let substrings = result.text.split(separator: "\n")
+                if !substrings.contains("Agricultural Chemical User Permit") {
+                    self.displayErrorMessage("Invalid License", "Error")
+                    return
+                } else {
+                    self.licenseExpiryDate.text = matches.map {String(result.text[Range($0.range, in: result.text)!])}
+                }
+            }
         }
         dismiss(animated: true, completion: nil)
     }
@@ -233,10 +266,10 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
         self.dismiss(animated: true, completion: nil)
     }
     
-    func savePhoto(_ pickedImage: UIImage?) -> String? {
+    func savePhoto(_ pickedImage: UIImage?) -> Bool? {
         guard let image = pickedImage else {
             displayErrorMessage("Cannot save until a photo has been taken!", "Error")
-            return nil
+            return false
         }
        
         // Preparing timestamp and image data
@@ -246,7 +279,7 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
         
         if userId == nil {
             displayErrorMessage("User not saved", "Error")
-            return nil
+            return false
         }
         let imageRef = storageRef.child("\(userId ?? "")/License/\(date)")
         let metadata = StorageMetadata()
@@ -273,14 +306,30 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
                                 }
                             }
                             self.displayErrorMessage("You are registered with Baitbit", "Save")
-                            self.navigationController?.popViewController(animated: true)
                         }
                     }
                 })
             }
         }
         
-        return nil
+        return true
     }
     
+}
+
+extension RegisterUserViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(RegisterUserViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
 }
