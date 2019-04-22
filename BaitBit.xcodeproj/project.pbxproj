@@ -63,6 +63,7 @@
 		E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Baits_Info+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bait_program+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
+		E64E0F8F226C1528001F13F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E64E915E2259D41F0087C4AF /* BaitProgramTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitProgramTableViewCell.swift; sourceTree = "<group>"; };
 		E64EF8C422586BDD00D96892 /* BaitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsViewController.swift; sourceTree = "<group>"; };
 		E64EF8C62258927300D96892 /* BaitProgramTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitProgramTableViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +136,7 @@
 		66EDC1425DB92B5B11EE2019 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E64E0F8F226C1528001F13F0 /* libz.tbd */,
 				7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */,
 			);
 			name = Frameworks;
@@ -346,6 +348,28 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F64E430A4CF4B3E4466765F5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVTextDetectorResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVTextDetectorResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -515,6 +539,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 39LHT48JBG;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
@@ -531,6 +556,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 39LHT48JBG;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;

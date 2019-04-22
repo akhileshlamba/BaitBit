@@ -8,25 +8,51 @@
 
 import UIKit
 import Firebase
+import FirebaseMLVision
+
+
+//import TesseractOCR
 
 class AuthViewController: UIViewController {
 
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
+    var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let settings = FirestoreSettings()
         settings.areTimestampsInSnapshotsEnabled = true
         Firestore.firestore().settings = settings
         
         db = Firestore.firestore()
         
+        let vision = Vision.vision()
+        textRecognizer = vision.onDeviceTextRecognizer()
+        
+        let visionImage = VisionImage(image: UIImage(named: "test2.jpg")!)
+        textRecognizer.process(visionImage) { result, error in
+            
+            guard error == nil, let result = result else {
+                return
+            }
+            let substrings = result.text.split(separator: "\n")
+            if !substrings.contains("Agricultural Chemical User Permit") {
+                print("Inside")
+            }
+            
+            print(result.text)
+        }
+        
         // Do any additional setup after loading the view.
     }
+    
+//    func shouldCancelImageRecognitionForTesseract(tesseract: G8Tesseract!) -> Bool {
+//        return false // return true if you need to interrupt tesseract before it finishes
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
