@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseMLVision
 
 class RegisterUserViewController: UIViewController {
 
@@ -24,6 +25,8 @@ class RegisterUserViewController: UIViewController {
     var storage: Storage!
     var storageRef: StorageReference!
     var userId: String!
+    
+    var textRecognizer: VisionTextRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,46 +71,74 @@ class RegisterUserViewController: UIViewController {
     @IBAction func register(_ sender: Any) {
         
         guard let password = password.text else {
-            displayErrorMessage("Please Enter a password")
+            displayErrorMessage("Please Enter a password", "Error")
             return
         }
         
         guard let username = username.text else {
-            displayErrorMessage("Please Enter a password")
+            displayErrorMessage("Please Enter a password", "Error")
             return
         }
         
         guard let licenseExpiryDate = licenseExpiryDate.text else {
-            displayErrorMessage("Please Enter a password")
+            displayErrorMessage("Please Enter a password", "Error")
             return
         }
         
         guard let image = licenseImage.image else {
-            displayErrorMessage("Please select or take image of License")
+            displayErrorMessage("Please select or take image of License", "Error")
             return
         }
         
+        let vision = Vision.vision()
+        textRecognizer = vision.onDeviceTextRecognizer()
         
-        var ref: DocumentReference? = nil
-        ref = db.collection("users").addDocument(data: [
-            "username": username,
-            "password": password,
-            "licenseExpiryDate": licenseExpiryDate
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                self.userId = ref!.documentID
-                print("Document added with ID: \(ref!.documentID)")
-                self.savePhoto(image)
-                
+        let visionImage = VisionImage(image: image)
+        textRecognizer.process(visionImage) { result, error in
+            
+            guard error == nil, let result = result else {
+                self.displayErrorMessage("Problem in recognising the image", "Error")
+                return
             }
+            let substrings = result.text.split(separator: "\n")
+            for string in substrings{
+                if string != "Agricultural Chemical User Permit" {
+                    self.displayErrorMessage("Invalid license.", "Error")
+                    return
+                }
+            }
+            print(result.text)
         }
+        
+        let usersRef = db.collection("users")
+        let query = usersRef.whereField("username", isEqualTo: username)
+        
+        query.getDocuments(completion: {(document, error) in
+            if (document?.documents.isEmpty ?? nil)! {
+                var ref: DocumentReference!
+                ref = self.db.collection("users").addDocument(data: [
+                    "username": username,
+                    "password": password,
+                    "licenseExpiryDate": licenseExpiryDate
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        self.userId = ref.documentID
+                        print("Document added with ID: \(ref!.documentID)")
+                        self.savePhoto(image)
+                        
+                    }
+                }
+            } else {
+                self.displayErrorMessage("User exists with the same username", "Error")
+            }
+        })
         
     }
     
-    func displayErrorMessage(_ errorMessage: String){
-        let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+    func displayErrorMessage(_ errorMessage: String, _ title: String){
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
         
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
@@ -161,7 +192,7 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
     func takePicture() {
         let controller = UIImagePickerController()
         guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) else {
-            self.displayErrorMessage("Camera unvailable")
+            self.displayErrorMessage("Camera unvailable", "Error")
             return
         }
         
@@ -198,13 +229,13 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        displayErrorMessage("There was an error in getting the photo")
+        displayErrorMessage("There was an error in getting the photo", "Error")
         self.dismiss(animated: true, completion: nil)
     }
     
     func savePhoto(_ pickedImage: UIImage?) -> String? {
         guard let image = pickedImage else {
-            displayErrorMessage("Cannot save until a photo has been taken!")
+            displayErrorMessage("Cannot save until a photo has been taken!", "Error")
             return nil
         }
        
@@ -213,18 +244,20 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
         
-        
-        let imageRef = storageRef.child("\(userId)/License/\(date)")
+        if userId == nil {
+            displayErrorMessage("User not saved", "Error")
+            return nil
+        }
+        let imageRef = storageRef.child("\(userId ?? "")/License/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
         imageRef.putData(data, metadata: metadata) { (metaData, error) in
             if error != nil {
+                self.displayErrorMessage("Error in saving image", "Error")
             } else {
-                self.displayErrorMessage("Could not upload image")
-                
                 imageRef.downloadURL(completion: {(url, error) in
                     if let error = error{
-                        self.displayErrorMessage(error.localizedDescription)
+                        self.displayErrorMessage(error.localizedDescription, "Error")
                         return
                     }else{
                         if let imageURL = url?.absoluteString{
@@ -239,7 +272,8 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
                                     print("Document successfully updated")
                                 }
                             }
-                            self.displayErrorMessage("Image saved to Firebase")
+                            self.displayErrorMessage("You are registered with Baitbit", "Save")
+                            self.navigationController?.popViewController(animated: true)
                         }
                     }
                 })
