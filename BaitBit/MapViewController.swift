@@ -23,6 +23,10 @@ enum Species: String, CaseIterable {
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, FilterUpdateDelegate {
 
+    override var prefersStatusBarHidden: Bool {
+        return self.navigationController!.isNavigationBarHidden
+    }
+    
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
@@ -48,7 +52,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
 //        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
 //        self.mapView.setRegion(viewRegion, animated: true)
-        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 40000, 40000)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
+        self.view.addGestureRecognizer(tap)
 
     }
     
@@ -60,12 +67,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         super.viewWillAppear(true)
 //        loadData()
     }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-        touches.forEach { (t) in
-            print(t.type)
-        }
+    
+    @objc func tapping() {
         if self.navigationController!.isNavigationBarHidden {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         } else {
