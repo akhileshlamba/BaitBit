@@ -1,16 +1,29 @@
 //
-//  Bait_program+CoreDataClass.swift
-//  
+//  Program.swift
+//  BaitBit
 //
-//  Created by Akhilesh Lamba on 7/4/19.
-//
+//  Created by Xiaotian LIU on 23/4/19.
+//  Copyright © 2019 Monash. All rights reserved.
 //
 
-import Foundation
-import CoreData
+import UIKit
 
-
-public class Bait_program: NSManagedObject {
+class Program: NSObject {
+    var programId: Int
+    var baitType: String?
+    var species: String?
+    var startDate: NSDate?
+    var active: Bool
+    var baits: [Bait]?
+    
+    init(programId: Int, baitType: String, species: String, startDate: NSDate) {
+        self.programId = programId
+        self.baitType = baitType
+        self.species = species
+        self.startDate = startDate
+        self.active = true
+    }
+    
     var numberOfActiveBaits: Int {
         // TODO: implement number of active baits for a program
         return 0

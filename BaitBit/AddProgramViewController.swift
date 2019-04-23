@@ -76,6 +76,7 @@ class AddProgramViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        self.navigationItem.leftBarButtonItem?.tintColor = .red
     }
 
     @objc func cancel() {

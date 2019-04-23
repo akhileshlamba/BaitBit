@@ -1,16 +1,18 @@
 //
-//  Baits_Info+CoreDataClass.swift
-//  
+//  Bait.swift
+//  BaitBit
 //
-//  Created by Akhilesh Lamba on 7/4/19.
-//
+//  Created by Xiaotian LIU on 23/4/19.
+//  Copyright © 2019 Monash. All rights reserved.
 //
 
-import Foundation
-import CoreData
+import UIKit
 
+enum BaitStatus: Int, CaseIterable {
+    case ACTIVE, OVERDUE, DUESOON, REMOVED
+}
 
-public class Baits_Info: NSManagedObject {
+class Bait: NSObject {
     var isOverdue: Bool {
         return false
     }

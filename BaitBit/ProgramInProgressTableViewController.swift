@@ -96,26 +96,52 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
     }
     
 //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
-//        label.backgroundColor = UIColor.lightGray
-//        label.font = label.font.withSize(20)
-//        label.text = self.sections[section]
-//        return label
+//        let headerView = UIView()
+//        let label = UILabel.init(frame: CGRect.init(x: 20, y: 20, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+//        label.font = UIFont(name: "Serbino Regular", size: 12)
+//        label.text = self.tableView(self.tableView, titleForHeaderInSection: section)
+//        label.textColor = .gray
+//        label.sizeToFit()
+//        headerView.addSubview(label)
+//        headerView.sizeToFit()
+//        return headerView
 //    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Programs in-progress"
+            if programList.count == 0 {
+                return "There is no program in progress"
+            } else if programList.count == 1 {
+                return "You have 1 program in progress"
+            } else {
+                return "You have \(programList.count) programs in progress"
+            }
         }
         return nil
     }
     
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 0 && programList.count == 0 {
-            return "(There is no programs in progress.)"
-        }
-        return nil
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let headerView = view as! UITableViewHeaderFooterView
+        headerView.textLabel!.font = headerView.textLabel?.font.withSize(13)
+        headerView.textLabel?.textColor = .gray
+        headerView.textLabel?.text = self.tableView(self.tableView, titleForHeaderInSection: section)
+//        headerView.textLabel?.numberOfLines = 0
+//        headerView.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+//        headerView.textLabel?.textAlignment = NSTextAlignment.left
     }
+    
+//    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+//        if section == 0 {
+//            if programList.count == 0 {
+//                return "There is no program in progress"
+//            } else if programList.count == 1 {
+//                return "You have 1 program in progress"
+//            } else {
+//                return "You have \(programList.count) programs in progress"
+//            }
+//        }
+//        return nil
+//    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let program = self.programList[indexPath.row]
