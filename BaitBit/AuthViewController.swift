@@ -18,6 +18,7 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
 
+    var user = [String:Any]()
     //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
@@ -29,7 +30,7 @@ class AuthViewController: UIViewController {
         let settings = FirestoreSettings()
         settings.areTimestampsInSnapshotsEnabled = true
         Firestore.firestore().settings = settings
-
+        
         db = Firestore.firestore()
 
 //        let vision = Vision.vision()
@@ -110,6 +111,7 @@ class AuthViewController: UIViewController {
                 if document?.documents[0].data()["password"] as! String != password {
                     self.displayErrorMessage("Please enter correct username")
                 } else {
+                    self.user = (document?.documents[0].data())!
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
                 }
             }
@@ -132,15 +134,19 @@ class AuthViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "loginSegue" {
+            let tabBarController = segue.destination as! TabBarViewController
+            let count = tabBarController.viewControllers?.count
+            let settingsVC = tabBarController.viewControllers![count!-1] as! SettingsTableViewController
+            settingsVC.user = user
+        }
     }
-    */
+    
 
 }
 
