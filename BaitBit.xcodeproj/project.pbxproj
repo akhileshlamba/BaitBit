@@ -36,6 +36,11 @@
 		E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */; };
 		E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */; };
 		E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */; };
+		E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */; };
+		E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */; };
+		E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */; };
+		E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */; };
+		E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */; };
 		E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B3947E226965D500DD3F69 /* AuthViewController.swift */; };
 		E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +78,11 @@
 		E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBaitViewController.swift; sourceTree = "<group>"; };
 		E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInProgressTableViewController.swift; sourceTree = "<group>"; };
 		E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsProgramMapViewController.swift; sourceTree = "<group>"; };
+		E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
+		E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
+		E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		E6B3947E226965D500DD3F69 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgramViewController.swift; sourceTree = "<group>"; };
 		EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.debug.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.debug.xcconfig"; sourceTree = "<group>"; };
@@ -193,6 +203,11 @@
 				E62770572250BCEB00492B1A /* HomeViewController.swift */,
 				E6B3947E226965D500DD3F69 /* AuthViewController.swift */,
 				E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */,
+				E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */,
+				E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */,
+				E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */,
+				E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */,
+				E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -360,6 +375,8 @@
 				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,
 				E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */,
 				E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */,
+				E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */,
+				E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */,
 				E6277047224F13E400492B1A /* BaitBit.xcdatamodeld in Sources */,
 				02FC5914226EFC9E002B30BE /* Program.swift in Sources */,
 				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
@@ -370,9 +387,11 @@
 				026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */,
 				E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */,
 				E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */,
+				E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */,
 				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
 				02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */,
+				E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */,
 				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
 				02FC5916226EFDDF002B30BE /* Bait.swift in Sources */,
@@ -380,6 +399,7 @@
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
 				E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */,
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
+				E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */,
 				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
 				E64B71B42259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift in Sources */,
 			);
