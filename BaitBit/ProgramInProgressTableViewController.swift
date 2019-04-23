@@ -9,28 +9,22 @@
 import UIKit
 import CoreData
 
-class BaitProgramTableViewController: UITableViewController, newBaitProgramDelegate {
+class ProgramInProgressTableViewController: UITableViewController, AddProgramDelegate {
 
     var programList: [Bait_program] = []
-    var list: [[Bait_program]] = []
     private var context : NSManagedObjectContext
-    
-    var sections: [String] = []
     
     let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        sections.append("Programs in Progress")
-        sections.append("Completed Programs")
         
-        dateFormatter.dateFormat = "dd-MM-yyyy"
+        dateFormatter.dateFormat = "MMM dd yyyy"
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
         do {
             programList = try context.fetch(fetchRequest) as! [Bait_program]
-            divideDataIntoSection()
+//            divideDataIntoSection()
         } catch  {
             fatalError("Failed to fetch animal list")
         }
@@ -42,20 +36,20 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func divideDataIntoSection(){
-        list.removeAll()
-        var activeList: [Bait_program] = []
-        var inactiveList: [Bait_program] = []
-        for bait_program in programList {
-            if bait_program.active{
-                activeList.append(bait_program)
-            } else {
-                inactiveList.append(bait_program)
-            }
-        }
-        list.append(activeList)
-        list.append(inactiveList)
-    }
+//    func divideDataIntoSection(){
+//        list.removeAll()
+//        var activeList: [Bait_program] = []
+//        var inactiveList: [Bait_program] = []
+//        for bait_program in programList {
+//            if bait_program.active{
+//                activeList.append(bait_program)
+//            } else {
+//                inactiveList.append(bait_program)
+//            }
+//        }
+//        list.append(activeList)
+//        list.append(inactiveList)
+//    }
     
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -75,57 +69,69 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     }
 
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return list.count
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return list[section].count
+        return programList.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //tableView.reloadData()
-        let cell = tableView.dequeueReusableCell(withIdentifier: "programBait", for: indexPath) as! BaitProgramTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "programBait", for: indexPath) as! ProgramTableViewCell
         
         
         if programList.count != 0 {
-            let a:Bait_program = self.list[indexPath.section][indexPath.row]
-            cell.program_name.text = a.name!
-            cell.start_date.text = dateFormatter.string(from: a.start_date! as Date)
+            let a:Bait_program = self.programList[indexPath.row]
+            cell.textLabel?.text = a.name!
+            cell.detailTextLabel?.text = dateFormatter.string(from: a.start_date! as Date)
             
-        } 
+        }
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
-        label.backgroundColor = UIColor.lightGray
-        label.font = label.font.withSize(20)
-        label.text = self.sections[section]
-        return label
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
+//        label.backgroundColor = UIColor.lightGray
+//        label.font = label.font.withSize(20)
+//        label.text = self.sections[section]
+//        return label
+//    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Programs in-progress"
+        }
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 0 && programList.count == 0 {
+            return "(There is no programs in progress.)"
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let program = self.list[indexPath.section][indexPath.row]
+        let program = self.programList[indexPath.row]
         if program.start_date! as Date > Date() {
             displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
         } else {
-            performSegue(withIdentifier: "ProgramMapSegue", sender: nil)
+            performSegue(withIdentifier: "ProgramDetailSegue", sender: nil)
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 60.0
-    }
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 60.0
+//    }
     
     func didAddBaitProgram(_ program: Bait_program) {
         programList.append(program)
-        list = []
-        divideDataIntoSection()
         self.tableView.reloadData()
     }
  
@@ -165,13 +171,6 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
     }
     */
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section < sections.count {
-            return sections[section]
-        }
-        return nil
-    }
-    
     func displayMessage(_ message: String,_ title: String) {
         let alertController = UIAlertController(title: title, message: message,
                                                 preferredStyle: UIAlertControllerStyle.alert)
@@ -189,12 +188,12 @@ class BaitProgramTableViewController: UITableViewController, newBaitProgramDeleg
         if segue.identifier == "ProgramMapSegue" {
             let controller = segue.destination as! BaitsProgramMapViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                controller.program = self.list[indexPath.section][indexPath.row]
+                controller.program = self.programList[indexPath.row]
             }
         }
         
         if segue.identifier == "AddProgramSegue" {
-            let controller = segue.destination as! ProgramViewController
+            let controller = segue.destination as! AddProgramViewController
             controller.delegate = self
         }
     }

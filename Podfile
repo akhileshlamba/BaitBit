@@ -15,6 +15,7 @@ target 'BaitBit' do
   pod 'Charts', '~> 3.0.2'
   pod 'Firebase/MLVision'
   pod 'Firebase/MLVisionTextModel'
+  pod 'FloatingPanel'
   #pod 'SwiftOCR'
 #  pod 'TesseractOCRiOS', :git => 'git://github.com/parallaxe/Tesseract-OCR-iOS.git', :branch => 'macos-support'
 #  post_install do |installer|

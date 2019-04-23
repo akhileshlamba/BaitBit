@@ -8,10 +8,7 @@
 
 import UIKit
 
-class BaitProgramTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var program_name: UILabel!
-    @IBOutlet weak var start_date: UILabel!
+class ProgramTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
