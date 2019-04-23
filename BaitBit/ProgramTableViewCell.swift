@@ -10,9 +10,6 @@ import UIKit
 
 class ProgramTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var program_name: UILabel!
-    @IBOutlet weak var start_date: UILabel!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

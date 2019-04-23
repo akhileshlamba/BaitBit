@@ -39,6 +39,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.setNavigationBarItems()
+        
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -48,18 +50,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
         loadData()
         
-//        self.navigationController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
-//        self.tabBarController?.navigationItem.leftBarButtonItem = nil
-
         
 //        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
 //        self.mapView.setRegion(viewRegion, animated: true)
-        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 40000, 40000)
+        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 400000, 400000)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
         self.view.addGestureRecognizer(tap)
 
+    }
+    
+    func setNavigationBarItems() {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        self.tabBarController?.navigationItem.hidesBackButton = true
+        self.tabBarController?.navigationItem.title = "Invasive Species Map"
     }
     
     @objc func filter() {
@@ -68,6 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.setNavigationBarItems()
 //        loadData()
     }
     

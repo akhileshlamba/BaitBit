@@ -17,18 +17,33 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        
+    }
+    
+    @objc func logout() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func setNavigationBarItems() {
+        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.title = "Home"
+        self.tabBarController?.navigationItem
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.setNavigationBarItems()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+//        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

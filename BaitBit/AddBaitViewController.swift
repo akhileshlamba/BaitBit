@@ -41,7 +41,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     @objc func done() {
         let controller = self.navigationController?.viewControllers[2]
 
-        if controller is ProgramViewController {
+        if controller is AddProgramViewController {
             let programTableViewController = self.navigationController?.viewControllers[1]
             self.navigationController?.popToViewController(programTableViewController!, animated: true)
         } else {

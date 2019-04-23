@@ -88,8 +88,8 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         
         if programList.count != 0 {
             let a:Bait_program = self.programList[indexPath.row]
-            cell.program_name.text = a.name!
-            cell.start_date.text = dateFormatter.string(from: a.start_date! as Date)
+            cell.textLabel?.text = a.name!
+            cell.detailTextLabel?.text = dateFormatter.string(from: a.start_date! as Date)
             
         }
         return cell

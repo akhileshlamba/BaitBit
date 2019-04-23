@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol newBaitProgramDelegate {
+protocol AddProgramDelegate {
     func didAddBaitProgram(_ program : Bait_program)
 }
 
@@ -25,7 +25,7 @@ class AddProgramViewController: UIViewController {
     
     var defaults = UserDefaults.standard
     
-    var delegate : newBaitProgramDelegate?
+    var delegate : AddProgramDelegate?
     
     var alternateSpecies : [String] = []
     var animalList: [Bait_program] = []
@@ -58,12 +58,6 @@ class AddProgramViewController: UIViewController {
         
         species.isEnabled = false
         
-//        name.delegate = self
-//        species.delegate = self
-//
-//        name.tag = 1
-//        species.tag = 2
-        
         
         formatter.dateFormat = "MMM dd, yyyy"
         
@@ -81,8 +75,12 @@ class AddProgramViewController: UIViewController {
         
         
         // Do any additional setup after loading the view.
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     }
 
+    @objc func cancel() {
+        self.navigationController?.popViewController(animated: true)
+    }
     required init?(coder aDecoder: NSCoder) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         context = (appDelegate?.persistentContainer.viewContext)!
@@ -156,6 +154,7 @@ class AddProgramViewController: UIViewController {
                 
                 if !(formatter.date(from: start_date.text!)!  > Date()) {
 //                    performSegue(withIdentifier: "addbait", sender: nil)
+                    performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 } else {
                     displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
                 }
@@ -185,12 +184,17 @@ class AddProgramViewController: UIViewController {
             let controller = segue.destination as! AddBaitViewController
             controller.program = self.program
         }
+        
+        if segue.identifier == "ProgramStartedSegue" {
+            let controller = segue.destination as! ProgramDetailsViewController
+            controller.program = self.program
+            
+        }
     }
 
 }
 
 extension AddProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -202,17 +206,7 @@ extension AddProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource
         } else {
             return alternateSpecies.count
         }
-//        if currentTextFieldTag == 1 {
-//            return baitTypes.count
-//        }
-//        if currentTextFieldTag == 2 {
-//            return alternateSpecies.count
-//        }
-        
-//        if species.isFirstResponder{
-//            return speciesType.count
-//        }
-//        return 0
+
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -240,29 +234,6 @@ extension AddProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource
             }
         }
         
-//        if currentTextFieldTag == 1 {
-//            if row == 0{
-//                name.text = ""
-//            } else {
-//                alternateSpecies = []
-//                let speciesName = baitTypes[row]
-//                alternateSpecies.append("Select Animal")
-//                for a in speciesType {
-//                    if speciesName.contains(a){
-//                        alternateSpecies.append(a)
-//                    }
-//                }
-//                species.isEnabled = true
-//                name.text = baitTypes[row]
-//            }
-//        }
-//        if currentTextFieldTag == 2 {
-//            if row == 0{
-//                species.text = ""
-//            } else {
-//                species.text = alternateSpecies[row]
-//            }
-//        }
         self.view.endEditing(true)
     }
     
@@ -273,31 +244,5 @@ extension AddProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource
             return alternateSpecies[row]
         }
         
-//        if currentTextFieldTag == 1 {
-//            return baitTypes[row]
-//        }
-//        if currentTextFieldTag == 2 {
-//            return alternateSpecies[row]
-//        }
-//
-//       return ""
-        
-//        if species.isFirstResponder{
-//            return baitTypes[row]
-//        }
-//        return "";
     }
 }
-
-//extension ProgramViewController: UITextFieldDelegate {
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        if textField.tag == 1 {
-//            currentTextFieldTag = textField.tag
-//        }
-//        if textField.tag == 2 {
-//            currentTextFieldTag = textField.tag
-//        }
-//        speciesPicker.reloadAllComponents()
-//        return true
-//    }
-//}
