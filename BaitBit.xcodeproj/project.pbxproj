@@ -14,7 +14,7 @@
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
 		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
-		02FC5918226F2631002B30BE /* FirestoreDAO.temp_caseinsensitive_rename.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5917226F2631002B30BE /* FirestoreDAO.temp_caseinsensitive_rename.swift */; };
+		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
 		02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */; };
 		02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD5873225A02A10000B6E0 /* FilterViewController.swift */; };
 		752DE288F2BF59A2D1279D4E /* Pods_BaitBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */; };
@@ -54,7 +54,7 @@
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
-		02FC5917226F2631002B30BE /* FirestoreDAO.temp_caseinsensitive_rename.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreDAO.temp_caseinsensitive_rename.swift; sourceTree = "<group>"; };
+		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
 		02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitAnnotation.swift; sourceTree = "<group>"; };
 		02FD5873225A02A10000B6E0 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaitBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,8 +106,8 @@
 		02F8F73A2265C77E00FD1D2F /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				02FC5919226F34C4002B30BE /* FireStoreDAO.swift */,
 				E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */,
-				02FC5917226F2631002B30BE /* FirestoreDAO.temp_caseinsensitive_rename.swift */,
 				02FC5913226EFC9E002B30BE /* Program.swift */,
 				02FC5915226EFDDF002B30BE /* Bait.swift */,
 				E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */,
@@ -394,7 +394,7 @@
 				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
 				02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */,
-				02FC5918226F2631002B30BE /* FirestoreDAO.temp_caseinsensitive_rename.swift in Sources */,
+				02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */,
 				E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */,
 				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,

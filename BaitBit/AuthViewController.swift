@@ -144,6 +144,7 @@ class AuthViewController: UIViewController {
             let count = tabBarController.viewControllers?.count
             let settingsVC = tabBarController.viewControllers![count!-1] as! SettingsTableViewController
             settingsVC.user = user
+            FirestoreDAO.user = user
         }
     }
     

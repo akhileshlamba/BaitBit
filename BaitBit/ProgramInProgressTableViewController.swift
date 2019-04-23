@@ -21,12 +21,9 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         
         dateFormatter.dateFormat = "MMM dd yyyy"
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-        do {
-            programList = try context.fetch(fetchRequest) as! [Program]
-//            divideDataIntoSection()
-        } catch  {
-            fatalError("Failed to fetch animal list")
+        FirestoreDAO.getAllPrograms { (programs) in
+            self.programList = programs
+            self.tableView.reloadData()
         }
         
         // Uncomment the following line to preserve selection between presentations

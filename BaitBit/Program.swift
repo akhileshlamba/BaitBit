@@ -32,6 +32,12 @@ class Program: NSObject {
         }
     }
     
+    func addToBaits(baits: [Bait]) {
+        for bait in baits {
+            addToBaits(bait: bait)
+        }
+    }
+    
     func removeFromBaits(bait: Bait) -> Bait? {
         return self.baits.removeValue(forKey: bait.id)
     }
