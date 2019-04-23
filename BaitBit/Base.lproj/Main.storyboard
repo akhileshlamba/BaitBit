@@ -211,7 +211,7 @@
         <!--New Program-->
         <scene sceneID="jHs-3P-Apk">
             <objects>
-                <viewController title="New Program" id="MBa-sb-IJs" customClass="ProgramViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="New Program" id="MBa-sb-IJs" customClass="AddProgramViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UW7-rz-gyY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -365,7 +365,7 @@
                     <navigationItem key="navigationItem" title="Baits Map" id="F5K-TH-2k7">
                         <barButtonItem key="rightBarButtonItem" title="Add Bait" id="G53-yk-s4u">
                             <connections>
-                                <segue destination="hxk-qI-7fy" kind="presentation" identifier="AddBaitSegue" modalPresentationStyle="formSheet" id="sI4-JR-YS7"/>
+                                <segue destination="hxk-qI-7fy" kind="presentation" identifier="AddBaitSegue" id="sI4-JR-YS7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -382,13 +382,13 @@
         <!--New Bait-->
         <scene sceneID="Mka-Ak-mw8">
             <objects>
-                <viewController title="New Bait" id="hxk-qI-7fy" customClass="BaitsViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="New Bait" id="hxk-qI-7fy" customClass="AddBaitViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fnO-Mp-sfn">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TpO-SH-Jmp">
-                                <rect key="frame" x="0.0" y="20" width="375" height="780"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IiZ-oC-GQj">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="750"/>
@@ -551,7 +551,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TQf-df-AA2"/>
                     </view>
-                    <size key="freeformSize" width="375" height="800"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="375" height="300"/>
+                    <size key="freeformSize" width="375" height="300"/>
                     <connections>
                         <outlet property="baitPhoto" destination="tJY-CI-lH1" id="zFt-AI-itK"/>
                         <outlet property="bait_laid_date" destination="NdP-yi-feC" id="T72-YW-ltz"/>
@@ -570,8 +571,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C9R-Wh-qHN">
-                                <rect key="frame" x="67" y="496" width="241" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C9R-Wh-qHN">
+                                <rect key="frame" x="20" y="567" width="335" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="htB-th-7Qd"/>
@@ -591,6 +592,11 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="C9R-Wh-qHN" firstAttribute="leading" secondItem="6WC-h8-SoR" secondAttribute="leading" constant="20" id="AX0-UA-ndX"/>
+                            <constraint firstItem="6WC-h8-SoR" firstAttribute="bottom" secondItem="C9R-Wh-qHN" secondAttribute="bottom" constant="50" id="GgK-AU-YmR"/>
+                            <constraint firstItem="6WC-h8-SoR" firstAttribute="trailing" secondItem="C9R-Wh-qHN" secondAttribute="trailing" constant="20" id="ym1-UK-631"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6WC-h8-SoR"/>
                     </view>
                 </viewController>
@@ -704,17 +710,17 @@
         <!--In-progress Programs-->
         <scene sceneID="Uln-aq-nSL">
             <objects>
-                <tableViewController title="In-progress Programs" id="Fm5-ls-XGP" customClass="BaitProgramTableViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="83" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5jV-eJ-X6j">
+                <tableViewController title="In-progress Programs" id="Fm5-ls-XGP" customClass="ProgramInProgressTableViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="55" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="5jV-eJ-X6j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="programBait" id="qu0-Uc-Wwp" customClass="BaitProgramTableViewCell" customModule="BaitBit" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="83"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="programBait" rowHeight="55" id="qu0-Uc-Wwp" customClass="ProgramTableViewCell" customModule="BaitBit" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qu0-Uc-Wwp" id="P9G-j4-AP3">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qu0-Uc-Wwp" id="P9G-j4-AP3">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbP-AG-s30">
@@ -727,7 +733,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssC-O5-QI4">
-                                            <rect key="frame" x="16" y="54" width="0.0" height="18"/>
+                                            <rect key="frame" x="16" y="54" width="0.0" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -765,7 +771,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yG2-gh-RAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4095" y="-2107"/>
+            <point key="canvasLocation" x="4093.5999999999999" y="-2107.1964017991004"/>
         </scene>
         <!--Program Details-->
         <scene sceneID="iY9-Sy-1dK">
@@ -775,8 +781,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9av-CH-fk8">
-                                <rect key="frame" x="67" y="566" width="241" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9av-CH-fk8">
+                                <rect key="frame" x="20" y="567" width="335" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Wlo-FZ-UvK"/>
@@ -796,6 +802,11 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Kay-N2-Huf" firstAttribute="trailing" secondItem="9av-CH-fk8" secondAttribute="trailing" constant="20" id="Beq-0e-7yV"/>
+                            <constraint firstItem="Kay-N2-Huf" firstAttribute="bottom" secondItem="9av-CH-fk8" secondAttribute="bottom" constant="50" id="RVd-i4-Pit"/>
+                            <constraint firstItem="9av-CH-fk8" firstAttribute="leading" secondItem="Kay-N2-Huf" secondAttribute="leading" constant="20" id="d9Y-di-3dd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Kay-N2-Huf"/>
                     </view>
                 </viewController>
@@ -1251,6 +1262,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="XSh-ec-wXm"/>
         <segue reference="qn9-nE-EkH"/>
-        <segue reference="Wes-0h-Ath"/>
+        <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>
 </document>

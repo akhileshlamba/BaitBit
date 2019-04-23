@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BaitProgramTableViewCell: UITableViewCell {
+class ProgramTableViewCell: UITableViewCell {
     
     @IBOutlet weak var program_name: UILabel!
     @IBOutlet weak var start_date: UILabel!

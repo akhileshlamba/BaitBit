@@ -182,7 +182,7 @@ class AddProgramViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "addbait" {
-            let controller = segue.destination as! BaitsViewController
+            let controller = segue.destination as! AddBaitViewController
             controller.program = self.program
         }
     }

@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class BaitsViewController: UIViewController, CLLocationManagerDelegate {
+class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var bait_laid_date: UITextField!
     @IBOutlet weak var location: UITextField!
@@ -214,7 +214,7 @@ class BaitsViewController: UIViewController, CLLocationManagerDelegate {
 
 }
 
-extension BaitsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension AddBaitViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func takePhoto() {
         let controller = UIImagePickerController()
