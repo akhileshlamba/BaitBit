@@ -12,16 +12,16 @@ class Program: NSObject {
     var id: String
     var baitType: String?
     var species: String?
-    var startDate: NSDate?
+    var startDate: NSDate
     var isActive: Bool
     var baits: [String : Bait] = [:]
     
-    init(id: String, baitType: String, species: String, startDate: NSDate, isActive: Bool) {
+    init(id: String, baitType: String, species: String, startDate: NSDate?, isActive: Bool?) {
         self.id = id
         self.baitType = baitType
         self.species = species
-        self.startDate = startDate
-        self.isActive = isActive
+        self.startDate = startDate ?? NSDate()
+        self.isActive = isActive ?? true
     }
     
     func addToBaits(bait: Bait) {

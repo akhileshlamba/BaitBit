@@ -22,14 +22,14 @@ class Bait: NSObject {
     var program: Program?
     var status: BaitStatus
     
-    init(id: String, laidDate: NSDate, latitude: Double, longitude: Double, photoPath: String, program: Program, status: BaitStatus) {
+    init(id: String, laidDate: NSDate, latitude: Double, longitude: Double, photoPath: String?, program: Program, status: BaitStatus?) {
         self.id = id
         self.laidDate = laidDate
         self.latitude = latitude
         self.longitude = longitude
         self.photoPath = photoPath
         self.program = program
-        self.status = status
+        self.status = status ?? BaitStatus.ACTIVE
     }
     
     var isOverdue: Bool {

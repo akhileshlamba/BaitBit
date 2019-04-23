@@ -16,7 +16,7 @@ class ProgramDetailsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    var program: Bait_program!
+    var program: Program!
 
     /*
     // MARK: - Navigation

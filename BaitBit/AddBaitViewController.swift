@@ -17,7 +17,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var baitPhoto: UIImageView!
     var actionSheet: UIAlertController?
 
-    var program: Bait_program!
+    var program: Program!
     let formatter = DateFormatter()
     
     var currentLocation = CLLocationCoordinate2D()
@@ -108,40 +108,31 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
             displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
         } else {
             
-            let baits_info = NSEntityDescription.insertNewObject(forEntityName: "Baits_Info", into: context) as! Baits_Info
-            baits_info.laid_date = NSDate()
+//            let baits_info = NSEntityDescription.insertNewObject(forEntityName: "Baits_Info", into: context) as! Baits_Info
+//            baits_info.laid_date = NSDate()
             
             if(!(location.text?.contains(","))!){
                 displayMessage("You have not entered the correct coordinates format. They are of the form 12.23, 42.123", "Coordinates Error")
             } else{
                 let latlong = location.text?.components(separatedBy: ",")
                 if (Double(latlong![0]) != nil) && (Double(latlong![1]) != nil) {
-                    baits_info.latitude = Double(latlong![0]) as! Double
-                    baits_info.longitude = Double(latlong![1]) as! Double
-                    baits_info.status = true
+                    let timestamp = NSDate().timeIntervalSince1970
+                    let bait = Bait(id: "\(timestamp)",
+                                    laidDate: NSDate(),
+                                    latitude: Double(latlong![0]) as! Double,
+                                    longitude: Double(latlong![1]) as! Double,
+                                    photoPath: nil,
+                                    program: self.program,
+                                    status: .ACTIVE)
+                    
                     if let image = self.baitPhoto.image {
-                        baits_info.path = self.savePhoto(image)
+                        bait.photoPath = self.savePhoto(image)
                     }
                     
-                    program.addToBaits(baits_info)
-                    baits_info.program = program
+                    self.program.addToBaits(bait: bait)
                     
-                    print("bait_info: ")
-                    print(baits_info)
-                    print("")
                     do {
-                        try context.save()
-                        
-//                        // create a success message
-//                        let alertController = UIAlertController(title: "Success", message: "Bait Successfully Added", preferredStyle: UIAlertController.Style.alert)
-//
-//                        // display it for 1 second
-//                        self.present(alertController, animated: true, completion: {
-//                            let _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { (_) in
-//                                alertController.dismiss(animated: true, completion: nil)
-//                            })
-//                        })
-                        
+                        FirestoreDAO.createOrUpdate(bait: bait, for: self.program)
                         displayMessage("Baiting Recorded Successfully", "Success", "OK")
                         
                     } catch let error {
