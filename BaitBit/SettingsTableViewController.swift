@@ -29,10 +29,26 @@ class SettingsTableViewController: UITableViewController {
         items.append(["Over Due", "Due Soon", "Documentation"])
         self.tableView.tableFooterView = UIView(frame: .zero)
         
+//        // Uncomment the following line to preserve selection between presentations
+//        // self.clearsSelectionOnViewWillAppear = false
+//
+//        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+//        self.setNavigationBarItems()
     }
+
+//    func setNavigationBarItems() {
+//        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+//        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+//        self.tabBarController?.navigationItem.hidesBackButton = true
+//        self.tabBarController?.navigationItem.title = "Settings"
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         tableView.reloadData()
+//        self.setNavigationBarItems()
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,6 +75,7 @@ class SettingsTableViewController: UITableViewController {
             notificationDetails = updatedNotificationDetails
             print(updatedNotificationDetails)
         }
+//>>>>>>> 588c1bfdc5ae42cb08faff034d7f7fd86fff48c6
     }
 
     // MARK: - Table view data source

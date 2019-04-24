@@ -44,11 +44,11 @@ class OccurrenceAnnotation: NSObject, MKAnnotation {
         }
     }
     
-    func isWithin(species: String) -> Bool {
-        if species == "" {
+    func isWithin(species: Int) -> Bool {
+        if species == 0 {
             return true
         } else {
-            return self.title == species
+            return self.title == "\(Species.allCases[species - 1])"
         }
     }
     
