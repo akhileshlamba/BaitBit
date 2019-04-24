@@ -24,13 +24,13 @@ class HomeViewController: UIViewController {
     }
     
     @objc func logout() {
+        // TODO: implement logout: embed the pop action inside logout action
         self.navigationController?.popViewController(animated: true)
     }
     
     func setNavigationBarItems() {
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "notification"), style: .done, target: self, action: #selector(notification))
-//        var button = UIBarButtonItem()
         
         self.tabBarController?.navigationItem.title = "Home"
     }

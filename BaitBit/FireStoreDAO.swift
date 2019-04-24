@@ -25,8 +25,31 @@ class FirestoreDAO: NSObject {
     
     static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
         var programList = [Program]()
-        reloadUserDataFromFirebase { (user) in
-            if let programs = user["programs"] as? NSDictionary {
+        if self.user == nil {
+            reloadUserDataFromFirebase { (user) in
+                if let programs = user["programs"] as? NSDictionary {
+                    for elem in programs {
+                        let id = elem.key as! String
+                        let p = elem.value as! NSDictionary
+                        let baitType = p["baitType"] as! String
+                        let species = p["species"] as! String
+                        let startDate = p["startDate"] as! String
+                        let isActive = p["isActive"] as! Bool
+                        let dateformatter = DateFormatter()
+                        dateformatter.dateFormat = "MMM dd, yyyy"
+                        let program:Program = Program(id: id,
+                                                      baitType: baitType,
+                                                      species: species,
+                                                      startDate: dateformatter.date(from: startDate) as NSDate?,
+                                                      isActive: isActive)
+                        program.addToBaits(baits: getAllBaits(for: program))
+                        programList.append(program)
+                    }
+                }
+                complete(programList)
+            }
+        } else {
+            if let programs = self.user!["programs"] as? NSDictionary {
                 for elem in programs {
                     let id = elem.key as! String
                     let p = elem.value as! NSDictionary
@@ -47,7 +70,6 @@ class FirestoreDAO: NSObject {
             }
             complete(programList)
         }
-        
     }
     
     static func getAllBaits(for program: Program) -> [Bait] {

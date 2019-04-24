@@ -11,14 +11,27 @@ import MapKit
 import Firebase
 
 protocol FilterUpdateDelegate {
-    func updateData(yearIndex: Int, monthIndex: Int, species: String)
+    func updateData(yearIndex: Int, monthIndex: Int, speciesIndex: Int)
 }
 
 enum Species: String, CaseIterable {
-    case foxes = "vulpes"
-    case rabbits
-    case dogs
-    case pigs
+    case Foxes = "vulpes"
+    case Rabbits = "rabbits"
+    case Dogs = "dogs"
+    case Pigs = "pigs"
+    
+    var identifier: Int {
+        switch self {
+        case .Foxes:
+            return 1
+        case .Rabbits:
+            return 2
+        case .Dogs:
+            return 3
+        case .Pigs:
+            return 4
+        }
+    }
 }
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, FilterUpdateDelegate {
@@ -34,7 +47,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
     var selectedYearIndex: Int = 0
     var selectedMonthIndex: Int = 0
-    var selectedSpecies: String = ""
+    var selectedSpeciesIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +74,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func setNavigationBarItems() {
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+//        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "filter"), style: .plain, target: self, action: #selector(filter))
         self.tabBarController?.navigationItem.leftBarButtonItem = nil
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.title = "Invasive Species Map"
@@ -88,7 +102,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // This method is to load data from remote dataset
-    func updateData(yearIndex: Int, monthIndex: Int, species: String) {
+    func updateData(yearIndex: Int, monthIndex: Int, speciesIndex: Int) {
         for annotation in self.mapView.annotations {
             if !(annotation is PinAnnotation) {
                 self.mapView.removeAnnotation(annotation)
@@ -98,15 +112,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy"
         let currentYear = dateFormatter.string(from: Date())
-        for annotation in occurrenceAnnotations {
-            if annotation.isWithin(year: Int(currentYear)! - yearIndex) && annotation.isWithin(month: monthIndex) && annotation.isWithin(species: species) {
-                self.mapView.addAnnotation(annotation)
-            }
+        
+//        for annotation in occurrenceAnnotations {
+//            if annotation.isWithin(year: Int(currentYear)! - yearIndex) && annotation.isWithin(month: monthIndex) && annotation.isWithin(species: speciesIndex) {
+//                self.mapView.addAnnotation(annotation)
+//            }
+//        }
+        
+        let filteredAnnotations = occurrenceAnnotations.filter { (annotation) -> Bool in
+            return annotation.isWithin(year: Int(currentYear)! - yearIndex) && annotation.isWithin(month: monthIndex) && annotation.isWithin(species: speciesIndex)
         }
+        self.mapView.addAnnotations(filteredAnnotations)
         
         self.selectedYearIndex = yearIndex
         self.selectedMonthIndex = monthIndex
-        self.selectedSpecies = species
+        self.selectedSpeciesIndex = speciesIndex
     }
     
     func loadData() {
@@ -134,7 +154,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
                 self.mapView.addAnnotations(self.occurrenceAnnotations)
                 
-                self.updateData(yearIndex: 0, monthIndex: 0, species: "")
+                self.updateData(yearIndex: 0, monthIndex: 0, speciesIndex: 0)
             }
         }
     }
@@ -174,7 +194,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             controller.delegate = self
             controller.selectedYearIndex = self.selectedYearIndex
             controller.selectedMonthIndex = self.selectedMonthIndex
-            controller.selectedSpecies = self.selectedSpecies
+            controller.selectedSpeciesIndex = self.selectedSpeciesIndex
         }
     }
     
@@ -189,7 +209,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: fencedAnnotation.identifier)
+            annoationView.image = UIImage(named: fencedAnnotation.identifier.lowercased())
             annoationView.canShowCallout = true
 //            annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
             
