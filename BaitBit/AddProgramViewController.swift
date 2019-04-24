@@ -135,24 +135,26 @@ class AddProgramViewController: UIViewController {
             let defaults = UserDefaults.standard
             defaults.setValue(true, forKey:"program_counter")
             
-            let timestamp = NSDate().timeIntervalSince1970 * 1000
+            let timestamp = Int(NSDate().timeIntervalSince1970 * 1000)
         
-            let program = Program(id: "\(timestamp)",
+            self.program = Program(id: "\(timestamp)",
                                   baitType: name.text!,
                                   species: species.text!,
                                   startDate: formatter.date(from: start_date.text!)! as NSDate,
                                   isActive: true)
             
             do {
-                delegate?.didAddBaitProgram(program)
-                FirestoreDAO.createOrUpdate(program: program)
+                delegate?.didAddBaitProgram(self.program!)
+                FirestoreDAO.createOrUpdate(program: self.program!)
                 
                 if !(formatter.date(from: start_date.text!)!  > Date()) {
 //                    performSegue(withIdentifier: "addbait", sender: nil)
-                    performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 } else {
 //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
                 }
+//                self.navigationController?.viewControllers.popLast()
+
+                performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 
             } catch let error {
                 print("Could not save to core data: \(error)")
@@ -183,6 +185,7 @@ class AddProgramViewController: UIViewController {
         if segue.identifier == "ProgramStartedSegue" {
             let controller = segue.destination as! ProgramDetailsViewController
             controller.program = self.program
+//            self.navigationController?.viewControllers.popLast()
             
         }
     }
@@ -258,5 +261,10 @@ extension AddProgramViewController: UITableViewDelegate, UITableViewDataSource {
         cell.imageView?.image = UIImage(named: "checked")
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "DocumentSegue", sender: nil)
     }
 }

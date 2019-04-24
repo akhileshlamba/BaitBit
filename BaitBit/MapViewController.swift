@@ -23,9 +23,9 @@ enum Species: String, CaseIterable {
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, FilterUpdateDelegate {
 
-    override var prefersStatusBarHidden: Bool {
-        return self.navigationController!.isNavigationBarHidden
-    }
+//    override var prefersStatusBarHidden: Bool {
+//        return self.navigationController!.isNavigationBarHidden
+//    }
     
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
@@ -65,6 +65,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.tabBarController?.navigationItem.leftBarButtonItem = nil
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.title = "Invasive Species Map"
+//        self.navigationController?.hidesBarsOnTap = true
+//        self.tabBarController?.hidesBottomBarWhenPushed = false
     }
     
     @objc func filter() {
@@ -78,11 +80,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @objc func tapping() {
-        if self.navigationController!.isNavigationBarHidden {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-        } else {
-            self.navigationController?.setNavigationBarHidden(true, animated: true)
-        }
+//        if self.navigationController!.isNavigationBarHidden {
+//            self.navigationController?.setNavigationBarHidden(false, animated: true)
+//        } else {
+//            self.navigationController?.setNavigationBarHidden(true, animated: true)
+//        }
     }
     
     // This method is to load data from remote dataset
