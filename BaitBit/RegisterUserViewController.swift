@@ -133,9 +133,20 @@ class RegisterUserViewController: UIViewController {
                     } else {
                         self.userId = ref.documentID
                         print("Document added with ID: \(ref!.documentID)")
-                        let success = self.savePhoto(image)
-                        if success ?? false {
-                            self.navigationController?.popViewController(animated: true)
+                        self.db.collection("notifications").addDocument(data: [
+                            "overDue" : false,
+                            "dueSoon" : false,
+                            "documentation" : false,
+                            "notificationOfUser" : ref!.documentID
+                        ]) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            } else {
+                                let success = self.savePhoto(image)
+                                if success ?? false {
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
                         }
                     }
                 }

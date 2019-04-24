@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
 
     var baits: [Baits_Info] = []
     private var context : NSManagedObjectContext
-    
+    let defaults = UserDefaults()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
     
     @objc func logout() {
         // TODO: implement logout: embed the pop action inside logout action
+        defaults.set(false, forKey: "loggedIn")
+        defaults.set(nil, forKey: "userId")
         self.navigationController?.popViewController(animated: true)
     }
     

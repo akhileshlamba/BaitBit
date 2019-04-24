@@ -10,34 +10,72 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     var items = [[String]]()
-    var user = [String:Any]()
+    var user = [String: Any]()
+    var notificationDetails = [String: Any]()
+    var updatedNotificationDetails = [String: Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        updatedNotificationDetails = notificationDetails
+        
+//        if !updatedNotificationDetails.isEmpty {
+//            notificationDetails = updatedNotificationDetails
+//        }
+        
         items = [[String]]()
         
         items.append(["Notifications"])
         items.append(["Over Due", "Due Soon", "Documentation"])
         self.tableView.tableFooterView = UIView(frame: .zero)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        
+//        // Uncomment the following line to preserve selection between presentations
+//        // self.clearsSelectionOnViewWillAppear = false
+//
+//        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+//        self.setNavigationBarItems()
+    }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        self.setNavigationBarItems()
-    }
-    
-    func setNavigationBarItems() {
-        self.tabBarController?.navigationItem.leftBarButtonItem = nil
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-        self.tabBarController?.navigationItem.hidesBackButton = true
-        self.tabBarController?.navigationItem.title = "Settings"
-    }
+//    func setNavigationBarItems() {
+//        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+//        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+//        self.tabBarController?.navigationItem.hidesBackButton = true
+//        self.tabBarController?.navigationItem.title = "Settings"
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.setNavigationBarItems()
+        tableView.reloadData()
+//        self.setNavigationBarItems()
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        for cell in tableView.visibleCells {
+            if let notificationCell = cell as? NotificationsTableViewCell {
+                switch notificationCell.label.text {
+                case "Over Due":
+                    updatedNotificationDetails["overDue"] = notificationCell.toggle.isOn
+                    break
+                case "Due Soon":
+                    updatedNotificationDetails["dueSoon"] = notificationCell.toggle.isOn
+                    break
+                case "Documentation":
+                    updatedNotificationDetails["documentation"] = notificationCell.toggle.isOn
+                    break
+                default:
+                    break
+                }
+            }
+        }
+        
+        if !NSDictionary(dictionary: updatedNotificationDetails).isEqual(to: notificationDetails){
+            FirestoreDAO.updateNotificationDetails(with: updatedNotificationDetails["id"] as! String, details: updatedNotificationDetails)
+            notificationDetails = updatedNotificationDetails
+            print(updatedNotificationDetails)
+        }
+//>>>>>>> 588c1bfdc5ae42cb08faff034d7f7fd86fff48c6
     }
 
     // MARK: - Table view data source
@@ -65,7 +103,22 @@ class SettingsTableViewController: UITableViewController {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "notifications", for: indexPath) as! NotificationsTableViewCell
-            cell.label.text = items[indexPath.section][indexPath.row]
+            switch items[indexPath.section][indexPath.row] {
+            case "Over Due":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                cell.toggle.isOn = updatedNotificationDetails["overDue"] as! Bool
+                break
+            case "Due Soon":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                cell.toggle.isOn = updatedNotificationDetails["dueSoon"] as! Bool
+                break
+            case "Documentation":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                cell.toggle.isOn = updatedNotificationDetails["documentation"] as! Bool
+                break
+            default:
+                break
+            }
             return cell
         }
         
@@ -89,8 +142,37 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            performSegue(withIdentifier: "profileSegue", sender: nil)
+            performSegue(withIdentifier: "licenseSegue", sender: nil)
         }
+        
+        if indexPath.section == 1 {
+            let cell = tableView.cellForRow(at: indexPath) as! NotificationsTableViewCell
+            if cell.toggle.isOn {
+                cell.toggle.isOn = false
+            } else {
+                cell.toggle.isOn = true
+            }
+            
+            switch cell.label.text {
+            case "Over Due":
+                updatedNotificationDetails["overDue"] = cell.toggle.isOn
+                break
+            case "Due Soon":
+                updatedNotificationDetails["dueSoon"] = cell.toggle.isOn
+                break
+            case "Documentation":
+                updatedNotificationDetails["documentation"] = cell.toggle.isOn
+                break
+            default:
+                break
+            }
+            
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50.0
     }
 
     /*
@@ -136,7 +218,7 @@ class SettingsTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "profileSegue" {
+        if segue.identifier == "licenseSegue" {
             let vc = segue.destination as! ProfileViewController
             vc.user = user
         }

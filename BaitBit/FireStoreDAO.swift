@@ -13,6 +13,34 @@ class FirestoreDAO: NSObject {
     static let usersRef = Firestore.firestore().collection("users")
     static var user: [String: Any]?
     
+    
+    static func getUserData(from userId: String, complete: @escaping ([String: Any]) -> Void) {
+        let user = usersRef.document(userId)
+        user.getDocument(completion: {(result, error) in
+            if error != nil {
+                
+            } else {
+                self.user = result?.data()
+                complete(self.user!)
+            }
+        })
+    }
+    
+    static func updateNotificationDetails(with id: String, details: [String: Any]) {
+        let notificationsRef = Firestore.firestore().collection("notifications").document(details["id"] as! String)
+        notificationsRef.updateData([
+            "overDue" : details["overDue"],
+            "dueSoon" : details["dueSoon"],
+            "documentation" : details["documentation"]
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
     static func reloadUserDataFromFirebase(complete: @escaping ([String: Any]) -> Void) {
         let username = user!["username"] as! String
         let query = usersRef.whereField("username", isEqualTo: username)
@@ -126,6 +154,7 @@ class FirestoreDAO: NSObject {
                     if let err = err {
                         print("Error adding program: \(err)")
                     }
+                    self.user = document?.documents[0].data()
             })
 
 //                ref = self.db.collection("users").addDocument(data: [

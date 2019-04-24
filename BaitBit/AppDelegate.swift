@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         let skipTutorialPages = defaults.bool(forKey:"skipTutorialPages")
         
+        
         let startCounter = defaults.bool(forKey:"program_counter")
         
         if !startCounter{
@@ -41,6 +42,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIPageControl.appearance().pageIndicatorTintColor = UIColor.lightGray
             UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.red
         }
+        
+//        let loggedIn = defaults.bool(forKey:"loggedIn")
+//        if loggedIn {
+//            let mainStoryBoard: UIStoryboard = UIStoryboard(name:"Main", bundle:nil)
+//            let mainView: TabBarViewController = mainStoryBoard.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
+//            let settingsVC = mainView.viewControllers![mainView.viewControllers!.count-1] as! SettingsTableViewController
+//            
+//            
+//            
+//            FirestoreDAO.getUserData(from: defaults.string(forKey: "userId")!, complete: {(user) in
+//                settingsVC.user = user
+//                self.window?.rootViewController = mainView
+//            })
+////            FirestoreDAO.getUserData(from: defaults.string(forKey: "userId")!) { (user1) in
+////                settingsVC.user = user
+////                self.window?.rootViewController = mainView
+////            }
+//        }
         
         return true
     }
