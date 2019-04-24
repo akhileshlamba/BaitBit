@@ -63,7 +63,7 @@ class FirestoreDAO: NSObject {
                     let latitude = b["latitude"] as! Double
                     let longitude = b["longitude"] as! Double
                     let photoPath = b["photoPath"] as! String
-                    let status = b["status"] as! Int
+                    let isRemoved = b["isRemoved"] as! Bool
                     let dateformatter = DateFormatter()
                     dateformatter.dateFormat = "MMM dd, yyyy"
                     let bait = Bait(id: id,
@@ -72,7 +72,7 @@ class FirestoreDAO: NSObject {
                                     longitude: longitude,
                                     photoPath: photoPath,
                                     program: program,
-                                    status: BaitStatus.init(rawValue: status))
+                                    isRemoved: isRemoved)
                     baitList.append(bait)
                 }
             }

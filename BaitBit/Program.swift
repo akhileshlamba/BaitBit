@@ -8,6 +8,16 @@
 
 import UIKit
 
+//enum BaitType: String, CaseIterable {
+//    case Shelf_stable_rabbit_bait = "Shelf-stable Rabbit Bait"
+//    case Shelf_stable Feral Pig Bait = "Shelf-stable Feral Pig Bait"
+//    case Shelf_stable Fox or Wild Dog Bait = "Shelf-stable Fox or Wild Dog Bait"
+//    case Fox_or_Wild_Dog_capsule = "Fox or Wild Dog capsule"
+//    case Perishable Fox Bait = "Perishable Fox Bait"
+//    case Perishable Wild Dog Bait = "Perishable Wild Dog Bait"
+//    case Perishable Rabbit Bait = "Perishable Rabbit Bait"
+//}
+
 class Program: NSObject {
     var id: String
     var baitType: String?

@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.setNavigationBarItems()
         
         
     }
@@ -28,8 +29,14 @@ class HomeViewController: UIViewController {
     
     func setNavigationBarItems() {
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "notification"), style: .done, target: self, action: #selector(notification))
+//        var button = UIBarButtonItem()
+        
         self.tabBarController?.navigationItem.title = "Home"
+    }
+    
+    @objc func notification() {
+        performSegue(withIdentifier: "NotificationSegue", sender: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {

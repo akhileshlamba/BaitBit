@@ -123,7 +123,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
                                     longitude: Double(latlong![1]) as! Double,
                                     photoPath: nil,
                                     program: self.program,
-                                    status: .ACTIVE)
+                                    isRemoved: false)
                     
                     if let image = self.baitPhoto.image {
                         bait.photoPath = self.savePhoto(image)
