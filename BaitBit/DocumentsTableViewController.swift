@@ -8,9 +8,9 @@
 
 import UIKit
 
+let documentNames = ["Risk assessment", "Purchase record", "Notification of pest control", "Neighbour notification"]
+
 class DocumentsTableViewController: UITableViewController {
-    
-    let documentNames = ["Risk assessment", "Purchase record", "Notification of pest control", "Neighbour notification"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class DocumentsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
         
-        cell.textLabel?.text = self.documentNames[indexPath.row]
+        cell.textLabel?.text = documentNames[indexPath.row]
         cell.imageView?.image = UIImage(named: "clock")
         
         return cell

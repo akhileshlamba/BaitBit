@@ -19,11 +19,12 @@ class AddProgramViewController: UIViewController {
     @IBOutlet weak var species: UITextField!
     @IBOutlet weak var start_date: UITextField!
     var program: Program?
+    @IBOutlet weak var documentTableView: UITableView!
     
     let formatter = DateFormatter()
     var currentTextFieldTag : Int = 1
     
-    var delegate : AddProgramDelegate?
+    var delegate: AddProgramDelegate?
     
     var alternateSpecies : [String] = []
     var animalList: [Program] = []
@@ -62,13 +63,8 @@ class AddProgramViewController: UIViewController {
         start_date.text = formatter.string(from: Date())
         showDatePicker()
         
-        
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-//        do{
-//            animalList = try context.fetch(fetchRequest) as! [Bait_program]
-//        } catch  {
-//            fatalError("Failed to fetch animal list")
-//        }
+        self.documentTableView.delegate = self
+        self.documentTableView.dataSource = self
         
         
         // Do any additional setup after loading the view.
@@ -243,5 +239,24 @@ extension AddProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource
             return alternateSpecies[row]
         }
         
+    }
+}
+
+extension AddProgramViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
+        
+        cell.textLabel?.text = "Upload Documents"
+        cell.imageView?.image = UIImage(named: "checked")
+        
+        return cell
     }
 }
