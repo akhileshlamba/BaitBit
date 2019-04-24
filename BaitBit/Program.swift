@@ -52,6 +52,15 @@ class Program: NSObject {
         return self.baits.removeValue(forKey: bait.id)
     }
     
+    var durationInDays: Int {
+        // TODO: implement duration = current date - start date
+        return 0
+    }
+    
+    var durationFormatted: String {
+        return "\(durationInDays) days"
+    }
+    
     var numberOfActiveBaits: Int {
         return self.baits.filter { (element) -> Bool in
             return element.value.isActive

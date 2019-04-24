@@ -13,6 +13,7 @@
 		026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */; };
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
+		02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */; };
 		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
 		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
 		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
@@ -54,6 +55,7 @@
 		026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
+		02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBaitTableViewController.swift; sourceTree = "<group>"; };
 		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
 		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
@@ -105,6 +107,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02C42A4C22703A260025B2FA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		02F8F73A2265C77E00FD1D2F /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +142,7 @@
 				E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */,
 				E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */,
 				02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */,
+				02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */,
 			);
 			name = BaitManager;
 			sourceTree = "<group>";
@@ -195,6 +205,7 @@
 		E627703D224F13E400492B1A /* BaitBit */ = {
 			isa = PBXGroup;
 			children = (
+				02C42A4C22703A260025B2FA /* Utilities */,
 				02F8F73D2265C99C00FD1D2F /* Introduction Pages */,
 				E6277042224F13E400492B1A /* Main.storyboard */,
 				E627704A224F13E400492B1A /* LaunchScreen.storyboard */,
@@ -392,6 +403,7 @@
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
 				026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */,
 				E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */,
+				02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */,
 				E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */,
 				E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */,
 				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
