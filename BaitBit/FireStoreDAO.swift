@@ -13,6 +13,9 @@ class FirestoreDAO: NSObject {
     static let usersRef = Firestore.firestore().collection("users")
     static var user: [String: Any]?
     
+    static let storageRef = Storage.storage().reference()
+    
+    
     
     static func getUserData(from userId: String, complete: @escaping ([String: Any]) -> Void) {
         let user = usersRef.document(userId)
@@ -37,6 +40,45 @@ class FirestoreDAO: NSObject {
                 print("Error updating document: \(err)")
             } else {
                 print("Document successfully updated")
+            }
+        }
+    }
+    
+    static func updateLicenseImageAndData(of userWithId: [String: Any], image: UIImage, licenseDate: String, complete: @escaping (Bool) -> Void) {
+        let date = UInt(Date().timeIntervalSince1970)
+        var data = Data()
+        data = UIImageJPEGRepresentation(image, 0.1)!
+        
+        let imageRef = storageRef.child("\(userWithId["id"] ?? "")/License/\(date)")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        imageRef.putData(data, metadata: metadata) { (metaData, error) in
+            if error != nil {
+                complete(false)
+            } else {
+                imageRef.downloadURL(completion: {(url, error) in
+                    if error != nil {
+                        complete(false)
+                    }else{
+                        if let imageURL = url?.absoluteString{
+                            let userRef = usersRef.document(userWithId["id"] as! String)
+                            userRef.updateData([
+                                "licensePath": imageURL,
+                                "licenseExpiryDate": licenseDate
+                            ]) {
+                                err in
+                                if err != nil {
+                                    complete(false)
+                                } else {
+                                    self.user = userWithId
+                                    self.user!["licensePath"] = imageURL
+                                    self.user!["licenseExpiryDate"] = licenseDate
+                                    complete(true)
+                                }
+                            }
+                        }
+                    }
+                })
             }
         }
     }

@@ -203,7 +203,7 @@ class SettingsTableViewController: UITableViewController {
         
         if segue.identifier == "licenseSegue" {
             let vc = segue.destination as! ProfileViewController
-            vc.user = user
+            vc.user = FirestoreDAO.user!
         }
         
     }

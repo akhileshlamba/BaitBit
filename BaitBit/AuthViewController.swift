@@ -110,6 +110,7 @@ class AuthViewController: UIViewController {
                     self.displayErrorMessage("Please enter correct password")
                 } else {
                     self.user = (document?.documents[0].data())!
+                    self.user["id"] = (document?.documents[0].documentID)!
                     self.defaults.set(document?.documents[0].documentID, forKey: "userId")
                     self.defaults.set(true, forKey: "loggedIn")
                     let notificationsRef = self.db.collection("notifications")

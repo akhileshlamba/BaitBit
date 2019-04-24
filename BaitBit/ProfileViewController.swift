@@ -8,35 +8,119 @@
 
 import UIKit
 import Firebase
+import FirebaseMLVision
 
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var date: UILabel!
+    @IBOutlet weak var licenseImage: UIImageView!
+    @IBOutlet weak var date: UITextField!
+    @IBOutlet weak var updateButton: UIButton!
     
-    var storage = Storage.storage()
+    let formatter = DateFormatter()
+    var actionSheet: UIAlertController?
+    var textRecognizer: VisionTextRecognizer!
+    var storage: Storage!
+    var storageRef: StorageReference!
+    let datePicker = UIDatePicker()
+    
+    
+    var changeImage = Bool(false)
     
     var user = [String: Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        storage = Storage.storage()
+        storageRef = storage.reference()
+        
+        updateButton.isHidden = true
+        
+        formatter.dateFormat = "MMM dd, yyyy"
+        showDatePicker()
+        
         nameLabel.text = "Hi, \(user["username"] as! String)! "
-        date.text = "Expiry Date     \(user["licenseExpiryDate"] as! String)"
+        date.text = "\(user["licenseExpiryDate"] as! String)"
         
         self.storage.reference(forURL: user["licensePath"] as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else{
                 let imageData = UIImage(data: data!)!
-                self.image.image = imageData
+                self.licenseImage.image = imageData
             }
         })
         
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.user = FirestoreDAO.user!
+    }
+    
     @IBAction func updateLicense(_ sender: Any) {
+        savePhoto(licenseImage.image)
+    }
+    
+    @IBAction func chooseCamera(_ sender: Any) {
+        
+        self.actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // add a Take Photo option
+        self.actionSheet!.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { (_) in
+            self.takePicture()
+        }))
+        
+        // add a Choose from Album option
+        self.actionSheet!.addAction(UIAlertAction(title: "Choose from Album", style: .default, handler: { (_) in
+            self.chooseFromAlum()
+        }))
+        
+        // add a Cancel option
+        self.actionSheet!.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        // display the actionSheet
+        self.present(self.actionSheet!, animated: true, completion: nil)
+        
+    }
+    
+    func displayErrorMessage(_ errorMessage: String, _ title: String){
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showDatePicker(){
+        
+        datePicker.datePickerMode = .date
+        datePicker.minimumDate = Date()
+        
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        date.inputAccessoryView = toolbar
+        date.inputView = datePicker
+        
+    }
+    
+    @objc func donedatePicker(){
+        if date.isFirstResponder {
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            date.text = formatter.string(from: datePicker.date)
+            self.view.endEditing(true)
+        }
+    }
+    
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
     }
     
     /*
@@ -49,4 +133,96 @@ class ProfileViewController: UIViewController {
     }
     */
 
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func takePicture() {
+        let controller = UIImagePickerController()
+        guard UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) else {
+            self.displayErrorMessage("Camera unvailable", "Error")
+            return
+        }
+        
+        controller.sourceType = UIImagePickerController.SourceType.camera
+        controller.allowsEditing = true
+        controller.delegate = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    func chooseFromAlum() {
+        let controller = UIImagePickerController()
+        
+        controller.sourceType = UIImagePickerController.SourceType.photoLibrary
+        controller.allowsEditing = true
+        controller.delegate = self
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let actionSheet = self.actionSheet {
+            actionSheet.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - ImagePickerController Delegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("did finish picking photo.")
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            print("did get into the if statement")
+            //            self.savePhoto(pickedImage)
+            self.licenseImage.image = pickedImage
+            self.changeImage = true
+            self.updateButton.isHidden = false
+            
+            
+            let vision = Vision.vision()
+            textRecognizer = vision.onDeviceTextRecognizer()
+            
+            let visionImage = VisionImage(image: pickedImage)
+            textRecognizer.process(visionImage) { result, error in
+                
+                guard error == nil, let result = result else {
+                    self.displayErrorMessage("Problem in recognising the image", "Error")
+                    return
+                }
+                
+                let range = NSRange(location: 0, length: result.text.utf16.count)
+                let regex = try! NSRegularExpression(pattern: "[0-9]{2}[-/][0-9]{2}[-/][0-9]{4}")
+                
+                let matches = regex.firstMatch(in: result.text, options: [], range: range)
+                
+                let substrings = result.text.split(separator: "\n")
+                if !substrings.contains("Agricultural Chemical User Permit") {
+                    self.displayErrorMessage("Invalid License", "Error")
+                    return
+                } else {
+                    self.date.text = matches.map {String(result.text[Range($0.range, in: result.text)!])}
+                }
+            }
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        updateButton.isHidden = false
+        displayErrorMessage("There was an error in getting the photo", "Error")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func savePhoto(_ pickedImage: UIImage?) {
+        guard let image = pickedImage else {
+            displayErrorMessage("Cannot save until a photo has been taken!", "Error")
+            return
+        }
+        let licenseDate = date.text!
+        FirestoreDAO.updateLicenseImageAndData(of: user, image: image, licenseDate: licenseDate, complete: {(result) in
+            if result {
+                self.displayErrorMessage("License updated Successfully!", "Sucess")
+            } else {
+                self.displayErrorMessage("Problem in updating License", "Error")
+            }
+        })
+    }
+    
 }
