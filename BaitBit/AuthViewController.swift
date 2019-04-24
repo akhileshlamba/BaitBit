@@ -22,11 +22,17 @@ class AuthViewController: UIViewController {
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.gray)
 
     var user = [String:Any]()
+    var notificationDetails = [String: Any]()
     //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
+    
+    let defaults = UserDefaults.standard
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         indicator.isHidden = true
         self.hideKeyboard()
 
@@ -37,27 +43,11 @@ class AuthViewController: UIViewController {
         Firestore.firestore().settings = settings
 
         db = Firestore.firestore()
-
-//        let vision = Vision.vision()
-//        textRecognizer = vision.onDeviceTextRecognizer()
-
-
-//        let visionImage = VisionImage(image: UIImage(named: "test2.jpg")!)
-//        textRecognizer.process(visionImage) { result, error in
-//
-//            guard error == nil, let result = result else {
-//                return
-//            }
-//            let substrings = result.text.split(separator: "\n")
-//            if !substrings.contains("Agricultural Chemical User Permit") {
-//                print("Inside")
-//            }
-//
-//            print(result.text)
-//        }
-
-        // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    
 
 //    func shouldCancelImageRecognitionForTesseract(tesseract: G8Tesseract!) -> Bool {
 //        return false // return true if you need to interrupt tesseract before it finishes
@@ -104,18 +94,39 @@ class AuthViewController: UIViewController {
         print(view.subviews)
         UIApplication.shared.beginIgnoringInteractionEvents()
         let usersRef = db.collection("users")
-        let query = usersRef.whereField("username", isEqualTo: username)
+        var query = usersRef.whereField("username", isEqualTo: username)
 
         query.getDocuments(completion: {(document, error) in
             if (document?.documents.isEmpty ?? nil)! {
+                self.indicator.stopAnimating()
+                self.indicator.isHidden = true
+                UIApplication.shared.endIgnoringInteractionEvents()
                 self.displayErrorMessage("Please enter correct username")
             } else {
                 if document?.documents[0].data()["password"] as! String != password {
-                    self.displayErrorMessage("Please enter correct username")
+                    self.indicator.stopAnimating()
+                    self.indicator.isHidden = true
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                    self.displayErrorMessage("Please enter correct password")
                 } else {
                     self.user = (document?.documents[0].data())!
-                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
-
+                    self.defaults.set(document?.documents[0].documentID, forKey: "userId")
+                    self.defaults.set(true, forKey: "loggedIn")
+                    let notificationsRef = self.db.collection("notifications")
+                    query = notificationsRef.whereField("notificationOfUser", isEqualTo: document?.documents[0].documentID)
+                    
+                    query.getDocuments(completion: {(result, error) in
+                        if ((result?.documents.isEmpty)!) {
+                            self.indicator.stopAnimating()
+                            self.indicator.isHidden = true
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            self.displayErrorMessage("Error in fetching user details")
+                        } else {
+                            self.notificationDetails = (result?.documents[0].data())!
+                            self.notificationDetails["id"] = (result?.documents[0].documentID)!
+                            self.performSegue(withIdentifier: "loginSegue", sender: nil)
+                        }
+                    })
                 }
             }
         })
@@ -147,11 +158,13 @@ class AuthViewController: UIViewController {
             let count = tabBarController.viewControllers?.count
             let settingsVC = tabBarController.viewControllers![count!-1] as! SettingsTableViewController
             settingsVC.user = user
+            settingsVC.notificationDetails = notificationDetails
             //self.endAnimating()
             indicator.stopAnimating()
             indicator.isHidden = true
             UIApplication.shared.endIgnoringInteractionEvents()
             FirestoreDAO.user = user
+            
         }
     }
 
