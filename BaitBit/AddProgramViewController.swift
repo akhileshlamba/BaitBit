@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol AddProgramDelegate {
-    func didAddBaitProgram(_ program : Bait_program)
+    func didAddBaitProgram(_ program : Program)
 }
 
 class AddProgramViewController: UIViewController {
@@ -18,31 +18,29 @@ class AddProgramViewController: UIViewController {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var species: UITextField!
     @IBOutlet weak var start_date: UITextField!
-    var program: Bait_program?
+    var program: Program?
     
     let formatter = DateFormatter()
     var currentTextFieldTag : Int = 1
     
-    var defaults = UserDefaults.standard
-    
     var delegate : AddProgramDelegate?
     
     var alternateSpecies : [String] = []
-    var animalList: [Bait_program] = []
+    var animalList: [Program] = []
     
     var baitTypePicker = UIPickerView()
     var speciesPicker = UIPickerView()
     
-    let baitTypes: [String] = ["Please select Your Bait", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
+    let baitTypes: [String] = ["(Please select Your Bait)", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
                                 ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild Dog capsule", "Perishable Fox Bait",
                                  "Perishable Wild Dog Bait", "Perishable Rabbit Bait"]
     
-    let speciesType: [String] = ["Please Select", "Dog", "Pig", "Rabbit", "Fox"]
+    let speciesType: [String] = ["(Please Select)", "Dog", "Pig", "Rabbit", "Fox"]
     
     
     let datePicker = UIDatePicker()
     
-    private var context : NSManagedObjectContext
+//    private var context : NSManagedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +56,6 @@ class AddProgramViewController: UIViewController {
         
         species.isEnabled = false
         
-        
         formatter.dateFormat = "MMM dd, yyyy"
         
         // Set current date to textfield
@@ -66,26 +63,28 @@ class AddProgramViewController: UIViewController {
         showDatePicker()
         
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-        do{
-            animalList = try context.fetch(fetchRequest) as! [Bait_program]
-        } catch  {
-            fatalError("Failed to fetch animal list")
-        }
+//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
+//        do{
+//            animalList = try context.fetch(fetchRequest) as! [Bait_program]
+//        } catch  {
+//            fatalError("Failed to fetch animal list")
+//        }
         
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+//        self.navigationItem.leftBarButtonItem?.tintColor = .red
     }
 
     @objc func cancel() {
         self.navigationController?.popViewController(animated: true)
     }
-    required init?(coder aDecoder: NSCoder) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        context = (appDelegate?.persistentContainer.viewContext)!
-        super.init(coder: aDecoder)
-    }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//        context = (appDelegate?.persistentContainer.viewContext)!
+//        super.init(coder: aDecoder)
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -100,7 +99,7 @@ class AddProgramViewController: UIViewController {
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneDatePicker));
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
         
@@ -111,7 +110,7 @@ class AddProgramViewController: UIViewController {
         
     }
     
-    @objc func donedatePicker(){
+    @objc func doneDatePicker(){
         if start_date.isFirstResponder {
             formatter.dateStyle = .medium
             formatter.timeStyle = .none
@@ -126,7 +125,7 @@ class AddProgramViewController: UIViewController {
     
     
     @IBAction func addProgram(_ sender: Any) {
-        if (name.text?.isEmpty)! || (start_date.text?.isEmpty)! || (species.text?.isEmpty)!{
+        if (name.text?.isEmpty)! || (start_date.text?.isEmpty)! || (species.text?.isEmpty)! {
             displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
         } else {
             let speciesName = species.text
@@ -139,24 +138,24 @@ class AddProgramViewController: UIViewController {
             
             let defaults = UserDefaults.standard
             defaults.setValue(true, forKey:"program_counter")
+            
+            let timestamp = NSDate().timeIntervalSince1970 * 1000
         
-            program = NSEntityDescription.insertNewObject(forEntityName: "Bait_program", into: context) as! Bait_program
-            program?.name = name.text
-            program?.program_id = Int64(defaults.integer(forKey: "baits_program_counter") + 1)
-            program?.species = species.text
-            program?.start_date = formatter.date(from: start_date.text!)! as NSDate
-            program?.active = true
+            let program = Program(id: "\(timestamp)",
+                                  baitType: name.text!,
+                                  species: species.text!,
+                                  startDate: formatter.date(from: start_date.text!)! as NSDate,
+                                  isActive: true)
             
             do {
-                try context.save()
-                defaults.set(defaults.integer(forKey: "baits_program_counter") + 1, forKey: "baits_program_counter")
-                delegate?.didAddBaitProgram(program!)
+                delegate?.didAddBaitProgram(program)
+                FirestoreDAO.createOrUpdate(program: program)
                 
                 if !(formatter.date(from: start_date.text!)!  > Date()) {
 //                    performSegue(withIdentifier: "addbait", sender: nil)
                     performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 } else {
-                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
+//                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
                 }
                 
             } catch let error {

@@ -20,7 +20,7 @@ class AuthViewController: UIViewController {
 
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.gray)
-    
+
     var user = [String:Any]()
     //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
@@ -29,13 +29,13 @@ class AuthViewController: UIViewController {
         super.viewDidLoad()
         indicator.isHidden = true
         self.hideKeyboard()
-        
+
         //self.view.addSubview(activityIndicator)
-        
+
         let settings = FirestoreSettings()
         settings.areTimestampsInSnapshotsEnabled = true
         Firestore.firestore().settings = settings
-        
+
         db = Firestore.firestore()
 
 //        let vision = Vision.vision()
@@ -115,7 +115,7 @@ class AuthViewController: UIViewController {
                 } else {
                     self.user = (document?.documents[0].data())!
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
-                    
+
                 }
             }
         })
@@ -137,7 +137,7 @@ class AuthViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
-    
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -151,9 +151,10 @@ class AuthViewController: UIViewController {
             indicator.stopAnimating()
             indicator.isHidden = true
             UIApplication.shared.endIgnoringInteractionEvents()
+            FirestoreDAO.user = user
         }
     }
-    
+
 
 }
 
@@ -169,9 +170,9 @@ extension AuthViewController
     }
 
     func addActivityIndicator() {
-        
+
     }
-    
+
     func startAnimating() {
         activityIndicator.startAnimating()
         activityIndicator.center = view.center
@@ -182,12 +183,12 @@ extension AuthViewController
         print(view.subviews)
         UIApplication.shared.beginIgnoringInteractionEvents()
     }
-    
+
     func endAnimating() {
         activityIndicator.stopAnimating()
         UIApplication.shared.endIgnoringInteractionEvents()
     }
-    
+
     @objc func dismissKeyboard()
     {
         view.endEditing(true)

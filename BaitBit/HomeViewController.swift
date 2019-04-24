@@ -30,7 +30,6 @@ class HomeViewController: UIViewController {
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         self.tabBarController?.navigationItem.title = "Home"
-        self.tabBarController?.navigationItem
     }
 
     override func viewWillAppear(_ animated: Bool) {

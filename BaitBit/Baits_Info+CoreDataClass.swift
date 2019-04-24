@@ -11,5 +11,19 @@ import CoreData
 
 
 public class Baits_Info: NSManagedObject {
-
+    var isOverdue: Bool {
+        return false
+    }
+    
+    var isDueSoon: Bool {
+        return false
+    }
+    
+    var isActive: Bool {
+        return true
+    }
+    
+    var isRemoved: Bool {
+        return true
+    }
 }

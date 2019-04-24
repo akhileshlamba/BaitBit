@@ -16,7 +16,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
-    var program: Bait_program?
+    var program: Program?
     var baits: [Baits_Info] = []
     
     var baitAnnotations: [BaitAnnotation] = []
@@ -88,7 +88,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         
         if self.program != nil {
             //        self.baitAnnotations.removeAll()
-            if let baitList = self.program!.baits {
+            if let baitList = self.program?.baits.values {
                 for element in baitList {
                     if let bait = element as? Baits_Info {
                         if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil{

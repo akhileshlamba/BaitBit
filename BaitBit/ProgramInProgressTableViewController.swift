@@ -11,7 +11,7 @@ import CoreData
 
 class ProgramInProgressTableViewController: UITableViewController, AddProgramDelegate {
 
-    var programList: [Bait_program] = []
+    var programList: [Program] = []
     private var context : NSManagedObjectContext
     
     let dateFormatter = DateFormatter()
@@ -21,12 +21,9 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         
         dateFormatter.dateFormat = "MMM dd yyyy"
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-        do {
-            programList = try context.fetch(fetchRequest) as! [Bait_program]
-//            divideDataIntoSection()
-        } catch  {
-            fatalError("Failed to fetch animal list")
+        FirestoreDAO.getAllPrograms { (programs) in
+            self.programList = programs
+            self.tableView.reloadData()
         }
         
         // Uncomment the following line to preserve selection between presentations
@@ -38,8 +35,8 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
     
 //    func divideDataIntoSection(){
 //        list.removeAll()
-//        var activeList: [Bait_program] = []
-//        var inactiveList: [Bait_program] = []
+//        var activeList: [Program] = []
+//        var inactiveList: [Program] = []
 //        for bait_program in programList {
 //            if bait_program.active{
 //                activeList.append(bait_program)
@@ -87,39 +84,65 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         
         
         if programList.count != 0 {
-            let a:Bait_program = self.programList[indexPath.row]
-            cell.textLabel?.text = a.name!
-            cell.detailTextLabel?.text = dateFormatter.string(from: a.start_date! as Date)
+            let a:Program = self.programList[indexPath.row]
+            cell.textLabel?.text = a.baitType!
+            cell.detailTextLabel?.text = dateFormatter.string(from: a.startDate as Date)
             
         }
         return cell
     }
     
 //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let label = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 30))
-//        label.backgroundColor = UIColor.lightGray
-//        label.font = label.font.withSize(20)
-//        label.text = self.sections[section]
-//        return label
+//        let headerView = UIView()
+//        let label = UILabel.init(frame: CGRect.init(x: 20, y: 20, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+//        label.font = UIFont(name: "Serbino Regular", size: 12)
+//        label.text = self.tableView(self.tableView, titleForHeaderInSection: section)
+//        label.textColor = .gray
+//        label.sizeToFit()
+//        headerView.addSubview(label)
+//        headerView.sizeToFit()
+//        return headerView
 //    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Programs in-progress"
+            if programList.count == 0 {
+                return "There is no program in progress"
+            } else if programList.count == 1 {
+                return "You have 1 program in progress"
+            } else {
+                return "You have \(programList.count) programs in progress"
+            }
         }
         return nil
     }
     
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 0 && programList.count == 0 {
-            return "(There is no programs in progress.)"
-        }
-        return nil
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let headerView = view as! UITableViewHeaderFooterView
+        headerView.textLabel!.font = headerView.textLabel?.font.withSize(13)
+        headerView.textLabel?.textColor = .gray
+        headerView.textLabel?.text = self.tableView(self.tableView, titleForHeaderInSection: section)
+//        headerView.textLabel?.numberOfLines = 0
+//        headerView.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+//        headerView.textLabel?.textAlignment = NSTextAlignment.left
     }
+    
+//    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+//        if section == 0 {
+//            if programList.count == 0 {
+//                return "There is no program in progress"
+//            } else if programList.count == 1 {
+//                return "You have 1 program in progress"
+//            } else {
+//                return "You have \(programList.count) programs in progress"
+//            }
+//        }
+//        return nil
+//    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let program = self.programList[indexPath.row]
-        if program.start_date! as Date > Date() {
+        if program.startDate as Date > Date() {
             displayMessage("Since you chose the future date, you cannot add baits", "Bait Add issue")
         } else {
             performSegue(withIdentifier: "ProgramDetailSegue", sender: nil)
@@ -130,7 +153,7 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
 //        return 60.0
 //    }
     
-    func didAddBaitProgram(_ program: Bait_program) {
+    func didAddBaitProgram(_ program: Program) {
         programList.append(program)
         self.tableView.reloadData()
     }

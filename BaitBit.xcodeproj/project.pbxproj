@@ -12,6 +12,9 @@
 		02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02157E6F2256F5C50007A170 /* PinAnnotation.swift */; };
 		026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */; };
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
+		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
+		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
+		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
 		02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */; };
 		02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD5873225A02A10000B6E0 /* FilterViewController.swift */; };
 		752DE288F2BF59A2D1279D4E /* Pods_BaitBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */; };
@@ -49,6 +52,9 @@
 		02157E6F2256F5C50007A170 /* PinAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinAnnotation.swift; sourceTree = "<group>"; };
 		026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
+		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
 		02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitAnnotation.swift; sourceTree = "<group>"; };
 		02FD5873225A02A10000B6E0 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaitBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,7 +106,10 @@
 		02F8F73A2265C77E00FD1D2F /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				02FC5919226F34C4002B30BE /* FireStoreDAO.swift */,
 				E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */,
+				02FC5913226EFC9E002B30BE /* Program.swift */,
+				02FC5915226EFDDF002B30BE /* Bait.swift */,
 				E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */,
 				E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */,
 				E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */,
@@ -372,6 +381,7 @@
 				E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */,
 				E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */,
 				E6277047224F13E400492B1A /* BaitBit.xcdatamodeld in Sources */,
+				02FC5914226EFC9E002B30BE /* Program.swift in Sources */,
 				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
 				E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */,
 				02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */,
@@ -384,9 +394,11 @@
 				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
 				02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */,
+				02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */,
 				E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */,
 				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
+				02FC5916226EFDDF002B30BE /* Bait.swift in Sources */,
 				E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
 				E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */,
