@@ -10,6 +10,8 @@ import UIKit
 
 class ProgramTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var warningView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

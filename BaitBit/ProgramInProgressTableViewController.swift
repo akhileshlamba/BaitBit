@@ -11,6 +11,7 @@ import CoreData
 
 class ProgramInProgressTableViewController: UITableViewController, AddProgramDelegate {
 
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     var programList: [Program] = []
     private var context : NSManagedObjectContext
     
@@ -20,9 +21,10 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         super.viewDidLoad()
         
         dateFormatter.dateFormat = "MMM dd yyyy"
-        
+        loading.startAnimating()
         FirestoreDAO.getAllPrograms { (programs) in
             self.programList = programs
+            self.loading.stopAnimating()
             self.tableView.reloadData()
         }
         
@@ -87,7 +89,13 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
             let a:Program = self.programList[indexPath.row]
             cell.textLabel?.text = a.baitType!
             cell.detailTextLabel?.text = dateFormatter.string(from: a.startDate as Date)
-            
+            if a.hasOverdueBaits {
+                cell.imageView!.image = UIImage(named: "exclamation-mark")
+            } else if a.hasDueSoonBaits {
+                cell.imageView!.image = UIImage(named: "warning")
+            } else {
+                cell.imageView!.image = UIImage(named: "checked")
+            }
         }
         return cell
     }
