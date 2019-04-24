@@ -18,15 +18,20 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
 
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.gray)
+    
     var user = [String:Any]()
     //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        indicator.isHidden = true
         self.hideKeyboard()
-
+        
+        //self.view.addSubview(activityIndicator)
+        
         let settings = FirestoreSettings()
         settings.areTimestampsInSnapshotsEnabled = true
         Firestore.firestore().settings = settings
@@ -58,18 +63,6 @@ class AuthViewController: UIViewController {
 //        return false // return true if you need to interrupt tesseract before it finishes
 //    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
-            if user != nil{
-                self.performSegue(withIdentifier: "loginSegue", sender: nil)
-            }
-        })
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
 
     @IBAction func register(_ sender: Any) {
         guard let password = password.text else {
@@ -100,7 +93,16 @@ class AuthViewController: UIViewController {
             displayErrorMessage("Please Enter a password")
             return
         }
-
+        //self.startAnimating()
+        indicator.isHidden = false
+        indicator.startAnimating()
+        indicator.center = view.center
+        indicator.hidesWhenStopped = true
+        //view.insertSubview(activityIndicator, aboveSubview: view.subviews[0])
+        //        view.bringSubview(toFront: activityIndicator)
+        //view.addSubview(activityIndicator)
+        print(view.subviews)
+        UIApplication.shared.beginIgnoringInteractionEvents()
         let usersRef = db.collection("users")
         let query = usersRef.whereField("username", isEqualTo: username)
 
@@ -113,6 +115,7 @@ class AuthViewController: UIViewController {
                 } else {
                     self.user = (document?.documents[0].data())!
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
+                    
                 }
             }
         })
@@ -144,6 +147,10 @@ class AuthViewController: UIViewController {
             let count = tabBarController.viewControllers?.count
             let settingsVC = tabBarController.viewControllers![count!-1] as! SettingsTableViewController
             settingsVC.user = user
+            //self.endAnimating()
+            indicator.stopAnimating()
+            indicator.isHidden = true
+            UIApplication.shared.endIgnoringInteractionEvents()
         }
     }
     
@@ -161,6 +168,26 @@ extension AuthViewController
         view.addGestureRecognizer(tap)
     }
 
+    func addActivityIndicator() {
+        
+    }
+    
+    func startAnimating() {
+        activityIndicator.startAnimating()
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        //view.insertSubview(activityIndicator, aboveSubview: view.subviews[0])
+//        view.bringSubview(toFront: activityIndicator)
+        //view.addSubview(activityIndicator)
+        print(view.subviews)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+    }
+    
+    func endAnimating() {
+        activityIndicator.stopAnimating()
+        UIApplication.shared.endIgnoringInteractionEvents()
+    }
+    
     @objc func dismissKeyboard()
     {
         view.endEditing(true)

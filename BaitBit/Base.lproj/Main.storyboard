@@ -628,10 +628,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
-                                <rect key="frame" x="67" y="101" width="241" height="261"/>
+                                <rect key="frame" x="67" y="101" width="241" height="310"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGo-dL-OA8">
-                                <rect key="frame" x="67" y="395" width="241" height="50"/>
+                                <rect key="frame" x="67" y="444" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="r8S-ji-x19"/>
@@ -647,7 +647,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdq-Sc-Ce0">
-                                <rect key="frame" x="67" y="453" width="241" height="50"/>
+                                <rect key="frame" x="67" y="502" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728086471558" green="0.70047885179519653" blue="0.2468855082988739" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="eEP-Un-Rjs"/>
@@ -666,7 +666,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09x-Ad-XMy">
-                                <rect key="frame" x="67" y="511" width="241" height="50"/>
+                                <rect key="frame" x="67" y="560" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Start New Program">
@@ -849,7 +849,7 @@
             </objects>
             <point key="canvasLocation" x="1295" y="-25"/>
         </scene>
-        <!--Sign In/ Register-->
+        <!--Sign In-->
         <scene sceneID="pDf-4a-uM3">
             <objects>
                 <viewController id="9GU-L8-DrW" customClass="AuthViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
@@ -973,6 +973,10 @@
                                                     <segue destination="nl2-2M-EeA" kind="show" id="9vN-LU-Kho"/>
                                                 </connections>
                                             </button>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zVg-ko-lHo">
+                                                <rect key="frame" x="287" y="250" width="20" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -1028,9 +1032,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4iW-6B-0tu"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Sign In/ Register" id="HHj-O9-8AA"/>
+                    <navigationItem key="navigationItem" title="Sign In" id="HHj-O9-8AA"/>
                     <size key="freeformSize" width="375" height="800"/>
                     <connections>
+                        <outlet property="indicator" destination="zVg-ko-lHo" id="dkX-m3-7XM"/>
                         <outlet property="password" destination="9g6-Vh-jeq" id="XZv-D1-AQr"/>
                         <outlet property="username" destination="Z3L-Pn-FUU" id="Vcd-6Y-kxX"/>
                         <segue destination="CXf-Ic-kst" kind="show" identifier="loginSegue" id="IBc-QQ-0uh"/>
@@ -1063,7 +1068,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uq1-B6-7ad">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Eg. sample123 or sample" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uq1-B6-7ad">
                                                 <rect key="frame" x="63" y="154" width="249" height="50"/>
                                                 <color key="backgroundColor" red="0.81621140241622925" green="0.84676498174667358" blue="0.85882657766342163" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
@@ -1087,7 +1092,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8fi-3x-658">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Eg. Sample1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8fi-3x-658">
                                                 <rect key="frame" x="63" y="250" width="249" height="50"/>
                                                 <color key="backgroundColor" red="0.81621140241622925" green="0.84676498174667358" blue="0.85882657766342163" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
@@ -1264,7 +1269,7 @@
         <!--Settings-->
         <scene sceneID="2iD-fQ-dI1">
             <objects>
-                <tableViewController id="8lv-Gw-Vzf" customClass="SettingsTableViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Settings" id="8lv-Gw-Vzf" customClass="SettingsTableViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="XGg-bb-8sZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1355,10 +1360,10 @@
             </objects>
             <point key="canvasLocation" x="2853.5999999999999" y="2699.1004497751128"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--Profile-->
         <scene sceneID="lpk-K7-Rsm">
             <objects>
-                <viewController id="cbq-6W-aDB" customClass="ProfileViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Profile" id="cbq-6W-aDB" customClass="ProfileViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uVe-KQ-z68">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
