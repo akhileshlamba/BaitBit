@@ -16,6 +16,8 @@ class FirestoreDAO: NSObject {
     static let storageRef = Storage.storage().reference()
 
 
+    static func authenticateUser (with username: String, password: String, complete)
+    
 
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
         let user = usersRef.document(userId)
