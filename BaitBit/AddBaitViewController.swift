@@ -24,6 +24,14 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager = CLLocationManager()
     let datePicker = UIDatePicker()
     
+//    @IBAction func dragDown(_ sender: UIPanGestureRecognizer) {
+//        let translation = sender.translation(in: sender.delegate as? UIView)
+//        if translation.x > 90 {
+//            self.dismiss(animated: true, completion: nil)
+//        } else {
+//
+//        }
+//    }
     private var context : NSManagedObjectContext
     
     override func viewDidLoad() {

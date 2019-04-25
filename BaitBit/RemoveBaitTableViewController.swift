@@ -11,10 +11,16 @@ import UIKit
 class RemoveBaitTableViewController: UITableViewController {
     
     let status = ["Taken", "Untouched"]
-    let death = "Carcass found near by"
+    let death = ["Carcass found near by"]
+    var dataSourceForCells = [[String]]()
+    let identifiersForCells = ["BaitStatusCell", "SpeciesDeathCell"]
+    let titleForHeaders = ["Bait status (Choose one)", "Species death (Optional"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.dataSourceForCells.append(self.status)
+        self.dataSourceForCells.append(self.death)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -27,31 +33,19 @@ class RemoveBaitTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 2
+        return self.dataSourceForCells.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section == 0 {
-            return 2
-        }
-        if section == 1 {
-            return 1
-        }
-        return 0
+        return self.dataSourceForCells[section].count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
-        if indexPath.section == 0 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "BaitStatusCell", for: indexPath)
-            cell.textLabel?.text = status[indexPath.row]
-        }
-        
-        if indexPath.section == 1 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "SpeciesDeathCell", for: indexPath)
-        }
+        cell = tableView.dequeueReusableCell(withIdentifier: self.identifiersForCells[indexPath.section], for: indexPath)
+        cell.textLabel?.text = self.dataSourceForCells[indexPath.section][indexPath.row]
 
         // Configure the cell...
 
@@ -62,7 +56,6 @@ class RemoveBaitTableViewController: UITableViewController {
         if indexPath.section == 0 {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             tableView.cellForRow(at: IndexPath(row: 1 - indexPath.row, section: indexPath.section))?.accessoryType = .none
-            tableView.deselectRow(at: indexPath, animated: true)
         }
         
         if indexPath.section == 1 {
@@ -72,6 +65,12 @@ class RemoveBaitTableViewController: UITableViewController {
                 tableView.cellForRow(at: indexPath)?.accessoryType = .none
             }
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return titleForHeaders[section]
     }
     
 

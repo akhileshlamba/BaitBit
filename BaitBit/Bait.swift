@@ -28,6 +28,7 @@ class Bait: NSObject {
         let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)
         let dateComponent = componentToAdd()
         let dueDate = NSCalendar.current.date(byAdding: dateComponent, to: startDate)
+        Calendar.compare
 //        if self.isRemoved {
 //            return .REMOVED
 //        } else if NSDate() > laidDate {

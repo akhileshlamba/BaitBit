@@ -14,6 +14,7 @@
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
 		02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */; };
+		02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */; };
 		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
 		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
 		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
@@ -56,6 +57,7 @@
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
 		02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBaitTableViewController.swift; sourceTree = "<group>"; };
+		02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitDetailsViewController.swift; sourceTree = "<group>"; };
 		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
 		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */,
 				02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */,
 				02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */,
+				02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */,
 			);
 			name = BaitManager;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
 				02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */,
+				02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */,
 				E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */,
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
 				E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */,
