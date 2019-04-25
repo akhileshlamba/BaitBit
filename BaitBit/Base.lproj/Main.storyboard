@@ -888,8 +888,9 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="oeP-Zi-7TK">
                                 <rect key="frame" x="0.0" y="101" width="375" height="164"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGo-dL-OA8">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGo-dL-OA8">
                                 <rect key="frame" x="145" y="313" width="85" height="85"/>
+                                <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="85" id="03u-R7-oib"/>
                                     <constraint firstAttribute="width" secondItem="qGo-dL-OA8" secondAttribute="height" multiplier="1:1" id="1aq-8q-5Zb"/>
@@ -903,8 +904,9 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdq-Sc-Ce0">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdq-Sc-Ce0">
                                 <rect key="frame" x="40" y="315.5" width="80" height="80"/>
+                                <color key="backgroundColor" red="0.95221728086471558" green="0.70047885179519653" blue="0.2468855082988739" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="xdq-Sc-Ce0" secondAttribute="height" multiplier="1:1" id="MRi-w6-fEZ"/>
                                     <constraint firstAttribute="height" constant="80" id="gTf-f2-6H2"/>
@@ -922,7 +924,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09x-Ad-XMy">
-                                <rect key="frame" x="67" y="560" width="241" height="50"/>
+                                <rect key="frame" x="67" y="576" width="241" height="34"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5p1-xH-q90"/>
@@ -2098,6 +2100,7 @@
                     </view>
                     <connections>
                         <outlet property="date" destination="Pky-15-gWv" id="ewz-PR-RLK"/>
+                        <outlet property="dateView" destination="4z6-eX-bnx" id="3Mp-mC-m07"/>
                         <outlet property="licenseImage" destination="ZzX-6e-wa4" id="0NC-cu-M6a"/>
                         <outlet property="nameLabel" destination="U7Q-nj-2Ym" id="s3G-nP-3ya"/>
                         <outlet property="updateButton" destination="W2X-PA-QCW" id="Lto-0g-C08"/>
