@@ -16,7 +16,7 @@ class FirestoreDAO: NSObject {
     static let storageRef = Storage.storage().reference()
 
 
-    static func authenticateUser (with username: String, password: String, complete)
+//    static func authenticateUser (with username: String, password: String, complete)
     
 
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
@@ -89,10 +89,11 @@ class FirestoreDAO: NSObject {
     }
 
     static func updateImageAndData(for bait: Bait, image: UIImage, complete: @escaping (Bool) -> Void) {
-        let date = UInt(Date().timeIntervalSince1970)
+        let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
 
+        // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
         let imageRef = storageRef.child("\(self.user!["id"] ?? "")/Bait/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
@@ -130,6 +131,15 @@ class FirestoreDAO: NSObject {
                     }
                 })
             }
+        }
+        
+        // save the image to a local file
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent("\(date)") {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
         }
     }
 
@@ -302,6 +312,7 @@ class FirestoreDAO: NSObject {
                 }
                 usersRef.document(user!["id"] as! String).getDocument(completion: { (document, error) in
                     self.user = document?.data()
+                    self.user!["id"] = (document?.documentID)!
                     complete(true)
                 })
         })

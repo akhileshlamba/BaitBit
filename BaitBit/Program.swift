@@ -39,6 +39,7 @@ let BaitTypeDuration = [
 ]
 
 class Program: NSObject {
+    static var program: Program?
     var id: String
     var baitType: String?
     var species: String?

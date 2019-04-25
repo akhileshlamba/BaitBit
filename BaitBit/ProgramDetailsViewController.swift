@@ -20,6 +20,7 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var numberOfActiveBaitsTextField: UILabel!
     @IBOutlet weak var numberOfOverdueBaitsTextField: UILabel!
     @IBOutlet weak var numberOfDueSoonBaitsTextField: UILabel!
+    @IBOutlet weak var containerView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,12 @@ class ProgramDetailsViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(back))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.program = Program.program
+        self.updateTextFields()
     }
     
     func setTextFields() {
@@ -42,8 +49,19 @@ class ProgramDetailsViewController: UIViewController {
         if self.program.numberOfAllBaits == 0 {
             self.addOrViewBaitButton.setTitle("Add Baits", for: .normal)
             self.numberOfRemovedBaitsTextField.text = ""
-            self.removeStatsView()
+            self.hidesStatsView()
         } else {
+            self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
+            self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
+            self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
+            self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
+            self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
+        }
+    }
+    
+    func updateTextFields() {
+        if self.program.numberOfAllBaits > 0 {
+            self.showStatsView()
             self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
             self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
             self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
@@ -84,6 +102,31 @@ class ProgramDetailsViewController: UIViewController {
         self.numberOfOverdueBaitsTextField.removeFromSuperview()
         self.numberOfDueSoonBaitsTextField.removeFromSuperview()
     }
+    
+    func hidesStatsView() {
+        self.circleGreen.isHidden = true
+        self.circleRed.isHidden = true
+        self.circleOrange.isHidden = true
+        self.activeBaits.isHidden = true
+        self.overdueBaits.isHidden = true
+        self.dueSoonBaits.isHidden = true
+        self.numberOfActiveBaitsTextField.isHidden = true
+        self.numberOfOverdueBaitsTextField.isHidden = true
+        self.numberOfDueSoonBaitsTextField.isHidden = true
+    }
+    
+    func showStatsView() {
+        self.circleGreen.isHidden = false
+        self.circleRed.isHidden = false
+        self.circleOrange.isHidden = false
+        self.activeBaits.isHidden = false
+        self.overdueBaits.isHidden = false
+        self.dueSoonBaits.isHidden = false
+        self.numberOfActiveBaitsTextField.isHidden = false
+        self.numberOfOverdueBaitsTextField.isHidden = false
+        self.numberOfDueSoonBaitsTextField.isHidden = false
+    }
+
     
     @IBAction func addOrViewBait(_ sender: Any) {
         if self.program.numberOfAllBaits == 0 {

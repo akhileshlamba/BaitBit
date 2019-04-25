@@ -28,7 +28,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
 
     let dataSource = ["Date", "Latitude", "Langitude"]
     let imageDateSource = ["date", "latitude", "longitude"]
-    var valueDateSource = [String]()
+    var valueDateSource = ["", "", ""]
     var dateCell: UITableViewCell?
     var latCell: UITableViewCell?
     var longCell: UITableViewCell?
@@ -42,9 +42,9 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
         addBaitTableView.dataSource = self
 
         formatter.dateFormat = "MMM dd, yyyy"
-        self.valueDateSource.append(formatter.string(from: Date()))
+        self.valueDateSource[0] = formatter.string(from: Date())
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
 
         self.dateCell = self.addBaitTableView.cellForRow(at: IndexPath(row: 0, section: 0))
         self.latCell = self.addBaitTableView.cellForRow(at: IndexPath(row: 1, section: 0))
@@ -52,16 +52,16 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
 
     }
 
-    @objc func done() {
-        let controller = self.navigationController?.viewControllers[2]
-
-        if controller is AddProgramViewController {
-            let programTableViewController = self.navigationController?.viewControllers[1]
-            self.navigationController?.popToViewController(programTableViewController!, animated: true)
-        } else {
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
+//    @objc func done() {
+//        let controller = self.navigationController?.viewControllers[2]
+//
+//        if controller is AddProgramViewController {
+//            let programTableViewController = self.navigationController?.viewControllers[1]
+//            self.navigationController?.popToViewController(programTableViewController!, animated: true)
+//        } else {
+//            self.navigationController?.popViewController(animated: true)
+//        }
+//    }
 
 //    func showDatePicker(){
 //
@@ -111,12 +111,10 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func addBait(_ sender: Any) {
-        guard !(self.longCell?.detailTextLabel?.text!.isEmpty)! && !(latCell?.detailTextLabel?.text!.isEmpty)! else {
+        let lat = self.valueDateSource[1]
+        let long = self.valueDateSource[2]
+        guard lat != "" && long != "" else {
             displayMessage("Cannot get your current location", "Save Failed")
-            return
-        }
-
-        guard let lat = self.latCell?.detailTextLabel?.text, let long = self.longCell?.detailTextLabel?.text else {
             return
         }
 
@@ -134,31 +132,66 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
         }
 
         self.program.addToBaits(bait: bait)
+        
+        FirestoreDAO.createOrUpdate(bait: bait, for: self.program, complete: {(result) in
+            guard result else {
+                self.displayMessage("Problem in updating bait", "Error", completion: {(_) in
+                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true, completion: nil)
+                })
+                return
+            }
+            
+            Program.program = self.program
 
-        do {
-            FirestoreDAO.createOrUpdate(bait: bait, for: self.program)
-            displayMessage("Baiting Recorded Successfully", "Success", "OK")
-
-        } catch let error {
-            print("Could not save to Firestore: \(error)")
-        }
-
+            guard let image = self.baitPhoto.image else {
+                self.displayMessage("Bait created successfully!", "Sucess", "OK", completion: {(_) in
+                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true, completion: nil)
+                })
+                return
+            }
+            
+            FirestoreDAO.updateImageAndData(for: bait, image: image, complete: {(result) in
+                if result {
+                    self.displayMessage("Bait created successfully!", "Sucess", "OK", completion: {(_) in
+                        self.navigationController?.popViewController(animated: true)
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                } else {
+                    self.displayMessage("Bait created successfully, but failed to update bait image", "Partial Error", completion: {(_) in
+                        self.navigationController?.popViewController(animated: true)
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                }
+            })
+        })
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         self.currentLocation = loc.coordinate
-        self.latCell?.detailTextLabel?.text = String(currentLocation.latitude)
-        self.longCell?.detailTextLabel?.text = String(currentLocation.longitude)
+//        self.latCell?.detailTextLabel?.text = String(currentLocation.latitude)
+//        self.longCell?.detailTextLabel?.text = String(currentLocation.longitude)
+        self.valueDateSource[1] = String(currentLocation.latitude)
+        self.valueDateSource[2] = String(currentLocation.longitude)
         self.addBaitTableView.reloadData()
     }
 
-    func displayMessage(_ message: String,_ title: String) {
+    func displayMessage(_ message: String, _ title: String) {
         let alertController = UIAlertController(title: title, message: message,
                                                 preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "Dismiss", style:
             UIAlertActionStyle.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func displayMessage(_ message: String, _ title: String, completion: ((UIAlertAction) -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style:
+            UIAlertActionStyle.default, handler: completion))
+        self.present(alertController, animated: true, completion:  nil)
     }
 
     func displayMessage(_ message: String, _ title: String, _ actionTitle: String) {
@@ -166,6 +199,14 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
                                                 preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: actionTitle, style:
             UIAlertActionStyle.default, handler: nil))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func displayMessage(_ message: String, _ title: String, _ actionTitle: String, completion: ((UIAlertAction) -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: actionTitle, style:
+            UIAlertActionStyle.default, handler: completion))
         self.present(alertController, animated: true, completion: nil)
     }
 
