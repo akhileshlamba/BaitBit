@@ -23,6 +23,8 @@ class AuthViewController: UIViewController {
 
     var user = [String:Any]()
     var notificationDetails = [String: Any]()
+    
+    var authenticatedUser : User!
     //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
@@ -111,6 +113,18 @@ class AuthViewController: UIViewController {
                 } else {
                     self.user = (document?.documents[0].data())!
                     self.user["id"] = (document?.documents[0].documentID)!
+                    
+                    self.authenticatedUser = User(
+                        id : self.user["id"] as! String,
+                        licensePath: self.user["licensePath"] as? String,
+                        licenseExpiryDate: Util.convertStringToDate(string: (self.user["licenseExpiryDate"] as! String)),
+                        username: self.user["username"] as! String,
+                        password: self.user["password"] as! String,
+                        program: self.user["programs"] as? Program
+                    )
+                    
+                    print(self.authenticatedUser)
+                    
                     self.defaults.set(document?.documents[0].documentID, forKey: "userId")
                     self.defaults.set(true, forKey: "loggedIn")
                     let notificationsRef = self.db.collection("notifications")
@@ -158,7 +172,7 @@ class AuthViewController: UIViewController {
             let tabBarController = segue.destination as! TabBarViewController
             let count = tabBarController.viewControllers?.count
             let settingsVC = tabBarController.viewControllers![count!-1] as! SettingsTableViewController
-            settingsVC.user = user
+            //settingsVC.user = authenticatedUser
             settingsVC.notificationDetails = notificationDetails
             //self.endAnimating()
             indicator.stopAnimating()
