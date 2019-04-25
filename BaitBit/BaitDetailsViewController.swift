@@ -32,6 +32,10 @@ class BaitDetailsViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    func loadBaitImage() {
+        
+    }
     /*
     // MARK: - Navigation
 
