@@ -116,52 +116,28 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
             return
         }
 
-        if (bait_laid_date.text?.isEmpty)! || (location.text?.isEmpty)! {
-            displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
-        } else {
+        guard let lat = self.latCell?.detailTextLabel?.text, let long = self.longCell?.detailTextLabel?.text else {
+            return
+        }
 
-//            let baits_info = NSEntityDescription.insertNewObject(forEntityName: "Baits_Info", into: context) as! Baits_Info
-//            baits_info.laid_date = NSDate()
+        let timestamp = UInt(Date().timeIntervalSince1970)
+        let bait = Bait(id: "\(timestamp)",
+                        laidDate: NSDate(),
+                        latitude: Double(lat) as! Double,
+                        longitude: Double(long) as! Double,
+                        photoPath: nil,
+                        program: self.program,
+                        isRemoved: false)
 
-            if(!(location.text?.contains(","))!){
-                displayMessage("You have not entered the correct coordinates format. They are of the form 12.23, 42.123", "Coordinates Error")
-            } else{
-                let latlong = location.text?.components(separatedBy: ",")
-                if (Double(latlong![0]) != nil) && (Double(latlong![1]) != nil) {
-                    let timestamp = NSDate().timeIntervalSince1970
-                    let bait = Bait(id: "\(timestamp)",
-                                    laidDate: NSDate(),
-                                    latitude: Double(latlong![0]) as! Double,
-                                    longitude: Double(latlong![1]) as! Double,
-                                    photoPath: nil,
-                                    program: self.program,
-                                    isRemoved: false)
+        if let image = self.baitPhoto.image {
+            bait.photoPath = self.savePhoto(image)
+        }
 
-                    if let image = self.baitPhoto.image {
-                        bait.photoPath = self.savePhoto(image)
-                    }
+        self.program.addToBaits(bait: bait)
 
-                    self.program.addToBaits(bait: bait)
-
-                    do {
-                        FirestoreDAO.createOrUpdate(bait: bait, for: self.program, complete: {(success) in
-                            if success {
-                                self.displayMessage("Baiting Recorded Successfully", "Success", "OK")
-                            } else {
-                                self.displayMessage("Problem in saving bait", "Error", "OK")
-                            }
-                        })
-
-                    } catch let error {
-                        print("Could not save to core data: \(error)")
-                    }
-
-                } else {
-                    displayMessage("Coordinates should be in numbers", "Coordinates Error")
-                }
-
-            }
-
+        do {
+            FirestoreDAO.createOrUpdate(bait: bait, for: self.program)
+            displayMessage("Baiting Recorded Successfully", "Success", "OK")
 
         } catch let error {
             print("Could not save to Firestore: \(error)")

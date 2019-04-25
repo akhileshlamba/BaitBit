@@ -12,16 +12,16 @@ import Firebase
 class FirestoreDAO: NSObject {
     static let usersRef = Firestore.firestore().collection("users")
     static var user: [String: Any]?
-    
+
     static let storageRef = Storage.storage().reference()
-    
-    
-    
+
+
+
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
         let user = usersRef.document(userId)
         user.getDocument(completion: {(result, error) in
             if error != nil {
-                
+
             } else {
                 self.user = result?.data()
                 self.user!["id"] = (result?.documentID)!
@@ -31,7 +31,7 @@ class FirestoreDAO: NSObject {
             }
         })
     }
-    
+
     static func updateNotificationDetails(with id: String, details: [String: Any]) {
         let notificationsRef = Firestore.firestore().collection("notifications").document(details["id"] as! String)
         notificationsRef.updateData([
@@ -46,12 +46,12 @@ class FirestoreDAO: NSObject {
             }
         }
     }
-    
+
     static func updateLicenseImageAndData(of userWithId: [String: Any], image: UIImage, licenseDate: String, complete: @escaping (Bool) -> Void) {
         let date = UInt(Date().timeIntervalSince1970)
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
-        
+
         let imageRef = storageRef.child("\(userWithId["id"] ?? "")/License/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
@@ -85,12 +85,12 @@ class FirestoreDAO: NSObject {
             }
         }
     }
-    
+
     static func updateImageAndData(for bait: Bait, image: UIImage, complete: @escaping (Bool) -> Void) {
         let date = UInt(Date().timeIntervalSince1970)
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
-        
+
         let imageRef = storageRef.child("\(self.user!["id"] ?? "")/Bait/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
@@ -130,7 +130,7 @@ class FirestoreDAO: NSObject {
             }
         }
     }
-    
+
     static func reloadUserDataFromFirebase(complete: @escaping ([String: Any]) -> Void) {
         let username = user!["username"] as! String
         let query = usersRef.whereField("username", isEqualTo: username)
@@ -141,7 +141,7 @@ class FirestoreDAO: NSObject {
             complete(self.user!)
         })
     }
-    
+
     static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
         var programList = [Program]()
         if self.user == nil {
@@ -190,10 +190,10 @@ class FirestoreDAO: NSObject {
             complete(programList)
         }
     }
-    
+
     static func getAllBaits(for program: Program) -> [Bait] {
         var baitList = [Bait]()
-        
+
         if let programs = user!["programs"] as? NSDictionary {
             let p = programs[program.id] as! NSDictionary
             if let baits = p["baits"] as? NSDictionary {
@@ -225,7 +225,7 @@ class FirestoreDAO: NSObject {
         }
         return baitList
     }
-    
+
     static func createOrUpdate(program: Program) {
         let query = usersRef.whereField("username", isEqualTo: user!["username"] as! String)
         query.getDocuments(completion: {(document, error) in
@@ -233,7 +233,7 @@ class FirestoreDAO: NSObject {
             print("docID: \(docID)")
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, yyyy"
-            
+
             usersRef.document(docID!).setData(
                 [
                     "programs": [
@@ -272,11 +272,10 @@ class FirestoreDAO: NSObject {
 //                        }
 //                    }
 //                }
-            
+
         })
     }
     
-<<<<<<< HEAD
     static func createOrUpdate(bait: Bait, for program: Program, complete: @escaping (Bool) -> Void){
         let document = usersRef.document("\(user!["id"] as! String)")
         document.setData([
@@ -304,18 +303,14 @@ class FirestoreDAO: NSObject {
                     complete(true)
                 })
         })
-        
-=======
-    static func createOrUpdate(bait: Bait, for program: Program) {
-        program.addToBaits(bait: bait)
->>>>>>> b55cbf3ac8c6a4382c7d12e188a73354028535af
-    }
-    
+
+
+
     static func delete(program: Program) {
-        
+
     }
-    
+
     static func delete(bait: Bait, for program: Program) {
-        
+
     }
 }
