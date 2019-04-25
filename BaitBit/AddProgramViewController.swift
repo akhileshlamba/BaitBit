@@ -145,7 +145,7 @@ class AddProgramViewController: UIViewController {
                                   species: species.text!,
                                   startDate: formatter.date(from: start_date.text!)! as NSDate,
                                   isActive: true)
-            
+            Program.program = self.program
             do {
                 delegate?.didAddBaitProgram(self.program!)
                 FirestoreDAO.createOrUpdate(program: self.program!)

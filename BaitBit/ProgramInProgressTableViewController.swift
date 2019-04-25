@@ -13,7 +13,7 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
 
     @IBOutlet weak var loading: UIActivityIndicatorView!
     var programList: [Program] = []
-    private var context : NSManagedObjectContext
+//    private var context : NSManagedObjectContext
     
     let dateFormatter = DateFormatter()
     
@@ -58,11 +58,11 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
 //        list.append(inactiveList)
 //    }
     
-    required init?(coder aDecoder: NSCoder) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        context = (appDelegate?.persistentContainer.viewContext)!
-        super.init(coder: aDecoder)
-    }
+//    required init?(coder aDecoder: NSCoder) {
+//        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//        context = (appDelegate?.persistentContainer.viewContext)!
+//        super.init(coder: aDecoder)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -228,6 +228,7 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
             let controller = segue.destination as! ProgramDetailsViewController
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 controller.program = self.programList[indexPath.row]
+                Program.program = controller.program
             }
         }
         

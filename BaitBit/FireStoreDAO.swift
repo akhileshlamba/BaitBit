@@ -12,7 +12,7 @@ import Firebase
 class FirestoreDAO: NSObject {
     static let usersRef = Firestore.firestore().collection("users")
     static var user: [String: Any]?
-    
+
     static var authenticatedUser: User!
     static var notificationDetails = [String: Any]()
 
@@ -29,12 +29,12 @@ class FirestoreDAO: NSObject {
                     complete("Invalid password")
                 } else {
                     let userInfo = (document?.documents[0].data())!
-                    
+
                     FirestoreDAO.setUserData(with: userInfo as NSDictionary, id: document?.documents[0].documentID as! String)
-                    
+
                     let notificationsRef = Firestore.firestore().collection("notifications")
                     query = notificationsRef.whereField("notificationOfUser", isEqualTo: document?.documents[0].documentID)
-                    
+
                     query.getDocuments(completion: {(result, error) in
                         if ((result?.documents.isEmpty)!) {
                             complete("Fetch Notification")
@@ -48,10 +48,10 @@ class FirestoreDAO: NSObject {
             }
         })
     }
-    
+
     static func registerUser(with user: User, complete: @escaping ([String: User]) -> Void) {
         let query = usersRef.whereField("username", isEqualTo: user.username)
-        
+
         query.getDocuments(completion: {(document, error) in
             if (document?.documents.isEmpty ?? nil)! {
                 var ref: DocumentReference!
@@ -67,7 +67,7 @@ class FirestoreDAO: NSObject {
                     } else {
                         self.authenticatedUser = user
                         self.authenticatedUser.setId(id: ref.documentID)
-                        
+
                         Firestore.firestore().collection("notifications").addDocument(data: [
                             "overDue" : false,
                             "dueSoon" : false,
@@ -90,9 +90,9 @@ class FirestoreDAO: NSObject {
                 complete(["Duplicate User" : user])
             }
         })
-        
+
     }
-    
+
     static func setUserData(with userInfo: NSDictionary, id: String) {
         self.authenticatedUser = User(
             licensePath: userInfo["licensePath"] as? String,
@@ -100,11 +100,11 @@ class FirestoreDAO: NSObject {
             username: userInfo["username"] as! String,
             password: userInfo["password"] as! String
         )
-        
+
         self.authenticatedUser.setId(id: id)
-        
+
         let programs = userInfo["programs"] as? NSDictionary
-        
+
         if programs != nil {
             for elem in programs! {
                 let id = elem.key as! String
@@ -121,18 +121,18 @@ class FirestoreDAO: NSObject {
                                               startDate: dateformatter.date(from: startDate) as NSDate?,
                                               isActive: isActive)
                 self.authenticatedUser.addToPrograms(program: program)
-                
+
                 program.addToBaits(baits: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
             }
-            
+
             print(self.authenticatedUser)
         }
     }
-    
+
     func getPrograms(from user: NSDictionary) {
-        
+
     }
-    
+
 
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
         let user = usersRef.document(userId)
@@ -206,10 +206,11 @@ class FirestoreDAO: NSObject {
     }
 
     static func updateImageAndData(for bait: Bait, image: UIImage, complete: @escaping (Bool) -> Void) {
-        let date = UInt(Date().timeIntervalSince1970)
+        let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
 
+        // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
         let imageRef = storageRef.child("\(self.user!["id"] ?? "")/Bait/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
@@ -248,6 +249,15 @@ class FirestoreDAO: NSObject {
                 })
             }
         }
+
+        // save the image to a local file
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent("\(date)") {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
+        }
     }
 
     static func reloadUserDataFromFirebase(complete: @escaping ([String: Any]) -> Void) {
@@ -282,7 +292,7 @@ class FirestoreDAO: NSObject {
         }
         complete(programList)
     }
-    
+
     static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
         var programList = [Program]()
         if self.user == nil {
@@ -331,7 +341,7 @@ class FirestoreDAO: NSObject {
             complete(programList)
         }
     }
-    
+
     static func getAllBaitsss(for baits: NSDictionary, program: Program) -> [Bait] {
         var baitList = [Bait]()
 
@@ -359,7 +369,7 @@ class FirestoreDAO: NSObject {
                             isRemoved: isRemoved)
             baitList.append(bait)
         }
-        
+
         return baitList
     }
 
@@ -399,7 +409,7 @@ class FirestoreDAO: NSObject {
     }
 
     static func createOrUpdate(program: Program) {
-        
+
         let document = usersRef.document("\(authenticatedUser.id as! String)")
         document.setData(
             [
@@ -421,9 +431,9 @@ class FirestoreDAO: NSObject {
                     setUserData(with: document!.data()! as NSDictionary, id: document!.documentID )
                 })
         })
-        
-        
-        
+
+
+
 //        let query = usersRef.whereField("username", isEqualTo: user!["username"] as! String)
 //        query.getDocuments(completion: {(document, error) in
 //            let docID = document?.documents[0].documentID
@@ -472,7 +482,7 @@ class FirestoreDAO: NSObject {
 
         //})
     }
-    
+
     static func createOrUpdate(bait: Bait, for program: Program, complete: @escaping (Bool) -> Void){
         let document = usersRef.document("\(user!["id"] as! String)")
         document.setData([
@@ -497,6 +507,7 @@ class FirestoreDAO: NSObject {
                 }
                 usersRef.document(user!["id"] as! String).getDocument(completion: { (document, error) in
                     self.user = document?.data()
+                    self.user!["id"] = (document?.documentID)!
                     complete(true)
                 })
         })

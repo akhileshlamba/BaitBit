@@ -17,16 +17,9 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     var currentLocation = CLLocationCoordinate2D()
     var locationManager: CLLocationManager = CLLocationManager()
     var program: Program?
-    var baits: [Baits_Info] = []
+    var baits: [Bait] = []
     
     var baitAnnotations: [BaitAnnotation] = []
-    private var context : NSManagedObjectContext
-    
-    required init?(coder aDecoder: NSCoder) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        context = (appDelegate?.persistentContainer.viewContext)!
-        super.init(coder: aDecoder)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +68,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.program = Program.program
         loadData()
     }
     
@@ -86,26 +80,24 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             }
         }
         
+        self.baitAnnotations.removeAll()
         if self.program != nil {
-            //        self.baitAnnotations.removeAll()
             if let baitList = self.program?.baits.values {
                 for element in baitList {
-                    if let bait = element as? Baits_Info {
-                        if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil{
-                            let baitAnnotation = BaitAnnotation(bait_info: bait)
-                            baitAnnotations.append(baitAnnotation)
+                    if let bait = element as? Bait {
+                        if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil {
+                            let baitAnnotation = BaitAnnotation(bait: bait)
+                            self.baitAnnotations.append(baitAnnotation)
                         }
                     }
                 }
                 self.mapView.addAnnotations(baitAnnotations)
             }
-        }
-        
-        if !self.baits.isEmpty {
+        } else if !self.baits.isEmpty {
             for bait in self.baits {
-                if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil{
-                    let baitAnnotation = BaitAnnotation(bait_info: bait)
-                    baitAnnotations.append(baitAnnotation)
+                if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil {
+                    let baitAnnotation = BaitAnnotation(bait: bait)
+                    self.baitAnnotations.append(baitAnnotation)
                 }
             }
             self.mapView.addAnnotations(baitAnnotations)
@@ -160,7 +152,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
                 annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: fencedAnnotation.bait_info.program!.name!)
+            annoationView.image = UIImage(named: "\(fencedAnnotation.bait.status)")
             annoationView.canShowCallout = true
             //annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
             
@@ -193,6 +185,4 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             controller.program = self.program
         }
     }
-    
-
 }
