@@ -17,14 +17,17 @@ class FirestoreDAO: NSObject {
     
     
     
-    static func getUserData(from userId: String, complete: @escaping ([String: Any]) -> Void) {
+    static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
         let user = usersRef.document(userId)
         user.getDocument(completion: {(result, error) in
             if error != nil {
                 
             } else {
                 self.user = result?.data()
-                complete(self.user!)
+                self.user!["id"] = (result?.documentID)!
+                if complete != nil {
+                    complete!(self.user!)
+                }
             }
         })
     }
@@ -83,12 +86,58 @@ class FirestoreDAO: NSObject {
         }
     }
     
+    static func updateImageAndData(for bait: Bait, image: UIImage, complete: @escaping (Bool) -> Void) {
+        let date = UInt(Date().timeIntervalSince1970)
+        var data = Data()
+        data = UIImageJPEGRepresentation(image, 0.1)!
+        
+        let imageRef = storageRef.child("\(self.user!["id"] ?? "")/Bait/\(date)")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        imageRef.putData(data, metadata: metadata) { (metaData, error) in
+            if error != nil {
+                complete(false)
+            } else {
+                imageRef.downloadURL(completion: {(url, error) in
+                    if error != nil {
+                        complete(false)
+                    } else {
+                        if let imageURL = url?.absoluteString {
+                            let userRef = usersRef.document(self.user!["id"] as! String)
+                            userRef.updateData([
+                                "programs": [
+                                    bait.program!.id: [
+                                        "baits": [
+                                            bait.id: [
+                                                "photoPath": "\(date)",
+                                                "photoURL": imageURL
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]) {
+                                err in
+                                if err != nil {
+                                    complete(false)
+                                } else {
+                                    self.getUserData(from: self.user!["id"] as! String, complete: nil)
+                                    complete(true)
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
     static func reloadUserDataFromFirebase(complete: @escaping ([String: Any]) -> Void) {
         let username = user!["username"] as! String
         let query = usersRef.whereField("username", isEqualTo: username)
 
         query.getDocuments(completion: {(document, error) in
             self.user = (document?.documents[0].data())!
+            self.user!["id"] = (document?.documents[0].documentID)!
             complete(self.user!)
         })
     }
@@ -198,6 +247,7 @@ class FirestoreDAO: NSObject {
                     }
                     usersRef.document(docID!).getDocument(completion: { (document, error) in
                         self.user = document?.data()
+                        self.user!["id"] = docID!
                     })
             })
 
@@ -222,7 +272,7 @@ class FirestoreDAO: NSObject {
     }
     
     static func createOrUpdate(bait: Bait, for program: Program) {
-        
+        program.addToBaits(bait: bait)
     }
     
     static func delete(program: Program) {
