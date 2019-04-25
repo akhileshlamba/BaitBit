@@ -303,6 +303,7 @@ class FirestoreDAO: NSObject {
                     complete(true)
                 })
         })
+    }
 
 
 
