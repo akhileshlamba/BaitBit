@@ -16,6 +16,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var licenseImage: UIImageView!
     @IBOutlet weak var date: UITextField!
     @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var dateView: UIView!
     
     let formatter = DateFormatter()
     var actionSheet: UIAlertController?
@@ -24,6 +25,7 @@ class ProfileViewController: UIViewController {
     var storageRef: StorageReference!
     let datePicker = UIDatePicker()
     
+    var activityIndicator: UIActivityIndicatorView!
     
     var changeImage = Bool(false)
     
@@ -31,6 +33,16 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
+        nameLabel.isHidden = true
+        dateView.isHidden = true
+        
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         
         storage = Storage.storage()
         storageRef = storage.reference()
@@ -40,15 +52,18 @@ class ProfileViewController: UIViewController {
         formatter.dateFormat = "MMM dd, yyyy"
         showDatePicker()
         
-        nameLabel.text = "Hi, \(user["username"] as! String)! "
-        date.text = "\(user["licenseExpiryDate"] as! String)"
-        
         self.storage.reference(forURL: user["licensePath"] as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else{
                 let imageData = UIImage(data: data!)!
                 self.licenseImage.image = imageData
+                self.activityIndicator.isHidden = false
+                self.nameLabel.isHidden = false
+                self.dateView.isHidden = false
+                self.nameLabel.text = "Hi, \(self.user["username"] as! String)! "
+                self.date.text = "\(self.user["licenseExpiryDate"] as! String)"
+                self.activityIndicator.stopAnimating()
             }
         })
         
