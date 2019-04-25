@@ -1,0 +1,303 @@
+
+/* Class = "UITabBarItem"; title = "Invasive Species Map"; ObjectID = "017-Zg-M8f"; */
+"017-Zg-M8f.title" = "Invasive Species Map";
+
+/* Class = "UIButton"; normalTitle = "Start New Program"; ObjectID = "09x-Ad-XMy"; */
+"09x-Ad-XMy.normalTitle" = "Start New Program";
+
+/* Class = "UITabBarItem"; title = "Help"; ObjectID = "0Nz-6j-cw0"; */
+"0Nz-6j-cw0.title" = "Help";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "1cM-Ve-yCd"; */
+"1cM-Ve-yCd.text" = "Title";
+
+/* Class = "UILabel"; text = "License Photo"; ObjectID = "1dx-cd-Toz"; */
+"1dx-cd-Toz.text" = "License Photo";
+
+/* Class = "UILabel"; text = "Removed Baits:  5"; ObjectID = "2FD-aK-I1c"; */
+"2FD-aK-I1c.text" = "Removed Baits:  5";
+
+/* Class = "UIButton"; normalTitle = "Start Program"; ObjectID = "3xD-wO-AvY"; */
+"3xD-wO-AvY.normalTitle" = "Start Program";
+
+/* Class = "UIButton"; normalTitle = "Signup now"; ObjectID = "50H-cJ-vIz"; */
+"50H-cJ-vIz.normalTitle" = "Signup now";
+
+/* Class = "UITextField"; placeholder = "(All years)"; ObjectID = "5kz-SF-rnm"; */
+"5kz-SF-rnm.placeholder" = "(All years)";
+
+/* Class = "UITextField"; placeholder = "Expiry Date"; ObjectID = "67D-bd-Whr"; */
+"67D-bd-Whr.placeholder" = "Expiry Date";
+
+/* Class = "UILabel"; text = "Species Name"; ObjectID = "67f-Xr-9aS"; */
+"67f-Xr-9aS.text" = "Species Name";
+
+/* Class = "UILabel"; text = "Start Date: Apr 4, 2019"; ObjectID = "6H8-gt-VIZ"; */
+"6H8-gt-VIZ.text" = "Start Date: Apr 4, 2019";
+
+/* Class = "UIButton"; normalTitle = "Start"; ObjectID = "6gt-LA-yVj"; */
+"6gt-LA-yVj.normalTitle" = "Start";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "70R-jL-kHE"; */
+"70R-jL-kHE.text" = "Title";
+
+/* Class = "UILabel"; text = "30 days"; ObjectID = "8F8-cm-6mP"; */
+"8F8-cm-6mP.text" = "30 days";
+
+/* Class = "UIButton"; normalTitle = "Search"; ObjectID = "8Wk-wE-LFH"; */
+"8Wk-wE-LFH.normalTitle" = "Search";
+
+/* Class = "UITextField"; placeholder = "Eg. Sample1234"; ObjectID = "8fi-3x-658"; */
+"8fi-3x-658.placeholder" = "Eg. Sample1234";
+
+/* Class = "UITableViewController"; title = "Settings"; ObjectID = "8lv-Gw-Vzf"; */
+"8lv-Gw-Vzf.title" = "Settings";
+
+/* Class = "UILabel"; text = "Program"; ObjectID = "8pt-e0-9oA"; */
+"8pt-e0-9oA.text" = "Program";
+
+/* Class = "UILabel"; text = "Don't have account?"; ObjectID = "8t5-XN-3zy"; */
+"8t5-XN-3zy.text" = "Don't have account?";
+
+/* Class = "UILabel"; text = "Bait Location"; ObjectID = "9Ez-pk-ENG"; */
+"9Ez-pk-ENG.text" = "Bait Location";
+
+/* Class = "UITextField"; placeholder = "(All months)"; ObjectID = "9Rb-Nr-hfP"; */
+"9Rb-Nr-hfP.placeholder" = "(All months)";
+
+/* Class = "UIButton"; normalTitle = "Add or View Baits"; ObjectID = "9av-CH-fk8"; */
+"9av-CH-fk8.normalTitle" = "Add or View Baits";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "9g6-Vh-jeq"; */
+"9g6-Vh-jeq.placeholder" = "Password";
+
+/* Class = "UIButton"; normalTitle = "Sign In"; ObjectID = "A1C-Dn-iUp"; */
+"A1C-Dn-iUp.normalTitle" = "Sign In";
+
+/* Class = "UIButton"; normalTitle = "Remove"; ObjectID = "C9R-Wh-qHN"; */
+"C9R-Wh-qHN.normalTitle" = "Remove";
+
+/* Class = "UILabel"; text = "View License"; ObjectID = "Cu3-Su-suY"; */
+"Cu3-Su-suY.text" = "View License";
+
+/* Class = "UINavigationItem"; title = "Baits Map"; ObjectID = "F5K-TH-2k7"; */
+"F5K-TH-2k7.title" = "Baits Map";
+
+/* Class = "UITableViewController"; title = "In-progress Programs"; ObjectID = "Fm5-ls-XGP"; */
+"Fm5-ls-XGP.title" = "In-progress Programs";
+
+/* Class = "UIBarButtonItem"; title = "Add Bait"; ObjectID = "G53-yk-s4u"; */
+"G53-yk-s4u.title" = "Add Bait";
+
+/* Class = "UINavigationItem"; title = "Sign In"; ObjectID = "HHj-O9-8AA"; */
+"HHj-O9-8AA.title" = "Sign In";
+
+/* Class = "UITextField"; placeholder = "Start Date"; ObjectID = "Hw1-ks-9fB"; */
+"Hw1-ks-9fB.placeholder" = "Start Date";
+
+/* Class = "UIButton"; normalTitle = "Access Camera"; ObjectID = "J03-lF-Q1d"; */
+"J03-lF-Q1d.normalTitle" = "Access Camera";
+
+/* Class = "UILabel"; text = "Due Soon Baits"; ObjectID = "Kz7-H8-Owv"; */
+"Kz7-H8-Owv.text" = "Due Soon Baits";
+
+/* Class = "UILabel"; text = "Animal"; ObjectID = "LaK-We-GAv"; */
+"LaK-We-GAv.text" = "Animal";
+
+/* Class = "UIViewController"; title = "Filter"; ObjectID = "Lvd-mc-y7R"; */
+"Lvd-mc-y7R.title" = "Filter";
+
+/* Class = "UIViewController"; title = "New Program"; ObjectID = "MBa-sb-IJs"; */
+"MBa-sb-IJs.title" = "New Program";
+
+/* Class = "UILabel"; text = "10"; ObjectID = "MNA-en-BnJ"; */
+"MNA-en-BnJ.text" = "10";
+
+/* Class = "UILabel"; text = "Duration"; ObjectID = "NKF-8R-Ke1"; */
+"NKF-8R-Ke1.text" = "Duration";
+
+/* Class = "UITextField"; placeholder = "Date"; ObjectID = "NdP-yi-feC"; */
+"NdP-yi-feC.placeholder" = "Date";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "Oxm-z1-FLb"; */
+"Oxm-z1-FLb.title" = "Settings";
+
+/* Class = "UILabel"; text = "2"; ObjectID = "PWf-Ia-2bC"; */
+"PWf-Ia-2bC.text" = "2";
+
+/* Class = "UITextField"; placeholder = "Date"; ObjectID = "Pky-15-gWv"; */
+"Pky-15-gWv.placeholder" = "Date";
+
+/* Class = "UIViewController"; title = "Bait Details"; ObjectID = "QgP-EE-RZ9"; */
+"QgP-EE-RZ9.title" = "Bait Details";
+
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "Qi9-pg-28H"; */
+"Qi9-pg-28H.normalTitle" = "Register";
+
+/* Class = "UILabel"; text = "License Expiry Date"; ObjectID = "SGz-6q-TEg"; */
+"SGz-6q-TEg.text" = "License Expiry Date";
+
+/* Class = "UITextField"; placeholder = "Select Program Name"; ObjectID = "SHH-wh-AtD"; */
+"SHH-wh-AtD.placeholder" = "Select Program Name";
+
+/* Class = "UILabel"; text = "Username"; ObjectID = "TTI-OC-F8W"; */
+"TTI-OC-F8W.text" = "Username";
+
+/* Class = "UITabBarItem"; title = "Resources"; ObjectID = "TbU-Cj-XOQ"; */
+"TbU-Cj-XOQ.title" = "Resources";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Ter-sw-8xr"; */
+"Ter-sw-8xr.text" = "Title";
+
+/* Class = "UINavigationItem"; title = "Programs In-progress"; ObjectID = "Tu6-Dm-kf0"; */
+"Tu6-Dm-kf0.title" = "Programs In-progress";
+
+/* Class = "UILabel"; text = "Hi, Sample! "; ObjectID = "U7Q-nj-2Ym"; */
+"U7Q-nj-2Ym.text" = "Hi, Sample! ";
+
+/* Class = "UILabel"; text = "Start Date"; ObjectID = "ULb-Nh-KpG"; */
+"ULb-Nh-KpG.text" = "Start Date";
+
+/* Class = "UIViewController"; title = "Home"; ObjectID = "VNR-3w-AnT"; */
+"VNR-3w-AnT.title" = "Home";
+
+/* Class = "UILabel"; text = "Active Baits"; ObjectID = "Vni-Nb-0LJ"; */
+"Vni-Nb-0LJ.text" = "Active Baits";
+
+/* Class = "UIButton"; normalTitle = "Update License"; ObjectID = "W2X-PA-QCW"; */
+"W2X-PA-QCW.normalTitle" = "Update License";
+
+/* Class = "UILabel"; text = "Expiry Date"; ObjectID = "Wev-JB-05Y"; */
+"Wev-JB-05Y.text" = "Expiry Date";
+
+/* Class = "UILabel"; text = "Duration"; ObjectID = "XGd-VZ-RPe"; */
+"XGd-VZ-RPe.text" = "Duration";
+
+/* Class = "UILabel"; text = "Username"; ObjectID = "XZ8-1D-jHY"; */
+"XZ8-1D-jHY.text" = "Username";
+
+/* Class = "UILabel"; text = "Welcome"; ObjectID = "Yet-2U-tK1"; */
+"Yet-2U-tK1.text" = "Welcome";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "Z3L-Pn-FUU"; */
+"Z3L-Pn-FUU.placeholder" = "Username";
+
+/* Class = "UIViewController"; title = "Baits Map"; ObjectID = "ZSX-rJ-Ras"; */
+"ZSX-rJ-Ras.title" = "Baits Map";
+
+/* Class = "UILabel"; text = "Total Baits"; ObjectID = "ZUH-gv-unw"; */
+"ZUH-gv-unw.text" = "Total Baits";
+
+/* Class = "UILabel"; text = "Overdue Baits"; ObjectID = "Zrf-6Y-Skd"; */
+"Zrf-6Y-Skd.text" = "Overdue Baits";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "ZuU-E3-rMx"; */
+"ZuU-E3-rMx.text" = "Title";
+
+/* Class = "UILabel"; text = "ADD BAIT"; ObjectID = "bfi-XY-Pgq"; */
+"bfi-XY-Pgq.text" = "ADD BAIT";
+
+/* Class = "UIButton"; normalTitle = "Sign in as Guest"; ObjectID = "bx4-2u-yZa"; */
+"bx4-2u-yZa.normalTitle" = "Sign in as Guest";
+
+/* Class = "UIViewController"; title = "License"; ObjectID = "cbq-6W-aDB"; */
+"cbq-6W-aDB.title" = "License";
+
+/* Class = "UILabel"; text = "Start Date"; ObjectID = "cq3-E1-Sbc"; */
+"cq3-E1-Sbc.text" = "Start Date";
+
+/* Class = "UILabel"; text = "Start Date: Apr 4, 2019"; ObjectID = "ct0-kb-ovB"; */
+"ct0-kb-ovB.text" = "Start Date: Apr 4, 2019";
+
+/* Class = "UILabel"; text = "30 days"; ObjectID = "d8s-aN-P02"; */
+"d8s-aN-P02.text" = "30 days";
+
+/* Class = "UIBarButtonItem"; title = "Add Program"; ObjectID = "dJc-jH-2qD"; */
+"dJc-jH-2qD.title" = "Add Program";
+
+/* Class = "UILabel"; text = "Month"; ObjectID = "f0U-9i-KzB"; */
+"f0U-9i-KzB.text" = "Month";
+
+/* Class = "UILabel"; text = "Invasive Species"; ObjectID = "f9c-p0-7KL"; */
+"f9c-p0-7KL.text" = "Invasive Species";
+
+/* Class = "UILabel"; text = "1"; ObjectID = "fGS-cs-Zkj"; */
+"fGS-cs-Zkj.text" = "1";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "fIV-dQ-aWO"; */
+"fIV-dQ-aWO.text" = "Title";
+
+/* Class = "UITableViewController"; title = "Remove Bait"; ObjectID = "fUY-J7-AO6"; */
+"fUY-J7-AO6.title" = "Remove Bait";
+
+/* Class = "UITableViewController"; title = "Documents"; ObjectID = "fbT-3A-f5m"; */
+"fbT-3A-f5m.title" = "Documents";
+
+/* Class = "UIViewController"; title = "Add Bait"; ObjectID = "hxk-qI-7fy"; */
+"hxk-qI-7fy.title" = "Add Bait";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "i1B-0Q-QDY"; */
+"i1B-0Q-QDY.title" = "Home";
+
+/* Class = "UILabel"; text = "Bait Type"; ObjectID = "iDQ-Ip-jo7"; */
+"iDQ-Ip-jo7.text" = "Bait Type";
+
+/* Class = "UILabel"; text = "Year"; ObjectID = "iHn-bv-WRW"; */
+"iHn-bv-WRW.text" = "Year";
+
+/* Class = "UIButton"; normalTitle = "Record Bait"; ObjectID = "iLe-Li-agP"; */
+"iLe-Li-agP.normalTitle" = "Record Bait";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "k7D-ZW-5Dv"; */
+"k7D-ZW-5Dv.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "k8T-2m-zBX"; */
+"k8T-2m-zBX.text" = "Password";
+
+/* Class = "UILabel"; text = "Upload Image (Optional)"; ObjectID = "mH5-RM-hq8"; */
+"mH5-RM-hq8.text" = "Upload Image (Optional)";
+
+/* Class = "UILabel"; text = "Please login to your account"; ObjectID = "mHd-ho-nMM"; */
+"mHd-ho-nMM.text" = "Please login to your account";
+
+/* Class = "UILabel"; text = "Upload Image (Optional)"; ObjectID = "pKK-2I-zLI"; */
+"pKK-2I-zLI.text" = "Upload Image (Optional)";
+
+/* Class = "UILabel"; text = "Documentation Pending"; ObjectID = "tOA-2Q-oVF"; */
+"tOA-2Q-oVF.text" = "Documentation Pending";
+
+/* Class = "UITextField"; placeholder = "Select Species"; ObjectID = "uHh-aZ-khq"; */
+"uHh-aZ-khq.placeholder" = "Select Species";
+
+/* Class = "UILabel"; text = "Over Due"; ObjectID = "uWU-5S-yRc"; */
+"uWU-5S-yRc.text" = "Over Due";
+
+/* Class = "UILabel"; text = "10"; ObjectID = "upJ-IM-qIE"; */
+"upJ-IM-qIE.text" = "10";
+
+/* Class = "UITextField"; placeholder = "Eg. sample123 or sample"; ObjectID = "uq1-B6-7ad"; */
+"uq1-B6-7ad.placeholder" = "Eg. sample123 or sample";
+
+/* Class = "UILabel"; text = "Due in 10 days"; ObjectID = "usc-Xy-LGn"; */
+"usc-Xy-LGn.text" = "Due in 10 days";
+
+/* Class = "UITextField"; placeholder = "(All animals)"; ObjectID = "v0R-py-ywA"; */
+"v0R-py-ywA.placeholder" = "(All animals)";
+
+/* Class = "UILabel"; text = "Bait type"; ObjectID = "vQh-xD-pjh"; */
+"vQh-xD-pjh.text" = "Bait type";
+
+/* Class = "UITextField"; placeholder = "Location"; ObjectID = "wwb-Bt-cgn"; */
+"wwb-Bt-cgn.placeholder" = "Location";
+
+/* Class = "UILabel"; text = "Sign up"; ObjectID = "yYi-Ta-TAG"; */
+"yYi-Ta-TAG.text" = "Sign up";
+
+/* Class = "UIViewController"; title = "Program Details"; ObjectID = "yr6-W9-ivw"; */
+"yr6-W9-ivw.title" = "Program Details";
+
+/* Class = "UITableViewController"; title = "Notifications"; ObjectID = "yz9-lh-Jkz"; */
+"yz9-lh-Jkz.title" = "Notifications";
+
+/* Class = "UIViewController"; title = "Species Map"; ObjectID = "zKp-tB-rFu"; */
+"zKp-tB-rFu.title" = "Species Map";

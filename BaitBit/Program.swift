@@ -25,6 +25,11 @@ class Program: NSObject {
     var startDate: NSDate
     var isActive: Bool
     var baits: [String : Bait] = [:]
+    var maximumDuration: DateComponents {
+        var component = DateComponents()
+        component.day = 4 // it should be assigned according to bait type of its program
+        return component
+    }
     
     init(id: String, baitType: String, species: String, startDate: NSDate?, isActive: Bool?) {
         self.id = id
