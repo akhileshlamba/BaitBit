@@ -29,10 +29,12 @@ class ProfileViewController: UIViewController {
     
     var changeImage = Bool(false)
     
-    var user = [String: Any]()
-    
+    var user: User!
+    var user1 = [String:Any]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        user = FirestoreDAO.authenticatedUser
         
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         
@@ -52,7 +54,7 @@ class ProfileViewController: UIViewController {
         formatter.dateFormat = "MMM dd, yyyy"
         showDatePicker()
         
-        self.storage.reference(forURL: user["licensePath"] as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
+        self.storage.reference(forURL: user.licensePath as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else{
@@ -61,8 +63,8 @@ class ProfileViewController: UIViewController {
                 self.activityIndicator.isHidden = false
                 self.nameLabel.isHidden = false
                 self.dateView.isHidden = false
-                self.nameLabel.text = "Hi, \(self.user["username"] as! String)! "
-                self.date.text = "\(self.user["licenseExpiryDate"] as! String)"
+                self.nameLabel.text = "Hi, \(self.user.username )! "
+                self.date.text = Util.setDateAsString(date: (self.user.licenseExpiryDate!))
                 self.activityIndicator.stopAnimating()
             }
         })
@@ -71,7 +73,7 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.user = FirestoreDAO.user!
+        self.user = FirestoreDAO.authenticatedUser!
     }
     
     @IBAction func updateLicense(_ sender: Any) {

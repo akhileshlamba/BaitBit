@@ -22,11 +22,19 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         
         dateFormatter.dateFormat = "MMM dd yyyy"
         loading.startAnimating()
-        FirestoreDAO.getAllPrograms { (programs) in
-            self.programList = programs
-            self.loading.stopAnimating()
-            self.tableView.reloadData()
+        
+        for program in FirestoreDAO.authenticatedUser.programs {
+            programList.append(program.value)
         }
+        
+        self.loading.stopAnimating()
+        self.tableView.reloadData()
+        
+//        FirestoreDAO.getAllPrograms { (programs) in
+//            self.programList = programs
+//            self.loading.stopAnimating()
+//            self.tableView.reloadData()
+//        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

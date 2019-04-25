@@ -10,20 +10,18 @@ import UIKit
 
 class User: NSObject {
 
-    var id: String
+    var id: String = ""
     var licensePath: String?
     var licenseExpiryDate: NSDate?
     var username: String
     var password: String
-    var program: Program?
+    var programs: [String: Program] = [:]
     
-    init(id: String, licensePath: String?, licenseExpiryDate: NSDate, username: String, password: String, program: Program?) {
-        self.id = id
+    init(licensePath: String?, licenseExpiryDate: NSDate, username: String, password: String) {
         self.licensePath = licensePath
         self.licenseExpiryDate = licenseExpiryDate
         self.username = username
         self.password = password
-        self.program = program
     }
     
     var daysComponentToAdd : DateComponents {
@@ -51,4 +49,23 @@ class User: NSObject {
     func setLicenseExpiryDate(date: NSDate){
         self.licenseExpiryDate = date
     }
+    
+    func setId(id: String) {
+        self.id = id
+    }
+    
+    func addToPrograms(program: Program) {
+        if self.programs.keys.contains(program.id) {
+            return
+        } else {
+            self.programs[program.id] = program
+        }
+    }
+    
+    func addToPrograms(programs: [Program]) {
+        for program in programs {
+            addToPrograms(program: program)
+        }
+    }
+    
 }

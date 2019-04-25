@@ -136,7 +136,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
         self.program.addToBaits(bait: bait)
 
         do {
-            FirestoreDAO.createOrUpdate(bait: bait, for: self.program)
+            //FirestoreDAO.createOrUpdate(bait: bait, for: self.program)
             displayMessage("Baiting Recorded Successfully", "Success", "OK")
 
         } catch let error {

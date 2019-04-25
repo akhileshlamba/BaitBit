@@ -12,11 +12,126 @@ import Firebase
 class FirestoreDAO: NSObject {
     static let usersRef = Firestore.firestore().collection("users")
     static var user: [String: Any]?
+    
+    static var authenticatedUser: User!
+    static var notificationDetails = [String: Any]()
 
     static let storageRef = Storage.storage().reference()
 
 
-    static func authenticateUser (with username: String, password: String, complete)
+    static func authenticateUser (with username: String, password: String, complete: @escaping (String) -> Void) {
+        var query = usersRef.whereField("username", isEqualTo: username)
+        query.getDocuments(completion: {(document, error) in
+            if (document?.documents.isEmpty ?? nil)! {
+                complete("Invalid username")
+            } else {
+                if document?.documents[0].data()["password"] as! String != password {
+                    complete("Invalid password")
+                } else {
+                    let userInfo = (document?.documents[0].data())!
+                    
+                    FirestoreDAO.setUserData(with: userInfo as NSDictionary, id: document?.documents[0].documentID as! String)
+                    
+                    let notificationsRef = Firestore.firestore().collection("notifications")
+                    query = notificationsRef.whereField("notificationOfUser", isEqualTo: document?.documents[0].documentID)
+                    
+                    query.getDocuments(completion: {(result, error) in
+                        if ((result?.documents.isEmpty)!) {
+                            complete("Fetch Notification")
+                        } else {
+                            self.notificationDetails = (result?.documents[0].data())!
+                            self.notificationDetails["id"] = (result?.documents[0].documentID)!
+                            complete("Success")
+                        }
+                    })
+                }
+            }
+        })
+    }
+    
+    static func registerUser(with user: User, complete: @escaping ([String: User]) -> Void) {
+        let query = usersRef.whereField("username", isEqualTo: user.username)
+        
+        query.getDocuments(completion: {(document, error) in
+            if (document?.documents.isEmpty ?? nil)! {
+                var ref: DocumentReference!
+                ref = usersRef.addDocument(data: [
+                    "username": user.username,
+                    "password": user.password,
+                    "licenseExpiryDate": Util.setDateAsString(date: user.licenseExpiryDate!)
+                ]) { err in
+                    if err != nil {
+                        let user : User!
+                        user = nil
+                        complete(["Save Error" : user])
+                    } else {
+                        self.authenticatedUser = user
+                        self.authenticatedUser.setId(id: ref.documentID)
+                        
+                        Firestore.firestore().collection("notifications").addDocument(data: [
+                            "overDue" : false,
+                            "dueSoon" : false,
+                            "documentation" : false,
+                            "notificationOfUser" : ref!.documentID
+                        ]) { err in
+                            if err != nil {
+                                let user : User!
+                                user = nil
+                                complete(["Error in saving notification details" : user])
+                            } else {
+                                complete(["Success" : self.authenticatedUser])
+                            }
+                        }
+                    }
+                }
+            } else {
+                let user : User!
+                user = nil
+                complete(["Duplicate User" : user])
+            }
+        })
+        
+    }
+    
+    static func setUserData(with userInfo: NSDictionary, id: String) {
+        self.authenticatedUser = User(
+            licensePath: userInfo["licensePath"] as? String,
+            licenseExpiryDate: Util.convertStringToDate(string: (userInfo["licenseExpiryDate"] as! String)),
+            username: userInfo["username"] as! String,
+            password: userInfo["password"] as! String
+        )
+        
+        self.authenticatedUser.setId(id: id)
+        
+        let programs = userInfo["programs"] as? NSDictionary
+        
+        if programs != nil {
+            for elem in programs! {
+                let id = elem.key as! String
+                let p = elem.value as! NSDictionary
+                let baitType = p["baitType"] as! String
+                let species = p["species"] as! String
+                let startDate = p["startDate"] as! String
+                let isActive = p["isActive"] as! Bool
+                let dateformatter = DateFormatter()
+                dateformatter.dateFormat = "MMM dd, yyyy"
+                let program:Program = Program(id: id,
+                                              baitType: baitType,
+                                              species: species,
+                                              startDate: dateformatter.date(from: startDate) as NSDate?,
+                                              isActive: isActive)
+                self.authenticatedUser.addToPrograms(program: program)
+                
+                program.addToBaits(baits: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
+            }
+            
+            print(self.authenticatedUser)
+        }
+    }
+    
+    func getPrograms(from user: NSDictionary) {
+        
+    }
     
 
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
@@ -49,12 +164,12 @@ class FirestoreDAO: NSObject {
         }
     }
 
-    static func updateLicenseImageAndData(of userWithId: [String: Any], image: UIImage, licenseDate: String, complete: @escaping (Bool) -> Void) {
+    static func updateLicenseImageAndData(of userWithId: User, image: UIImage, licenseDate: String, complete: @escaping (Bool) -> Void) {
         let date = UInt(Date().timeIntervalSince1970)
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
 
-        let imageRef = storageRef.child("\(userWithId["id"] ?? "")/License/\(date)")
+        let imageRef = storageRef.child("\(userWithId.id )/License/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
         imageRef.putData(data, metadata: metadata) { (metaData, error) in
@@ -66,7 +181,7 @@ class FirestoreDAO: NSObject {
                         complete(false)
                     }else{
                         if let imageURL = url?.absoluteString{
-                            let userRef = usersRef.document(userWithId["id"] as! String)
+                            let userRef = usersRef.document(userWithId.id )
                             userRef.updateData([
                                 "licensePath": imageURL,
                                 "licenseExpiryDate": licenseDate
@@ -75,9 +190,11 @@ class FirestoreDAO: NSObject {
                                 if err != nil {
                                     complete(false)
                                 } else {
-                                    self.user = userWithId
-                                    self.user!["licensePath"] = imageURL
-                                    self.user!["licenseExpiryDate"] = licenseDate
+                                    self.authenticatedUser = userWithId
+                                    self.authenticatedUser.setLicensePath(path: imageURL)
+                                    self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: licenseDate))
+//                                    self.user!["licensePath"] = imageURL
+//                                    self.user!["licenseExpiryDate"] = licenseDate
                                     complete(true)
                                 }
                             }
@@ -144,6 +261,28 @@ class FirestoreDAO: NSObject {
         })
     }
 
+    static func getAllPrograms(programs: NSDictionary, complete: @escaping ([Program]) -> Void) {
+        var programList = [Program]()
+        for elem in programs {
+            let id = elem.key as! String
+            let p = elem.value as! NSDictionary
+            let baitType = p["baitType"] as! String
+            let species = p["species"] as! String
+            let startDate = p["startDate"] as! String
+            let isActive = p["isActive"] as! Bool
+            let dateformatter = DateFormatter()
+            dateformatter.dateFormat = "MMM dd, yyyy"
+            let program:Program = Program(id: id,
+                                          baitType: baitType,
+                                          species: species,
+                                          startDate: dateformatter.date(from: startDate) as NSDate?,
+                                          isActive: isActive)
+            program.addToBaits(baits: getAllBaits(for: program))
+            programList.append(program)
+        }
+        complete(programList)
+    }
+    
     static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
         var programList = [Program]()
         if self.user == nil {
@@ -192,6 +331,37 @@ class FirestoreDAO: NSObject {
             complete(programList)
         }
     }
+    
+    static func getAllBaitsss(for baits: NSDictionary, program: Program) -> [Bait] {
+        var baitList = [Bait]()
+
+        for elem in baits {
+            let id = elem.key as! String
+            let b = elem.value as! NSDictionary
+            let laidDate = b["laidDate"] as! String
+            let latitude = b["latitude"] as! Double
+            let longitude = b["longitude"] as! Double
+            var photoPath:String?
+            if b["photPath"] != nil {
+                photoPath = b["photoPath"] as? String
+            } else {
+                photoPath = nil
+            }
+            let isRemoved = b["isRemoved"] as! Bool
+            let dateformatter = DateFormatter()
+            dateformatter.dateFormat = "MMM dd, yyyy"
+            let bait = Bait(id: id,
+                            laidDate: dateformatter.date(from: laidDate)! as NSDate,
+                            latitude: latitude,
+                            longitude: longitude,
+                            photoPath: photoPath,
+                            program: program,
+                            isRemoved: isRemoved)
+            baitList.append(bait)
+        }
+        
+        return baitList
+    }
 
     static func getAllBaits(for program: Program) -> [Bait] {
         var baitList = [Bait]()
@@ -229,34 +399,59 @@ class FirestoreDAO: NSObject {
     }
 
     static func createOrUpdate(program: Program) {
-        let query = usersRef.whereField("username", isEqualTo: user!["username"] as! String)
-        query.getDocuments(completion: {(document, error) in
-            let docID = document?.documents[0].documentID
-            print("docID: \(docID)")
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM dd, yyyy"
-
-            usersRef.document(docID!).setData(
-                [
-                    "programs": [
-                        program.id: [
-                            "baitType": program.baitType,
-                            "species": program.species,
-                            "startDate": dateFormatter.string(from: program.startDate as Date),
-                            "isActive": program.isActive,
-                            "baits": [:]
-                        ]
+        
+        let document = usersRef.document("\(authenticatedUser.id as! String)")
+        document.setData(
+            [
+                "programs": [
+                    program.id: [
+                        "baitType": program.baitType,
+                        "species": program.species,
+                        "startDate": Util.setDateAsString(date: program.startDate as! NSDate),
+                        "isActive": program.isActive,
+                        "baits": [:]
                     ]
                 ]
-                , merge: true, completion: { (err) in
-                    if let err = err {
-                        print("Error adding program: \(err)")
-                    }
-                    usersRef.document(docID!).getDocument(completion: { (document, error) in
-                        self.user = document?.data()
-                        self.user!["id"] = docID!
-                    })
-            })
+            ]
+            , merge: true, completion: { (err) in
+                if let err = err {
+                    print("Error adding program: \(err)")
+                }
+                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
+                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID )
+                })
+        })
+        
+        
+        
+//        let query = usersRef.whereField("username", isEqualTo: user!["username"] as! String)
+//        query.getDocuments(completion: {(document, error) in
+//            let docID = document?.documents[0].documentID
+//            print("docID: \(docID)")
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "MMM dd, yyyy"
+//
+//            usersRef.document(docID!).setData(
+//                [
+//                    "programs": [
+//                        program.id: [
+//                            "baitType": program.baitType,
+//                            "species": program.species,
+//                            "startDate": dateFormatter.string(from: program.startDate as Date),
+//                            "isActive": program.isActive,
+//                            "baits": [:]
+//                        ]
+//                    ]
+//                ]
+//                , merge: true, completion: { (err) in
+//                    if let err = err {
+//                        print("Error adding program: \(err)")
+//                    }
+//                    usersRef.document(docID!).getDocument(completion: { (document, error) in
+//                        self.user = document?.data()
+//                        self.user!["id"] = docID!
+//                    })
+//            })
 
 //                ref = self.db.collection("users").addDocument(data: [
 //                    "username": username,
@@ -275,7 +470,7 @@ class FirestoreDAO: NSObject {
 //                    }
 //                }
 
-        })
+        //})
     }
     
     static func createOrUpdate(bait: Bait, for program: Program, complete: @escaping (Bool) -> Void){

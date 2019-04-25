@@ -22,12 +22,14 @@ class Bait: NSObject {
     var program: Program?
     var isRemoved: Bool
     
+    var removeDate : Date = Date()
     var status: BaitStatus {
         // dueDate = laidDate + duration
         let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)
         let dueDate = NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)
-        let day = Calendar.current.dateComponents([.day], from: NSDate() as Date, to: dueDate!).day
-
+        print(dueDate)
+        let day = Calendar.current.dateComponents([.day,.month], from: NSDate() as Date, to: dueDate!).day
+    
         if isRemoved {
             return .REMOVED
         }

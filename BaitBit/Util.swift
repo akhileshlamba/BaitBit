@@ -21,7 +21,7 @@ class Util: NSObject {
     
     static func convertStringToDate(string: String) -> NSDate {
         formatter.dateFormat = dateFormat
-        return formatter.date(from: string) as! NSDate
+        return formatter.date(from: string)! as NSDate
     }
 
 }

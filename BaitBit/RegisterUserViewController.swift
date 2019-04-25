@@ -115,45 +115,69 @@ class RegisterUserViewController: UIViewController {
             return
         }
         
+        let user = User(
+            licensePath: nil,
+            licenseExpiryDate: Util.convertStringToDate(string: licenseExpiryDate),
+            username: username,
+            password: password
+        )
         
-        
-        let usersRef = db.collection("users")
-        let query = usersRef.whereField("username", isEqualTo: username)
-        
-        query.getDocuments(completion: {(document, error) in
-            if (document?.documents.isEmpty ?? nil)! {
-                var ref: DocumentReference!
-                ref = self.db.collection("users").addDocument(data: [
-                    "username": username,
-                    "password": password,
-                    "licenseExpiryDate": licenseExpiryDate
-                ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
-                    } else {
-                        self.userId = ref.documentID
-                        print("Document added with ID: \(ref!.documentID)")
-                        self.db.collection("notifications").addDocument(data: [
-                            "overDue" : false,
-                            "dueSoon" : false,
-                            "documentation" : false,
-                            "notificationOfUser" : ref!.documentID
-                        ]) { err in
-                            if let err = err {
-                                print("Error adding document: \(err)")
-                            } else {
-                                let success = self.savePhoto(image)
-                                if success ?? false {
-                                    self.navigationController?.popViewController(animated: true)
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
+        FirestoreDAO.registerUser(with: user, complete: {(string) in
+            if string.keys.contains("Duplicate User") {
                 self.displayErrorMessage("User exists with the same username", "Error")
+            } else if string.keys.contains("Save Error") {
+                self.displayErrorMessage("Error in registering user", "Error")
+            } else if string.keys.contains("Error in saving notification details") {
+                self.displayErrorMessage("Error in saving notification details", "Error")
+            } else if string.keys.contains("Success") {
+                let user = string["Success"]
+                FirestoreDAO.updateLicenseImageAndData(of: user!, image: image, licenseDate: Util.setDateAsString(date: user!.licenseExpiryDate!), complete: {(success) in
+                    if success {
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        self.displayErrorMessage("Error in storing License image", "Error")
+                    }
+                })
             }
         })
+        
+//        let usersRef = db.collection("users")
+//        let query = usersRef.whereField("username", isEqualTo: username)
+//
+//        query.getDocuments(completion: {(document, error) in
+//            if (document?.documents.isEmpty ?? nil)! {
+//                var ref: DocumentReference!
+//                ref = self.db.collection("users").addDocument(data: [
+//                    "username": username,
+//                    "password": password,
+//                    "licenseExpiryDate": licenseExpiryDate
+//                ]) { err in
+//                    if let err = err {
+//                        print("Error adding document: \(err)")
+//                    } else {
+//                        self.userId = ref.documentID
+//                        print("Document added with ID: \(ref!.documentID)")
+//                        self.db.collection("notifications").addDocument(data: [
+//                            "overDue" : false,
+//                            "dueSoon" : false,
+//                            "documentation" : false,
+//                            "notificationOfUser" : ref!.documentID
+//                        ]) { err in
+//                            if let err = err {
+//                                print("Error adding document: \(err)")
+//                            } else {
+//                                let success = self.savePhoto(image)
+//                                if success ?? false {
+//                                    self.navigationController?.popViewController(animated: true)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            } else {
+//                self.displayErrorMessage("User exists with the same username", "Error")
+//            }
+//        })
         
     }
     

@@ -10,13 +10,15 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
     var items = [[String]]()
-    var user = [String: Any]()
+    var user : User!
     var notificationDetails = [String: Any]()
     var updatedNotificationDetails = [String: Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        user = FirestoreDAO.authenticatedUser
+        notificationDetails = FirestoreDAO.notificationDetails
         updatedNotificationDetails = notificationDetails
         
 //        if !updatedNotificationDetails.isEmpty {
@@ -97,7 +99,7 @@ class SettingsTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "profile", for: indexPath) as! UserProfileTableViewCell
             
             cell.avatar.image = UIImage(named: "user")
-            cell.username.text = user["username"] as! String
+            cell.username.text = user.username as! String
             cell.viewLicense.text = "View License"
             return cell
         } else {
@@ -220,7 +222,7 @@ class SettingsTableViewController: UITableViewController {
         
         if segue.identifier == "licenseSegue" {
             let vc = segue.destination as! ProfileViewController
-            vc.user = FirestoreDAO.user!
+            //vc.user = FirestoreDAO.authenticatedUser!
         }
         
     }

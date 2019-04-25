@@ -95,64 +95,79 @@ class AuthViewController: UIViewController {
         //view.addSubview(activityIndicator)
         print(view.subviews)
         UIApplication.shared.beginIgnoringInteractionEvents()
-        let usersRef = db.collection("users")
-        var query = usersRef.whereField("username", isEqualTo: username)
-
-        query.getDocuments(completion: {(document, error) in
-            if (document?.documents.isEmpty ?? nil)! {
+        
+        
+        FirestoreDAO.authenticateUser(with: username, password: password, complete: {(result) in
+            if "Invalid username" == result {
                 self.indicator.stopAnimating()
                 self.indicator.isHidden = true
                 UIApplication.shared.endIgnoringInteractionEvents()
                 self.displayErrorMessage("Please enter correct username")
+            } else if result == "Invalid password"{
+                self.indicator.stopAnimating()
+                self.indicator.isHidden = true
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.displayErrorMessage("Please enter correct password")
+            } else if result == "Fetch Notification" {
+                self.indicator.stopAnimating()
+                self.indicator.isHidden = true
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.displayErrorMessage("Error in fetching user details")
             } else {
-                if document?.documents[0].data()["password"] as! String != password {
-                    self.indicator.stopAnimating()
-                    self.indicator.isHidden = true
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                    self.displayErrorMessage("Please enter correct password")
-                } else {
-                    self.user = (document?.documents[0].data())!
-                    self.user["id"] = (document?.documents[0].documentID)!
-                    
-                    self.authenticatedUser = User(
-                        id : self.user["id"] as! String,
-                        licensePath: self.user["licensePath"] as? String,
-                        licenseExpiryDate: Util.convertStringToDate(string: (self.user["licenseExpiryDate"] as! String)),
-                        username: self.user["username"] as! String,
-                        password: self.user["password"] as! String,
-                        program: self.user["programs"] as? Program
-                    )
-                    
-                    print(self.authenticatedUser)
-                    
-                    self.defaults.set(document?.documents[0].documentID, forKey: "userId")
-                    self.defaults.set(true, forKey: "loggedIn")
-                    let notificationsRef = self.db.collection("notifications")
-                    query = notificationsRef.whereField("notificationOfUser", isEqualTo: document?.documents[0].documentID)
-                    
-                    query.getDocuments(completion: {(result, error) in
-                        if ((result?.documents.isEmpty)!) {
-                            self.indicator.stopAnimating()
-                            self.indicator.isHidden = true
-                            UIApplication.shared.endIgnoringInteractionEvents()
-                            self.displayErrorMessage("Error in fetching user details")
-                        } else {
-                            self.notificationDetails = (result?.documents[0].data())!
-                            self.notificationDetails["id"] = (result?.documents[0].documentID)!
-                            self.performSegue(withIdentifier: "loginSegue", sender: nil)
-                        }
-                    })
-                }
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         })
-
-//        Auth.auth().signIn(withEmail: username, password: password){(user, error) in
-//            if error != nil{
-//                self.displayErrorMessage(error!.localizedDescription)
+        
+//        let usersRef = db.collection("users")
+//        var query = usersRef.whereField("username", isEqualTo: username)
+//
+//        query.getDocuments(completion: {(document, error) in
+//            if (document?.documents.isEmpty ?? nil)! {
+//                self.indicator.stopAnimating()
+//                self.indicator.isHidden = true
+//                UIApplication.shared.endIgnoringInteractionEvents()
+//                self.displayErrorMessage("Please enter correct username")
+//            } else {
+//                if document?.documents[0].data()["password"] as! String != password {
+//                    self.indicator.stopAnimating()
+//                    self.indicator.isHidden = true
+//                    UIApplication.shared.endIgnoringInteractionEvents()
+//                    self.displayErrorMessage("Please enter correct password")
+//                } else {
+//                    self.user = (document?.documents[0].data())!
+//                    self.user["id"] = (document?.documents[0].documentID)!
+//
+//                    self.authenticatedUser = User(
+//                        id : self.user["id"] as! String,
+//                        licensePath: self.user["licensePath"] as? String,
+//                        licenseExpiryDate: Util.convertStringToDate(string: (self.user["licenseExpiryDate"] as! String)),
+//                        username: self.user["username"] as! String,
+//                        password: self.user["password"] as! String,
+//                        program: self.user["programs"] as? Program
+//                    )
+//
+//                    print(self.authenticatedUser)
+//
+//                    self.defaults.set(document?.documents[0].documentID, forKey: "userId")
+//                    self.defaults.set(true, forKey: "loggedIn")
+//                    let notificationsRef = self.db.collection("notifications")
+//                    query = notificationsRef.whereField("notificationOfUser", isEqualTo: document?.documents[0].documentID)
+//
+//                    query.getDocuments(completion: {(result, error) in
+//                        if ((result?.documents.isEmpty)!) {
+//                            self.indicator.stopAnimating()
+//                            self.indicator.isHidden = true
+//                            UIApplication.shared.endIgnoringInteractionEvents()
+//                            self.displayErrorMessage("Error in fetching user details")
+//                        } else {
+//                            self.notificationDetails = (result?.documents[0].data())!
+//                            self.notificationDetails["id"] = (result?.documents[0].documentID)!
+//                            self.performSegue(withIdentifier: "loginSegue", sender: nil)
+//                        }
+//                    })
+//                }
 //            }
-//        }
-
-
+//        })
 
     }
 
