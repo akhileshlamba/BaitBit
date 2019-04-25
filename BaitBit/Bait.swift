@@ -23,18 +23,21 @@ class Bait: NSObject {
     var isRemoved: Bool
     
     var status: BaitStatus {
-        // TODO: implement notification constraints
         // dueDate = laidDate + duration
         let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)
-        let dateComponent = componentToAdd()
-        let dueDate = NSCalendar.current.date(byAdding: dateComponent, to: startDate)
-//        Calendar.compare
-//        if self.isRemoved {
-//            return .REMOVED
-//        } else if NSDate() > laidDate {
-//            return .OVERDUE
-//        } else if NSDate() >=
-        return .DUESOON
+        let dueDate = NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)
+        let day = Calendar.current.dateComponents([.day], from: NSDate() as Date, to: dueDate!).day
+
+        if isRemoved {
+            return .REMOVED
+        }
+        if day! > 2 {
+            return .ACTIVE
+        } else if day! < 0 {
+            return .OVERDUE
+        } else {
+            return .DUESOON
+        }
     }
     
     init(id: String, laidDate: NSDate?, latitude: Double, longitude: Double, photoPath: String?, program: Program, isRemoved: Bool?) {
@@ -45,13 +48,6 @@ class Bait: NSObject {
         self.photoPath = photoPath
         self.program = program
         self.isRemoved = isRemoved ?? false
-    }
-    
-    private func componentToAdd() -> DateComponents {
-        // TODO: implement notification constraints
-        var component = DateComponents()
-        component.day = 4 // it should be assigned according to bait type of its program
-        return component
     }
     
     var isOverdue: Bool {
