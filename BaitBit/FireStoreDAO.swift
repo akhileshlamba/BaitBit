@@ -196,7 +196,9 @@ class FirestoreDAO: NSObject {
                     if let err = err {
                         print("Error adding program: \(err)")
                     }
-                    self.user = document?.documents[0].data()
+                    usersRef.document(docID!).getDocument(completion: { (document, error) in
+                        self.user = document?.data()
+                    })
             })
 
 //                ref = self.db.collection("users").addDocument(data: [

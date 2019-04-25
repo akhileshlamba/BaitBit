@@ -32,9 +32,7 @@ class AddProgramViewController: UIViewController {
     var baitTypePicker = UIPickerView()
     var speciesPicker = UIPickerView()
     
-    let baitTypes: [String] = ["(Please select Your Bait)", "Shelf-stable Rabbit Bait", "Shelf-stable Feral Pig Bait"
-                                ,"Shelf-stable Fox or Wild Dog Bait", "Fox or Wild Dog capsule", "Perishable Fox Bait",
-                                 "Perishable Wild Dog Bait", "Perishable Rabbit Bait"]
+    var baitTypes: [String] = []
     
     let speciesType: [String] = ["(Please Select)", "Dog", "Pig", "Rabbit", "Fox"]
     
@@ -45,6 +43,11 @@ class AddProgramViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        baitTypes.append("(Please select Your Bait)")
+        for baitType in BaitType.allCases {
+            baitTypes.append(baitType.rawValue)
+        }
         
         baitTypePicker.dataSource = self
         baitTypePicker.delegate = self
@@ -152,8 +155,6 @@ class AddProgramViewController: UIViewController {
                 } else {
 //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
                 }
-//                self.navigationController?.viewControllers.popLast()
-
                 performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 
             } catch let error {
@@ -185,8 +186,6 @@ class AddProgramViewController: UIViewController {
         if segue.identifier == "ProgramStartedSegue" {
             let controller = segue.destination as! ProgramDetailsViewController
             controller.program = self.program
-//            self.navigationController?.viewControllers.popLast()
-            
         }
     }
 

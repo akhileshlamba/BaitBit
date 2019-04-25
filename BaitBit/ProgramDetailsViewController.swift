@@ -26,6 +26,7 @@ class ProgramDetailsViewController: UIViewController {
         self.setTextFields()
         
         // Do any additional setup after loading the view.
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(back))
     }
     
     func setTextFields() {
@@ -48,6 +49,18 @@ class ProgramDetailsViewController: UIViewController {
             self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
             self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
             self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
+        }
+    }
+    
+    @objc func back() {
+        let count = (self.navigationController?.viewControllers.count)!
+        let controller = self.navigationController?.viewControllers[count - 2]
+        
+        if controller is AddProgramViewController {
+            let homeViewController = self.navigationController?.viewControllers[count - 3]
+            self.navigationController?.popToViewController(homeViewController!, animated: true)
+        } else {
+            self.navigationController?.popViewController(animated: true)
         }
     }
     

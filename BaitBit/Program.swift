@@ -17,6 +17,26 @@ import UIKit
 //    case Perishable Wild Dog Bait = "Perishable Wild Dog Bait"
 //    case Perishable Rabbit Bait = "Perishable Rabbit Bait"
 //}
+enum BaitType: String, CaseIterable {
+    case Shelf_Rabbit = "Shelf-stable Rabbit Bait (oat)"
+    case Shelf_Pig = "Shelf-stable Feral Pig Bait"
+    case Shelf_Fox_Dog = "Shelf-stable Fox or Wild Dog Bait"
+    case Capsule_Fox_Dog = "Fox or Wild Dog Capsules"
+    case Perishable_Fox = "Perishable Fox Bait (liver)"
+    case Perishable_Dog = "Perishable Wild Dog Bait (liver or boneless red meat)"
+    case Perishable_Rabbit = "Perishable Rabbit Bait (carrot)"
+
+}
+
+let BaitTypeDuration = [
+    BaitType.Shelf_Rabbit.rawValue: 4,
+    BaitType.Shelf_Pig.rawValue: 7,
+    BaitType.Shelf_Fox_Dog.rawValue: 30,
+    BaitType.Capsule_Fox_Dog.rawValue: 60,
+    BaitType.Perishable_Fox.rawValue: 7,
+    BaitType.Perishable_Dog.rawValue: 14,
+    BaitType.Perishable_Rabbit.rawValue: 4
+]
 
 class Program: NSObject {
     var id: String
@@ -27,7 +47,7 @@ class Program: NSObject {
     var baits: [String : Bait] = [:]
     var maximumDuration: DateComponents {
         var component = DateComponents()
-        component.day = 4 // it should be assigned according to bait type of its program
+        component.day = BaitTypeDuration[self.baitType!]
         return component
     }
     
