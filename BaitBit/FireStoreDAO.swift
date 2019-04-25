@@ -154,7 +154,12 @@ class FirestoreDAO: NSObject {
                     let laidDate = b["laidDate"] as! String
                     let latitude = b["latitude"] as! Double
                     let longitude = b["longitude"] as! Double
-                    let photoPath = b["photoPath"] as! String
+                    var photoPath:String?
+                    if b["photPath"] != nil {
+                        photoPath = b["photoPath"] as! String
+                    } else {
+                        photoPath = nil
+                    }
                     let isRemoved = b["isRemoved"] as! Bool
                     let dateformatter = DateFormatter()
                     dateformatter.dateFormat = "MMM dd, yyyy"
@@ -221,7 +226,33 @@ class FirestoreDAO: NSObject {
         })
     }
     
-    static func createOrUpdate(bait: Bait, for program: Program) {
+    static func createOrUpdate(bait: Bait, for program: Program, complete: @escaping (Bool) -> Void){
+        let document = usersRef.document("\(user!["id"] as! String)")
+        document.setData([
+            "programs" :[
+                program.id : [
+                    "baits" : [
+                        bait.id : [
+                            "laidDate" : Util.setDateAsString(date: bait.laidDate),
+                            "latitude" : bait.latitude,
+                            "longitude" : bait.longitude,
+                            "isRemoved" : bait.isRemoved,
+                            "photoPath" : bait.photoPath
+                        ]
+                    ]
+                ]
+            ]
+        ]
+            , merge: true, completion: { (err) in
+                if let err = err {
+                    print("Error adding program: \(err)")
+                    complete(false)
+                }
+                usersRef.document(user!["id"] as! String).getDocument(completion: { (document, error) in
+                    self.user = document?.data()
+                    complete(true)
+                })
+        })
         
     }
     
