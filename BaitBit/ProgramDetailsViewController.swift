@@ -21,19 +21,47 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var numberOfOverdueBaitsTextField: UILabel!
     @IBOutlet weak var numberOfDueSoonBaitsTextField: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var programImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextFields()
+        self.setRightBarButtonItem()
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(back))
+    }
+    
+    @objc func edit() {
+        performSegue(withIdentifier: "EditProgramSegue", sender: nil)
+    }
+    
+    @objc func endProgram() {
+        if self.program.numberOfUnremovedBaits > 0 {
+            Util.displayErrorMessage(view: self, "Please remove all baits and upload ducuments to end program", "Cannot end program")
+        } else {
+            Util.confirmMessage(view: self, "Are you sure to END this program?", "End program", confirmAction: { (_) in
+                // TODO: Do something here
+                // 1. set self.program.isActive = false
+                // 2. invoke FirestoreDAO.endProgram(program:Program, complete: ((Bool) -> Void)?)
+                //    inside this method, setData [users/user.id/programs/program.id/"isActive": false]] in firestore
+            }, cancelAction: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.program = Program.program
         self.updateTextFields()
+        self.setRightBarButtonItem()
+    }
+    
+    func setRightBarButtonItem() {
+        if self.program.numberOfAllBaits == 0 {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.edit))
+        } else {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "End", style: .plain, target: self, action: #selector(self.endProgram))
+        }
     }
     
     func setTextFields() {
@@ -57,12 +85,19 @@ class ProgramDetailsViewController: UIViewController {
             self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
             self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
         }
+        
+        self.programImage.image = UIImage(named: self.program.species!)
     }
     
     func updateTextFields() {
+        self.baitTypeTextField.text = self.program.baitType
+        self.speciesTextField.text = self.program.species
+        self.programImage.image = UIImage(named: self.program.species!)
+
         if self.program.numberOfAllBaits > 0 {
             self.showStatsView()
             self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
+            self.totalBaitsTextField.text = "\(self.program.numberOfAllBaits)"
             self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
             self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
             self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
@@ -151,6 +186,11 @@ class ProgramDetailsViewController: UIViewController {
         if segue.identifier == "AddBaitSegue" {
             let controller = segue.destination as! AddBaitViewController
             controller.program = program
+        }
+        
+        if segue.identifier == "EditProgramSegue" {
+            let controller = segue.destination as! EditProgramViewController
+            controller.progrom = self.program
         }
     }
     

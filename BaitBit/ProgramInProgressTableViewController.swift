@@ -27,6 +27,9 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
             programList.append(program.value)
         }
         
+        programList.sort { (left, right) -> Bool in
+            return left.id > right.id
+        }
         self.loading.stopAnimating()
         self.tableView.reloadData()
         

@@ -25,8 +25,9 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
 //    let datePicker = UIDatePicker()
     @IBOutlet weak var addBaitTableView: UITableView!
 
-
-    let dataSource = ["Date", "Latitude", "Langitude"]
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
+    let dataSource = ["Date", "Latitude", "Longitude"]
     let imageDateSource = ["date", "latitude", "longitude"]
     var valueDateSource = ["", "", ""]
     var dateCell: UITableViewCell?
@@ -133,8 +134,10 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
 
         self.program.addToBaits(bait: bait)
 
+        self.loading.startAnimating()
         FirestoreDAO.createOrUpdate(bait: bait, for: self.program, complete: {(result) in
             guard result else {
+                self.loading.stopAnimating()
                 self.displayMessage("Problem in updating bait", "Error", completion: {(_) in
                     self.navigationController?.popViewController(animated: true)
                     self.dismiss(animated: true, completion: nil)
@@ -145,6 +148,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
             Program.program = self.program
 
             guard let image = self.baitPhoto.image else {
+                self.loading.stopAnimating()
                 self.displayMessage("Bait created successfully!", "Sucess", "OK", completion: {(_) in
                     self.navigationController?.popViewController(animated: true)
                     self.dismiss(animated: true, completion: nil)
@@ -153,6 +157,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
             }
 
             FirestoreDAO.updateImageAndData(for: bait, image: image, complete: {(result) in
+                self.loading.stopAnimating()
                 if result {
                     self.displayMessage("Bait created successfully!", "Sucess", "OK", completion: {(_) in
                         self.navigationController?.popViewController(animated: true)

@@ -19,6 +19,8 @@ class BaitDetailsViewController: UIViewController {
     @IBOutlet weak var durationView: UIView!
     @IBOutlet weak var baitImageContainerView: UIView!
     
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
