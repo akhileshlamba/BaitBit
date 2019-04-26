@@ -71,16 +71,30 @@ class NotificationsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return overDueBaitsForProgram.count + dueSoonBaitsForProgram.count
+        let count : Int!
+        switch sections[section] {
+        case "Bait Status":
+            count = overDueBaitsForProgram.count + dueSoonBaitsForProgram.count
+            break
+        case "License":
+            count = 1
+            break
+        case "Documentation":
+            count = 1
+            break
+        default:
+            count = 1
         }
-        return 1
+        
+        return count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notificationIdentifier", for: indexPath)
-        if indexPath.section == 0 {
+        
+        switch sections[indexPath.section] {
+        case "Bait Status" :
             let countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
             if countForSwitchBetweenOverDueAndDueSoon > indexPath.row {
                 let count = Array(overDueBaitsForProgram.values)[indexPath.row]
@@ -98,23 +112,38 @@ class NotificationsTableViewController: UITableViewController {
             self.view.frame.origin.x = 20
             cell.layer.cornerRadius = 6.0
             cell.layer.shadowRadius = 2.0
-        }
-        
-        if indexPath.section == 1 {
+            break
+            
+        case "Documentation":
+            break
+        case "License":
             cell.textLabel?.text = "License due in one month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+            break
+        default:
+            break
         }
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Baits Status"
-        } else if section == 1 {
-            return "Documentation"
-        } else {
-            return "License"
+        let title : String!
+        switch sections[section] {
+        case "Bait Status":
+            title = "Baits Status"
+            break
+        case "Documentation":
+            title = "Documentation"
+            break
+        case "License":
+            title = "License"
+            break
+        default:
+            title = "No new notifications"
+            break
+            
         }
+        return title
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
