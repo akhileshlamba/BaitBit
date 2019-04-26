@@ -410,7 +410,7 @@ class FirestoreDAO: NSObject {
 
     static func createOrUpdate(program: Program) {
 
-        let document = usersRef.document("\(authenticatedUser.id as! String)")
+        let document = usersRef.document("\(authenticatedUser.id )")
         document.setData(
             [
                 "programs": [
@@ -484,7 +484,7 @@ class FirestoreDAO: NSObject {
     }
 
     static func createOrUpdate(bait: Bait, for program: Program, complete: @escaping (Bool) -> Void){
-        let document = usersRef.document("\(user!["id"] as! String)")
+        let document = usersRef.document("\(authenticatedUser.id)")
         document.setData([
             "programs" :[
                 program.id : [
@@ -505,9 +505,8 @@ class FirestoreDAO: NSObject {
                     print("Error adding program: \(err)")
                     complete(false)
                 }
-                usersRef.document(user!["id"] as! String).getDocument(completion: { (document, error) in
-                    self.user = document?.data()
-                    self.user!["id"] = (document?.documentID)!
+                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
+                    setUserData(with: document?.data() as! NSDictionary, id: authenticatedUser.id)
                     complete(true)
                 })
         })

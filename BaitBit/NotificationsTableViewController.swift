@@ -10,15 +10,20 @@ import UIKit
 
 class NotificationsTableViewController: UITableViewController {
     
-    var users : [String: Any]!
-//    var overDueBaits : Int
-//    var dueSoonBaits : Int
+    var users : User!
+    
+    var overDueBaitsForProgram : [String : Int] = [:]
+    var dueSoonBaitsForProgram : [String : Int] = [:]
+    
+    var sections1 = [[String: Int]]()
+    
+    var sections = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.users = FirestoreDAO.user
-        
+        self.users = FirestoreDAO.authenticatedUser
+        calculateTotalNoOfOverDueAndDueSoonBaits(of: self.users)
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -27,29 +32,97 @@ class NotificationsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    
+    func calculateTotalNoOfOverDueAndDueSoonBaits(of user: User){
+        for program in user.programs {
+            var overDueBaits = 0
+            var dueSoonBaits = 0
+            for bait in program.value.baits {
+                if bait.value.isOverdue {
+                    overDueBaits += 1
+                } else if bait.value.isDueSoon {
+                    dueSoonBaits += 1
+                }
+            }
+            if overDueBaits != 0 {
+                overDueBaitsForProgram["\(program.value.id)  \(program.value.baitType as! String)"] = overDueBaits
+            }
+            if dueSoonBaits != 0 {
+                dueSoonBaitsForProgram["\(program.value.id)  \(program.value.baitType as! String)"] = dueSoonBaits
+            }
+        }
+        
+        if dueSoonBaitsForProgram.count != 0 || overDueBaitsForProgram.count != 0{
+            sections.append("Bait Status")
+        }
+        
+        if user.licenseExpiringSoon {
+            print("Here")
+            sections.append("License")
+        }
+        
+        
+        
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return sections.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if section == 0 {
+            return overDueBaitsForProgram.count + dueSoonBaitsForProgram.count
+        }
+        return 1
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCell(withIdentifier: "notificationIdentifier", for: indexPath)
+        if indexPath.section == 0 {
+            let countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
+            if countForSwitchBetweenOverDueAndDueSoon > indexPath.row {
+                let count = Array(overDueBaitsForProgram.values)[indexPath.row]
+                let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
+                let name = key.split(separator: " ")[1]
+                cell.imageView!.image = UIImage(named: "exclamation-mark")
+                cell.textLabel?.text = "\(count) Baits over due in \(name) program"
+            }else {
+                let count = Array(dueSoonBaitsForProgram.values)[indexPath.row - countForSwitchBetweenOverDueAndDueSoon]
+                let key = Array(dueSoonBaitsForProgram.keys)[indexPath.row - countForSwitchBetweenOverDueAndDueSoon]
+                let name = key.split(separator: " ")[1]
+                cell.imageView!.image = UIImage(named: "warning")
+                cell.textLabel?.text = "\(count) Baits due Soon in \(name) program"
+            }
+            self.view.frame.origin.x = 20
+            cell.layer.cornerRadius = 6.0
+            cell.layer.shadowRadius = 2.0
+        }
+        
+        if indexPath.section == 1 {
+            cell.textLabel?.text = "License due in one month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+        }
 
         return cell
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Baits Status"
+        } else if section == 1 {
+            return "Documentation"
+        } else {
+            return "License"
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            
+        }
+    }
+ 
 
     /*
     // Override to support conditional editing of the table view.

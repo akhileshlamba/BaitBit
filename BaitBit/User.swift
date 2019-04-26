@@ -32,8 +32,8 @@ class User: NSObject {
     
     var licenseExpiringSoon : Bool {
         let startDate = Calendar.startOfDay(Calendar.current)(for: licenseExpiryDate! as Date)
-        let dueDate = NSCalendar.current.date(byAdding: self.daysComponentToAdd, to: startDate)
-        let day = Calendar.current.dateComponents([.day], from: NSDate() as Date, to: dueDate!).day
+        //let dueDate = NSCalendar.current.date(byAdding: self.daysComponentToAdd, to: startDate)
+        let day = Calendar.current.dateComponents([.day], from: NSDate() as Date, to: startDate).day
         
         if day! > 30 {
             return false

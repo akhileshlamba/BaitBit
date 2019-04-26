@@ -374,7 +374,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="HHc-pY-oi1" rowHeight="70" style="IBUITableViewCellStyleDefault" id="ex6-gN-e9Q">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationIdentifier" textLabel="HHc-pY-oi1" rowHeight="70" style="IBUITableViewCellStyleDefault" id="ex6-gN-e9Q">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ex6-gN-e9Q" id="oKS-BG-GA9">
@@ -397,6 +397,9 @@
                             <outlet property="delegate" destination="yz9-lh-Jkz" id="Jz3-JW-9kD"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="yr6-W9-ivw" kind="show" identifier="notificationProgramSegue" id="lRn-pD-xYm"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8RR-vO-XBi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2103,7 +2106,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Ysg-86-57x"/>
-        <segue reference="XSh-ec-wXm"/>
+        <segue reference="lRn-pD-xYm"/>
         <segue reference="qn9-nE-EkH"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="91M-ev-XBb"/>
