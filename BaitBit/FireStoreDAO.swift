@@ -227,8 +227,8 @@ class FirestoreDAO: NSObject {
                         complete(false)
                     } else {
                         if let imageURL = url?.absoluteString {
-                            let userRef = usersRef.document(self.user!["id"] as! String)
-                            userRef.updateData([
+                            let userRef = usersRef.document(self.authenticatedUser.id)
+                            userRef.setData([
                                 "programs": [
                                     bait.program!.id: [
                                         "baits": [
@@ -239,15 +239,16 @@ class FirestoreDAO: NSObject {
                                         ]
                                     ]
                                 ]
-                            ]) {
+                            ]
+                            , merge: true, completion: {
                                 err in
                                 if err != nil {
                                     complete(false)
                                 } else {
-                                    self.getUserData(from: self.user!["id"] as! String, complete: nil)
+                                    self.getUserData(from: self.authenticatedUser.id, complete: nil)
                                     complete(true)
                                 }
-                            }
+                            })
                         }
                     }
                 })
@@ -419,9 +420,9 @@ class FirestoreDAO: NSObject {
             [
                 "programs": [
                     program.id: [
-                        "baitType": program.baitType,
-                        "species": program.species,
-                        "startDate": Util.setDateAsString(date: program.startDate as! NSDate),
+                        "baitType": program.baitType!,
+                        "species": program.species!,
+                        "startDate": Util.setDateAsString(date: program.startDate),
                         "isActive": program.isActive,
                         "baits": [:]
                     ]
