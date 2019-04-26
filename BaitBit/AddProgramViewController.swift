@@ -146,20 +146,15 @@ class AddProgramViewController: UIViewController {
                                   startDate: formatter.date(from: start_date.text!)! as NSDate,
                                   isActive: true)
             Program.program = self.program
-            do {
-                delegate?.didAddBaitProgram(self.program!)
-                FirestoreDAO.createOrUpdate(program: self.program!)
-                
-                if !(formatter.date(from: start_date.text!)!  > Date()) {
+            delegate?.didAddBaitProgram(self.program!)
+            FirestoreDAO.createOrUpdate(program: self.program!)
+            
+            if !(formatter.date(from: start_date.text!)!  > Date()) {
 //                    performSegue(withIdentifier: "addbait", sender: nil)
-                } else {
+            } else {
 //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
-                }
-                performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
-                
-            } catch let error {
-                print("Could not save to core data: \(error)")
             }
+            performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
         }
         
     }
@@ -257,7 +252,7 @@ extension AddProgramViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
         
         cell.textLabel?.text = "Upload Documents"
-        cell.imageView?.image = UIImage(named: "checked")
+        cell.imageView?.image = UIImage(named: "document_orange")
         
         return cell
     }

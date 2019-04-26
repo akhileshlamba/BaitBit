@@ -26,7 +26,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var addBaitTableView: UITableView!
 
 
-    let dataSource = ["Date", "Latitude", "Langitude"]
+    let dataSource = ["Date", "Latitude", "Longitude"]
     let imageDateSource = ["date", "latitude", "longitude"]
     var valueDateSource = ["", "", ""]
     var dateCell: UITableViewCell?

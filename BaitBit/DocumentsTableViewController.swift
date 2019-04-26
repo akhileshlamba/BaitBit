@@ -9,6 +9,7 @@
 import UIKit
 
 let documentNames = ["Risk assessment", "Purchase record", "Notification of pest control", "Neighbour notification"]
+let documentImageNames = ["Risk assessment", "Document_Green", "Notification of pest", "Neighbour_Notif"]
 
 class DocumentsTableViewController: UITableViewController {
 
@@ -38,7 +39,7 @@ class DocumentsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
         
         cell.textLabel?.text = documentNames[indexPath.row]
-        cell.imageView?.image = UIImage(named: "clock")
+        cell.imageView?.image = UIImage(named: documentImageNames[indexPath.row])
         
         return cell
     }

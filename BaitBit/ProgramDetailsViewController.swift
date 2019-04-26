@@ -21,6 +21,7 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var numberOfOverdueBaitsTextField: UILabel!
     @IBOutlet weak var numberOfDueSoonBaitsTextField: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var programImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,28 @@ class ProgramDetailsViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(back))
+        if self.program.numberOfAllBaits == 0 {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.edit))
+        } else {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "End", style: .plain, target: self, action: #selector(self.endProgram))
+        }
+    }
+    
+    @objc func edit() {
+        
+    }
+    
+    @objc func endProgram() {
+        if self.program.numberOfUnremovedBaits > 0 {
+            Util.displayErrorMessage(view: self, "Please remove all baits and upload ducuments to end program", "Cannot end program")
+        } else {
+            Util.confirmMessage(view: self, "Are you sure to END this program?", "End program", confirmAction: { (_) in
+                // TODO: Do something here
+                // 1. set self.program.isActive = false
+                // 2. invoke FirestoreDAO.endProgram(program:Program, complete: ((Bool) -> Void)?)
+                //    inside this method, setData [users/user.id/programs/program.id/"isActive": false]] in firestore
+            }, cancelAction: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,12 +80,15 @@ class ProgramDetailsViewController: UIViewController {
             self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
             self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
         }
+        
+        self.programImage.image = UIImage(named: self.program.species!)
     }
     
     func updateTextFields() {
         if self.program.numberOfAllBaits > 0 {
             self.showStatsView()
             self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
+            self.totalBaitsTextField.text = "\(self.program.numberOfAllBaits)"
             self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
             self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
             self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
