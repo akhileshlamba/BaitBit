@@ -16,7 +16,7 @@
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Zyd-7n-upI" customClass="IntroductionPageViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rEq-6t-YrA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3081" y="-347"/>
+            <point key="canvasLocation" x="-3481" y="-345"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="yn2-kw-g3x">
@@ -31,7 +31,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OrD-O9-WgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2129" y="-849"/>
+            <point key="canvasLocation" x="-2721" y="-874"/>
         </scene>
         <!--Second Page View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -58,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2129" y="-26"/>
+            <point key="canvasLocation" x="-2722" y="-24"/>
         </scene>
         <!--Resources-->
         <scene sceneID="iBb-cC-NR3">
@@ -399,11 +399,12 @@
                     </tableView>
                     <connections>
                         <segue destination="yr6-W9-ivw" kind="show" identifier="notificationProgramSegue" id="lRn-pD-xYm"/>
+                        <segue destination="8lv-Gw-Vzf" kind="show" identifier="licenseNotificationSegue" id="vuz-8r-zAP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8RR-vO-XBi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2853.5999999999999" y="-2617.2413793103451"/>
+            <point key="canvasLocation" x="4094" y="-2929"/>
         </scene>
         <!--Baits Map-->
         <scene sceneID="o1F-ho-vW7">
@@ -897,7 +898,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09x-Ad-XMy">
-                                <rect key="frame" x="67" y="560" width="241" height="50"/>
+                                <rect key="frame" x="67" y="511" width="241" height="50"/>
                                 <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5p1-xH-q90"/>
@@ -1439,7 +1440,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5c-Jn-x1j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-652" y="-24"/>
+            <point key="canvasLocation" x="-1642" y="-27"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="DJr-2n-LtT">
@@ -1461,7 +1462,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M7r-b0-jgO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1295" y="-25"/>
+            <point key="canvasLocation" x="745" y="-117"/>
         </scene>
         <!--Sign In-->
         <scene sceneID="pDf-4a-uM3">
@@ -1659,7 +1660,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xf-bl-azm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="360.80000000000001" y="-24.287856071964018"/>
+            <point key="canvasLocation" x="-617" y="-28"/>
         </scene>
         <!--Register User View Controller-->
         <scene sceneID="uUN-v7-e6e">
@@ -1866,7 +1867,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z1N-q3-2Yo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1293.5999999999999" y="-1195.5022488755624"/>
+            <point key="canvasLocation" x="361" y="-1260"/>
         </scene>
         <!--Help-->
         <scene sceneID="7BR-v7-2ot">
@@ -1976,7 +1977,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="erk-nh-Mb1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2853.5999999999999" y="2699.1004497751128"/>
+            <point key="canvasLocation" x="1321" y="-1700"/>
         </scene>
         <!--License-->
         <scene sceneID="lpk-K7-Rsm">
@@ -2082,7 +2083,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kZL-CF-vbi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3824.8000000000002" y="2698.2008995502251"/>
+            <point key="canvasLocation" x="2190" y="-2796"/>
         </scene>
     </scenes>
     <resources>
@@ -2105,9 +2106,10 @@
         <image name="user" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="vuz-8r-zAP"/>
         <segue reference="cr2-hU-SUH"/>
-        <segue reference="T0e-2L-rHm"/>
-        <segue reference="qn9-nE-EkH"/>
+        <segue reference="XSh-ec-wXm"/>
+        <segue reference="fLu-SJ-lPx"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>

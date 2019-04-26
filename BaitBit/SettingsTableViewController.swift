@@ -28,7 +28,7 @@ class SettingsTableViewController: UITableViewController {
         items = [[String]]()
         
         items.append(["Notifications"])
-        items.append(["Over Due", "Due Soon", "Documentation"])
+        items.append(["Over Due", "Due Soon", "Documentation", "License"])
         self.tableView.tableFooterView = UIView(frame: .zero)
         
 //        // Uncomment the following line to preserve selection between presentations
@@ -66,6 +66,9 @@ class SettingsTableViewController: UITableViewController {
                 case "Documentation":
                     updatedNotificationDetails["documentation"] = notificationCell.toggle.isOn
                     break
+                case "License":
+                    updatedNotificationDetails["license"] = notificationCell.toggle.isOn
+                    break
                 default:
                     break
                 }
@@ -77,7 +80,7 @@ class SettingsTableViewController: UITableViewController {
             notificationDetails = updatedNotificationDetails
             print(updatedNotificationDetails)
         }
-//>>>>>>> 588c1bfdc5ae42cb08faff034d7f7fd86fff48c6
+
     }
 
     // MARK: - Table view data source
@@ -117,6 +120,10 @@ class SettingsTableViewController: UITableViewController {
             case "Documentation":
                 cell.label.text = items[indexPath.section][indexPath.row]
                 cell.toggle.isOn = updatedNotificationDetails["documentation"] as! Bool
+                break
+            case "License":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                cell.toggle.isOn = updatedNotificationDetails["license"] as! Bool
                 break
             default:
                 break
@@ -164,6 +171,9 @@ class SettingsTableViewController: UITableViewController {
                 break
             case "Documentation":
                 updatedNotificationDetails["documentation"] = cell.toggle.isOn
+                break
+            case "License":
+                updatedNotificationDetails["license"] = cell.toggle.isOn
                 break
             default:
                 break

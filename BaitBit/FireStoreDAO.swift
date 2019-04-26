@@ -72,7 +72,8 @@ class FirestoreDAO: NSObject {
                             "overDue" : false,
                             "dueSoon" : false,
                             "documentation" : false,
-                            "notificationOfUser" : ref!.documentID
+                            "notificationOfUser" : ref!.documentID,
+                            "license" : false
                         ]) { err in
                             if err != nil {
                                 let user : User!
@@ -154,15 +155,18 @@ class FirestoreDAO: NSObject {
     }
 
     static func updateNotificationDetails(with id: String, details: [String: Any]) {
+        self.notificationDetails = details
         let notificationsRef = Firestore.firestore().collection("notifications").document(details["id"] as! String)
         notificationsRef.updateData([
             "overDue" : details["overDue"],
             "dueSoon" : details["dueSoon"],
-            "documentation" : details["documentation"]
+            "documentation" : details["documentation"],
+            "license" : details["license"]
         ]) { err in
             if let err = err {
                 print("Error updating document: \(err)")
             } else {
+                self.notificationDetails = details
                 print("Document successfully updated")
             }
         }
@@ -215,7 +219,7 @@ class FirestoreDAO: NSObject {
         data = UIImageJPEGRepresentation(image, 0.1)!
 
         // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
-        let imageRef = storageRef.child("\(self.user!["id"] ?? "")/Bait/\(date)")
+        let imageRef = storageRef.child("\(self.authenticatedUser.id)/Bait/\(date)")
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
         imageRef.putData(data, metadata: metadata) { (metaData, error) in
