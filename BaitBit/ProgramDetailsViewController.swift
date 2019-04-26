@@ -26,18 +26,14 @@ class ProgramDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextFields()
+        self.setRightBarButtonItem()
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(back))
-        if self.program.numberOfAllBaits == 0 {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.edit))
-        } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "End", style: .plain, target: self, action: #selector(self.endProgram))
-        }
     }
     
     @objc func edit() {
-        
+        performSegue(withIdentifier: "EditProgramSegue", sender: nil)
     }
     
     @objc func endProgram() {
@@ -57,6 +53,15 @@ class ProgramDetailsViewController: UIViewController {
         super.viewWillAppear(true)
         self.program = Program.program
         self.updateTextFields()
+        self.setRightBarButtonItem()
+    }
+    
+    func setRightBarButtonItem() {
+        if self.program.numberOfAllBaits == 0 {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.edit))
+        } else {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "End", style: .plain, target: self, action: #selector(self.endProgram))
+        }
     }
     
     func setTextFields() {
@@ -85,6 +90,10 @@ class ProgramDetailsViewController: UIViewController {
     }
     
     func updateTextFields() {
+        self.baitTypeTextField.text = self.program.baitType
+        self.speciesTextField.text = self.program.species
+        self.programImage.image = UIImage(named: self.program.species!)
+
         if self.program.numberOfAllBaits > 0 {
             self.showStatsView()
             self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
@@ -177,6 +186,11 @@ class ProgramDetailsViewController: UIViewController {
         if segue.identifier == "AddBaitSegue" {
             let controller = segue.destination as! AddBaitViewController
             controller.program = program
+        }
+        
+        if segue.identifier == "EditProgramSegue" {
+            let controller = segue.destination as! EditProgramViewController
+            controller.progrom = self.program
         }
     }
     
