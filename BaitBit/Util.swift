@@ -49,7 +49,7 @@ class Util: NSObject {
                                                 preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style:
             UIAlertActionStyle.default, handler: confirmAction))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancelAction))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelAction))
         view.present(alertController, animated: true, completion: nil)
     }
 
