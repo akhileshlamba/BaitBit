@@ -121,8 +121,12 @@ class FirestoreDAO: NSObject {
                                               startDate: dateformatter.date(from: startDate) as NSDate?,
                                               isActive: isActive)
                 self.authenticatedUser.addToPrograms(program: program)
-
-                program.addToBaits(baits: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
+                
+                if p["baits"] != nil {
+                    program.addToBaits(baits: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
+                } else {
+                    program.baits = [:]
+                }
             }
 
             print(self.authenticatedUser)
