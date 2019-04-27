@@ -14,7 +14,7 @@ class RemoveBaitTableViewController: UITableViewController {
     let death = ["Carcass found near by"]
     var dataSourceForCells = [[String]]()
     let identifiersForCells = ["BaitStatusCell", "SpeciesDeathCell"]
-    let titleForHeaders = ["Bait status (Choose one)", "Species death (Optional"]
+    let titleForHeaders = ["Bait status (Choose one)", "Species death (Optional)"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,10 +59,10 @@ class RemoveBaitTableViewController: UITableViewController {
         }
         
         if indexPath.section == 1 {
-            if tableView.cellForRow(at: indexPath)?.accessoryType == .none {
-                tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            } else {
+            if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
                 tableView.cellForRow(at: indexPath)?.accessoryType = .none
+            } else {
+                tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             }
         }
         

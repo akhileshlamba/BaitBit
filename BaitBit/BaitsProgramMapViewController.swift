@@ -18,6 +18,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     var locationManager: CLLocationManager = CLLocationManager()
     var program: Program?
     var baits: [Bait] = []
+    var selectedBait: Bait?
     
     var baitAnnotations: [BaitAnnotation] = []
     
@@ -172,7 +173,12 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         return annoationView
     }
     
-    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? BaitAnnotation {
+            self.selectedBait = annotation.bait
+            performSegue(withIdentifier: "BaitDetailSegue", sender: nil)
+        }
+    }
     
     // MARK: - Navigation
 
@@ -183,6 +189,11 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         if segue.identifier == "AddBaitSegue" {
             let controller = segue.destination as! AddBaitViewController
             controller.program = self.program
+        }
+        
+        if segue.identifier == "BaitDetailSegue" {
+            let controller = segue.destination as! BaitDetailsViewController
+            controller.bait = self.selectedBait
         }
     }
 }
