@@ -23,11 +23,13 @@ class BaitDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.setFields()
 
         // Do any additional setup after loading the view.
     }
     
+    func setFields() {
+    }
 
     @IBAction func dragDownFromTop(_ sender: UIScreenEdgePanGestureRecognizer) {
         if sender.edges == .top {
