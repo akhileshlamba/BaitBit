@@ -95,31 +95,51 @@ class RegisterUserViewController: UIViewController {
     
     @IBAction func register(_ sender: Any) {
         
-        guard let password = password.text else {
+        if (username.text!.isEmpty){
+            displayErrorMessage("Please Enter a username", "Error")
+            return
+        }
+        
+        if (password.text!.isEmpty){
             displayErrorMessage("Please Enter a password", "Error")
             return
         }
         
-        guard let username = username.text else {
-            displayErrorMessage("Please Enter a password", "Error")
+        if (password.text!.count < 6){
+            displayErrorMessage("Password should be of minimum of 6 characters", "Error")
             return
         }
         
-        guard let licenseExpiryDate = licenseExpiryDate.text else {
-            displayErrorMessage("Please Enter a password", "Error")
+        
+//        guard let licenseExpiryDate = licenseExpiryDate.text else {
+//            displayErrorMessage("Please Enter a password", "Error")
+//            return
+//        }
+//
+//        guard let image = licenseImage.image else {
+//            displayErrorMessage("Please select or take image of License", "Error")
+//            return
+//        }
+        let name = username.text
+        let pwd = password.text
+        let expiryDate = licenseExpiryDate.text
+        let image = licenseImage.image
+        
+        if image == nil && !expiryDate!.isEmpty {
+            displayErrorMessage("Please select or take image of License before selecting date", "Error")
             return
         }
         
-        guard let image = licenseImage.image else {
-            displayErrorMessage("Please select or take image of License", "Error")
+        if image != nil && expiryDate!.isEmpty {
+            displayErrorMessage("Please select expiry date for license", "Error")
             return
         }
+        
+        
         
         let user = User(
-            licensePath: nil,
-            licenseExpiryDate: Util.convertStringToDate(string: licenseExpiryDate),
-            username: username,
-            password: password
+            username: name!,
+            password: pwd!
         )
         
         FirestoreDAO.registerUser(with: user, complete: {(string) in
@@ -131,13 +151,22 @@ class RegisterUserViewController: UIViewController {
                 self.displayErrorMessage("Error in saving notification details", "Error")
             } else if string.keys.contains("Success") {
                 let user = string["Success"]
-                FirestoreDAO.updateLicenseImageAndData(of: user!, image: image, licenseDate: Util.setDateAsString(date: user!.licenseExpiryDate!), complete: {(success) in
-                    if success {
+                if image != nil {
+                    FirestoreDAO.updateLicenseImageAndData(of: user!!, image: image!, licenseDate: Util.setDateAsString(date: user!!.licenseExpiryDate!), complete: {(success) in
+                        if success {
+                            self.displayErrorMessage("You are registered with the Baitbit", "Success", completion: {(_) in
+                                self.navigationController?.popViewController(animated: true)
+                            })
+                        } else {
+                            self.displayErrorMessage("Error in storing License image", "Error")
+                        }
+                    })
+                } else {
+                    self.displayErrorMessage("You are registered with the Baitbit", "Success", completion: {(_) in
                         self.navigationController?.popViewController(animated: true)
-                    } else {
-                        self.displayErrorMessage("Error in storing License image", "Error")
-                    }
-                })
+                    })
+                }
+                
             }
         })
         
@@ -187,6 +216,15 @@ class RegisterUserViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    func displayErrorMessage(_ errorMessage: String, _ title: String, completion: ((UIAlertAction) -> Void)?){
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+        
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: completion))
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -289,7 +327,8 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
                     self.displayErrorMessage("Invalid License", "Error")
                     return
                 } else {
-                    self.licenseExpiryDate.text = matches.map {String(result.text[Range($0.range, in: result.text)!])}
+                    let date = Util.convertStringToDate(string: matches.map {String(result.text[Range($0.range, in: result.text)!])}!)
+                    self.licenseExpiryDate.text = Util.setDateAsString(date: date)
                 }
             }
         }

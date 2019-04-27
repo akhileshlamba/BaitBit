@@ -49,7 +49,7 @@ class FirestoreDAO: NSObject {
         })
     }
 
-    static func registerUser(with user: User, complete: @escaping ([String: User]) -> Void) {
+    static func registerUser(with user: User, complete: @escaping ([String: User?]) -> Void) {
         let query = usersRef.whereField("username", isEqualTo: user.username)
 
         query.getDocuments(completion: {(document, error) in
@@ -57,8 +57,7 @@ class FirestoreDAO: NSObject {
                 var ref: DocumentReference!
                 ref = usersRef.addDocument(data: [
                     "username": user.username,
-                    "password": user.password,
-                    "licenseExpiryDate": Util.setDateAsString(date: user.licenseExpiryDate!)
+                    "password": user.password
                 ]) { err in
                     if err != nil {
                         let user : User!
@@ -86,9 +85,8 @@ class FirestoreDAO: NSObject {
                     }
                 }
             } else {
-                let user : User!
-                user = nil
-                complete(["Duplicate User" : user])
+                
+                complete(["Duplicate User" : nil])
             }
         })
 
@@ -96,11 +94,14 @@ class FirestoreDAO: NSObject {
 
     static func setUserData(with userInfo: NSDictionary, id: String) {
         self.authenticatedUser = User(
-            licensePath: userInfo["licensePath"] as? String,
-            licenseExpiryDate: Util.convertStringToDate(string: (userInfo["licenseExpiryDate"] as! String)),
             username: userInfo["username"] as! String,
             password: userInfo["password"] as! String
         )
+        
+        if userInfo["licensePath"] != nil {
+            self.authenticatedUser.setLicensePath(path: (userInfo["licensePath"] as? String)!)
+            self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: (userInfo["licenseExpiryDate"] as! String)))
+        }
 
         self.authenticatedUser.setId(id: id)
 
@@ -138,7 +139,23 @@ class FirestoreDAO: NSObject {
 
     }
 
-
+    static func getUserDataForBackgroundTask(from userId: String, complete: ((User) -> Void)?) {
+        print("Insideds")
+        let user = usersRef.document(userId)
+        user.getDocument(completion: {(result, error) in
+            if error != nil {
+                print("Error")
+            } else {
+                print("There")
+                setUserData(with: result?.data() as! NSDictionary, id: result!.documentID)
+                
+                if complete != nil {
+                    complete!(self.authenticatedUser)
+                }
+            }
+        })
+    }
+    
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
         let user = usersRef.document(userId)
         user.getDocument(completion: {(result, error) in

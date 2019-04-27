@@ -103,7 +103,11 @@ class SettingsTableViewController: UITableViewController {
             
             cell.avatar.image = UIImage(named: "user")
             cell.username.text = user.username as! String
-            cell.viewLicense.text = "View License"
+            if user.licenseExpiryDate != nil {
+                cell.viewLicense.text = "View License"
+            } else {
+                cell.viewLicense.text = "Add License"
+            }
             return cell
         } else {
             
@@ -232,7 +236,7 @@ class SettingsTableViewController: UITableViewController {
         
         if segue.identifier == "licenseSegue" {
             let vc = segue.destination as! ProfileViewController
-            //vc.user = FirestoreDAO.authenticatedUser!
+            //vc.user = FirestoreDAO.authenticatedUser! 
         }
         
     }

@@ -1892,15 +1892,27 @@
                                                     <segue destination="nl2-2M-EeA" kind="show" id="9vN-LU-Kho"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zVg-ko-lHo">
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zVg-ko-lHo">
                                                 <rect key="frame" x="287" y="250" width="20" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </activityIndicatorView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWV-cj-Miw">
+                                                <rect key="frame" x="271" y="438" width="36" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="nWV-cj-Miw" secondAttribute="height" multiplier="1:1" id="mj6-bq-dCV"/>
+                                                </constraints>
+                                                <state key="normal" title="Button" image="show-password"/>
+                                                <connections>
+                                                    <action selector="showHidePassword:" destination="9GU-L8-DrW" eventType="touchUpInside" id="Ift-rt-lNz"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="50H-cJ-vIz" secondAttribute="trailing" constant="56" id="1RW-rB-bI4"/>
+                                            <constraint firstItem="zVg-ko-lHo" firstAttribute="centerY" secondItem="Yet-2U-tK1" secondAttribute="centerY" id="6dw-je-YIK"/>
+                                            <constraint firstItem="nWV-cj-Miw" firstAttribute="trailing" secondItem="fAU-F1-c6k" secondAttribute="trailing" id="7pT-7P-cnS"/>
                                             <constraint firstItem="Yet-2U-tK1" firstAttribute="top" secondItem="fAU-F1-c6k" secondAttribute="bottom" constant="44" id="8AN-fk-qKy"/>
+                                            <constraint firstItem="nWV-cj-Miw" firstAttribute="centerY" secondItem="9g6-Vh-jeq" secondAttribute="centerY" id="9Q2-FO-hrW"/>
                                             <constraint firstAttribute="trailing" secondItem="mHd-ho-nMM" secondAttribute="trailing" constant="189" id="Adc-ha-Ucm"/>
                                             <constraint firstItem="A1C-Dn-iUp" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="53" id="E2D-nC-DzU"/>
                                             <constraint firstItem="50H-cJ-vIz" firstAttribute="top" secondItem="bx4-2u-yZa" secondAttribute="bottom" constant="8" id="ELK-26-XFv"/>
@@ -1916,6 +1928,7 @@
                                             <constraint firstItem="bx4-2u-yZa" firstAttribute="top" secondItem="A1C-Dn-iUp" secondAttribute="bottom" constant="16" id="Udx-eS-VuZ"/>
                                             <constraint firstAttribute="trailing" secondItem="A1C-Dn-iUp" secondAttribute="trailing" constant="56" id="WYF-mZ-Se0"/>
                                             <constraint firstItem="9g6-Vh-jeq" firstAttribute="top" secondItem="Z3L-Pn-FUU" secondAttribute="bottom" constant="8" id="aBv-c7-xF0"/>
+                                            <constraint firstItem="nWV-cj-Miw" firstAttribute="top" secondItem="Z3L-Pn-FUU" secondAttribute="bottom" constant="15" id="dSz-bt-yfh"/>
                                             <constraint firstItem="8t5-XN-3zy" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="70" id="dxX-F5-9s5"/>
                                             <constraint firstItem="mHd-ho-nMM" firstAttribute="top" secondItem="Yet-2U-tK1" secondAttribute="bottom" constant="8" id="eMl-Lh-zBo"/>
                                             <constraint firstItem="9g6-Vh-jeq" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="53" id="eXq-uM-Mqm"/>
@@ -1923,6 +1936,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Yet-2U-tK1" secondAttribute="trailing" constant="189" id="mfn-4V-MkJ"/>
                                             <constraint firstItem="A1C-Dn-iUp" firstAttribute="top" secondItem="9g6-Vh-jeq" secondAttribute="bottom" constant="8" id="p4E-0T-s3j"/>
                                             <constraint firstAttribute="bottom" secondItem="8t5-XN-3zy" secondAttribute="bottom" constant="122" id="pem-bq-HLm"/>
+                                            <constraint firstItem="nWV-cj-Miw" firstAttribute="trailing" secondItem="zVg-ko-lHo" secondAttribute="trailing" id="qQN-Aj-dM0"/>
                                             <constraint firstItem="fAU-F1-c6k" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="67" id="r3D-Vw-NZV"/>
                                             <constraint firstItem="50H-cJ-vIz" firstAttribute="leading" secondItem="8t5-XN-3zy" secondAttribute="trailing" constant="8" id="rXo-Gp-Myw"/>
                                             <constraint firstAttribute="trailing" secondItem="bx4-2u-yZa" secondAttribute="trailing" constant="132" id="rju-We-erL"/>
@@ -1962,7 +1976,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xf-bl-azm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-617" y="-28"/>
+            <point key="canvasLocation" x="-618.39999999999998" y="-28.785607196401802"/>
         </scene>
         <!--Register User View Controller-->
         <scene sceneID="uUN-v7-e6e">
@@ -2408,11 +2422,13 @@
         <image name="resources" width="32" height="32"/>
         <image name="right-arrow" width="64" height="64"/>
         <image name="settings" width="32" height="32"/>
+        <image name="show-password" width="233.33332824707031" height="233.33332824707031"/>
         <image name="user" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="vuz-8r-zAP"/>
         <segue reference="Ysg-86-57x"/>
-        <segue reference="T0e-2L-rHm"/>
+        <segue reference="XSh-ec-wXm"/>
         <segue reference="qn9-nE-EkH"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="PhL-KH-tkF"/>

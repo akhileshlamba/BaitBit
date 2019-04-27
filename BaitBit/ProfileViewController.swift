@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController {
     var activityIndicator: UIActivityIndicatorView!
     
     var changeImage = Bool(false)
+    var addLicense : Bool! = false
     
     var user: User!
     var user1 = [String:Any]()
@@ -35,39 +36,49 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         user = FirestoreDAO.authenticatedUser
+        if user.licenseExpiryDate == nil {
+            addLicense = true
+        }
         
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-        
-        nameLabel.isHidden = true
-        dateView.isHidden = true
-        
-        activityIndicator.center = self.view.center
-        view.addSubview(activityIndicator)
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
         
         storage = Storage.storage()
         storageRef = storage.reference()
         
-        updateButton.isHidden = true
-        
         formatter.dateFormat = "MMM dd, yyyy"
         showDatePicker()
         
-        self.storage.reference(forURL: user.licensePath as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else{
-                let imageData = UIImage(data: data!)!
-                self.licenseImage.image = imageData
-                self.activityIndicator.isHidden = false
-                self.nameLabel.isHidden = false
-                self.dateView.isHidden = false
-                self.nameLabel.text = "Hi, \(self.user.username )! "
-                self.date.text = Util.setDateAsString(date: (self.user.licenseExpiryDate!))
-                self.activityIndicator.stopAnimating()
-            }
-        })
+        if !addLicense {
+            updateButton.isHidden = true
+            nameLabel.isHidden = true
+            dateView.isHidden = true
+            
+            activityIndicator.center = self.view.center
+            view.addSubview(activityIndicator)
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+            self.storage.reference(forURL: user.licensePath as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else{
+                    let imageData = UIImage(data: data!)!
+                    self.licenseImage.image = imageData
+                    self.nameLabel.isHidden = false
+                    self.dateView.isHidden = false
+                    self.nameLabel.text = "Hi, \(self.user.username )! "
+                    self.date.text = Util.setDateAsString(date: (self.user.licenseExpiryDate!))
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
+                }
+            })
+        } else {
+            nameLabel.isHidden = false
+            self.nameLabel.text = "Hi, \(self.user.username )! "
+            updateButton.isHidden = false
+            self.dateView.isHidden = false
+            updateButton.setTitle("Add License", for: .normal)
+        }
+        
         
         // Do any additional setup after loading the view.
     }
@@ -77,6 +88,16 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func updateLicense(_ sender: Any) {
+        if licenseImage.image == nil {
+            displayErrorMessage("Please choose or take image of License.", "Error")
+            return
+        }
+        
+        if date.text!.isEmpty {
+            displayErrorMessage("Please set expiry date", "Error")
+            return
+        }
+        
         savePhoto(licenseImage.image)
     }
     
@@ -228,13 +249,20 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func savePhoto(_ pickedImage: UIImage?) {
+        
         guard let image = pickedImage else {
             displayErrorMessage("Cannot save until a photo has been taken!", "Error")
             return
         }
         let licenseDate = date.text!
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         FirestoreDAO.updateLicenseImageAndData(of: user, image: image, licenseDate: licenseDate, complete: {(result) in
             if result {
+                self.activityIndicator.isHidden = true
+                self.activityIndicator.stopAnimating()
                 self.displayErrorMessage("License updated Successfully!", "Sucess")
             } else {
                 self.displayErrorMessage("Problem in updating License", "Error")

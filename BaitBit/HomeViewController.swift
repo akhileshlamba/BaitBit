@@ -53,6 +53,16 @@ class HomeViewController: UIViewController {
         self.isLicenseExpiring = self.notifcationOfUser["license"] as? Bool
     }
     
+    func getUserInfoForBackgroundTask(with userId : String){
+        FirestoreDAO.getUserDataForBackgroundTask(from: userId, complete: {(user) in
+            self.user = user
+            print("Inside")
+            //self.calculateTotalNotifications(of: user)
+            //print(self.overDueBaitsForProgram)
+        })
+    }
+    
+    
     func calculateTotalNotifications(of user: User){
         overDueBaitsForProgram = [:]
         dueSoonBaitsForProgram = [:]

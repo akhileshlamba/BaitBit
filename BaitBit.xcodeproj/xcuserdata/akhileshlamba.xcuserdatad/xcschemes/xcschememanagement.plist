@@ -12,7 +12,22 @@
 		<key>BaitBit.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>29</integer>
+		</dict>
+		<key>BaitBitBackgroundFetch.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
 			<integer>28</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>E627703A224F13E400492B1A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

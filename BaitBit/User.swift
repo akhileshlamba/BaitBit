@@ -12,14 +12,12 @@ class User: NSObject {
 
     var id: String = ""
     var licensePath: String?
-    var licenseExpiryDate: NSDate?
+    var licenseExpiryDate: NSDate? = nil
     var username: String
     var password: String
     var programs: [String: Program] = [:]
     
-    init(licensePath: String?, licenseExpiryDate: NSDate, username: String, password: String) {
-        self.licensePath = licensePath
-        self.licenseExpiryDate = licenseExpiryDate
+    init(username: String, password: String) {
         self.username = username
         self.password = password
     }

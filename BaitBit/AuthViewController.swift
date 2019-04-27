@@ -28,6 +28,7 @@ class AuthViewController: UIViewController {
     //var textRecognizer: VisionTextRecognizer!
     var handle: AuthStateDidChangeListenerHandle?
     var db: Firestore!
+    var toggle : Bool = false
     
     let defaults = UserDefaults.standard
     
@@ -55,7 +56,11 @@ class AuthViewController: UIViewController {
 //        return false // return true if you need to interrupt tesseract before it finishes
 //    }
 
-
+    @IBAction func showHidePassword(_ sender: Any) {
+        password.isSecureTextEntry = !toggle
+        toggle = !toggle
+    }
+    
     @IBAction func register(_ sender: Any) {
         guard let password = password.text else {
             displayErrorMessage("Please Enter a password")
