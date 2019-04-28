@@ -95,6 +95,9 @@ class NotificationsTableViewController: UITableViewController {
         
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count : Int!
         if !sections.isEmpty {

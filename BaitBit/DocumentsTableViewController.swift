@@ -13,6 +13,10 @@ let documentImageNames = ["Risk assessment", "Document_Green", "Notification of 
 
 class DocumentsTableViewController: UITableViewController {
 
+    var program : Program!
+    var userId : String!
+    var documentName: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +46,15 @@ class DocumentsTableViewController: UITableViewController {
         cell.imageView?.image = UIImage(named: documentImageNames[indexPath.row])
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        documentName = documentNames[indexPath.row]
+        self.performSegue(withIdentifier: "UploadDocument", sender: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.program = FirestoreDAO.authenticatedUser.programs[program.id]
     }
 
     /*
@@ -89,14 +102,28 @@ class DocumentsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "UploadDocument" {
+            let controller = segue.destination as! DocumentUploadViewController
+            var document : Documents!
+            if program.documents.count != 0 {
+                for doc in program.documents {
+                    if doc!.name == documentName {
+                        document = doc
+                    }
+                }
+            }
+            
+            controller.program = self.program
+            controller.userId = userId
+            controller.document = document
+            controller.documentName = documentName
+        }
     }
-    */
+    
 
 }

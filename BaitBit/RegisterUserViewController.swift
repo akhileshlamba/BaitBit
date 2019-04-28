@@ -306,22 +306,34 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
             print("did get into the if statement")
             //            self.savePhoto(pickedImage)
             self.licenseImage.image = pickedImage
+            
+//            DocumentVerification.checkLicense(pickedImage: pickedImage, complete: {(result) in
+//                if result.keys.contains("Problem in recognising the image") {
+//                    self.displayErrorMessage("Problem in recognising the image", "Error")
+//                } else if result.keys.contains("Invalid License") {
+//                    self.displayErrorMessage("Invalid License", "Error")
+//                }else if result.keys.contains("Success") {
+//                    let date = result["Success"]
+//                    self.licenseExpiryDate.text = Util.setDateAsString(date: date as! NSDate)
+//                }
+//            })
+            
             let vision = Vision.vision()
             textRecognizer = vision.onDeviceTextRecognizer()
-            
+
             let visionImage = VisionImage(image: pickedImage)
             textRecognizer.process(visionImage) { result, error in
-                
+
                 guard error == nil, let result = result else {
                     self.displayErrorMessage("Problem in recognising the image", "Error")
                     return
                 }
-                
+
                 let range = NSRange(location: 0, length: result.text.utf16.count)
                 let regex = try! NSRegularExpression(pattern: "[0-9]{2}[-/][0-9]{2}[-/][0-9]{4}")
-                
+
                 let matches = regex.firstMatch(in: result.text, options: [], range: range)
-                
+
                 let substrings = result.text.split(separator: "\n")
                 if !substrings.contains("Agricultural Chemical User Permit") {
                     self.displayErrorMessage("Invalid License", "Error")

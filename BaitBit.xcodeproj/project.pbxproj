@@ -40,6 +40,7 @@
 		E64B71B72259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */; };
 		E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */; };
 		E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */; };
+		E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EB24E2275931C009C3CC8 /* Documents.swift */; };
 		E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */; };
 		E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */; };
 		E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */; };
@@ -53,6 +54,8 @@
 		E6F4F583227177C60017715D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F582227177C60017715D /* Util.swift */; };
 		E6F4F5852271897F0017715D /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */; };
 		E6F4F58A227193A10017715D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F589227193A10017715D /* User.swift */; };
+		E6F4F669227578630017715D /* DocumentVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F668227578630017715D /* DocumentVerification.swift */; };
+		E6F4F66B227581230017715D /* DocumentUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F66A227581230017715D /* DocumentUploadViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +95,7 @@
 		E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
 		E64E0F8F226C1528001F13F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTableViewCell.swift; sourceTree = "<group>"; };
+		E64EB24E2275931C009C3CC8 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
 		E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBaitViewController.swift; sourceTree = "<group>"; };
 		E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInProgressTableViewController.swift; sourceTree = "<group>"; };
 		E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsProgramMapViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +109,8 @@
 		E6F4F582227177C60017715D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
 		E6F4F589227193A10017715D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E6F4F668227578630017715D /* DocumentVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentVerification.swift; sourceTree = "<group>"; };
+		E6F4F66A227581230017715D /* DocumentUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentUploadViewController.swift; sourceTree = "<group>"; };
 		EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.debug.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.debug.xcconfig"; sourceTree = "<group>"; };
 		F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.release.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				E6F4F582227177C60017715D /* Util.swift */,
+				E6F4F668227578630017715D /* DocumentVerification.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -160,6 +167,7 @@
 				02157E6B225573E80007A170 /* Occurrence.swift */,
 				02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */,
 				E6F4F589227193A10017715D /* User.swift */,
+				E64EB24E2275931C009C3CC8 /* Documents.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -258,6 +266,7 @@
 				E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */,
 				E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */,
 				E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */,
+				E6F4F66A227581230017715D /* DocumentUploadViewController.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -453,6 +462,7 @@
 				E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */,
 				02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */,
 				E64B71B72259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift in Sources */,
+				E6F4F66B227581230017715D /* DocumentUploadViewController.swift in Sources */,
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
 				026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */,
 				E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */,
@@ -471,11 +481,13 @@
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
 				02FC5916226EFDDF002B30BE /* Bait.swift in Sources */,
 				E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */,
+				E6F4F669227578630017715D /* DocumentVerification.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
 				02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */,
 				02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */,
 				E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */,
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
+				E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */,
 				E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */,
 				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
 				E64B71B42259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift in Sources */,

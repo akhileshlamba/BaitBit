@@ -12,9 +12,20 @@ import Firebase
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
+    
+    
+    var isDueSoon: Bool! = false
+    var isOverDue: Bool! = false
+    var isDocumentationPending: Bool! = false
+    var isLicenseExpiring: Bool! = false
+    
+    var isSendNotificationForLicense: Bool! = false
+    var isSendNotificationForBaits: Bool! = false
+    var isSendNotificationForDocuments: Bool! = false
+    var notifcationOfUser : [String: Any]!
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -28,8 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
+        UNUserNotificationCenter.current().delegate = self
         
-        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        UIApplication.shared.setMinimumBackgroundFetchInterval(60)
         
         
         let defaults = UserDefaults.standard
@@ -77,18 +89,105 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler(.alert)
+    }
+    
 
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         let defaults = UserDefaults.standard
         let mainStoryBoard: UIStoryboard = UIStoryboard(name:"Main", bundle:nil)
+        print("Inside of background fetch")
         let vc = mainStoryBoard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
         let loggedIn = defaults.bool(forKey:"loggedIn")
         if loggedIn {
-            vc.getUserInfoForBackgroundTask(with: defaults.string(forKey: "userId")!)
-            completionHandler(.newData)
+            vc.getUserInfoForBackgroundTaskWith(with: defaults.string(forKey: "userId")!, complete: {(user) in
+                if user != nil {
+                    self.notifcationOfUser = FirestoreDAO.notificationDetails
+                    self.checkForNotifications()
+                    self.calculateTotalNotifications(of: user)
+                    self.sendNotifications()
+                    completionHandler(.newData)
+                }
+            })
         }
     }
     
+    func sendNotifications() {
+        let content = UNMutableNotificationContent()
+        content.title = "Movement Detected!"
+        content.subtitle = "You have entered"
+        
+        if isSendNotificationForDocuments {
+            content.title = "Documents Pending"
+            content.subtitle = "Docs"
+        }
+        
+        if isSendNotificationForLicense {
+            content.title = "License Expiring soon"
+            content.subtitle = "License expiring"
+        }
+        
+        if isSendNotificationForBaits {
+            content.title = "Baits due or over due "
+            content.subtitle = "Some baits are either over due or due soon."
+        }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let request = UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
+        
+    }
+    
+    func checkForNotifications(){
+        
+        self.isDueSoon = self.notifcationOfUser["dueSoon"] as? Bool
+        self.isOverDue = self.notifcationOfUser["overDue"] as? Bool
+        self.isDocumentationPending = self.notifcationOfUser["documentation"] as? Bool
+        self.isLicenseExpiring = self.notifcationOfUser["license"] as? Bool
+    }
+    
+    func calculateTotalNotifications(of user: User!){
+        if isOverDue {
+            for program in user.programs {
+                var overDueBaits = 0
+                for bait in program.value.baits {
+                    if bait.value.isOverdue {
+                        overDueBaits += 1
+                    }
+                }
+                if overDueBaits != 0 {
+                    isSendNotificationForBaits = true
+                }
+            }
+        }
+        
+        if isDueSoon {
+            for program in user.programs {
+                var overDueBaits = 0
+                for bait in program.value.baits {
+                    if bait.value.isDueSoon {
+                        overDueBaits += 1
+                    }
+                }
+                if overDueBaits != 0 {
+                    isSendNotificationForBaits = true
+                }
+            }
+        }
+        
+        if isLicenseExpiring && user.licenseExpiringSoon{
+            isSendNotificationForLicense = true
+            
+        }
+        
+        if isDocumentationPending {
+            isSendNotificationForDocuments = true
+            //sections.append("Documentation")
+        }
+    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

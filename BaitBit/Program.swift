@@ -52,6 +52,8 @@ class Program: NSObject {
         return component
     }
     
+    var documents : [Documents!] = []
+    
     init(id: String, baitType: String, species: String, startDate: NSDate?, isActive: Bool?) {
         self.id = id
         self.baitType = baitType
@@ -127,5 +129,9 @@ class Program: NSObject {
     
     var hasDueSoonBaits: Bool {
         return self.numberOfDueSoonBaits > 0
+    }
+    
+    func addToDocuments(document: Documents){
+        self.documents.append(document)
     }
 }

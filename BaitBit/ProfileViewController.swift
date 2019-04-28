@@ -60,6 +60,13 @@ class ProfileViewController: UIViewController {
             self.storage.reference(forURL: user.licensePath as! String).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
                 if let error = error {
                     print(error.localizedDescription)
+                    self.nameLabel.isHidden = false
+                    self.nameLabel.text = "Hi, \(self.user.username )! "
+                    self.updateButton.isHidden = false
+                    self.dateView.isHidden = false
+                    self.updateButton.setTitle("Add License", for: .normal)
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
                 } else{
                     let imageData = UIImage(data: data!)!
                     self.licenseImage.image = imageData

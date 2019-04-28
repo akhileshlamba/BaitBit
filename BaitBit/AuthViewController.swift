@@ -81,6 +81,14 @@ class AuthViewController: UIViewController {
             //print(self.overDueBaitsForProgram)
         })
     }
+    
+    func getUserInfoForBackgroundTaskWith(with userId : String, complete: @escaping (User) -> Void){
+        FirestoreDAO.getUserDataForBackgroundTask(from: userId, complete: {(user) in
+            complete(user!)
+            //self.calculateTotalNotifications(of: user)
+            //print(self.overDueBaitsForProgram)
+        })
+    }
 
     @IBAction func showHidePassword(_ sender: Any) {
         password.isSecureTextEntry = !toggle

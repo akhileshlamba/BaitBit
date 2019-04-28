@@ -23,11 +23,16 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var programImage: UIImageView!
     
+    @IBOutlet weak var docPendingLabel: UILabel!
+    @IBOutlet weak var documnentsPending: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextFields()
         self.setRightBarButtonItem()
         
+        if program.documents.count == 4 {
+            docPendingLabel.text = "Documents"
+        }
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
     }
@@ -50,11 +55,19 @@ class ProgramDetailsViewController: UIViewController {
         }
     }
     
+    
+    @IBAction func documentsPending(_ sender: Any) {
+        performSegue(withIdentifier: "DocumentSegue", sender: nil)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.program = Program.program
+        self.program = FirestoreDAO.authenticatedUser.programs[program.id]
         self.updateTextFields()
         self.setRightBarButtonItem()
+        if self.program.documents.count == 4 {
+            docPendingLabel.text = "Documents"
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -201,6 +214,13 @@ class ProgramDetailsViewController: UIViewController {
             let controller = segue.destination as! EditProgramViewController
             controller.progrom = self.program
         }
+        
+        if segue.identifier == "DocumentSegue" {
+            let controller = segue.destination as! DocumentsTableViewController
+            controller.program = self.program
+            controller.userId = FirestoreDAO.authenticatedUser.id
+        }
+        
     }
     
 

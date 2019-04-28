@@ -8,21 +8,26 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 class HomeViewController: UIViewController {
 
     var baits: [Bait] = []
-    private var context : NSManagedObjectContext
+    //private var context : NSManagedObjectContext
     let defaults = UserDefaults()
 
     var sections = [String]()
 
     var user : User!
 
-    var isDueSoon: Bool!
-    var isOverDue: Bool!
-    var isDocumentationPending: Bool!
-    var isLicenseExpiring: Bool!
+    var isDueSoon: Bool! = false
+    var isOverDue: Bool! = false
+    var isDocumentationPending: Bool! = false
+    var isLicenseExpiring: Bool! = false
+    
+    var isSendNotificationForLicense: Bool! = false
+    var isSendNotificationForBaits: Bool! = false
+    var isSendNotificationForDocuments: Bool! = false
 
     var notifcationOfUser : [String: Any]!
     var overDueBaitsForProgram : [String : Int] = [:]
@@ -60,7 +65,7 @@ class HomeViewController: UIViewController {
     }
 
 
-    func calculateTotalNotifications(of user: User){
+    func calculateTotalNotifications(){
         overDueBaitsForProgram = [:]
         dueSoonBaitsForProgram = [:]
         sections = []
@@ -97,19 +102,49 @@ class HomeViewController: UIViewController {
 
 
         if dueSoonBaitsForProgram.count != 0 || overDueBaitsForProgram.count != 0{
+            isSendNotificationForBaits = true
             sections.append("Bait Status")
         }
 
-        if isLicenseExpiring && user.licenseExpiringSoon{
+        if isLicenseExpiring && user.licenseExpiringSoon {
+            isSendNotificationForLicense = true
             sections.append("License")
         }
 
         if isDocumentationPending {
-            //sections.append("Documentation")
+            isSendNotificationForDocuments = true
+            sections.append("Documentation")
         }
 
 
 
+    }
+    
+    func sendNotifications() {
+        let content = UNMutableNotificationContent()
+        content.title = "Movement Detected!"
+        content.subtitle = "You have entered"
+        
+        if isSendNotificationForDocuments {
+            content.title = "Documents Pending"
+            content.subtitle = "Docs"
+        }
+        
+        if isSendNotificationForLicense {
+            content.title = "License Expiring soon"
+            content.subtitle = "License expiring"
+        }
+        
+        if isSendNotificationForBaits {
+            content.title = "Baits due or over due "
+            content.subtitle = "Some baits are either over due or due soon."
+        }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let request = UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        
+        
     }
 
     @objc func logout() {
@@ -123,7 +158,8 @@ class HomeViewController: UIViewController {
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
 
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "notification"), style: .done, target: self, action: #selector(notification))
-
+        
+        
 
         self.tabBarController?.navigationItem.title = "Home"
     }
@@ -134,7 +170,7 @@ class HomeViewController: UIViewController {
         isOverDue = notifcationOfUser["overDue"] as? Bool
         isDocumentationPending = notifcationOfUser["documentation"] as? Bool
         isLicenseExpiring = notifcationOfUser["license"] as? Bool
-        if isDueSoon || isOverDue || isDocumentationPending {
+        if isDueSoon || isOverDue || isDocumentationPending || isLicenseExpiring {
             performSegue(withIdentifier: "NotificationSegue", sender: nil)
         } else {
             displayMessage("You have disabled the notification feature", "Notifications")
@@ -145,7 +181,7 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
-        calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
+        calculateTotalNotifications()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -153,7 +189,7 @@ class HomeViewController: UIViewController {
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
-        calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
+        calculateTotalNotifications()
         self.setNavigationBarItems()
     }
 
@@ -167,11 +203,11 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        context = (appDelegate?.persistentContainer.viewContext)!
-        super.init(coder: aDecoder)
-    }
+//    required init?(coder aDecoder: NSCoder) {
+//        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//        context = (appDelegate?.persistentContainer.viewContext)!
+//        super.init(coder: aDecoder)
+//    }
 
     // MARK: - Navigation
 

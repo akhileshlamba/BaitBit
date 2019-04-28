@@ -125,6 +125,21 @@ class FirestoreDAO: NSObject {
                                               isActive: isActive)
                 self.authenticatedUser.addToPrograms(program: program)
                 
+                if p["documents"] != nil {
+                    let documents = p["documents"] as! NSDictionary
+                    for document in documents {
+                        let p = document.value as! NSDictionary
+                        let name = p["documentName"] as! String
+                        let localURL = p["photoPath"] as! String
+                        let firebaseURL = p["photoURL"] as! String
+                        let doc = Documents(name: name)
+                        doc.imageLocalURL = localURL
+                        doc.imageFirebaseURL = firebaseURL
+                        program.addToDocuments(document: doc)
+                    }
+                    
+                }
+                
                 if p["baits"] != nil {
                     program.addToBaits(baits: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
                 } else {
@@ -141,13 +156,12 @@ class FirestoreDAO: NSObject {
     }
 
     static func getUserDataForBackgroundTask(from userId: String, complete: ((User?) -> Void)?) {
-        print("Insideds")
         let user = usersRef.document(userId)
         user.getDocument(completion: {(result, error) in
             if error != nil {
                 print("Error")
             } else {
-                print("There")
+                
                 setUserData(with: result?.data() as! NSDictionary, id: result!.documentID)
                 let notificationsRef = Firestore.firestore().collection("notifications")
                 let query = notificationsRef.whereField("notificationOfUser", isEqualTo: userId)
@@ -617,4 +631,63 @@ class FirestoreDAO: NSObject {
                 })
         })
     }
+    
+    
+    static func uploadDocument(of userId: String,  programId: String, document: UIImage, name: String, complete: @escaping (Bool) -> Void) {
+        let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
+        var data = Data()
+        data = UIImageJPEGRepresentation(document, 0.1)!
+        
+        // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
+        let imageRef = storageRef.child("\(userId)/Program/\(name)/\(date)")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        imageRef.putData(data, metadata: metadata) { (metaData, error) in
+            if error != nil {
+                complete(false)
+            } else {
+                imageRef.downloadURL(completion: {(url, error) in
+                    if error != nil {
+                        complete(false)
+                    } else {
+                        if let imageURL = url?.absoluteString {
+                            let userRef = usersRef.document(userId)
+                            userRef.setData([
+                                "programs": [
+                                    programId: [
+                                        "documents" :[
+                                            "\(date)": [
+                                                "documentName": name,
+                                                "photoPath": "\(date)",
+                                                "photoURL": imageURL
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                                ]
+                                , merge: true, completion: {
+                                    err in
+                                    if err != nil {
+                                        complete(false)
+                                    } else {
+                                        self.getUserDataForBackgroundTask(from: userId, complete: nil)
+                                        complete(true)
+                                    }
+                            })
+                        }
+                    }
+                })
+            }
+        }
+        
+        // save the image to a local file
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent("\(date)") {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
+        }
+    }
+    
 }
