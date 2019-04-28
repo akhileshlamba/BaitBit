@@ -62,8 +62,12 @@ class EditProgramViewController: UIViewController {
         self.progrom.baitType = self.baitTypeTextField.text
         self.progrom.species = self.speciesTextField.text
         Program.program = self.progrom
-        FirestoreDAO.createOrUpdate(program: self.progrom)
-        self.navigationController?.popViewController(animated: true)
+        FirestoreDAO.createOrUpdate(program: self.progrom, complete: {(success) in
+            if success {
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
+        
     }
     
     @IBAction func deleteProgram(_ sender: Any) {

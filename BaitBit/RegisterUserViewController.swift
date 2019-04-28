@@ -152,7 +152,8 @@ class RegisterUserViewController: UIViewController {
             } else if string.keys.contains("Success") {
                 let user = string["Success"]
                 if image != nil {
-                    FirestoreDAO.updateLicenseImageAndData(of: user!!, image: image!, licenseDate: Util.setDateAsString(date: user!!.licenseExpiryDate!), complete: {(success) in
+                    let date = Util.convertStringToDate(string: expiryDate!)
+                    FirestoreDAO.updateLicenseImageAndData(of: user!!, image: image!, licenseDate: Util.setDateAsString(date: date!), complete: {(success) in
                         if success {
                             self.displayErrorMessage("You are registered with the Baitbit", "Success", completion: {(_) in
                                 self.navigationController?.popViewController(animated: true)

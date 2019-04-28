@@ -11,11 +11,19 @@ import UIKit
 let documentNames = ["Risk assessment", "Purchase record", "Notification of pest control", "Neighbour notification"]
 let documentImageNames = ["Risk assessment", "Document_Green", "Notification of pest", "Neighbour_Notif"]
 
-class DocumentsTableViewController: UITableViewController {
+protocol SegueDelegate {
+    func getDocument(data : Documents)
+}
+
+class DocumentsTableViewController: UITableViewController, DocumentUploadDelegate {
 
     var program : Program!
     var userId : String!
     var documentName: String!
+    
+    var fromCreateAdd : Bool! = false
+    
+    var delegate: SegueDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +62,9 @@ class DocumentsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.program = FirestoreDAO.authenticatedUser.programs[program.id]
+        if !fromCreateAdd {
+            self.program = FirestoreDAO.authenticatedUser.programs[program.id]
+        }
     }
 
     /*
@@ -109,20 +119,31 @@ class DocumentsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "UploadDocument" {
             let controller = segue.destination as! DocumentUploadViewController
-            var document : Documents!
-            if program.documents.count != 0 {
-                for doc in program.documents {
-                    if doc!.name == documentName {
-                        document = doc
+            if fromCreateAdd {
+                controller.uploadDelegate = self
+                controller.fromCreateAdd = true
+                controller.userId = userId
+                controller.documentName = documentName
+            } else {
+                var document : Documents!
+                if program.documents.count != 0 {
+                    for doc in program.documents {
+                        if doc!.name == documentName {
+                            document = doc
+                        }
                     }
                 }
+                
+                controller.program = self.program
+                controller.userId = userId
+                controller.document = document
+                controller.documentName = documentName
             }
-            
-            controller.program = self.program
-            controller.userId = userId
-            controller.document = document
-            controller.documentName = documentName
         }
+    }
+    
+    func documentData(data: Documents) {
+        delegate.getDocument(data: data)
     }
     
 

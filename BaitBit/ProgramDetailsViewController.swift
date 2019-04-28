@@ -65,7 +65,7 @@ class ProgramDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.program = FirestoreDAO.authenticatedUser.programs[program.id]
+        //self.program = FirestoreDAO.authenticatedUser.programs[program.id]
         self.updateTextFields()
         self.setRightBarButtonItem()
         if self.program.documents.count == 4 {

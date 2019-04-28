@@ -116,8 +116,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func sendNotifications() {
         let content = UNMutableNotificationContent()
-        content.title = "Movement Detected!"
-        content.subtitle = "You have entered"
         
         if isSendNotificationForDocuments {
             content.title = "Documents Pending"
@@ -178,10 +176,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
-        if isLicenseExpiring && user.licenseExpiringSoon{
-            isSendNotificationForLicense = true
-            
+        if user.licenseExpiryDate != nil {
+            if isLicenseExpiring && user.licenseExpiringSoon{
+                isSendNotificationForLicense = true
+            }
         }
+        
         
         if isDocumentationPending {
             isSendNotificationForDocuments = true

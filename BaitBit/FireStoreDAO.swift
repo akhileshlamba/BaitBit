@@ -465,8 +465,41 @@ class FirestoreDAO: NSObject {
         return baitList
     }
 
-    static func createOrUpdate(program: Program) {
-        self.setData(for: authenticatedUser, data: [
+    static func createOrUpdate(program: Program, complete: @escaping (Bool) -> Void) {
+        let document = usersRef.document("\(authenticatedUser.id )")
+        if program.documents != nil || !program.documents.isEmpty {
+            var doc : [String?: [String: String]] = [:]
+            for document in program.documents {
+                var tempDoc : [String: String] = [:]
+                tempDoc["documentName"] = document?.name
+                tempDoc["photoPath"] = document?.imageLocalURL
+                tempDoc["photoURL"] = document?.imageFirebaseURL
+                doc[document?.imageLocalURL] = tempDoc
+            }
+            
+            document.setData([
+                "programs": [
+                    program.id: [
+                        "baitType": program.baitType!,
+                        "species": program.species!,
+                        "startDate": Util.setDateAsString(date: program.startDate),
+                        "isActive": program.isActive,
+                        "baits": [:],
+                        "documents": doc
+                    ]
+                ]
+                ], merge: true, completion: {
+                    err in
+                    if err != nil {
+                        complete(false)
+                    } else {
+                        self.getUserDataForBackgroundTask(from: self.authenticatedUser.id, complete: nil)
+                        complete(true)
+                    }
+            })
+            
+        } else {
+            document.setData([
                 "programs": [
                     program.id: [
                         "baitType": program.baitType!,
@@ -476,7 +509,27 @@ class FirestoreDAO: NSObject {
                         "baits": [:]
                     ]
                 ]
-            ], complete: nil)
+                ], merge: true, completion: {
+                    err in
+                    if err != nil {
+                        complete(false)
+                    } else {
+                        self.getUserDataForBackgroundTask(from: self.authenticatedUser.id, complete: nil)
+                        complete(true)
+                    }
+            })
+        }
+//        self.setData(for: authenticatedUser, data: [
+//                "programs": [
+//                    program.id: [
+//                        "baitType": program.baitType!,
+//                        "species": program.species!,
+//                        "startDate": Util.setDateAsString(date: program.startDate),
+//                        "isActive": program.isActive,
+//                        "baits": [:]
+//                    ]
+//                ]
+//            ], complete: nil)
     }
 
     static func createOrUpdate(bait: Bait, for program: Program, complete: ((Bool) -> Void)?){
@@ -631,6 +684,44 @@ class FirestoreDAO: NSObject {
                                         complete(true)
                                     }
                             })
+                        }
+                    }
+                })
+            }
+        }
+        
+        // save the image to a local file
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent("\(date)") {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
+        }
+    }
+    
+    static func uploadDocument(of userId: String, document: UIImage, name: String, complete: @escaping (Documents?) -> Void) {
+        let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
+        var data = Data()
+        data = UIImageJPEGRepresentation(document, 0.1)!
+        
+        // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
+        let imageRef = storageRef.child("\(userId)/Program/\(name)/\(date)")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        imageRef.putData(data, metadata: metadata) { (metaData, error) in
+            if error != nil {
+                complete(nil)
+            } else {
+                imageRef.downloadURL(completion: {(url, error) in
+                    if error != nil {
+                        complete(nil)
+                    } else {
+                        if let imageURL = url?.absoluteString {
+                            var document = Documents(name: name)
+                            document.imageFirebaseURL = imageURL
+                            document.imageLocalURL = "\(date)"
+                            complete(document)
                         }
                     }
                 })

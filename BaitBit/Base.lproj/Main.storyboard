@@ -1776,19 +1776,21 @@
         <!--Upload-->
         <scene sceneID="B22-nQ-sOU">
             <objects>
-                <viewController title="Upload" id="sJB-LV-IHn" customClass="DocumentUploadViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddDocument" title="Upload" id="sJB-LV-IHn" customClass="DocumentUploadViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tzS-xN-0dv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5pe-4i-jjR">
                                 <rect key="frame" x="16" y="85" width="343" height="343"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="5pe-4i-jjR" secondAttribute="height" multiplier="1:1" id="8Sl-24-6dv"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ef-ME-0x1">
                                 <rect key="frame" x="16" y="458" width="343" height="50"/>
+                                <color key="backgroundColor" red="0.98431372549999996" green="0.67843137249999996" blue="0.058823529409999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="mRK-he-Y9Y"/>
                                 </constraints>
@@ -2430,6 +2432,7 @@
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZzX-6e-wa4">
                                 <rect key="frame" x="16" y="168" width="343" height="173"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="173" id="3sv-3y-9ih"/>
                                     <constraint firstAttribute="height" constant="173" id="ZR0-L1-WRz"/>
@@ -2595,14 +2598,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="vuz-8r-zAP"/>
         <segue reference="Mah-cT-pM5"/>
-        <segue reference="XSh-ec-wXm"/>
+        <segue reference="cr2-hU-SUH"/>
+        <segue reference="T0e-2L-rHm"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="J1s-mq-wqv"/>
         <segue reference="91M-ev-XBb"/>
-        
-        <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="lRn-pD-xYm"/>
-        <segue reference="Wes-0h-Ath"/>
-        
     </inferredMetricsTieBreakers>
 </document>

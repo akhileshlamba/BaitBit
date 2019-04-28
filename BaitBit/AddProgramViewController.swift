@@ -13,7 +13,7 @@ protocol AddProgramDelegate {
     func didAddBaitProgram(_ program : Program)
 }
 
-class AddProgramViewController: UIViewController {
+class AddProgramViewController: UIViewController, SegueDelegate {
 
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var species: UITextField!
@@ -36,6 +36,7 @@ class AddProgramViewController: UIViewController {
     
     let speciesType: [String] = ["(Please Select)", "Dog", "Pig", "Rabbit", "Fox"]
     
+    var docs: [Documents!] = []
     
     let datePicker = UIDatePicker()
     
@@ -135,6 +136,8 @@ class AddProgramViewController: UIViewController {
                 return
             }
             
+            
+            
             let defaults = UserDefaults.standard
             defaults.setValue(true, forKey:"program_counter")
             
@@ -145,16 +148,24 @@ class AddProgramViewController: UIViewController {
                                   species: species.text!,
                                   startDate: formatter.date(from: start_date.text!)! as NSDate,
                                   isActive: true)
+            if !docs.isEmpty || docs.count != 0 {
+                self.program?.documents = docs
+            }
+            
             Program.program = self.program
             delegate?.didAddBaitProgram(self.program!)
-            FirestoreDAO.createOrUpdate(program: self.program!)
+            FirestoreDAO.createOrUpdate(program: self.program!, complete: {(success) in
+                if success {
+                    if !(self.formatter.date(from: self.start_date.text!)!  > Date()) {
+                        //                    performSegue(withIdentifier: "addbait", sender: nil)
+                    } else {
+                        //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
+                    }
+                    self.performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
+                }
+            })
             
-            if !(formatter.date(from: start_date.text!)!  > Date()) {
-//                    performSegue(withIdentifier: "addbait", sender: nil)
-            } else {
-//                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
-            }
-            performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
+            
         }
         
     }
@@ -181,6 +192,12 @@ class AddProgramViewController: UIViewController {
         if segue.identifier == "ProgramStartedSegue" {
             let controller = segue.destination as! ProgramDetailsViewController
             controller.program = self.program
+        }
+        
+        if segue.identifier == "DocumentSegue" {
+            let controller = segue.destination as! DocumentsTableViewController
+            controller.delegate = self
+            controller.fromCreateAdd = true
         }
     }
 
@@ -259,6 +276,15 @@ extension AddProgramViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         performSegue(withIdentifier: "DocumentSegue", sender: nil)
     }
+    
+    func getDocument(data: Documents) {
+        if data != nil {
+            docs.append(data)
+        }
+        
+    }
+    
 }

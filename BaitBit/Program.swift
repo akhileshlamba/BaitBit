@@ -133,4 +133,8 @@ class Program: NSObject {
     func addToDocuments(document: Documents){
         self.documents.append(document)
     }
+    
+    var areDocumentsPending : Bool {
+        return documents.count != 4
+    }
 }

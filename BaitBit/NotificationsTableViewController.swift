@@ -21,6 +21,7 @@ class NotificationsTableViewController: UITableViewController {
     var notifcationOfUser : [String: Any]!
     var overDueBaitsForProgram : [String : Int] = [:]
     var dueSoonBaitsForProgram : [String : Int] = [:]
+    var documentsPending : [String : Int] = [:]
     
     var sections1 = [[String: Int]]()
     
@@ -109,7 +110,7 @@ class NotificationsTableViewController: UITableViewController {
                 count = 1
                 break
             case "Documentation":
-                count = 1
+                count = documentsPending.count
                 break
             default:
                 count = 1
@@ -173,9 +174,18 @@ class NotificationsTableViewController: UITableViewController {
                 break
                 
             case "Documentation":
+                if !documentsPending.isEmpty {
+                    let count = Array(documentsPending.values)[indexPath.row]
+                    let key = Array(documentsPending.keys)[indexPath.row]
+                    let name = key.split(separator: "%")[1]
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.text = "\(count) Documents pending in \(name) program"
+                    cell.textLabel?.numberOfLines = 2
+                }
                 break
             case "License":
-                cell.textLabel?.text = "License due in one month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                cell.textLabel?.text = "License expiring in 1 month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                cell.textLabel?.numberOfLines = 2
                 break
             default:
                 cell.textLabel?.text = "There are no new notifications"
@@ -220,6 +230,7 @@ class NotificationsTableViewController: UITableViewController {
                 let id = String(key.split(separator: "%")[0])
                 let programs = users.programs
                 program = programs[id]
+                self.tableView.deselectRow(at: indexPath, animated: true)
                 
             } else if !dueSoonBaitsForProgram.isEmpty {
                 let row = indexPath.row - countForSwitchBetweenOverDueAndDueSoon
@@ -227,6 +238,7 @@ class NotificationsTableViewController: UITableViewController {
                 let id = String(key.split(separator: "%")[0])
                 let programs = users.programs
                 program = programs[id]
+                self.tableView.deselectRow(at: indexPath, animated: true)
                 //performSegue(withIdentifier: "notificationProgramSegue", sender: nil)
             }
             
@@ -246,10 +258,20 @@ class NotificationsTableViewController: UITableViewController {
             performSegue(withIdentifier: "notificationProgramSegue", sender: nil)
             break
         case "Documentation":
-            
+            if !documentsPending.isEmpty {
+                let count = Array(documentsPending.values)[indexPath.row]
+                let key = Array(documentsPending.keys)[indexPath.row]
+                let id = String(key.split(separator: "%")[0])
+                let name = key.split(separator: "%")[1]
+                let programs = users.programs
+                program = programs[id]
+                self.tableView.deselectRow(at: indexPath, animated: true)
+                performSegue(withIdentifier: "notificationProgramSegue", sender: nil)
+            }
             break
         case "License":
             performSegue(withIdentifier: "licenseNotificationSegue", sender: nil)
+            self.tableView.deselectRow(at: indexPath, animated: true)
             break
         default:
             

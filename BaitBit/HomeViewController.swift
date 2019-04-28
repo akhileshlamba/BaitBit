@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
     var isSendNotificationForDocuments: Bool! = false
 
     var notifcationOfUser : [String: Any]!
+    var documentsPending : [String : Int] = [:]
     var overDueBaitsForProgram : [String : Int] = [:]
     var dueSoonBaitsForProgram : [String : Int] = [:]
 
@@ -76,6 +77,7 @@ class HomeViewController: UIViewController {
     func calculateTotalNotifications(){
         overDueBaitsForProgram = [:]
         dueSoonBaitsForProgram = [:]
+        documentsPending = [:]
         sections = []
         if isOverDue {
             for program in user.programs {
@@ -89,6 +91,7 @@ class HomeViewController: UIViewController {
                 if overDueBaits != 0 {
                     overDueBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
                 }
+                
             }
         }
 
@@ -107,24 +110,36 @@ class HomeViewController: UIViewController {
             }
         }
 
-
+        if isDocumentationPending {
+            for program in user.programs {
+                if !program.value.documents.isEmpty {
+                    if program.value.areDocumentsPending {
+                        isSendNotificationForDocuments = true
+                        documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4 - program.value.documents.count
+                    }
+                } else {
+                    documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4
+                }
+            }
+        }
+        
+        
 
         if dueSoonBaitsForProgram.count != 0 || overDueBaitsForProgram.count != 0{
             isSendNotificationForBaits = true
             sections.append("Bait Status")
         }
 
-        if isLicenseExpiring && user.licenseExpiringSoon {
-            isSendNotificationForLicense = true
-            sections.append("License")
+        if user.licenseExpiryDate != nil {
+            if isLicenseExpiring && user.licenseExpiringSoon {
+                isSendNotificationForLicense = true
+                sections.append("License")
+            }
         }
-
-        if isDocumentationPending {
-            isSendNotificationForDocuments = true
+        
+        if !documentsPending.isEmpty {
             sections.append("Documentation")
         }
-
-
 
     }
 
@@ -192,12 +207,17 @@ class HomeViewController: UIViewController {
         }
     }
 
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        self.notifcationOfUser = FirestoreDAO.notificationDetails
-//        checkForNotifications()
-//        calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
-//    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+        if !loggedIn {
+            self.setNavigationBarItemsForGuest()
+            return
+        }
+        self.notifcationOfUser = FirestoreDAO.notificationDetails
+        checkForNotifications()
+        calculateTotalNotifications()
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -242,6 +262,7 @@ class HomeViewController: UIViewController {
             let controller = segue.destination as! NotificationsTableViewController
             controller.overDueBaitsForProgram = overDueBaitsForProgram
             controller.dueSoonBaitsForProgram = dueSoonBaitsForProgram
+            controller.documentsPending = documentsPending
             controller.sections = sections
         }
 

@@ -10,6 +10,10 @@ import UIKit
 import FirebaseMLVision
 import Firebase
 
+protocol DocumentUploadDelegate {
+    func documentData (data: Documents)
+}
+
 class DocumentUploadViewController: UIViewController {
 
     @IBOutlet weak var image: UIImageView!
@@ -20,9 +24,12 @@ class DocumentUploadViewController: UIViewController {
     var program : Program!
     var documentName: String!
     var document : Documents? = nil
+    var uploadDelegate: DocumentUploadDelegate!
     
     var databaseRef = Database.database().reference().child("images").child("users")
     var storageRef = Storage.storage()
+    
+    var fromCreateAdd : Bool! = false
     
     var activityIndicator: UIActivityIndicatorView!
     
@@ -245,15 +252,33 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
         activityIndicator.startAnimating()
         
         // Preparing timestamp and image data
-        FirestoreDAO.uploadDocument(of: userId, programId: program.id, document: pickedImage, name: documentName, complete: {(result) in
-            if result {
-                self.activityIndicator.isHidden = true
-                self.activityIndicator.stopAnimating()
-                self.displayErrorMessage("License updated Successfully!", "Sucess")
-            } else {
-                self.displayErrorMessage("Problem in updating License", "Error")
-            }
-        })
+        
+        if uploadDelegate != nil {
+            FirestoreDAO.uploadDocument(of: FirestoreDAO.authenticatedUser.id, document: pickedImage, name: documentName, complete: {(result) in
+                if result != nil {
+                    self.uploadDelegate?.documentData(data: result!)
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
+                    self.displayErrorMessage("License updated Successfully!", "Sucess")
+                } else {
+                    self.displayErrorMessage("Problem in updating License", "Error")
+                }
+            })
+//            var success : [String: [String]] = [:]
+//            success["asd"] = ["asda","ewfe"]
+//            self.uploadDelegate?.documentData(data: success)
+        } else {
+        
+            FirestoreDAO.uploadDocument(of: userId, programId: program.id, document: pickedImage, name: documentName, complete: {(result) in
+                if result {
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
+                    self.displayErrorMessage("License updated Successfully!", "Sucess")
+                } else {
+                    self.displayErrorMessage("Problem in updating License", "Error")
+                }
+            })
+        }
         
         return true
     }
