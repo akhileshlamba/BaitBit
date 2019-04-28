@@ -19,9 +19,24 @@ class Util: NSObject {
         return formatter.string(from: date as! Date)
     }
     
-    static func convertStringToDate(string: String) -> NSDate {
+    static func convertStringToDate(string: String) -> NSDate? {
         formatter.dateFormat = dateFormat
-        return formatter.date(from: string)! as NSDate
+        
+        if formatter.date(from: string) != nil {
+            return formatter.date(from: string)! as NSDate
+        } else {
+            formatter.dateFormat = "dd-MM-yyyy"
+            if formatter.date(from: string) != nil {
+                return formatter.date(from: string)! as NSDate
+            } else {
+                formatter.dateFormat = "dd/MM/yyyy"
+                if formatter.date(from: string) != nil {
+                    return formatter.date(from: string)! as NSDate
+                }
+            }
+            return nil
+        }
+        
     }
     
     static func displayErrorMessage(view: UIViewController, _ message: String, _ title: String) {

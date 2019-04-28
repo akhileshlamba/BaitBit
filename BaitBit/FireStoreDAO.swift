@@ -41,6 +41,7 @@ class FirestoreDAO: NSObject {
                         } else {
                             self.notificationDetails = (result?.documents[0].data())!
                             self.notificationDetails["id"] = (result?.documents[0].documentID)!
+                            
                             complete("Success")
                         }
                     })
@@ -100,7 +101,7 @@ class FirestoreDAO: NSObject {
         
         if userInfo["licensePath"] != nil {
             self.authenticatedUser.setLicensePath(path: (userInfo["licensePath"] as? String)!)
-            self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: (userInfo["licenseExpiryDate"] as! String)))
+            self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: (userInfo["licenseExpiryDate"] as! String))!)
         }
 
         self.authenticatedUser.setId(id: id)
@@ -139,7 +140,7 @@ class FirestoreDAO: NSObject {
 
     }
 
-    static func getUserDataForBackgroundTask(from userId: String, complete: ((User) -> Void)?) {
+    static func getUserDataForBackgroundTask(from userId: String, complete: ((User?) -> Void)?) {
         print("Insideds")
         let user = usersRef.document(userId)
         user.getDocument(completion: {(result, error) in
@@ -148,10 +149,21 @@ class FirestoreDAO: NSObject {
             } else {
                 print("There")
                 setUserData(with: result?.data() as! NSDictionary, id: result!.documentID)
+                let notificationsRef = Firestore.firestore().collection("notifications")
+                let query = notificationsRef.whereField("notificationOfUser", isEqualTo: userId)
                 
-                if complete != nil {
-                    complete!(self.authenticatedUser)
-                }
+                query.getDocuments(completion: {(result, error) in
+                    if ((result?.documents.isEmpty)!) {
+                        complete!(nil)
+                    } else {
+                        self.notificationDetails = (result?.documents[0].data())!
+                        self.notificationDetails["id"] = (result?.documents[0].documentID)!
+                        
+                        if complete != nil {
+                            complete!(self.authenticatedUser)
+                        }
+                    }
+                })
             }
         })
     }
@@ -217,7 +229,7 @@ class FirestoreDAO: NSObject {
                                 } else {
                                     self.authenticatedUser = userWithId
                                     self.authenticatedUser.setLicensePath(path: imageURL)
-                                    self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: licenseDate))
+                                    self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: licenseDate)!)
 //                                    self.user!["licensePath"] = imageURL
 //                                    self.user!["licenseExpiryDate"] = licenseDate
                                     complete(true)

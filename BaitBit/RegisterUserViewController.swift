@@ -328,7 +328,7 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
                     return
                 } else {
                     let date = Util.convertStringToDate(string: matches.map {String(result.text[Range($0.range, in: result.text)!])}!)
-                    self.licenseExpiryDate.text = Util.setDateAsString(date: date)
+                    self.licenseExpiryDate.text = Util.setDateAsString(date: date!)
                 }
             }
         }

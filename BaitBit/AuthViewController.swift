@@ -46,6 +46,20 @@ class AuthViewController: UIViewController {
         Firestore.firestore().settings = settings
 
         db = Firestore.firestore()
+        
+        let loggedIn = defaults.bool(forKey:"loggedIn")
+        if loggedIn {
+            if FirestoreDAO.authenticatedUser != nil {
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            }
+            else {
+                FirestoreDAO.getUserDataForBackgroundTask(from: defaults.string(forKey: "userId")!, complete: {(user) in
+                    
+                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
+                })
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +69,14 @@ class AuthViewController: UIViewController {
 //    func shouldCancelImageRecognitionForTesseract(tesseract: G8Tesseract!) -> Bool {
 //        return false // return true if you need to interrupt tesseract before it finishes
 //    }
+    
+    func getUserInfoForBackgroundTask(with userId : String){
+        FirestoreDAO.getUserDataForBackgroundTask(from: userId, complete: {(user) in
+            
+            //self.calculateTotalNotifications(of: user)
+            //print(self.overDueBaitsForProgram)
+        })
+    }
 
     @IBAction func showHidePassword(_ sender: Any) {
         password.isSecureTextEntry = !toggle
@@ -119,6 +141,8 @@ class AuthViewController: UIViewController {
                 UIApplication.shared.endIgnoringInteractionEvents()
                 self.displayErrorMessage("Error in fetching user details")
             } else {
+                self.defaults.set(true, forKey: "loggedIn")
+                self.defaults.set(FirestoreDAO.authenticatedUser.id, forKey: "userId")
                 self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }
         })

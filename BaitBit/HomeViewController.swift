@@ -53,15 +53,6 @@ class HomeViewController: UIViewController {
         self.isLicenseExpiring = self.notifcationOfUser["license"] as? Bool
     }
     
-    func getUserInfoForBackgroundTask(with userId : String){
-        FirestoreDAO.getUserDataForBackgroundTask(from: userId, complete: {(user) in
-            self.user = user
-            print("Inside")
-            //self.calculateTotalNotifications(of: user)
-            //print(self.overDueBaitsForProgram)
-        })
-    }
-    
     
     func calculateTotalNotifications(of user: User){
         overDueBaitsForProgram = [:]
@@ -180,6 +171,12 @@ class HomeViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "baitsSegue" {
+            baits = []
+            for program in user.programs {
+                for bait in program.value.baits {
+                    baits.append(bait.value)
+                }
+            }
             for bait in baits {
                 print(bait.program?.baitType)
             }

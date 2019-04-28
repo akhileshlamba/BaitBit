@@ -235,7 +235,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     self.displayErrorMessage("Invalid License", "Error")
                     return
                 } else {
-                    self.date.text = matches.map {String(result.text[Range($0.range, in: result.text)!])}
+                    let date = Util.convertStringToDate(string: matches.map {String(result.text[Range($0.range, in: result.text)!])}!)
+                    self.date.text = Util.setDateAsString(date: date!)
                 }
             }
         }

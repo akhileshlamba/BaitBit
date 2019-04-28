@@ -79,11 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let defaults = UserDefaults.standard
         let mainStoryBoard: UIStoryboard = UIStoryboard(name:"Main", bundle:nil)
-        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "SecondViewController") as! HomeViewController
-        
-        vc.getUserInfoForBackgroundTask(with: "zRKnVTawGP1DhovWvZXg")
-        completionHandler(.newData)
+        let vc = mainStoryBoard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+        let loggedIn = defaults.bool(forKey:"loggedIn")
+        if loggedIn {
+            vc.getUserInfoForBackgroundTask(with: defaults.string(forKey: "userId")!)
+            completionHandler(.newData)
+        }
     }
     
     
