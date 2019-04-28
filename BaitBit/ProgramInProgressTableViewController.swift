@@ -68,7 +68,7 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
 //    }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         self.tableView.reloadData()
 
     }
