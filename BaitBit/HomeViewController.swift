@@ -15,6 +15,8 @@ class HomeViewController: UIViewController {
     var baits: [Bait] = []
     //private var context : NSManagedObjectContext
     let defaults = UserDefaults()
+    @IBOutlet weak var baitingProgramView: UIView!
+    @IBOutlet weak var newProgramButton: UIButton!
 
     var sections = [String]()
 
@@ -24,7 +26,7 @@ class HomeViewController: UIViewController {
     var isOverDue: Bool! = false
     var isDocumentationPending: Bool! = false
     var isLicenseExpiring: Bool! = false
-    
+
     var isSendNotificationForLicense: Bool! = false
     var isSendNotificationForBaits: Bool! = false
     var isSendNotificationForDocuments: Bool! = false
@@ -39,18 +41,24 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
+        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+        if !loggedIn {
+            self.baitingProgramView.isHidden = true
+            self.newProgramButton.isHidden = true
+            self.setNavigationBarItemsForGuest()
+            return
+        }
         self.user = FirestoreDAO.authenticatedUser!
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
 
-
         self.setNavigationBarItems()
 
-        self.getAllBaits()
+        self.getAllMyBaits()
 
     }
 
-    func getAllBaits() {
+    func getAllMyBaits() {
         for program in self.user.programs.values {
             self.baits.append(contentsOf: program.baits.values)
         }
@@ -119,32 +127,32 @@ class HomeViewController: UIViewController {
 
 
     }
-    
+
     func sendNotifications() {
         let content = UNMutableNotificationContent()
         content.title = "Movement Detected!"
         content.subtitle = "You have entered"
-        
+
         if isSendNotificationForDocuments {
             content.title = "Documents Pending"
             content.subtitle = "Docs"
         }
-        
+
         if isSendNotificationForLicense {
             content.title = "License Expiring soon"
             content.subtitle = "License expiring"
         }
-        
+
         if isSendNotificationForBaits {
             content.title = "Baits due or over due "
             content.subtitle = "Some baits are either over due or due soon."
         }
-        
+
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
         let request = UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
-        
+
+
     }
 
     @objc func logout() {
@@ -158,9 +166,16 @@ class HomeViewController: UIViewController {
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
 
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "notification"), style: .done, target: self, action: #selector(notification))
-        
-        
 
+
+
+        self.tabBarController?.navigationItem.title = "Home"
+    }
+
+    func setNavigationBarItemsForGuest() {
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.hidesBackButton = false
         self.tabBarController?.navigationItem.title = "Home"
     }
 
@@ -177,16 +192,21 @@ class HomeViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.notifcationOfUser = FirestoreDAO.notificationDetails
-        checkForNotifications()
-        calculateTotalNotifications()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        self.notifcationOfUser = FirestoreDAO.notificationDetails
+//        checkForNotifications()
+//        calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
+//    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+        if !loggedIn {
+            self.setNavigationBarItemsForGuest()
+            return
+        }
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
         calculateTotalNotifications()
