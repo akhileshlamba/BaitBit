@@ -45,6 +45,7 @@ class ProgramDetailsViewController: UIViewController {
                 // 1. set self.program.isActive = false
                 // 2. invoke FirestoreDAO.endProgram(program:Program, complete: ((Bool) -> Void)?)
                 //    inside this method, setData [users/user.id/programs/program.id/"isActive": false]] in firestore
+                FirestoreDAO.end(program: self.program)
             }, cancelAction: nil)
         }
     }

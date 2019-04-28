@@ -39,6 +39,7 @@ class RemoveBaitTableViewController: UITableViewController {
         Util.confirmMessage(view: self, "You are going to remove this bait, please make sure everything is clear.", "Remove bait", confirmAction: { (_) in
             // TODO: remove bait, i.e. set bait.isRemove = true, then update to firestore,
             self.bait.isRemoved = true
+            FirestoreDAO.remove(bait: self.bait, from: self.bait.program!)
             let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
             self.navigationController?.popToViewController(controller!, animated: true)
         }, cancelAction: nil)
