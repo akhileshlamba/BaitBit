@@ -49,17 +49,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         
         // Do any additional setup after loading the view.
         
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Bait_program")
-//        do{
-//            programList = try context.fetch(fetchRequest) as! [Bait_program]
-//            print("asdasdsduhqd qwod hqw")
-//            print(programList.count)
-//        } catch  {
-//            fatalError("Failed to fetch animal list")
-//        }
-//        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
-//        self.mapView.setRegion(viewRegion, animated: false)
-        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
+        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000)
 
     }
 
@@ -175,7 +165,9 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             
             annoationView.image = UIImage(named: "\(fencedAnnotation.bait.status)")
             annoationView.canShowCallout = true
-            //annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
+            let calloutButton = UIButton(type: .infoLight)
+            calloutButton.addTarget(self, action: #selector(self.didSelectBait), for: .touchUpInside)
+            annoationView.rightCalloutAccessoryView = calloutButton
             
             return annoationView
         } else if let myLocationAnnotation = annotation as? PinAnnotation {
@@ -193,10 +185,14 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         return annoationView
     }
     
+    @objc func didSelectBait() {
+        performSegue(withIdentifier: "BaitDetailSegue", sender: nil)
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? BaitAnnotation {
             self.selectedBait = annotation.bait
-            performSegue(withIdentifier: "BaitDetailSegue", sender: nil)
+//            performSegue(withIdentifier: "BaitDetailSegue", sender: nil)
         }
     }
     
