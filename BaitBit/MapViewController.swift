@@ -48,6 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedYearIndex: Int = 0
     var selectedMonthIndex: Int = 0
     var selectedSpeciesIndex: Int = 0
+    @IBOutlet weak var backToCurrentLocationButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +84,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //        self.tabBarController?.hidesBottomBarWhenPushed = false
     }
     
+    
+    @IBAction func backToCurrentLocation(_ sender: UIButton) {
+        locationManager.startUpdatingLocation()
+        sender.isHidden = true
+    }
+    
     @objc func filter() {
         performSegue(withIdentifier: "FilterSegue", sender: nil)
     }
@@ -91,6 +98,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         super.viewWillAppear(true)
         self.setNavigationBarItems()
 //        loadData()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        locationManager.stopUpdatingLocation()
+        self.backToCurrentLocationButton.isHidden = false
     }
     
     @objc func tapping() {
