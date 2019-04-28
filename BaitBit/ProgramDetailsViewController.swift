@@ -29,7 +29,7 @@ class ProgramDetailsViewController: UIViewController {
         self.setRightBarButtonItem()
         
         // Do any additional setup after loading the view.
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "< Back", style: .plain, target: self, action: #selector(back))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
     }
     
     @objc func edit() {
@@ -50,10 +50,18 @@ class ProgramDetailsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         self.program = Program.program
         self.updateTextFields()
         self.setRightBarButtonItem()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+//        if self.isMovingFromParentViewController {
+//            self.back()
+//        }
     }
     
     func setRightBarButtonItem() {
