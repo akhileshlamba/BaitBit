@@ -68,9 +68,14 @@ class EditProgramViewController: UIViewController {
     
     @IBAction func deleteProgram(_ sender: Any) {
         Util.confirmMessage(view: self, "Are you sure to delete the program", "Delete program", confirmAction: { (_) in
-            FirestoreDAO.delete(program: self.progrom)
-            let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
-            self.navigationController?.popToViewController(controller!, animated: true)
+            FirestoreDAO.delete(program: self.progrom, complete: { (result) in
+                if !result {
+                    Util.displayErrorMessage(view: self, "Could not delete program due to internet connection issue", "Error")
+                    return
+                }
+                let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
+                self.navigationController?.popToViewController(controller!, animated: true)
+            })
         }, cancelAction: nil)
     }
     
