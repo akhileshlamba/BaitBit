@@ -553,10 +553,68 @@ class FirestoreDAO: NSObject {
 
 
     static func delete(program: Program) {
-
+        let document = usersRef.document("\(authenticatedUser.id )")
+        document.setData(
+            [
+                "programs": [
+                    program.id: FieldValue.delete()
+                    ]
+            ]
+            , merge: true, completion: { (err) in
+                if let err = err {
+                    print("Error deleting program: \(err)")
+                }
+                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
+                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID )
+                })
+        })
     }
 
     static func delete(bait: Bait, for program: Program) {
 
+    }
+    
+    static func remove(bait: Bait, from program: Program) {
+        let document = usersRef.document("\(authenticatedUser.id)")
+        document.setData(
+            [
+                "programs": [
+                    program.id: [
+                        "baits": [
+                            bait.id: [
+                                "isRemoved": true
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+            , merge: true, completion: { (err) in
+                if let err = err {
+                    print("Error adding program: \(err)")
+                }
+                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
+                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID)
+                })
+        })
+    }
+    
+    static func end(program: Program) {
+        let document = usersRef.document("\(authenticatedUser.id )")
+        document.setData(
+            [
+                "programs": [
+                    program.id: [
+                        "isActive": false
+                    ]
+                ]
+            ]
+            , merge: true, completion: { (err) in
+                if let err = err {
+                    print("Error adding program: \(err)")
+                }
+                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
+                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID)
+                })
+        })
     }
 }
