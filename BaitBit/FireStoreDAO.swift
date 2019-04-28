@@ -230,8 +230,6 @@ class FirestoreDAO: NSObject {
                                     self.authenticatedUser = userWithId
                                     self.authenticatedUser.setLicensePath(path: imageURL)
                                     self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: licenseDate)!)
-//                                    self.user!["licensePath"] = imageURL
-//                                    self.user!["licenseExpiryDate"] = licenseDate
                                     complete(true)
                                 }
                             }
@@ -242,7 +240,7 @@ class FirestoreDAO: NSObject {
         }
     }
 
-    static func updateImageAndData(for bait: Bait, image: UIImage, complete: @escaping (Bool) -> Void) {
+    static func updateImageAndData(for bait: Bait, image: UIImage, complete: ((Bool) -> Void)?) {
         let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
@@ -253,15 +251,14 @@ class FirestoreDAO: NSObject {
         metadata.contentType = "image/jpg"
         imageRef.putData(data, metadata: metadata) { (metaData, error) in
             if error != nil {
-                complete(false)
+                complete?(false)
             } else {
                 imageRef.downloadURL(completion: {(url, error) in
                     if error != nil {
-                        complete(false)
+                        complete?(false)
                     } else {
                         if let imageURL = url?.absoluteString {
-                            let userRef = usersRef.document(self.authenticatedUser.id)
-                            userRef.setData([
+                            self.setData(for: authenticatedUser, data: [
                                 "programs": [
                                     bait.program!.id: [
                                         "baits": [
@@ -272,16 +269,7 @@ class FirestoreDAO: NSObject {
                                         ]
                                     ]
                                 ]
-                            ]
-                            , merge: true, completion: {
-                                err in
-                                if err != nil {
-                                    complete(false)
-                                } else {
-                                    self.getUserData(from: self.authenticatedUser.id, complete: nil)
-                                    complete(true)
-                                }
-                            })
+                                ], complete: complete)
                         }
                     }
                 })
@@ -309,7 +297,7 @@ class FirestoreDAO: NSObject {
         })
     }
 
-    static func getAllPrograms(programs: NSDictionary, complete: @escaping ([Program]) -> Void) {
+    static func getAllPrograms(programs: NSDictionary, complete: (([Program]) -> Void)?) {
         var programList = [Program]()
         for elem in programs {
             let id = elem.key as! String
@@ -328,7 +316,7 @@ class FirestoreDAO: NSObject {
             program.addToBaits(baits: getAllBaits(for: program))
             programList.append(program)
         }
-        complete(programList)
+        complete?(programList)
     }
 
     static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
@@ -447,10 +435,7 @@ class FirestoreDAO: NSObject {
     }
 
     static func createOrUpdate(program: Program) {
-
-        let document = usersRef.document("\(authenticatedUser.id )")
-        document.setData(
-            [
+        self.setData(for: authenticatedUser, data: [
                 "programs": [
                     program.id: [
                         "baitType": program.baitType!,
@@ -460,124 +445,43 @@ class FirestoreDAO: NSObject {
                         "baits": [:]
                     ]
                 ]
-            ]
-            , merge: true, completion: { (err) in
-                if let err = err {
-                    print("Error adding program: \(err)")
-                }
-                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
-                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID )
-                })
-        })
-
-
-
-//        let query = usersRef.whereField("username", isEqualTo: user!["username"] as! String)
-//        query.getDocuments(completion: {(document, error) in
-//            let docID = document?.documents[0].documentID
-//            print("docID: \(docID)")
-//            let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "MMM dd, yyyy"
-//
-//            usersRef.document(docID!).setData(
-//                [
-//                    "programs": [
-//                        program.id: [
-//                            "baitType": program.baitType,
-//                            "species": program.species,
-//                            "startDate": dateFormatter.string(from: program.startDate as Date),
-//                            "isActive": program.isActive,
-//                            "baits": [:]
-//                        ]
-//                    ]
-//                ]
-//                , merge: true, completion: { (err) in
-//                    if let err = err {
-//                        print("Error adding program: \(err)")
-//                    }
-//                    usersRef.document(docID!).getDocument(completion: { (document, error) in
-//                        self.user = document?.data()
-//                        self.user!["id"] = docID!
-//                    })
-//            })
-
-//                ref = self.db.collection("users").addDocument(data: [
-//                    "username": username,
-//                    "password": password,
-//                    "licenseExpiryDate": licenseExpiryDate
-//                ]) { err in
-//                    if let err = err {
-//                        print("Error adding document: \(err)")
-//                    } else {
-//                        self.userId = ref.documentID
-//                        print("Document added with ID: \(ref!.documentID)")
-//                        let success = self.savePhoto(image)
-//                        if success ?? false {
-//                            self.navigationController?.popViewController(animated: true)
-//                        }
-//                    }
-//                }
-
-        //})
+            ], complete: nil)
     }
 
-    static func createOrUpdate(bait: Bait, for program: Program, complete: @escaping (Bool) -> Void){
-        let document = usersRef.document("\(authenticatedUser.id)")
-        document.setData([
-            "programs" :[
-                program.id : [
-                    "baits" : [
-                        bait.id : [
-                            "laidDate" : Util.setDateAsString(date: bait.laidDate),
-                            "latitude" : bait.latitude,
-                            "longitude" : bait.longitude,
-                            "isRemoved" : bait.isRemoved,
-                            "photoPath" : bait.photoPath
+    static func createOrUpdate(bait: Bait, for program: Program, complete: ((Bool) -> Void)?){
+        self.setData(for: authenticatedUser, data: [
+                "programs" :[
+                    program.id : [
+                        "baits" : [
+                            bait.id : [
+                                "laidDate" : Util.setDateAsString(date: bait.laidDate),
+                                "latitude" : bait.latitude,
+                                "longitude" : bait.longitude,
+                                "isRemoved" : bait.isRemoved,
+                                "photoPath" : bait.photoPath
+                            ]
                         ]
                     ]
                 ]
-            ]
-        ]
-            , merge: true, completion: { (err) in
-                if let err = err {
-                    print("Error adding program: \(err)")
-                    complete(false)
-                }
-                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
-                    setUserData(with: document?.data() as! NSDictionary, id: authenticatedUser.id)
-                    complete(true)
-                })
-        })
+            ], complete: complete)
     }
 
 
 
-    static func delete(program: Program) {
-        let document = usersRef.document("\(authenticatedUser.id )")
-        document.setData(
-            [
+    static func delete(program: Program, complete: ((Bool) -> Void)?) {
+        self.setData(for: authenticatedUser, data: [
                 "programs": [
                     program.id: FieldValue.delete()
-                    ]
-            ]
-            , merge: true, completion: { (err) in
-                if let err = err {
-                    print("Error deleting program: \(err)")
-                }
-                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
-                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID )
-                })
-        })
+                ]
+            ], complete: complete)
     }
 
-    static func delete(bait: Bait, for program: Program) {
+    static func delete(bait: Bait, for program: Program, complete: ((Bool) -> Void)?) {
 
     }
     
-    static func remove(bait: Bait, from program: Program) {
-        let document = usersRef.document("\(authenticatedUser.id)")
-        document.setData(
-            [
+    static func remove(bait: Bait, from program: Program, complete: ((Bool) -> Void)?) {
+        self.setData(for: authenticatedUser, data: [
                 "programs": [
                     program.id: [
                         "baits": [
@@ -587,34 +491,32 @@ class FirestoreDAO: NSObject {
                         ]
                     ]
                 ]
-            ]
-            , merge: true, completion: { (err) in
-                if let err = err {
-                    print("Error adding program: \(err)")
-                }
-                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
-                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID)
-                })
-        })
+            ], complete: complete)
     }
     
-    static func end(program: Program) {
-        let document = usersRef.document("\(authenticatedUser.id )")
-        document.setData(
-            [
-                "programs": [
-                    program.id: [
-                        "isActive": false
-                    ]
-                ]
-            ]
-            , merge: true, completion: { (err) in
+    static func end(program: Program, complete: ((Bool) -> Void)?) {
+        self.setData(for: self.authenticatedUser,
+                     data: ["programs": [program.id: ["isActive": false]]],
+                     complete: complete)
+    }
+    
+    static private func setData(for user: User, data: [String : Any], complete: ((Bool) -> Void)?) {
+        let document = usersRef.document("\(user.id)")
+        document.setData(data, merge: true) { (err) in
+            if let err = err {
+                print("Error: \(err)")
+                complete?(false)
+                return
+            }
+            usersRef.document(user.id).getDocument(completion: { (document, err) in
                 if let err = err {
-                    print("Error adding program: \(err)")
+                    print("Error: \(err)")
+                    complete?(false)
+                    return
                 }
-                usersRef.document(authenticatedUser.id).getDocument(completion: { (document, error) in
-                    setUserData(with: document!.data()! as NSDictionary, id: document!.documentID)
-                })
-        })
+                self.setUserData(with: document!.data()! as NSDictionary, id: document!.documentID)
+                complete?(true)
+            })
+        }
     }
 }
