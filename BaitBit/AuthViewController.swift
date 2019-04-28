@@ -49,6 +49,10 @@ class AuthViewController: UIViewController {
         
         let loggedIn = defaults.bool(forKey:"loggedIn")
         if loggedIn {
+            indicator.isHidden = false
+            indicator.center = self.view.center
+            indicator.startAnimating()
+            indicator.hidesWhenStopped = true
             if FirestoreDAO.authenticatedUser != nil {
                 self.performSegue(withIdentifier: "loginSegue", sender: nil)
             }

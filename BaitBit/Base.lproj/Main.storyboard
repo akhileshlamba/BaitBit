@@ -1943,9 +1943,6 @@
                                                     <segue destination="nl2-2M-EeA" kind="show" id="9vN-LU-Kho"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zVg-ko-lHo">
-                                                <rect key="frame" x="287" y="250" width="20" height="20"/>
-                                            </activityIndicatorView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nWV-cj-Miw">
                                                 <rect key="frame" x="271" y="438" width="36" height="36"/>
                                                 <constraints>
@@ -1956,6 +1953,9 @@
                                                     <action selector="showHidePassword:" destination="9GU-L8-DrW" eventType="touchUpInside" id="Ift-rt-lNz"/>
                                                 </connections>
                                             </button>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zVg-ko-lHo">
+                                                <rect key="frame" x="176" y="250" width="20" height="20"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -1970,6 +1970,7 @@
                                             <constraint firstItem="Z3L-Pn-FUU" firstAttribute="top" secondItem="mHd-ho-nMM" secondAttribute="bottom" constant="33" id="FaU-1M-Pxl"/>
                                             <constraint firstItem="mHd-ho-nMM" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="53" id="GLP-Qm-KHe"/>
                                             <constraint firstItem="fAU-F1-c6k" firstAttribute="top" secondItem="XxZ-Ka-BaQ" secondAttribute="top" constant="30" id="I6m-ei-Cgq"/>
+                                            <constraint firstItem="zVg-ko-lHo" firstAttribute="centerX" secondItem="Z3L-Pn-FUU" secondAttribute="centerX" id="IUI-v2-y7b"/>
                                             <constraint firstItem="Yet-2U-tK1" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="53" id="LZ3-CN-8It"/>
                                             <constraint firstItem="8t5-XN-3zy" firstAttribute="top" secondItem="bx4-2u-yZa" secondAttribute="bottom" constant="8" id="M0A-ha-dKw"/>
                                             <constraint firstAttribute="trailing" secondItem="Z3L-Pn-FUU" secondAttribute="trailing" constant="56" id="M39-6h-NIm"/>
@@ -1987,7 +1988,6 @@
                                             <constraint firstAttribute="trailing" secondItem="Yet-2U-tK1" secondAttribute="trailing" constant="189" id="mfn-4V-MkJ"/>
                                             <constraint firstItem="A1C-Dn-iUp" firstAttribute="top" secondItem="9g6-Vh-jeq" secondAttribute="bottom" constant="8" id="p4E-0T-s3j"/>
                                             <constraint firstAttribute="bottom" secondItem="8t5-XN-3zy" secondAttribute="bottom" constant="122" id="pem-bq-HLm"/>
-                                            <constraint firstItem="nWV-cj-Miw" firstAttribute="trailing" secondItem="zVg-ko-lHo" secondAttribute="trailing" id="qQN-Aj-dM0"/>
                                             <constraint firstItem="fAU-F1-c6k" firstAttribute="leading" secondItem="XxZ-Ka-BaQ" secondAttribute="leading" constant="67" id="r3D-Vw-NZV"/>
                                             <constraint firstItem="50H-cJ-vIz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8t5-XN-3zy" secondAttribute="trailing" constant="8" id="rXo-Gp-Myw"/>
                                             <constraint firstAttribute="trailing" secondItem="bx4-2u-yZa" secondAttribute="trailing" constant="20" id="rju-We-erL"/>
