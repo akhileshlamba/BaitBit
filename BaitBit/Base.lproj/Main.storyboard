@@ -88,6 +88,17 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <viewLayoutGuide key="safeArea" id="36l-0g-Hlf"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5Z-eA-0ej">
+                                <rect key="frame" x="325" y="568" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Z5Z-eA-0ej" secondAttribute="height" multiplier="1:1" id="Leg-7W-WQu"/>
+                                    <constraint firstAttribute="width" constant="30" id="PLh-su-Jt8"/>
+                                </constraints>
+                                <state key="normal" image="navigation"/>
+                                <connections>
+                                    <action selector="backToCurrentLocation:" destination="zKp-tB-rFu" eventType="touchUpInside" id="wjO-FR-hfc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -95,11 +106,15 @@
                             <constraint firstAttribute="trailing" secondItem="MKo-ha-TOa" secondAttribute="trailing" id="K6Y-L0-IO0"/>
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="leading" secondItem="BnD-oG-H72" secondAttribute="leading" id="TCn-cD-baV"/>
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="bottom" secondItem="ZCt-dd-ytN" secondAttribute="bottom" id="aJv-eL-VOs"/>
+                            <constraint firstItem="Z5Z-eA-0ej" firstAttribute="width" secondItem="Z5Z-eA-0ej" secondAttribute="height" multiplier="1:1" id="jwG-Qu-vcT"/>
+                            <constraint firstItem="ZCt-dd-ytN" firstAttribute="bottom" secondItem="Z5Z-eA-0ej" secondAttribute="bottom" constant="20" id="lp8-JM-Xoj"/>
+                            <constraint firstItem="ZCt-dd-ytN" firstAttribute="trailing" secondItem="Z5Z-eA-0ej" secondAttribute="trailing" constant="20" id="yS6-bI-Jwi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZCt-dd-ytN"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Invasive Species Map" image="map" id="017-Zg-M8f"/>
                     <connections>
+                        <outlet property="backToCurrentLocationButton" destination="Z5Z-eA-0ej" id="Y9Y-rk-F42"/>
                         <outlet property="mapView" destination="MKo-ha-TOa" id="9iG-mc-VJ8"/>
                         <segue destination="Lvd-mc-y7R" kind="show" identifier="FilterSegue" id="QI5-GA-IdC"/>
                     </connections>
@@ -430,18 +445,38 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="qW3-A6-8pv">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34p-NA-qYm">
-                                <rect key="frame" x="325" y="95" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="filter"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34p-NA-qYm">
+                                <rect key="frame" x="325" y="84" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ht0-8s-Mk0"/>
+                                    <constraint firstAttribute="width" secondItem="34p-NA-qYm" secondAttribute="height" multiplier="1:1" id="iuy-jZ-riR"/>
+                                </constraints>
+                                <state key="normal" image="filter">
+                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MrA-XP-LzJ">
+                                <rect key="frame" x="325" y="617" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="MrA-XP-LzJ" secondAttribute="height" multiplier="1:1" id="dXa-WO-75o"/>
+                                    <constraint firstAttribute="width" constant="30" id="fhI-RX-tnJ"/>
+                                </constraints>
+                                <state key="normal" image="navigation"/>
+                                <connections>
+                                    <action selector="backToCurrentLocation:" destination="ZSX-rJ-Ras" eventType="touchUpInside" id="pin-dd-nIm"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="MrA-XP-LzJ" secondAttribute="trailing" constant="20" id="1UO-1e-GW8"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="leading" secondItem="VQK-XX-DwK" secondAttribute="leading" id="36g-wB-Jxq"/>
                             <constraint firstAttribute="trailing" secondItem="qW3-A6-8pv" secondAttribute="trailing" id="4Jk-8R-19B"/>
+                            <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="34p-NA-qYm" secondAttribute="trailing" constant="20" id="TRP-QG-gYA"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="bottom" secondItem="wWh-PO-y6k" secondAttribute="bottom" id="aTL-uK-zBY"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="top" secondItem="wWh-PO-y6k" secondAttribute="top" id="h1K-lP-cXz"/>
+                            <constraint firstItem="34p-NA-qYm" firstAttribute="top" secondItem="wWh-PO-y6k" secondAttribute="top" constant="20" id="hXc-JH-XRa"/>
+                            <constraint firstItem="wWh-PO-y6k" firstAttribute="bottom" secondItem="MrA-XP-LzJ" secondAttribute="bottom" constant="20" id="mQA-3t-boF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wWh-PO-y6k"/>
                     </view>
@@ -454,6 +489,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="add_bait_button" destination="G53-yk-s4u" id="JOl-c4-oYJ"/>
+                        <outlet property="backToCurrentLocationButton" destination="MrA-XP-LzJ" id="D4b-jV-vOJ"/>
                         <outlet property="mapView" destination="qW3-A6-8pv" id="QSt-hR-wlc"/>
                         <segue destination="QgP-EE-RZ9" kind="show" identifier="BaitDetailSegue" id="Mem-A5-v85"/>
                     </connections>
@@ -2434,6 +2470,7 @@
         <image name="location" width="50" height="50"/>
         <image name="logo" width="134" height="164"/>
         <image name="map" width="32" height="32"/>
+        <image name="navigation" width="64" height="64"/>
         <image name="resources" width="32" height="32"/>
         <image name="right-arrow" width="64" height="64"/>
         <image name="settings" width="32" height="32"/>

@@ -19,6 +19,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     var program: Program?
     var baits: [Bait] = []
     var selectedBait: Bait?
+    @IBOutlet weak var backToCurrentLocationButton: UIButton!
     
     var baitAnnotations: [BaitAnnotation] = []
     
@@ -71,6 +72,16 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         super.viewWillAppear(animated)
         self.program = Program.program
         loadData()
+    }
+    
+    @IBAction func backToCurrentLocation(_ sender: UIButton) {
+        locationManager.startUpdatingLocation()
+        sender.isHidden = true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        locationManager.stopUpdatingLocation()
+        self.backToCurrentLocationButton.isHidden = false
     }
     
 
