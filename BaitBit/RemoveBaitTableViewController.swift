@@ -15,6 +15,7 @@ class RemoveBaitTableViewController: UITableViewController {
     var dataSourceForCells = [[String]]()
     let identifiersForCells = ["BaitStatusCell", "SpeciesDeathCell"]
     let titleForHeaders = ["Bait status (Choose one)", "Species death (Optional)"]
+    var bait: Bait!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,22 @@ class RemoveBaitTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancel))
     }
+    
+    @objc func cancel() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func removeBait(_ sender: Any) {
+        Util.confirmMessage(view: self, "You are going to remove this bait, please make sure everything is clear.", "Remove bait", confirmAction: { (_) in
+            // TODO: remove bait, i.e. set bait.isRemove = true, then update to firestore,
+            self.bait.isRemoved = true
+            let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
+            self.navigationController?.popToViewController(controller!, animated: true)
+        }, cancelAction: nil)
+    }
+    
 
     // MARK: - Table view data source
 
