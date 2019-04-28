@@ -105,6 +105,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.backToCurrentLocationButton.isHidden = false
     }
     
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let annotations = mapView.annotations
+        for annotation in annotations {
+            if annotation is PinAnnotation {
+                self.mapView.removeAnnotation(annotation)
+            }
+        }
+    }
+    
     @objc func tapping() {
 //        if self.navigationController!.isNavigationBarHidden {
 //            self.navigationController?.setNavigationBarHidden(false, animated: true)
