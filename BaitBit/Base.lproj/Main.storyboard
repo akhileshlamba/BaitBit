@@ -1820,7 +1820,7 @@
         <!--Sign In-->
         <scene sceneID="pDf-4a-uM3">
             <objects>
-                <viewController id="9GU-L8-DrW" customClass="AuthViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" id="9GU-L8-DrW" customClass="AuthViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QSC-jy-hxS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
