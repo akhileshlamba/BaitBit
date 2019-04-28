@@ -244,6 +244,15 @@ class FirestoreDAO: NSObject {
         let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
+        
+        // save the image to a local file
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        if let pathComponent = url.appendingPathComponent("\(date)") {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
+        }
 
         // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
         let imageRef = storageRef.child("\(self.authenticatedUser.id)/Bait/\(date)")
@@ -258,6 +267,8 @@ class FirestoreDAO: NSObject {
                         complete?(false)
                     } else {
                         if let imageURL = url?.absoluteString {
+                            bait.photoPath = "\(date)"
+                            bait.photoURL = imageURL
                             self.setData(for: authenticatedUser, data: [
                                 "programs": [
                                     bait.program!.id: [
@@ -274,15 +285,6 @@ class FirestoreDAO: NSObject {
                     }
                 })
             }
-        }
-
-        // save the image to a local file
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        let url = NSURL(fileURLWithPath: path)
-        if let pathComponent = url.appendingPathComponent("\(date)") {
-            let filePath = pathComponent.path
-            let fileManager = FileManager.default
-            fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
         }
     }
 
@@ -378,11 +380,18 @@ class FirestoreDAO: NSObject {
             let latitude = b["latitude"] as! Double
             let longitude = b["longitude"] as! Double
             var photoPath:String?
-            if b["photPath"] != nil {
+            var photoURL:String?
+            if b["photoPath"] != nil {
                 photoPath = b["photoPath"] as? String
             } else {
                 photoPath = nil
             }
+            if b["photoURL"] != nil {
+                photoURL = b["photoURL"] as? String
+            } else {
+                photoURL = nil
+            }
+            
             let isRemoved = b["isRemoved"] as! Bool
             let dateformatter = DateFormatter()
             dateformatter.dateFormat = "MMM dd, yyyy"
@@ -391,6 +400,7 @@ class FirestoreDAO: NSObject {
                             latitude: latitude,
                             longitude: longitude,
                             photoPath: photoPath,
+                            photoURL: photoURL,
                             program: program,
                             isRemoved: isRemoved)
             baitList.append(bait)
@@ -412,10 +422,16 @@ class FirestoreDAO: NSObject {
                     let latitude = b["latitude"] as! Double
                     let longitude = b["longitude"] as! Double
                     var photoPath:String?
+                    var photoURL:String?
                     if b["photPath"] != nil {
                         photoPath = b["photoPath"] as! String
                     } else {
                         photoPath = nil
+                    }
+                    if b["photoURL"] != nil {
+                        photoURL = b["photoURL"] as? String
+                    } else {
+                        photoURL = nil
                     }
                     let isRemoved = b["isRemoved"] as! Bool
                     let dateformatter = DateFormatter()
@@ -425,6 +441,7 @@ class FirestoreDAO: NSObject {
                                     latitude: latitude,
                                     longitude: longitude,
                                     photoPath: photoPath,
+                                    photoURL: photoURL,
                                     program: program,
                                     isRemoved: isRemoved)
                     baitList.append(bait)
@@ -517,6 +534,44 @@ class FirestoreDAO: NSObject {
                 self.setUserData(with: document!.data()! as NSDictionary, id: document!.documentID)
                 complete?(true)
             })
+        }
+    }
+    
+    static func fetchImage(for bait: Bait, complete: @escaping (UIImage) -> Void) {
+        if let photoPath = bait.photoPath, let photoURL = bait.photoURL {
+            self.fetchImage(from: bait.photoPath, otherwiseFrom: bait.photoURL, complete: complete)
+        }
+    }
+    
+    static private func fetchImage(from localPath: String?, otherwiseFrom photoURL: String?, complete: @escaping (UIImage) -> Void) {
+        var image: UIImage?
+        if let photoPath = localPath {
+            
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+            let url = NSURL(fileURLWithPath: path)
+            
+            if let pathComponent = url.appendingPathComponent(photoPath) {
+                let filePath = pathComponent.path
+                let fileManager = FileManager.default
+                
+                if fileManager.fileExists(atPath: filePath) {
+                    guard let fileData = fileManager.contents(atPath: filePath) else {return}
+                    image = UIImage(data: fileData)
+                    complete(image!)
+                    return
+                } else {
+                    Storage.storage().reference(forURL: photoURL!).getData(maxSize: 5 * 1024 * 1024) { (data, error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                            return
+                        } else {
+                            image = UIImage(data: data!)
+                            complete(image!)
+                            return
+                        }
+                    }
+                }
+            }
         }
     }
 }
