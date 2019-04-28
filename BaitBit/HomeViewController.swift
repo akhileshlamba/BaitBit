@@ -41,8 +41,14 @@ class HomeViewController: UIViewController {
         
         self.setNavigationBarItems()
         
+        self.getAllBaits()
         
-        
+    }
+    
+    func getAllBaits() {
+        for program in self.user.programs.values {
+            self.baits.append(contentsOf: program.baits.values)
+        }
     }
     
     func checkForNotifications(){
@@ -145,13 +151,14 @@ class HomeViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
         calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
@@ -160,7 +167,7 @@ class HomeViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+        super.viewWillDisappear(animated)
 //        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -180,9 +187,6 @@ class HomeViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "baitsSegue" {
-            for bait in baits {
-                print(bait.program?.baitType)
-            }
             let controller = segue.destination as! BaitsProgramMapViewController
             controller.baits = baits
         }
