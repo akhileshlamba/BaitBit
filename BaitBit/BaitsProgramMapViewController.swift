@@ -28,13 +28,13 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
 
         if let navController = self.navigationController, navController.viewControllers.count >= 2 {
             let controller = navController.viewControllers[navController.viewControllers.count - 2]
-            if (controller.isKind(of: HomeViewController.self)) {
+            if (controller.isKind(of: TabBarViewController.self)) {
                 self.navigationItem.rightBarButtonItem?.isEnabled = false
                 self.navigationItem.rightBarButtonItem?.tintColor = .clear
+            } else {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add bait", style: .plain, target: self, action: #selector(self.addBait))
             }
         }
-        
-        //let controller = self.navigationController?.topViewController
         
         
         loadData()
@@ -51,6 +51,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         
         self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000)
 
+    }
+    
+    @objc func addBait() {
+        performSegue(withIdentifier: "AddBaitSegue", sender: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -139,7 +143,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: false)
+        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
         
         let annotations = mapView.annotations
         for annotation in annotations {

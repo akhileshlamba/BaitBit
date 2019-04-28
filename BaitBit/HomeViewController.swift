@@ -14,7 +14,9 @@ class HomeViewController: UIViewController {
     var baits: [Bait] = []
     private var context : NSManagedObjectContext
     let defaults = UserDefaults()
-
+    @IBOutlet weak var baitingProgramView: UIView!
+    @IBOutlet weak var newProgramButton: UIButton!
+    
     var sections = [String]()
 
     var user : User!
@@ -34,18 +36,24 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
+        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+        if !loggedIn {
+            self.baitingProgramView.isHidden = true
+            self.newProgramButton.isHidden = true
+            self.setNavigationBarItemsForGuest()
+            return
+        }
         self.user = FirestoreDAO.authenticatedUser!
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
 
-
         self.setNavigationBarItems()
 
-        self.getAllBaits()
+        self.getAllMyBaits()
 
     }
 
-    func getAllBaits() {
+    func getAllMyBaits() {
         for program in self.user.programs.values {
             self.baits.append(contentsOf: program.baits.values)
         }
@@ -127,6 +135,13 @@ class HomeViewController: UIViewController {
 
         self.tabBarController?.navigationItem.title = "Home"
     }
+    
+    func setNavigationBarItemsForGuest() {
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.hidesBackButton = false
+        self.tabBarController?.navigationItem.title = "Home"
+    }
 
     @objc func notification() {
         self.notifcationOfUser = FirestoreDAO.notificationDetails
@@ -141,16 +156,21 @@ class HomeViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.notifcationOfUser = FirestoreDAO.notificationDetails
-        checkForNotifications()
-        calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        self.notifcationOfUser = FirestoreDAO.notificationDetails
+//        checkForNotifications()
+//        calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)
+//    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+        if !loggedIn {
+            self.setNavigationBarItemsForGuest()
+            return
+        }
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         checkForNotifications()
         calculateTotalNotifications(of: FirestoreDAO.authenticatedUser)

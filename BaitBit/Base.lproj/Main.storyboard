@@ -89,10 +89,10 @@
                                 <viewLayoutGuide key="safeArea" id="36l-0g-Hlf"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5Z-eA-0ej">
-                                <rect key="frame" x="325" y="568" width="30" height="30"/>
+                                <rect key="frame" x="295" y="538" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Z5Z-eA-0ej" secondAttribute="height" multiplier="1:1" id="Leg-7W-WQu"/>
-                                    <constraint firstAttribute="width" constant="30" id="PLh-su-Jt8"/>
+                                    <constraint firstAttribute="width" constant="50" id="PLh-su-Jt8"/>
                                 </constraints>
                                 <state key="normal" image="navigation"/>
                                 <connections>
@@ -107,8 +107,8 @@
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="leading" secondItem="BnD-oG-H72" secondAttribute="leading" id="TCn-cD-baV"/>
                             <constraint firstItem="MKo-ha-TOa" firstAttribute="bottom" secondItem="ZCt-dd-ytN" secondAttribute="bottom" id="aJv-eL-VOs"/>
                             <constraint firstItem="Z5Z-eA-0ej" firstAttribute="width" secondItem="Z5Z-eA-0ej" secondAttribute="height" multiplier="1:1" id="jwG-Qu-vcT"/>
-                            <constraint firstItem="ZCt-dd-ytN" firstAttribute="bottom" secondItem="Z5Z-eA-0ej" secondAttribute="bottom" constant="20" id="lp8-JM-Xoj"/>
-                            <constraint firstItem="ZCt-dd-ytN" firstAttribute="trailing" secondItem="Z5Z-eA-0ej" secondAttribute="trailing" constant="20" id="yS6-bI-Jwi"/>
+                            <constraint firstItem="ZCt-dd-ytN" firstAttribute="bottom" secondItem="Z5Z-eA-0ej" secondAttribute="bottom" constant="30" id="lp8-JM-Xoj"/>
+                            <constraint firstItem="ZCt-dd-ytN" firstAttribute="trailing" secondItem="Z5Z-eA-0ej" secondAttribute="trailing" constant="30" id="yS6-bI-Jwi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZCt-dd-ytN"/>
                     </view>
@@ -456,10 +456,10 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MrA-XP-LzJ">
-                                <rect key="frame" x="325" y="617" width="30" height="30"/>
+                                <rect key="frame" x="295" y="587" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="MrA-XP-LzJ" secondAttribute="height" multiplier="1:1" id="dXa-WO-75o"/>
-                                    <constraint firstAttribute="width" constant="30" id="fhI-RX-tnJ"/>
+                                    <constraint firstAttribute="width" constant="50" id="fhI-RX-tnJ"/>
                                 </constraints>
                                 <state key="normal" image="navigation"/>
                                 <connections>
@@ -469,29 +469,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="MrA-XP-LzJ" secondAttribute="trailing" constant="20" id="1UO-1e-GW8"/>
+                            <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="MrA-XP-LzJ" secondAttribute="trailing" constant="30" id="1UO-1e-GW8"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="leading" secondItem="VQK-XX-DwK" secondAttribute="leading" id="36g-wB-Jxq"/>
                             <constraint firstAttribute="trailing" secondItem="qW3-A6-8pv" secondAttribute="trailing" id="4Jk-8R-19B"/>
                             <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="34p-NA-qYm" secondAttribute="trailing" constant="20" id="TRP-QG-gYA"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="bottom" secondItem="wWh-PO-y6k" secondAttribute="bottom" id="aTL-uK-zBY"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="top" secondItem="wWh-PO-y6k" secondAttribute="top" id="h1K-lP-cXz"/>
                             <constraint firstItem="34p-NA-qYm" firstAttribute="top" secondItem="wWh-PO-y6k" secondAttribute="top" constant="20" id="hXc-JH-XRa"/>
-                            <constraint firstItem="wWh-PO-y6k" firstAttribute="bottom" secondItem="MrA-XP-LzJ" secondAttribute="bottom" constant="20" id="mQA-3t-boF"/>
+                            <constraint firstItem="wWh-PO-y6k" firstAttribute="bottom" secondItem="MrA-XP-LzJ" secondAttribute="bottom" constant="30" id="mQA-3t-boF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wWh-PO-y6k"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Baits Map" id="F5K-TH-2k7">
-                        <barButtonItem key="rightBarButtonItem" title="Add Bait" id="G53-yk-s4u">
-                            <connections>
-                                <segue destination="hxk-qI-7fy" kind="show" identifier="AddBaitSegue" id="sI4-JR-YS7"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
-                        <outlet property="add_bait_button" destination="G53-yk-s4u" id="JOl-c4-oYJ"/>
                         <outlet property="backToCurrentLocationButton" destination="MrA-XP-LzJ" id="D4b-jV-vOJ"/>
                         <outlet property="mapView" destination="qW3-A6-8pv" id="QSt-hR-wlc"/>
                         <segue destination="QgP-EE-RZ9" kind="show" identifier="BaitDetailSegue" id="Mem-A5-v85"/>
+                        <segue destination="hxk-qI-7fy" kind="show" identifier="AddBaitSegue" id="Rhh-JI-IqV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p1P-Td-8WD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1150,6 +1143,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="i1B-0Q-QDY"/>
                     <connections>
+                        <outlet property="baitingProgramView" destination="cQF-3S-Ylt" id="gtl-eL-aS4"/>
+                        <outlet property="newProgramButton" destination="09x-Ad-XMy" id="GBD-Y6-rsQ"/>
                         <segue destination="yz9-lh-Jkz" kind="show" identifier="NotificationSegue" id="SU5-Ij-QAD"/>
                     </connections>
                 </viewController>
@@ -2529,7 +2524,7 @@
         <segue reference="Mah-cT-pM5"/>
         <segue reference="Ysg-86-57x"/>
         <segue reference="XSh-ec-wXm"/>
-        <segue reference="sI4-JR-YS7"/>
+        <segue reference="xSR-ls-uec"/>
         <segue reference="J1s-mq-wqv"/>
         <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>
