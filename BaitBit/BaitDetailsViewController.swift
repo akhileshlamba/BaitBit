@@ -24,15 +24,11 @@ class BaitDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setFields()
-        self.loadBaitImage()
 
         // Do any additional setup after loading the view.
     }
     
     func setFields() {
-        self.dueTextField.text = "Due in \(self.bait.numberOfDaysBeforeDue) day(s)"
-        self.durationTextField.text = "\(self.bait.durationInDays) days(s)"
-        self.startDateTextField.text = "\(Util.setDateAsString(date: self.bait.laidDate))"
     }
 
     @IBAction func dragDownFromTop(_ sender: UIScreenEdgePanGestureRecognizer) {
@@ -42,9 +38,7 @@ class BaitDetailsViewController: UIViewController {
     }
     
     func loadBaitImage() {
-        FirestoreDAO.fetchImage(for: self.bait) { (image) in
-            self.baitImageView.image = image
-        }
+        
     }
     
     // MARK: - Navigation

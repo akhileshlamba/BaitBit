@@ -19,41 +19,35 @@ class Bait: NSObject {
     var latitude: Double
     var longitude: Double
     var photoPath: String?
-    var photoURL: String?
     var program: Program?
     var isRemoved: Bool
     
     var removeDate : Date = Date()
     var status: BaitStatus {
+        // dueDate = laidDate + duration
+        let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)
+        let dueDate = NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)
+        //print(dueDate)
+        let day = Calendar.current.dateComponents([.day,.month], from: NSDate() as Date, to: dueDate!).day
+    
         if isRemoved {
             return .REMOVED
         }
-        if self.numberOfDaysBeforeDue > 2 {
+        if day! > 2 {
             return .ACTIVE
-        } else if numberOfDaysBeforeDue < 0 {
+        } else if day! < 0 {
             return .OVERDUE
         } else {
             return .DUESOON
         }
     }
-    var numberOfDaysBeforeDue: Int {
-        return Calendar.current.dateComponents([.day, .month], from: NSDate() as Date, to: self.dueDate as Date).day!
-    }
-    var dueDate: NSDate {
-        let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)
-        return NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)! as NSDate
-    }
-    var durationInDays: Int {
-        return Calendar.current.dateComponents([.day, .month], from: laidDate as Date, to: NSDate() as Date).day!
-    }
     
-    init(id: String, laidDate: NSDate?, latitude: Double, longitude: Double, photoPath: String?, photoURL: String?, program: Program, isRemoved: Bool?) {
+    init(id: String, laidDate: NSDate?, latitude: Double, longitude: Double, photoPath: String?, program: Program, isRemoved: Bool?) {
         self.id = id
         self.laidDate = laidDate ?? NSDate()
         self.latitude = latitude
         self.longitude = longitude
         self.photoPath = photoPath
-        self.photoURL = photoURL
         self.program = program
         self.isRemoved = isRemoved ?? false
     }

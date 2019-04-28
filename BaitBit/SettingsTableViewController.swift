@@ -16,15 +16,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.setNavigationBarItems()
-
-        let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
-        if !loggedIn {
-            Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")
-            return
-        }
-        self.user = FirestoreDAO.authenticatedUser
+        
+        user = FirestoreDAO.authenticatedUser
         notificationDetails = FirestoreDAO.notificationDetails
         updatedNotificationDetails = notificationDetails
         
@@ -43,6 +36,7 @@ class SettingsTableViewController: UITableViewController {
 //
 //        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 //        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.setNavigationBarItems()
     }
 
     func setNavigationBarItems() {
@@ -56,11 +50,6 @@ class SettingsTableViewController: UITableViewController {
         super.viewWillAppear(true)
         tableView.reloadData()
         self.setNavigationBarItems()
-        let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
-        if !loggedIn {
-            Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")
-            return
-        }
 
     }
     

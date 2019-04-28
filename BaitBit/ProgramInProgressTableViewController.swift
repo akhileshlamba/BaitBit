@@ -13,10 +13,31 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
 
     @IBOutlet weak var loading: UIActivityIndicatorView!
     var programList: [Program] = []
+//    private var context : NSManagedObjectContext
+    
+    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.reloadProgramList()
+        
+        dateFormatter.dateFormat = "MMM dd yyyy"
+        loading.startAnimating()
+        
+        for program in FirestoreDAO.authenticatedUser.programs {
+            programList.append(program.value)
+        }
+        
+        programList.sort { (left, right) -> Bool in
+            return left.id > right.id
+        }
+        self.loading.stopAnimating()
+        self.tableView.reloadData()
+        
+//        FirestoreDAO.getAllPrograms { (programs) in
+//            self.programList = programs
+//            self.loading.stopAnimating()
+//            self.tableView.reloadData()
+//        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -25,26 +46,31 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func reloadProgramList() {
-        loading.startAnimating()
-        programList.removeAll()
-        for program in FirestoreDAO.authenticatedUser.programs {
-            if program.value.isActive {
-                programList.append(program.value)
-            }
-        }
-        
-        programList.sort { (left, right) -> Bool in
-            return left.id > right.id
-        }
-        
-        self.loading.stopAnimating()
-        self.tableView.reloadData()
-    }
+//    func divideDataIntoSection(){
+//        list.removeAll()
+//        var activeList: [Program] = []
+//        var inactiveList: [Program] = []
+//        for bait_program in programList {
+//            if bait_program.active{
+//                activeList.append(bait_program)
+//            } else {
+//                inactiveList.append(bait_program)
+//            }
+//        }
+//        list.append(activeList)
+//        list.append(inactiveList)
+//    }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//        context = (appDelegate?.persistentContainer.viewContext)!
+//        super.init(coder: aDecoder)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.reloadProgramList()
+        self.tableView.reloadData()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,7 +99,7 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         if programList.count != 0 {
             let a:Program = self.programList[indexPath.row]
             cell.textLabel?.text = a.baitType!
-            cell.detailTextLabel?.text = Util.setDateAsString(date: a.startDate)
+            cell.detailTextLabel?.text = dateFormatter.string(from: a.startDate as Date)
             if a.hasOverdueBaits {
                 cell.imageView!.image = UIImage(named: "exclamation-mark")
             } else if a.hasDueSoonBaits {

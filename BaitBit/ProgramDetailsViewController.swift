@@ -46,14 +46,11 @@ class ProgramDetailsViewController: UIViewController {
             Util.displayErrorMessage(view: self, "Please remove all baits and upload ducuments to end program", "Cannot end program")
         } else {
             Util.confirmMessage(view: self, "Are you sure to END this program?", "End program", confirmAction: { (_) in
-                self.program.isActive = false
-                FirestoreDAO.end(program: self.program, complete: { (result) in
-                    if result {
-                        Util.displayMessage(view: self, "Program ended successfully", "Program Ended", "OK", completion: { (_) in
-                            self.navigationController?.popViewController(animated: true)
-                        })
-                    }
-                })
+                // TODO: Do something here
+                // 1. set self.program.isActive = false
+                // 2. invoke FirestoreDAO.endProgram(program:Program, complete: ((Bool) -> Void)?)
+                //    inside this method, setData [users/user.id/programs/program.id/"isActive": false]] in firestore
+                FirestoreDAO.end(program: self.program)
             }, cancelAction: nil)
         }
     }

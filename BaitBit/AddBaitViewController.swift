@@ -125,7 +125,6 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
                         latitude: Double(lat) as! Double,
                         longitude: Double(long) as! Double,
                         photoPath: nil,
-                        photoURL: nil,
                         program: self.program,
                         isRemoved: false)
 
