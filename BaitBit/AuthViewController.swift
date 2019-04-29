@@ -13,7 +13,7 @@ import Firebase
 
 //import TesseractOCR
 
-class AuthViewController: UIViewController {
+class AuthViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -38,7 +38,10 @@ class AuthViewController: UIViewController {
         
         indicator.isHidden = true
         self.hideKeyboard()
-
+        
+        username.delegate = self
+        password.delegate = self
+        
         //self.view.addSubview(activityIndicator)
 
         let settings = FirestoreSettings()
@@ -276,5 +279,16 @@ extension AuthViewController
     @objc func dismissKeyboard()
     {
         view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextTag = textField.tag + 1
+        
+        if let nextResponder = textField.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }

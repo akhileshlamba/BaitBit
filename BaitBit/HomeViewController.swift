@@ -75,6 +75,7 @@ class HomeViewController: UIViewController {
 
 
     func calculateTotalNotifications(){
+        self.user = FirestoreDAO.authenticatedUser!
         overDueBaitsForProgram = [:]
         dueSoonBaitsForProgram = [:]
         documentsPending = [:]

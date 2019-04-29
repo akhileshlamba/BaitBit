@@ -1915,7 +1915,7 @@
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="9g6-Vh-jeq">
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="9g6-Vh-jeq">
                                                 <rect key="frame" x="20" y="498" width="335" height="45"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -2136,7 +2136,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Eg. Sample1234" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8fi-3x-658">
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Eg. Sample1234" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8fi-3x-658">
                                                 <rect key="frame" x="20" y="248" width="335" height="45"/>
                                                 <color key="backgroundColor" red="0.81621140241622925" green="0.84676498174667358" blue="0.85882657766342163" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>

@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseMLVision
 
-class RegisterUserViewController: UIViewController {
+class RegisterUserViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -44,6 +44,9 @@ class RegisterUserViewController: UIViewController {
         Firestore.firestore().settings = settings
         
         db = Firestore.firestore()
+        
+        username.delegate = self
+        password.delegate = self
         
         
         let vision = Vision.vision()
@@ -273,6 +276,17 @@ class RegisterUserViewController: UIViewController {
 }
 
 extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextTag = textField.tag + 1
+        
+        if let nextResponder = textField.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
     
     func takePicture() {
         let controller = UIImagePickerController()
