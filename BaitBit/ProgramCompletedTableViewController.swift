@@ -76,6 +76,19 @@ class ProgramCompletedTableViewController: UITableViewController {
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            if programList.count == 0 {
+                return "There is no completed program."
+            } else if programList.count == 1 {
+                return "You have 1 completed program."
+            } else {
+                return "You have completed \(programList.count) programs."
+            }
+        }
+        return nil
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
