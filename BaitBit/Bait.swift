@@ -37,14 +37,22 @@ class Bait: NSObject {
         }
     }
     var numberOfDaysBeforeDue: Int {
-        return Calendar.current.dateComponents([.day, .month], from: NSDate() as Date, to: self.dueDate as Date).day!
+        return Calendar.current.dateComponents([.day], from: NSDate() as Date, to: self.dueDate as Date).day!
     }
     var dueDate: NSDate {
         let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)
         return NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)! as NSDate
     }
     var durationInDays: Int {
-        return Calendar.current.dateComponents([.day, .month], from: laidDate as Date, to: NSDate() as Date).day!
+        return Calendar.current.dateComponents([.day], from: laidDate as Date, to: NSDate() as Date).day!
+    }
+    
+    var durationFormatted: String {
+        if durationInDays <= 1 {
+            return "\(durationInDays) day"
+        } else {
+            return "\(durationInDays) days"
+        }
     }
     
     init(id: String, laidDate: NSDate?, latitude: Double, longitude: Double, photoPath: String?, photoURL: String?, program: Program, isRemoved: Bool?) {
