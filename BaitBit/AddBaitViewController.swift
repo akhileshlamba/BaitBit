@@ -28,8 +28,8 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
     let dataSource = ["Date", "Latitude", "Longitude"]
-    let imageDateSource = ["date", "latitude", "longitude"]
-    var valueDateSource = ["", "", ""]
+    let imageDataSource = ["date", "latitude", "longitude"]
+    var valueDataSource = ["", "", ""]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +38,8 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
         addBaitTableView.dataSource = self
 
         formatter.dateFormat = "MMM dd, yyyy"
-        self.valueDateSource[0] = formatter.string(from: Date())
-        
+        self.valueDataSource[0] = formatter.string(from: Date())
+        self.addBaitTableView.tableFooterView = UIView(frame: .zero)
         self.getLocation()
 
 
@@ -59,8 +59,8 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     @IBAction func addBait(_ sender: Any) {
-        let lat = self.valueDateSource[1]
-        let long = self.valueDateSource[2]
+        let lat = self.valueDataSource[1]
+        let long = self.valueDataSource[2]
         guard lat != "" && long != "" else {
             displayMessage("Cannot get your current location", "Save Failed")
             return
@@ -124,8 +124,8 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         self.currentLocation = loc.coordinate
-        self.valueDateSource[1] = String(currentLocation.latitude)
-        self.valueDateSource[2] = String(currentLocation.longitude)
+        self.valueDataSource[1] = String(currentLocation.latitude)
+        self.valueDataSource[2] = String(currentLocation.longitude)
         self.addBaitTableView.reloadData()
     }
 
@@ -280,8 +280,8 @@ extension AddBaitViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddBaitCell", for: indexPath)
         cell.textLabel?.text = self.dataSource[indexPath.row]
-        cell.detailTextLabel?.text = self.valueDateSource[indexPath.row]
-        cell.imageView?.image = UIImage(named: self.valueDateSource[indexPath.row])
+        cell.detailTextLabel?.text = self.valueDataSource[indexPath.row]
+        cell.imageView?.image = UIImage(named: self.imageDataSource[indexPath.row])
 
         return cell
     }

@@ -59,6 +59,7 @@ class DocumentsTableViewController: UITableViewController, DocumentUploadDelegat
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         documentName = documentNames[indexPath.row]
         self.performSegue(withIdentifier: "UploadDocument", sender: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
