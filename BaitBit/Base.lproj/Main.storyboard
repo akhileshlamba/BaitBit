@@ -595,17 +595,6 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Fa-8P-gWu">
-                                                <rect key="frame" x="315" y="215" width="40" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="9Fa-8P-gWu" secondAttribute="height" multiplier="1:1" id="l6H-sb-OdY"/>
-                                                    <constraint firstAttribute="height" constant="40" id="zLd-cb-0aw"/>
-                                                </constraints>
-                                                <state key="normal" image="location"/>
-                                                <connections>
-                                                    <action selector="get_Location:" destination="hxk-qI-7fy" eventType="touchUpInside" id="s6k-qV-0BD"/>
-                                                </connections>
-                                            </button>
                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="iny-WN-J7b">
                                                 <rect key="frame" x="169" y="356.5" width="37" height="37"/>
                                             </activityIndicatorView>
@@ -613,13 +602,11 @@
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="9Fa-8P-gWu" secondAttribute="trailing" constant="20" id="3Ny-lb-98R"/>
                                             <constraint firstItem="iLe-Li-agP" firstAttribute="leading" secondItem="IiZ-oC-GQj" secondAttribute="leading" constant="8" id="3w3-mQ-xdU"/>
                                             <constraint firstItem="J03-lF-Q1d" firstAttribute="height" secondItem="tJY-CI-lH1" secondAttribute="height" id="44Y-bW-oQd"/>
                                             <constraint firstAttribute="trailing" secondItem="iLe-Li-agP" secondAttribute="trailing" constant="8" id="7q3-nw-quX"/>
                                             <constraint firstItem="sfM-os-awR" firstAttribute="leading" secondItem="IiZ-oC-GQj" secondAttribute="leading" id="9aM-0v-lCe"/>
                                             <constraint firstItem="tJY-CI-lH1" firstAttribute="leading" secondItem="IiZ-oC-GQj" secondAttribute="leading" constant="20" id="Adq-YR-0Zv"/>
-                                            <constraint firstItem="9Fa-8P-gWu" firstAttribute="top" secondItem="sfM-os-awR" secondAttribute="bottom" constant="8" id="BHx-rr-cNP"/>
                                             <constraint firstItem="tJY-CI-lH1" firstAttribute="centerX" secondItem="IiZ-oC-GQj" secondAttribute="centerX" id="GhI-x4-trm"/>
                                             <constraint firstAttribute="bottom" secondItem="iLe-Li-agP" secondAttribute="bottom" constant="40" id="GuO-zG-TNN"/>
                                             <constraint firstItem="iny-WN-J7b" firstAttribute="centerX" secondItem="IiZ-oC-GQj" secondAttribute="centerX" id="JqS-Mm-3q1"/>
@@ -630,7 +617,6 @@
                                             <constraint firstItem="pKK-2I-zLI" firstAttribute="top" secondItem="sfM-os-awR" secondAttribute="bottom" constant="50" id="dFI-ob-40W"/>
                                             <constraint firstItem="sfM-os-awR" firstAttribute="top" secondItem="IiZ-oC-GQj" secondAttribute="top" id="ggc-PT-IQU"/>
                                             <constraint firstAttribute="trailing" secondItem="sfM-os-awR" secondAttribute="trailing" id="hHW-xq-L8M"/>
-                                            <constraint firstAttribute="trailing" secondItem="9Fa-8P-gWu" secondAttribute="trailing" constant="20" id="hZ2-cM-Hc2"/>
                                             <constraint firstAttribute="trailing" secondItem="tJY-CI-lH1" secondAttribute="trailing" constant="20" id="hsL-u9-Ugd"/>
                                             <constraint firstItem="J03-lF-Q1d" firstAttribute="centerX" secondItem="tJY-CI-lH1" secondAttribute="centerX" id="i8B-2e-Fm3"/>
                                             <constraint firstItem="J03-lF-Q1d" firstAttribute="centerY" secondItem="tJY-CI-lH1" secondAttribute="centerY" id="mPc-x6-06g"/>
@@ -853,11 +839,11 @@
                         <outlet property="baitDetailsTitleView" destination="FFn-YM-2W7" id="dum-Zb-Fry"/>
                         <outlet property="baitImageContainerView" destination="h6B-vw-R32" id="Y70-fu-Ioa"/>
                         <outlet property="baitImageView" destination="DH1-6s-qlq" id="OX9-7r-PKq"/>
-                        <outlet property="dueTextField" destination="usc-Xy-LGn" id="ebc-yj-KUX"/>
-                        <outlet property="durationTextField" destination="8F8-cm-6mP" id="PzS-ca-gtA"/>
+                        <outlet property="dueLabel" destination="usc-Xy-LGn" id="ebc-yj-KUX"/>
+                        <outlet property="durationLabel" destination="8F8-cm-6mP" id="PzS-ca-gtA"/>
                         <outlet property="durationView" destination="f3W-hu-PGb" id="ERf-vX-TSO"/>
                         <outlet property="loading" destination="QaS-Ru-9rb" id="COA-wZ-uvG"/>
-                        <outlet property="startDateTextField" destination="6H8-gt-VIZ" id="SuU-On-jEh"/>
+                        <outlet property="startDateLabel" destination="6H8-gt-VIZ" id="SuU-On-jEh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bjC-i4-eoR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1851,6 +1837,7 @@
                                     <constraint firstAttribute="height" constant="50" id="mRK-he-Y9Y"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Upload"/>
                                 <connections>
                                     <action selector="uplaod:" destination="sJB-LV-IHn" eventType="touchUpInside" id="ZKN-9C-C1t"/>
@@ -2657,7 +2644,6 @@
         <image name="help" width="32" height="32"/>
         <image name="home" width="32" height="32"/>
         <image name="line" width="512" height="512"/>
-        <image name="location" width="50" height="50"/>
         <image name="logo" width="134" height="164"/>
         <image name="map" width="32" height="32"/>
         <image name="navigation" width="64" height="64"/>
