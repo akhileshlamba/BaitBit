@@ -96,6 +96,7 @@ class AddProgramViewController: UIViewController, SegueDelegate {
         
         datePicker.datePickerMode = .date
         datePicker.minimumDate = Date()
+        datePicker.maximumDate = Date()
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -268,7 +269,7 @@ extension AddProgramViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
         
-        cell.textLabel?.text = "Upload Documents"
+        cell.textLabel?.text = "Upload Documents (Optional)"
         cell.imageView?.image = UIImage(named: "document_orange")
         
         return cell

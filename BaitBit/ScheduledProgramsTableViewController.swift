@@ -1,43 +1,23 @@
 //
-//  ProgramCompletedTableViewController.swift
+//  ScheduledProgramsTableViewController.swift
 //  BaitBit
 //
-//  Created by Xiaotian LIU on 28/4/19.
+//  Created by Akhilesh Lamba on 29/4/19.
 //  Copyright © 2019 Monash. All rights reserved.
 //
 
 import UIKit
 
-class ProgramCompletedTableViewController: UITableViewController {
-
-    var programList: [Program] = []
+class ScheduledProgramsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.reloadProgramList()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-    
-    func reloadProgramList() {
-//        loading.startAnimating()
-        programList.removeAll()
-        for program in FirestoreDAO.authenticatedUser.programs {
-            if !program.value.isActive {
-                programList.append(program.value)
-            }
-        }
-        
-        programList.sort { (left, right) -> Bool in
-            return left.id > right.id
-        }
-        
-//        self.loading.stopAnimating()
-        self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -49,33 +29,23 @@ class ProgramCompletedTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return programList.count
+        return 0
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "programCell", for: indexPath)
-
-        // Configure the cell...
-        if programList.count != 0 {
-            let a:Program = self.programList[indexPath.row]
-            cell.textLabel?.text = a.baitType!
-            cell.detailTextLabel?.text = Util.setDateAsString(date: a.startDate)
-            if a.hasOverdueBaits {
-                cell.imageView!.image = UIImage(named: "exclamation-mark")
-            } else if a.hasDueSoonBaits {
-                cell.imageView!.image = UIImage(named: "warning")
-            } else {
-                cell.imageView!.image = UIImage(named: "checked")
-            }
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "scheduleProgramsIdentifer", for: indexPath)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Coming soon."
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

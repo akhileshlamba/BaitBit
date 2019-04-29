@@ -52,7 +52,7 @@ class DocumentsTableViewController: UITableViewController, DocumentUploadDelegat
         
         cell.textLabel?.text = documentNames[indexPath.row]
         cell.imageView?.image = UIImage(named: documentImageNames[indexPath.row])
-        
+        self.tableView.deselectRow(at: indexPath, animated: true)
         return cell
     }
     

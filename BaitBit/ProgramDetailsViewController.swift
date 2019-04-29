@@ -44,7 +44,9 @@ class ProgramDetailsViewController: UIViewController {
     @objc func endProgram() {
         if self.program.numberOfUnremovedBaits > 0 {
             Util.displayErrorMessage(view: self, "Please remove all baits and upload ducuments to end program", "Cannot end program")
-        } else {
+        } else if self.program.documents.count < 4 {
+            Util.displayErrorMessage(view: self, "Please upload ducuments to end program", "Cannot end program")
+        }else {
             Util.confirmMessage(view: self, "Are you sure to END this program?", "End program", confirmAction: { (_) in
                 self.program.isActive = false
                 FirestoreDAO.end(program: self.program, complete: { (result) in

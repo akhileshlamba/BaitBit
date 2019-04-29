@@ -259,7 +259,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
                     self.uploadDelegate?.documentData(data: result!)
                     self.activityIndicator.isHidden = true
                     self.activityIndicator.stopAnimating()
-                    self.displayErrorMessage("License updated Successfully!", "Sucess")
+                    self.displayErrorMessage("Document uploaded Successfully", "Sucess")
                 } else {
                     self.displayErrorMessage("Problem in updating License", "Error")
                 }
