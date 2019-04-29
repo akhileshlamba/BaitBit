@@ -184,8 +184,13 @@ class NotificationsTableViewController: UITableViewController {
                 }
                 break
             case "License":
-                cell.textLabel?.text = "License expiring in 1 month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
-                cell.textLabel?.numberOfLines = 2
+                if users.licenseExpiryDate != nil {
+                    cell.textLabel?.text = "License expiring in 1 month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                    cell.textLabel?.numberOfLines = 2
+                } else {
+                    cell.textLabel?.text = "Please uplaod the Baiting License"
+                    cell.textLabel?.numberOfLines = 2
+                }
                 break
             default:
                 cell.textLabel?.text = "There are no new notifications"

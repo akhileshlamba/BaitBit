@@ -50,6 +50,7 @@
 		E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */; };
 		E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */; };
 		E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */; };
+		E6957EAF2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */; };
 		E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B3947E226965D500DD3F69 /* AuthViewController.swift */; };
 		E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */; };
 		E6F4F583227177C60017715D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F582227177C60017715D /* Util.swift */; };
@@ -106,6 +107,7 @@
 		E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledProgramsTableViewController.swift; sourceTree = "<group>"; };
 		E6B3947E226965D500DD3F69 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgramViewController.swift; sourceTree = "<group>"; };
 		E6F4F582227177C60017715D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */,
 				0229072822730DDB001E0E4E /* EditProgramViewController.swift */,
 				02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */,
+				E6F4F66A227581230017715D /* DocumentUploadViewController.swift */,
 			);
 			name = BaitManager;
 			sourceTree = "<group>";
@@ -269,7 +272,7 @@
 				E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */,
 				E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */,
 				E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */,
-				E6F4F66A227581230017715D /* DocumentUploadViewController.swift */,
+				E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6957EAF2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift in Sources */,
 				E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */,
 				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,
 				E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */,
@@ -633,11 +637,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 39LHT48JBG;
+				DEVELOPMENT_TEAM = 5MFW25MTYT;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -650,11 +654,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 39LHT48JBG;
+				DEVELOPMENT_TEAM = 5MFW25MTYT;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
