@@ -86,7 +86,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="k5d-3I-HJ3"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Resources" image="resources" selectedImage="Resources" id="TbU-Cj-XOQ"/>
+                    <tabBarItem key="tabBarItem" title="Resources" image="resources" id="TbU-Cj-XOQ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ied-ya-4Un" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2818,7 +2818,6 @@
         <image name="Completed " width="75" height="75"/>
         <image name="In-progress" width="170.66667175292969" height="170.66667175292969"/>
         <image name="Invasive species" width="418.66665649414062" height="398.33334350585938"/>
-        <image name="Resources" width="32" height="32"/>
         <image name="Scheduled" width="75" height="75"/>
         <image name="circle-green" width="128" height="128"/>
         <image name="circle-orange" width="128" height="128"/>
@@ -2843,7 +2842,7 @@
         <segue reference="vuz-8r-zAP"/>
         <segue reference="Mah-cT-pM5"/>
         <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="XSh-ec-wXm"/>
+        <segue reference="lRn-pD-xYm"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="Jag-bg-Z1u"/>
         <segue reference="Wes-0h-Ath"/>
