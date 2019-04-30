@@ -83,7 +83,7 @@ class ProgramCompletedTableViewController: UITableViewController {
             } else if programList.count == 1 {
                 return "You have 1 completed program."
             } else {
-                return "You have completed \(programList.count) programs."
+                return "You have \(programList.count) completed programs."
             }
         }
         return nil
