@@ -157,6 +157,7 @@ class AddProgramViewController: UIViewController, SegueDelegate {
             delegate?.didAddBaitProgram(self.program!)
             FirestoreDAO.createOrUpdate(program: self.program!, complete: {(success) in
                 if success {
+                    self.delegate?.didAddBaitProgram(self.program!)
                     if !(self.formatter.date(from: self.start_date.text!)!  > Date()) {
                         //                    performSegue(withIdentifier: "addbait", sender: nil)
                     } else {
