@@ -136,6 +136,8 @@ class HomeViewController: UIViewController {
                 isSendNotificationForLicense = true
                 sections.append("License")
             }
+        } else {
+            sections.append("License")
         }
         
         if !documentsPending.isEmpty {

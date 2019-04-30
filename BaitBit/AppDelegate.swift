@@ -107,37 +107,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     self.notifcationOfUser = FirestoreDAO.notificationDetails
                     self.checkForNotifications()
                     self.calculateTotalNotifications(of: user)
-                    self.sendNotifications()
+                    
+                    if self.isSendNotificationForDocuments {
+                        UNUserNotificationCenter.current().add(self.sendNotificationsForDocuments(), withCompletionHandler: nil)
+                    }
+                    if self.isSendNotificationForLicense {
+                        UNUserNotificationCenter.current().add(self.sendNotificationsForLicense(), withCompletionHandler: nil)
+                    }
+                    if self.isSendNotificationForBaits {
+                        UNUserNotificationCenter.current().add(self.sendNotificationsForBaits(), withCompletionHandler: nil)
+                    }
+                    self.sendNotificationsForDocuments()
+                    self.sendNotificationsForLicense()
+                    self.sendNotificationsForBaits()
                     completionHandler(.newData)
                 }
             })
         }
     }
     
-    func sendNotifications() {
+    func sendNotificationsForDocuments() -> UNNotificationRequest{
         let content = UNMutableNotificationContent()
-        
-        if isSendNotificationForDocuments {
-            content.title = "Documents Pending"
-            content.subtitle = "Docs"
-        }
-        
-        if isSendNotificationForLicense {
-            content.title = "License Expiring soon"
-            content.subtitle = "License expiring"
-        }
-        
-        if isSendNotificationForBaits {
-            content.title = "Baits due or over due "
-            content.subtitle = "Some baits are either over due or due soon."
-        }
-        
+        var request : UNNotificationRequest!
+        content.title = "Documents Pending"
+        content.subtitle = "Docs"
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        let request = UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-        
+        return UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
         
     }
+    
+    func sendNotificationsForLicense() -> UNNotificationRequest{
+        let content = UNMutableNotificationContent()
+        content.title = "License Expiring soon"
+        content.subtitle = "License expiring"
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
+        return UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+    }
+    
+    func sendNotificationsForBaits() -> UNNotificationRequest{
+        let content = UNMutableNotificationContent()
+        content.title = "Baits due or over due "
+        content.subtitle = "Some baits are either over due or due soon."
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
+        return UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+        
+    }
+    
     
     func checkForNotifications(){
         
@@ -180,12 +195,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if isLicenseExpiring && user.licenseExpiringSoon{
                 isSendNotificationForLicense = true
             }
+        } else {
+            isSendNotificationForLicense = true
         }
         
         
         if isDocumentationPending {
-            isSendNotificationForDocuments = true
-            //sections.append("Documentation")
+            for program in user.programs {
+                if !program.value.documents.isEmpty {
+                    if program.value.areDocumentsPending {
+                        isSendNotificationForDocuments = true
+                } else {
+                    isSendNotificationForDocuments = true
+                    }
+                }
+            }
         }
     }
     

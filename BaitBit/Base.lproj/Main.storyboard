@@ -68,7 +68,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comin Soon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJ5-JI-xIp">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comin Soon." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJ5-JI-xIp">
                                 <rect key="frame" x="16" y="106" width="343" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="Xtq-v9-77L"/>
@@ -1851,7 +1851,9 @@
                                     <constraint firstAttribute="height" constant="50" id="mRK-he-Y9Y"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Upload"/>
+                                <state key="normal" title="Upload">
+                                    <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="uplaod:" destination="sJB-LV-IHn" eventType="touchUpInside" id="ZKN-9C-C1t"/>
                                 </connections>
@@ -1881,6 +1883,7 @@
                         <viewLayoutGuide key="safeArea" id="bO6-9B-Pwl"/>
                     </view>
                     <connections>
+                        <outlet property="chooseCamers" destination="2O6-UC-rin" id="LqP-1b-bIq"/>
                         <outlet property="image" destination="5pe-4i-jjR" id="Bge-bY-MLN"/>
                         <outlet property="uploadButton" destination="4ef-ME-0x1" id="hfd-rv-QJt"/>
                     </connections>
@@ -2343,6 +2346,7 @@
                     </view>
                     <size key="freeformSize" width="375" height="850"/>
                     <connections>
+                        <outlet property="chooseCamera" destination="qXs-Qr-cxM" id="Hpi-OL-s7D"/>
                         <outlet property="licenseExpiryDate" destination="67D-bd-Whr" id="9v6-bO-b9d"/>
                         <outlet property="licenseImage" destination="Wc4-nJ-iqV" id="Ck9-Kw-7xu"/>
                         <outlet property="password" destination="8fi-3x-658" id="hgJ-Vn-5yM"/>
@@ -2529,6 +2533,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="173" id="wmX-Ff-6JH"/>
                                 </constraints>
+                                <state key="normal" title="Upload License"/>
                                 <connections>
                                     <action selector="chooseCamera:" destination="cbq-6W-aDB" eventType="touchUpInside" id="edJ-Ir-ZlE"/>
                                 </connections>
@@ -2587,6 +2592,7 @@
                     <connections>
                         <outlet property="date" destination="Pky-15-gWv" id="ewz-PR-RLK"/>
                         <outlet property="dateView" destination="4z6-eX-bnx" id="3Mp-mC-m07"/>
+                        <outlet property="licenseButton" destination="utY-ih-lpI" id="EPN-Cg-Rso"/>
                         <outlet property="licenseImage" destination="ZzX-6e-wa4" id="0NC-cu-M6a"/>
                         <outlet property="nameLabel" destination="U7Q-nj-2Ym" id="s3G-nP-3ya"/>
                         <outlet property="updateButton" destination="W2X-PA-QCW" id="Lto-0g-C08"/>
