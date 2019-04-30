@@ -130,18 +130,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let content = UNMutableNotificationContent()
         var request : UNNotificationRequest!
         content.title = "Documents Pending"
-        content.subtitle = "Docs"
+        content.subtitle = "You have documents pending for your program"
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        return UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+        return UNNotificationRequest(identifier: "Documents", content: content, trigger: trigger)
         
     }
     
     func sendNotificationsForLicense() -> UNNotificationRequest{
         let content = UNMutableNotificationContent()
         content.title = "License Expiring soon"
-        content.subtitle = "License expiring"
+        content.subtitle = "License expiring in 1 month due on \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
-        return UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+        return UNNotificationRequest(identifier: "License", content: content, trigger: trigger)
     }
     
     func sendNotificationsForBaits() -> UNNotificationRequest{
@@ -149,7 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         content.title = "Baits due or over due "
         content.subtitle = "Some baits are either over due or due soon."
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
-        return UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
+        return UNNotificationRequest(identifier: "Baits", content: content, trigger: trigger)
         
     }
     
