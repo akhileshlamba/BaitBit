@@ -26,6 +26,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     var storageRef: StorageReference!
     var userId: String!
     
+    @IBOutlet weak var chooseCamera: UIButton!
     var textRecognizer: VisionTextRecognizer!
     
     override func viewDidLoad() {
@@ -48,6 +49,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         username.delegate = self
         password.delegate = self
         
+        chooseCamera.setTitle("Upload your License", for: .normal)
         
         let vision = Vision.vision()
         textRecognizer = vision.onDeviceTextRecognizer()
@@ -93,6 +95,8 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         
         // display the actionSheet
         self.present(self.actionSheet!, animated: true, completion: nil)
+        
+        chooseCamera.setTitle("Upload your License", for: .normal)
         
     }
     

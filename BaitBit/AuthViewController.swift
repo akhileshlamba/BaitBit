@@ -30,6 +30,9 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     var db: Firestore!
     var toggle : Bool = false
     
+    var tag = 0
+    var size : CGFloat = 0.0
+    
     let defaults = UserDefaults.standard
     
     
@@ -42,8 +45,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         username.delegate = self
         password.delegate = self
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(AuthViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(AuthViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AuthViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AuthViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         //self.view.addSubview(activityIndicator)
 
@@ -284,6 +287,15 @@ extension AuthViewController
         view.endEditing(true)
     }
     
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        tag = textField.tag
+//    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        tag = textField.tag
+        return true
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let nextTag = textField.tag + 1
         
@@ -295,18 +307,27 @@ extension AuthViewController
         return true
     }
     
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//
-//            if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        if self.view.frame.origin.y != 0 {
-//            self.view.frame.origin.y = 0
-//        }
-//    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                if tag == 0 {
+                    size = keyboardSize.height
+                    self.view.frame.origin.y -= 150
+                    print(keyboardSize)
+                } else {
+                    size = size - keyboardSize.height
+                    size = size + keyboardSize.height
+                    print(keyboardSize)
+                    self.view.frame.origin.y -= 150
+                }
+                
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
 }

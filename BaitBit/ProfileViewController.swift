@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
     
     var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var licenseButton: UIButton!
     var changeImage = Bool(false)
     var addLicense : Bool! = false
     
@@ -37,6 +38,7 @@ class ProfileViewController: UIViewController {
         
         user = FirestoreDAO.authenticatedUser
         if user.licenseExpiryDate == nil {
+            licenseButton.setTitle("Upload your License", for: .normal)
             addLicense = true
         }
         
@@ -49,9 +51,12 @@ class ProfileViewController: UIViewController {
         showDatePicker()
         
         if !addLicense {
+            licenseButton.setTitle("", for: .normal)
             updateButton.isHidden = true
             nameLabel.isHidden = true
             dateView.isHidden = true
+            
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(upload))
             
             activityIndicator.center = self.view.center
             view.addSubview(activityIndicator)
@@ -108,8 +113,11 @@ class ProfileViewController: UIViewController {
         savePhoto(licenseImage.image)
     }
     
-    @IBAction func chooseCamera(_ sender: Any) {
-        
+    @objc func upload() {
+        setUpCameraOptions()
+    }
+    
+    func setUpCameraOptions() {
         self.actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         // add a Take Photo option
@@ -127,6 +135,12 @@ class ProfileViewController: UIViewController {
         
         // display the actionSheet
         self.present(self.actionSheet!, animated: true, completion: nil)
+    }
+    
+    @IBAction func chooseCamera(_ sender: Any) {
+        
+        setUpCameraOptions()
+        licenseButton.setTitle("", for: .normal)
         
     }
     

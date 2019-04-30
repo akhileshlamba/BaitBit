@@ -186,8 +186,10 @@ class NotificationsTableViewController: UITableViewController {
             case "License":
                 if users.licenseExpiryDate != nil {
                     cell.textLabel?.text = "License expiring in 1 month on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
                     cell.textLabel?.numberOfLines = 2
                 } else {
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
                     cell.textLabel?.text = "Please uplaod the Baiting License"
                     cell.textLabel?.numberOfLines = 2
                 }

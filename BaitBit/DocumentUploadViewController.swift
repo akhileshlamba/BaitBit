@@ -32,6 +32,7 @@ class DocumentUploadViewController: UIViewController {
     var fromCreateAdd : Bool! = false
     
     var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var chooseCamers: UIButton!
     
     @IBOutlet weak var uploadButton: UIButton!
     
@@ -40,6 +41,10 @@ class DocumentUploadViewController: UIViewController {
         let vision = Vision.vision()
         textRecognizer = vision.onDeviceTextRecognizer()
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.gray)
+        
+        if fromCreateAdd{
+            chooseCamers.setTitle("Upload your License", for: .normal)
+        }
         
         loadImage()
         
@@ -139,6 +144,10 @@ class DocumentUploadViewController: UIViewController {
         
         // display the actionSheet
         self.present(self.actionSheet!, animated: true, completion: nil)
+        
+        if fromCreateAdd{
+            chooseCamers.setTitle("", for: .normal)
+        }
         
     }
     
