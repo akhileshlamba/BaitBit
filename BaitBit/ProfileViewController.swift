@@ -110,6 +110,14 @@ class ProfileViewController: UIViewController {
             return
         }
         
+        if !date.text!.isEmpty {
+            
+            if Calendar.current.dateComponents([.day], from: Util.convertStringToDate(string: date.text!)! as Date, to: Date()).day! >= 0  {
+                displayErrorMessage("Expiry date for license should be the future date", "Error")
+                return
+            }
+        }
+        
         savePhoto(licenseImage.image)
     }
     

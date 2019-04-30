@@ -2426,7 +2426,7 @@
                                                     <action selector="register:" destination="nl2-2M-EeA" eventType="touchUpInside" id="T9o-Co-9Qh"/>
                                                 </connections>
                                             </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Expiry Date" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67D-bd-Whr">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="67D-bd-Whr">
                                                 <rect key="frame" x="20" y="577" width="335" height="45"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -2457,6 +2457,10 @@
                                                     <constraint firstAttribute="height" constant="200" id="vPT-l5-v0E"/>
                                                 </constraints>
                                             </imageView>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FSd-A4-Lco">
+                                                <rect key="frame" x="165" y="215" width="20" height="20"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
@@ -2522,6 +2526,7 @@
                     <size key="freeformSize" width="375" height="850"/>
                     <connections>
                         <outlet property="chooseCamera" destination="qXs-Qr-cxM" id="Hpi-OL-s7D"/>
+                        <outlet property="indicator" destination="FSd-A4-Lco" id="oHR-6n-LlG"/>
                         <outlet property="licenseExpiryDate" destination="67D-bd-Whr" id="9v6-bO-b9d"/>
                         <outlet property="licenseImage" destination="Wc4-nJ-iqV" id="Ck9-Kw-7xu"/>
                         <outlet property="password" destination="8fi-3x-658" id="hgJ-Vn-5yM"/>

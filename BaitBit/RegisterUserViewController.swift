@@ -22,6 +22,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     
     var actionSheet: UIAlertController?
     
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     var storage: Storage!
     var storageRef: StorageReference!
     var userId: String!
@@ -36,6 +37,9 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         storageRef = storage.reference()
         
         self.hideKeyboard()
+        
+        indicator.isHidden = true
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.whiteLarge
         
         formatter.dateFormat = "MMM dd, yyyy"
         showDatePicker()
@@ -101,18 +105,33 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func register(_ sender: Any) {
-        
+        indicator.isHidden = false
+        indicator.center = self.view.center
+        indicator.startAnimating()
+        indicator.hidesWhenStopped = true
         if (username.text!.isEmpty){
+            indicator.isHidden = true
+            indicator.center = self.view.center
+            indicator.stopAnimating()
+            indicator.hidesWhenStopped = true
             displayErrorMessage("Please Enter a username", "Error")
             return
         }
         
         if (password.text!.isEmpty){
+            indicator.isHidden = true
+            indicator.center = self.view.center
+            indicator.stopAnimating()
+            indicator.hidesWhenStopped = true
             displayErrorMessage("Please Enter a password", "Error")
             return
         }
         
         if (password.text!.count < 6){
+            indicator.isHidden = true
+            indicator.center = self.view.center
+            indicator.stopAnimating()
+            indicator.hidesWhenStopped = true
             displayErrorMessage("Password should be of minimum of 6 characters", "Error")
             return
         }
@@ -133,15 +152,33 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         let image = licenseImage.image
         
         if image == nil && !expiryDate!.isEmpty {
+            indicator.isHidden = true
+            indicator.center = self.view.center
+            indicator.stopAnimating()
+            indicator.hidesWhenStopped = true
             displayErrorMessage("Please select or take image of License before selecting date", "Error")
             return
         }
         
         if image != nil && expiryDate!.isEmpty {
+            indicator.isHidden = true
+            indicator.center = self.view.center
+            indicator.stopAnimating()
+            indicator.hidesWhenStopped = true
             displayErrorMessage("Please select expiry date for license", "Error")
             return
         }
-        
+        if !expiryDate!.isEmpty {
+            
+            if Calendar.current.dateComponents([.day, .month, .year], from: Util.convertStringToDate(string: expiryDate!) as! Date, to: Date()).day! >= 0  {
+                indicator.isHidden = true
+                indicator.center = self.view.center
+                indicator.stopAnimating()
+                indicator.hidesWhenStopped = true
+                displayErrorMessage("Expiry date for license should be the future date", "Error")
+                return
+            }
+        }
         
         
         let user = User(
@@ -151,10 +188,21 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         
         FirestoreDAO.registerUser(with: user, complete: {(string) in
             if string.keys.contains("Duplicate User") {
+                self.indicator.isHidden = true
+                self.indicator.center = self.view.center
+                self.indicator.stopAnimating()
+                self.indicator.hidesWhenStopped = true
                 self.displayErrorMessage("User exists with the same username", "Error")
             } else if string.keys.contains("Save Error") {
+                self.indicator.isHidden = true
+                self.indicator.center = self.view.center
+                self.indicator.hidesWhenStopped = true
                 self.displayErrorMessage("Error in registering user", "Error")
             } else if string.keys.contains("Error in saving notification details") {
+                self.indicator.isHidden = true
+                self.indicator.center = self.view.center
+                self.indicator.stopAnimating()
+                self.indicator.hidesWhenStopped = true
                 self.displayErrorMessage("Error in saving notification details", "Error")
             } else if string.keys.contains("Success") {
                 let user = string["Success"]
@@ -162,14 +210,26 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
                     let date = Util.convertStringToDate(string: expiryDate!)
                     FirestoreDAO.updateLicenseImageAndData(of: user!!, image: image!, licenseDate: Util.setDateAsString(date: date!), complete: {(success) in
                         if success {
+                            self.indicator.isHidden = true
+                            self.indicator.center = self.view.center
+                            self.indicator.stopAnimating()
+                            self.indicator.hidesWhenStopped = true
                             self.displayErrorMessage("You are registered with the Baitbit", "Success", completion: {(_) in
                                 self.navigationController?.popViewController(animated: true)
                             })
                         } else {
+                            self.indicator.isHidden = true
+                            self.indicator.center = self.view.center
+                            self.indicator.stopAnimating()
+                            self.indicator.hidesWhenStopped = true
                             self.displayErrorMessage("Error in storing License image", "Error")
                         }
                     })
                 } else {
+                    self.indicator.isHidden = true
+                    self.indicator.center = self.view.center
+                    self.indicator.stopAnimating()
+                    self.indicator.hidesWhenStopped = true
                     self.displayErrorMessage("You are registered with the Baitbit", "Success", completion: {(_) in
                         self.navigationController?.popViewController(animated: true)
                     })
