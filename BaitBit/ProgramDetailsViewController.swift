@@ -25,6 +25,12 @@ class ProgramDetailsViewController: UIViewController {
     
     @IBOutlet weak var docPendingLabel: UILabel!
     @IBOutlet weak var documnentsPending: UIButton!
+    
+    @IBOutlet weak var showActiveButton: UIButton!
+    @IBOutlet weak var showOverdueButton: UIButton!
+    @IBOutlet weak var showDueSoonButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextFields()
@@ -153,17 +159,17 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var overdueBaits: UILabel!
     @IBOutlet weak var dueSoonBaits: UILabel!
     
-    func removeStatsView() {
-        self.circleGreen.removeFromSuperview()
-        self.circleRed.removeFromSuperview()
-        self.circleOrange.removeFromSuperview()
-        self.activeBaits.removeFromSuperview()
-        self.overdueBaits.removeFromSuperview()
-        self.dueSoonBaits.removeFromSuperview()
-        self.numberOfActiveBaitsTextField.removeFromSuperview()
-        self.numberOfOverdueBaitsTextField.removeFromSuperview()
-        self.numberOfDueSoonBaitsTextField.removeFromSuperview()
-    }
+//    func removeStatsView() {
+//        self.circleGreen.removeFromSuperview()
+//        self.circleRed.removeFromSuperview()
+//        self.circleOrange.removeFromSuperview()
+//        self.activeBaits.removeFromSuperview()
+//        self.overdueBaits.removeFromSuperview()
+//        self.dueSoonBaits.removeFromSuperview()
+//        self.numberOfActiveBaitsTextField.removeFromSuperview()
+//        self.numberOfOverdueBaitsTextField.removeFromSuperview()
+//        self.numberOfDueSoonBaitsTextField.removeFromSuperview()
+//    }
     
     func hidesStatsView() {
         self.circleGreen.isHidden = true
@@ -175,6 +181,9 @@ class ProgramDetailsViewController: UIViewController {
         self.numberOfActiveBaitsTextField.isHidden = true
         self.numberOfOverdueBaitsTextField.isHidden = true
         self.numberOfDueSoonBaitsTextField.isHidden = true
+        self.showActiveButton.isEnabled = false
+        self.showOverdueButton.isEnabled = false
+        self.showDueSoonButton.isEnabled = false
     }
     
     func showStatsView() {
@@ -187,6 +196,9 @@ class ProgramDetailsViewController: UIViewController {
         self.numberOfActiveBaitsTextField.isHidden = false
         self.numberOfOverdueBaitsTextField.isHidden = false
         self.numberOfDueSoonBaitsTextField.isHidden = false
+        self.showActiveButton.isEnabled = true
+        self.showOverdueButton.isEnabled = true
+        self.showDueSoonButton.isEnabled = true
     }
 
     
@@ -224,6 +236,25 @@ class ProgramDetailsViewController: UIViewController {
             let controller = segue.destination as! DocumentsTableViewController
             controller.program = self.program
             controller.userId = FirestoreDAO.authenticatedUser.id
+        }
+        
+        if segue.identifier == "ActiveBaitsSegue" {
+            let controller = segue.destination as! BaitsProgramMapViewController
+            controller.program = self.program
+            controller.filters = (nil, nil, false, false, true, false, false)
+        }
+        
+        if segue.identifier == "OverdueBaitsSegue" {
+            let controller = segue.destination as! BaitsProgramMapViewController
+            controller.program = self.program
+            controller.filters = (nil, nil, true, false, false, false, false)
+        }
+        
+        if segue.identifier == "DueSoonBaitsSegue" {
+            let controller = segue.destination as! BaitsProgramMapViewController
+            controller.program = self.program
+            controller.filters = (nil, nil, false, true, false, false, false)
+            //(startDate: Date?, endDate: Date?, showOverdue: Bool, showDueSoon: Bool, showActive: Bool, showTaken: Bool, showUntouched: Bool
         }
         
     }
