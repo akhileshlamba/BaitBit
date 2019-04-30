@@ -19,6 +19,9 @@
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
 		02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */; };
 		02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */; };
+		02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */; };
+		02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */; };
+		02F232C02277C920001EEE39 /* PeriodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */; };
 		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
 		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
 		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
@@ -35,10 +38,6 @@
 		E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770552250B4A700492B1A /* SecondPageViewController.swift */; };
 		E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770572250BCEB00492B1A /* HomeViewController.swift */; };
 		E627705A2250F85E00492B1A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770592250F85E00492B1A /* MapViewController.swift */; };
-		E64B71B42259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */; };
-		E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */; };
-		E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */; };
-		E64B71B72259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */; };
 		E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */; };
 		E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */; };
 		E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EB24E2275931C009C3CC8 /* Documents.swift */; };
@@ -73,6 +72,9 @@
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
 		02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBaitTableViewController.swift; sourceTree = "<group>"; };
 		02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitDetailsViewController.swift; sourceTree = "<group>"; };
+		02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitFilterTableViewCell.swift; sourceTree = "<group>"; };
+		02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitFilterTableViewController.swift; sourceTree = "<group>"; };
+		02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTableViewCell.swift; sourceTree = "<group>"; };
 		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
 		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
@@ -91,10 +93,6 @@
 		E62770552250B4A700492B1A /* SecondPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPageViewController.swift; sourceTree = "<group>"; };
 		E62770572250BCEB00492B1A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E62770592250F85E00492B1A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Baits_Info+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bait_program+CoreDataClass.swift"; sourceTree = "<group>"; };
-		E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Baits_Info+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bait_program+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
 		E64E0F8F226C1528001F13F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTableViewCell.swift; sourceTree = "<group>"; };
@@ -160,12 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				02FC5919226F34C4002B30BE /* FireStoreDAO.swift */,
-				E64B71B12259A50B00A01FE7 /* Bait_program+CoreDataClass.swift */,
 				02FC5913226EFC9E002B30BE /* Program.swift */,
 				02FC5915226EFDDF002B30BE /* Bait.swift */,
-				E64B71B32259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift */,
-				E64B71B02259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift */,
-				E64B71B22259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift */,
 				02157E6D2256C53C0007A170 /* OccurrenceAnnotation.swift */,
 				02157E6F2256F5C50007A170 /* PinAnnotation.swift */,
 				02157E6B225573E80007A170 /* Occurrence.swift */,
@@ -191,6 +185,9 @@
 				0229072822730DDB001E0E4E /* EditProgramViewController.swift */,
 				02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */,
 				E6F4F66A227581230017715D /* DocumentUploadViewController.swift */,
+				02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */,
+				02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */,
+				02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */,
 			);
 			name = BaitManager;
 			sourceTree = "<group>";
@@ -456,6 +453,7 @@
 				E6957EAF2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift in Sources */,
 				E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */,
 				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,
+				02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */,
 				E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */,
 				E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */,
 				E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */,
@@ -468,18 +466,18 @@
 				0229072722730D26001E0E4E /* ResourcesViewController.swift in Sources */,
 				E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */,
 				02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */,
-				E64B71B72259A50B00A01FE7 /* Bait_program+CoreDataProperties.swift in Sources */,
 				E6F4F66B227581230017715D /* DocumentUploadViewController.swift in Sources */,
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
 				026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */,
-				E64B71B62259A50B00A01FE7 /* Baits_Info+CoreDataProperties.swift in Sources */,
 				0229072522730CD6001E0E4E /* HelpViewController.swift in Sources */,
 				02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */,
 				E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */,
+				02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */,
 				E6F4F58A227193A10017715D /* User.swift in Sources */,
 				E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */,
 				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
 				E6F4F583227177C60017715D /* Util.swift in Sources */,
+				02F232C02277C920001EEE39 /* PeriodTableViewCell.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
 				02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */,
 				02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */,
@@ -493,12 +491,10 @@
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
 				02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */,
 				02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */,
-				E64B71B52259A50B00A01FE7 /* Bait_program+CoreDataClass.swift in Sources */,
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
 				E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */,
 				E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */,
 				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
-				E64B71B42259A50B00A01FE7 /* Baits_Info+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,11 +633,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = 39LHT48JBG;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -654,11 +650,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = 39LHT48JBG;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -11,9 +11,9 @@ import UIKit
 class BaitDetailsViewController: UIViewController {
     
     var bait: Bait!
-    @IBOutlet weak var dueTextField: UILabel!
-    @IBOutlet weak var durationTextField: UILabel!
-    @IBOutlet weak var startDateTextField: UILabel!
+    @IBOutlet weak var dueLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var baitImageView: UIImageView!
     @IBOutlet weak var baitDetailsTitleView: UIView!
     @IBOutlet weak var durationView: UIView!
@@ -30,9 +30,9 @@ class BaitDetailsViewController: UIViewController {
     }
     
     func setFields() {
-        self.dueTextField.text = "Due in \(self.bait.numberOfDaysBeforeDue) day(s)"
-        self.durationTextField.text = "\(self.bait.durationInDays) days(s)"
-        self.startDateTextField.text = "\(Util.setDateAsString(date: self.bait.laidDate))"
+        self.dueLabel.text = "Due in \(self.bait.numberOfDaysBeforeDue) day(s)"
+        self.durationLabel.text = self.bait.durationFormatted
+        self.startDateLabel.text = "\(Util.setDateAsString(date: self.bait.laidDate))"
     }
 
     @IBAction func dragDownFromTop(_ sender: UIScreenEdgePanGestureRecognizer) {

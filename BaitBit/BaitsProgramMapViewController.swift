@@ -14,7 +14,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
 
     @IBOutlet weak var add_bait_button: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
-    var currentLocation = CLLocationCoordinate2D()
+    var currentLocation = CLLocationCoordinate2D(latitude: -37.87763, longitude: 145.045374)
     var locationManager: CLLocationManager = CLLocationManager()
     var program: Program?
     var baits: [Bait] = []
@@ -46,10 +46,16 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         locationManager.distanceFilter = 10
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        
+
         // Do any additional setup after loading the view.
-        
-        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000)
+        var focus: CLLocationCoordinate2D?
+        if self.baitAnnotations.count > 0 {
+            focus = baitAnnotations[0].coordinate
+        } else {
+            focus = currentLocation
+        }
+        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: focus!.latitude, longitude: focus!.longitude), 4000, 4000), animated: false)
+
 
     }
     

@@ -81,11 +81,15 @@ class Program: NSObject {
     }
     
     var durationInDays: Int {
-        return Calendar.current.dateComponents([.day, .month], from: startDate as Date, to: NSDate() as Date).day!
+        return Calendar.current.dateComponents([.day], from: startDate as Date, to: NSDate() as Date).day!
     }
     
     var durationFormatted: String {
-        return "\(durationInDays) day(s)"
+        if durationInDays <= 1 {
+            return "\(durationInDays) day"
+        } else {
+            return "\(durationInDays) days"
+        }
     }
     
     var numberOfActiveBaits: Int {

@@ -67,7 +67,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
 //        let viewRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 4000, 4000)
 //        self.mapView.setRegion(viewRegion, animated: true)
-        self.mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 400000, 400000)
+        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 400000, 400000), animated: false)
+
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
         self.view.addGestureRecognizer(tap)
@@ -87,7 +88,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
         locationManager.startUpdatingLocation()
-        sender.isHidden = true
     }
     
     @objc func filter() {
@@ -102,7 +102,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         locationManager.stopUpdatingLocation()
-        self.backToCurrentLocationButton.isHidden = false
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -120,6 +119,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //        } else {
 //            self.navigationController?.setNavigationBarHidden(true, animated: true)
 //        }
+        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
+
     }
     
     // This method is to load data from remote dataset

@@ -1,94 +1,67 @@
 //
-//  ProgramCompletedTableViewController.swift
+//  BaitFilterTableViewController.swift
 //  BaitBit
 //
-//  Created by Xiaotian LIU on 28/4/19.
+//  Created by Xiaotian LIU on 30/4/19.
 //  Copyright © 2019 Monash. All rights reserved.
 //
 
 import UIKit
 
-class ProgramCompletedTableViewController: UITableViewController {
-
-    var programList: [Program] = []
+class BaitFilterTableViewController: UITableViewController {
+    
+    let sectionTitles = ["Time period", "Bait status", "Removed baits"]
+    var titleDataSources = [[String]]()
+    let periodTitles = ["Start date", "End date"]
+    let statusTitles = ["Overdue", "Due soon", "Active"]
+    let removedTitles = ["Taken", "Untouched"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.reloadProgramList()
 
+        titleDataSources.append(periodTitles)
+        titleDataSources.append(statusTitles)
+        titleDataSources.append(removedTitles)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    func reloadProgramList() {
-//        loading.startAnimating()
-        programList.removeAll()
-        for program in FirestoreDAO.authenticatedUser.programs {
-            if !program.value.isActive {
-                programList.append(program.value)
-            }
-        }
-        
-        programList.sort { (left, right) -> Bool in
-            return left.id > right.id
-        }
-        
-//        self.loading.stopAnimating()
-        self.tableView.reloadData()
-    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return sectionTitles.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return programList.count
+        return titleDataSources[section].count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "programCell", for: indexPath)
-
-        // Configure the cell...
-        if programList.count != 0 {
-            let a:Program = self.programList[indexPath.row]
-            cell.textLabel?.text = a.baitType!
-            cell.detailTextLabel?.text = Util.setDateAsString(date: a.startDate)
-            if a.hasOverdueBaits {
-                cell.imageView!.image = UIImage(named: "exclamation-mark")
-            } else if a.hasDueSoonBaits {
-                cell.imageView!.image = UIImage(named: "warning")
-            } else {
-                cell.imageView!.image = UIImage(named: "checked")
-            }
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PeriodCell", for: indexPath) as! PeriodTableViewCell
+            cell.icon.image = UIImage(named: titleDataSources[indexPath.section][indexPath.row])
+            cell.label.text = titleDataSources[indexPath.section][indexPath.row]
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StatusCell", for: indexPath) as! BaitFilterTableViewCell
+            cell.icon.image = UIImage(named: titleDataSources[indexPath.section][indexPath.row])
+            cell.label.text = titleDataSources[indexPath.section][indexPath.row]
+            return cell
         }
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            if programList.count == 0 {
-                return "There is no completed program."
-            } else if programList.count == 1 {
-                return "You have 1 completed program."
-            } else {
-                return "You have completed \(programList.count) programs."
-            }
-        }
-        return nil
+        return sectionTitles[section]
     }
     
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
