@@ -43,7 +43,7 @@ class DocumentUploadViewController: UIViewController {
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.gray)
         
         if fromCreateAdd{
-            chooseCamers.setTitle("Upload your License", for: .normal)
+            chooseCamers.setTitle("Upload your Document", for: .normal)
         }
         
         loadImage()
@@ -71,6 +71,11 @@ class DocumentUploadViewController: UIViewController {
                 })
             }
             uploadButton.isHidden = true
+            
+        }
+        
+        if image.image == nil {
+            chooseCamers.setTitle("Upload your Document", for: .normal)
         }
         
         
@@ -148,6 +153,7 @@ class DocumentUploadViewController: UIViewController {
         if fromCreateAdd{
             chooseCamers.setTitle("", for: .normal)
         }
+        chooseCamers.setTitle("", for: .normal)
         
     }
     
@@ -270,7 +276,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
                     self.activityIndicator.stopAnimating()
                     self.displayErrorMessage("Document uploaded Successfully", "Success")
                 } else {
-                    self.displayErrorMessage("Problem in updating License", "Error")
+                    self.displayErrorMessage("Problem in updating Document", "Error")
                 }
             })
 //            var success : [String: [String]] = [:]
@@ -284,7 +290,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
                     self.activityIndicator.stopAnimating()
                     self.displayErrorMessage("Document updated Successfully!", "Success")
                 } else {
-                    self.displayErrorMessage("Problem in updating License", "Error")
+                    self.displayErrorMessage("Problem in updating Document", "Error")
                 }
             })
         }

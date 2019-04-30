@@ -139,7 +139,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func sendNotificationsForLicense() -> UNNotificationRequest{
         let content = UNMutableNotificationContent()
         content.title = "License Expiring soon"
-        content.subtitle = "License expiring in 1 month due on \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
+        
+        let days = Calendar.current.dateComponents([.day], from: Date(), to: FirestoreDAO.authenticatedUser.licenseExpiryDate! as Date).day
+        if days! >= 0{
+            content.subtitle = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
+        } else {
+            content.subtitle = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
+        }
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
         return UNNotificationRequest(identifier: "License", content: content, trigger: trigger)
     }
