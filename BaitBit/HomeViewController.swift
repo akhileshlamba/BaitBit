@@ -82,45 +82,51 @@ class HomeViewController: UIViewController {
         sections = []
         if isOverDue {
             for program in user.programs {
-                var overDueBaits = 0
-                var dueSoonBaits = 0
-                for bait in program.value.baits {
-                    if bait.value.isOverdue {
-                        overDueBaits += 1
+                if program.value.isActive {
+                    var overDueBaits = 0
+                    var dueSoonBaits = 0
+                    for bait in program.value.baits {
+                        if bait.value.isOverdue {
+                            overDueBaits += 1
+                        }
                     }
+                    if overDueBaits != 0 {
+                        overDueBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
+                    }
+                    
                 }
-                if overDueBaits != 0 {
-                    overDueBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
-                }
-                
             }
         }
 
         if isDueSoon {
             for program in user.programs {
-                var overDueBaits = 0
-                var dueSoonBaits = 0
-                for bait in program.value.baits {
-                    if bait.value.isDueSoon {
-                        overDueBaits += 1
+                if program.value.isActive {
+                    var overDueBaits = 0
+                    var dueSoonBaits = 0
+                    for bait in program.value.baits {
+                        if bait.value.isDueSoon {
+                            overDueBaits += 1
+                        }
                     }
-                }
-                if overDueBaits != 0 {
-                    dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
+                    if overDueBaits != 0 {
+                        dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
+                    }
                 }
             }
         }
 
         if isDocumentationPending {
             for program in user.programs {
-                if !program.value.documents.isEmpty {
-                    if program.value.areDocumentsPending {
-                        isSendNotificationForDocuments = true
-                        documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4 - program.value.documents.count
+                if program.value.isActive {
+                    if !program.value.documents.isEmpty {
+                        if program.value.areDocumentsPending {
+                            isSendNotificationForDocuments = true
+                            documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4 - program.value.documents.count
+                        }
+                    } else {
+                        documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4
                     }
-                } else {
-                    documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4
-                }
+                } 
             }
         }
         
