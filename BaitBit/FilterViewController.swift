@@ -25,7 +25,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var speciesTextField: UITextField!
     var selectedYearIndex: Int = 0
     var selectedMonthIndex: Int = 0
-    var selectedSpecies: String?
+    var selectedSpeciesIndex: Int = 0
     
     var delegate: FilterUpdateDelegate?
     
@@ -34,6 +34,8 @@ class FilterViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(reset))
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         
         speciesPicker.dataSource = self
         speciesPicker.delegate = self
@@ -70,6 +72,10 @@ class FilterViewController: UIViewController {
         loadFilter()
     }
     
+    @objc func cancel() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @objc func reset() {
         yearTextField.text = yearDataSource[0]
         yearPicker.selectRow(0, inComponent: 0, animated: true)
@@ -93,14 +99,19 @@ class FilterViewController: UIViewController {
         }
         monthPicker.selectRow(selectedMonthIndex, inComponent: 0, animated: true)
         
-        speciesTextField.text = selectedSpecies ?? ""
+        if selectedSpeciesIndex != 0 {
+            speciesTextField.text = "\(Species.allCases[selectedSpeciesIndex - 1])"
+        } else {
+            speciesTextField.text = ""
+        }
+        speciesPicker.selectRow(selectedSpeciesIndex, inComponent: 0, animated: true)
     }
     
     @IBAction func search(_ sender: Any) {
         let y = yearPicker.selectedRow(inComponent: 0)
         let m = monthPicker.selectedRow(inComponent: 0)
-        print(m)
-        delegate!.updateData(yearIndex: y, monthIndex: m, species: speciesTextField.text ?? "")
+        let s = speciesPicker.selectedRow(inComponent: 0)
+        delegate!.updateData(yearIndex: y, monthIndex: m, speciesIndex: s)
         self.navigationController?.popViewController(animated: true)
     }
     

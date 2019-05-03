@@ -13,7 +13,7 @@ protocol newBaitProgramDelegate {
     func didAddBaitProgram(_ program : Bait_program)
 }
 
-class ProgramViewController: UIViewController {
+class AddProgramViewController: UIViewController {
 
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var species: UITextField!
@@ -155,7 +155,7 @@ class ProgramViewController: UIViewController {
                 delegate?.didAddBaitProgram(program!)
                 
                 if !(formatter.date(from: start_date.text!)!  > Date()) {
-                    performSegue(withIdentifier: "addbait", sender: nil)
+//                    performSegue(withIdentifier: "addbait", sender: nil)
                 } else {
                     displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
                 }
@@ -189,7 +189,7 @@ class ProgramViewController: UIViewController {
 
 }
 
-extension ProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension AddProgramViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
