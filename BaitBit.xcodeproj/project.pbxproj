@@ -7,6 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02157E6C225573E80007A170 /* Occurrence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02157E6B225573E80007A170 /* Occurrence.swift */; };
+		02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02157E6D2256C53C0007A170 /* OccurrenceAnnotation.swift */; };
+		02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02157E6F2256F5C50007A170 /* PinAnnotation.swift */; };
+		0229072522730CD6001E0E4E /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072422730CD6001E0E4E /* HelpViewController.swift */; };
+		0229072722730D26001E0E4E /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072622730D26001E0E4E /* ResourcesViewController.swift */; };
+		0229072922730DDB001E0E4E /* EditProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072822730DDB001E0E4E /* EditProgramViewController.swift */; };
+		026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */; };
+		02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */; };
+		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
+		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
+		02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */; };
+		02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */; };
+		02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */; };
+		02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */; };
+		02F232C02277C920001EEE39 /* PeriodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */; };
+		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
+		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
+		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
+		02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */; };
+		02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD5873225A02A10000B6E0 /* FilterViewController.swift */; };
 		752DE288F2BF59A2D1279D4E /* Pods_BaitBit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */; };
 		E627703F224F13E400492B1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E627703E224F13E400492B1A /* AppDelegate.swift */; };
 		E6277041224F13E400492B1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6277040224F13E400492B1A /* ViewController.swift */; };
@@ -14,9 +34,52 @@
 		E6277047224F13E400492B1A /* BaitBit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E6277045224F13E400492B1A /* BaitBit.xcdatamodeld */; };
 		E6277049224F13E400492B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6277048224F13E400492B1A /* Assets.xcassets */; };
 		E627704C224F13E400492B1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E627704A224F13E400492B1A /* LaunchScreen.storyboard */; };
+		E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770532250696900492B1A /* IntroductionPageViewController.swift */; };
+		E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770552250B4A700492B1A /* SecondPageViewController.swift */; };
+		E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770572250BCEB00492B1A /* HomeViewController.swift */; };
+		E627705A2250F85E00492B1A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770592250F85E00492B1A /* MapViewController.swift */; };
+		E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */; };
+		E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */; };
+		E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EB24E2275931C009C3CC8 /* Documents.swift */; };
+		E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */; };
+		E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */; };
+		E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */; };
+		E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */; };
+		E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */; };
+		E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */; };
+		E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */; };
+		E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */; };
+		E6957EAF2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */; };
+		E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B3947E226965D500DD3F69 /* AuthViewController.swift */; };
+		E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */; };
+		E6F4F583227177C60017715D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F582227177C60017715D /* Util.swift */; };
+		E6F4F5852271897F0017715D /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */; };
+		E6F4F58A227193A10017715D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F589227193A10017715D /* User.swift */; };
+		E6F4F669227578630017715D /* DocumentVerification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F668227578630017715D /* DocumentVerification.swift */; };
+		E6F4F66B227581230017715D /* DocumentUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F4F66A227581230017715D /* DocumentUploadViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02157E6B225573E80007A170 /* Occurrence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Occurrence.swift; sourceTree = "<group>"; };
+		02157E6D2256C53C0007A170 /* OccurrenceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccurrenceAnnotation.swift; sourceTree = "<group>"; };
+		02157E6F2256F5C50007A170 /* PinAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinAnnotation.swift; sourceTree = "<group>"; };
+		0229072422730CD6001E0E4E /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
+		0229072622730D26001E0E4E /* ResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
+		0229072822730DDB001E0E4E /* EditProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgramViewController.swift; sourceTree = "<group>"; };
+		026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
+		02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCompletedTableViewController.swift; sourceTree = "<group>"; };
+		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
+		02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBaitTableViewController.swift; sourceTree = "<group>"; };
+		02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitDetailsViewController.swift; sourceTree = "<group>"; };
+		02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitFilterTableViewCell.swift; sourceTree = "<group>"; };
+		02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitFilterTableViewController.swift; sourceTree = "<group>"; };
+		02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTableViewCell.swift; sourceTree = "<group>"; };
+		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
+		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
+		02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitAnnotation.swift; sourceTree = "<group>"; };
+		02FD5873225A02A10000B6E0 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaitBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703B224F13E400492B1A /* BaitBit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaitBit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703E224F13E400492B1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -26,6 +89,30 @@
 		E6277048224F13E400492B1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E627704B224F13E400492B1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E627704D224F13E400492B1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E62770532250696900492B1A /* IntroductionPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionPageViewController.swift; sourceTree = "<group>"; };
+		E62770552250B4A700492B1A /* SecondPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPageViewController.swift; sourceTree = "<group>"; };
+		E62770572250BCEB00492B1A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E62770592250F85E00492B1A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
+		E64E0F8F226C1528001F13F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTableViewCell.swift; sourceTree = "<group>"; };
+		E64EB24E2275931C009C3CC8 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
+		E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBaitViewController.swift; sourceTree = "<group>"; };
+		E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInProgressTableViewController.swift; sourceTree = "<group>"; };
+		E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsProgramMapViewController.swift; sourceTree = "<group>"; };
+		E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
+		E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
+		E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledProgramsTableViewController.swift; sourceTree = "<group>"; };
+		E6B3947E226965D500DD3F69 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgramViewController.swift; sourceTree = "<group>"; };
+		E6F4F582227177C60017715D /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
+		E6F4F589227193A10017715D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E6F4F668227578630017715D /* DocumentVerification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentVerification.swift; sourceTree = "<group>"; };
+		E6F4F66A227581230017715D /* DocumentUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentUploadViewController.swift; sourceTree = "<group>"; };
 		EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.debug.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.debug.xcconfig"; sourceTree = "<group>"; };
 		F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.release.xcconfig"; path = "Target Support Files/Pods-BaitBit/Pods-BaitBit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,9 +129,92 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0229072222730CA2001E0E4E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0229072622730D26001E0E4E /* ResourcesViewController.swift */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		0229072322730CC5001E0E4E /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				0229072422730CD6001E0E4E /* HelpViewController.swift */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		02C42A4C22703A260025B2FA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E6F4F582227177C60017715D /* Util.swift */,
+				E6F4F668227578630017715D /* DocumentVerification.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		02F8F73A2265C77E00FD1D2F /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				02FC5919226F34C4002B30BE /* FireStoreDAO.swift */,
+				02FC5913226EFC9E002B30BE /* Program.swift */,
+				02FC5915226EFDDF002B30BE /* Bait.swift */,
+				02157E6D2256C53C0007A170 /* OccurrenceAnnotation.swift */,
+				02157E6F2256F5C50007A170 /* PinAnnotation.swift */,
+				02157E6B225573E80007A170 /* Occurrence.swift */,
+				02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */,
+				E6F4F589227193A10017715D /* User.swift */,
+				E64EB24E2275931C009C3CC8 /* Documents.swift */,
+			);
+			name = Entities;
+			sourceTree = "<group>";
+		};
+		02F8F73B2265C84500FD1D2F /* BaitManager */ = {
+			isa = PBXGroup;
+			children = (
+				E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */,
+				E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */,
+				E6EA550B2258141300E4AA5C /* AddProgramViewController.swift */,
+				026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */,
+				E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */,
+				E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */,
+				02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */,
+				02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */,
+				02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */,
+				0229072822730DDB001E0E4E /* EditProgramViewController.swift */,
+				02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */,
+				E6F4F66A227581230017715D /* DocumentUploadViewController.swift */,
+				02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */,
+				02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */,
+				02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */,
+			);
+			name = BaitManager;
+			sourceTree = "<group>";
+		};
+		02F8F73C2265C8A600FD1D2F /* Invasive Species Map */ = {
+			isa = PBXGroup;
+			children = (
+				E62770592250F85E00492B1A /* MapViewController.swift */,
+				02FD5873225A02A10000B6E0 /* FilterViewController.swift */,
+			);
+			name = "Invasive Species Map";
+			sourceTree = "<group>";
+		};
+		02F8F73D2265C99C00FD1D2F /* Introduction Pages */ = {
+			isa = PBXGroup;
+			children = (
+				E6277040224F13E400492B1A /* ViewController.swift */,
+				E62770532250696900492B1A /* IntroductionPageViewController.swift */,
+				E62770552250B4A700492B1A /* SecondPageViewController.swift */,
+			);
+			name = "Introduction Pages";
+			sourceTree = "<group>";
+		};
 		66EDC1425DB92B5B11EE2019 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E64E0F8F226C1528001F13F0 /* libz.tbd */,
 				7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */,
 			);
 			name = Frameworks;
@@ -56,7 +226,6 @@
 				EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */,
 				F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,15 +250,40 @@
 		E627703D224F13E400492B1A /* BaitBit */ = {
 			isa = PBXGroup;
 			children = (
-				E627703E224F13E400492B1A /* AppDelegate.swift */,
-				E6277040224F13E400492B1A /* ViewController.swift */,
+				0229072322730CC5001E0E4E /* Help */,
+				0229072222730CA2001E0E4E /* Resources */,
+				E6F4F58B2271A0780017715D /* UserManager */,
+				02C42A4C22703A260025B2FA /* Utilities */,
+				02F8F73D2265C99C00FD1D2F /* Introduction Pages */,
 				E6277042224F13E400492B1A /* Main.storyboard */,
-				E6277048224F13E400492B1A /* Assets.xcassets */,
 				E627704A224F13E400492B1A /* LaunchScreen.storyboard */,
+				E6277048224F13E400492B1A /* Assets.xcassets */,
 				E627704D224F13E400492B1A /* Info.plist */,
+				02AA7F102252081E00824685 /* GoogleService-Info.plist */,
 				E6277045224F13E400492B1A /* BaitBit.xcdatamodeld */,
+				02F8F73A2265C77E00FD1D2F /* Entities */,
+				02F8F73C2265C8A600FD1D2F /* Invasive Species Map */,
+				02F8F73B2265C84500FD1D2F /* BaitManager */,
+				E627703E224F13E400492B1A /* AppDelegate.swift */,
+				E62770572250BCEB00492B1A /* HomeViewController.swift */,
+				E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */,
+				E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */,
+				E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */,
+				E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */,
 			);
 			path = BaitBit;
+			sourceTree = "<group>";
+		};
+		E6F4F58B2271A0780017715D /* UserManager */ = {
+			isa = PBXGroup;
+			children = (
+				E6B3947E226965D500DD3F69 /* AuthViewController.swift */,
+				E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */,
+				E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */,
+				E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */,
+				E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */,
+			);
+			name = UserManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +298,7 @@
 				E6277038224F13E400492B1A /* Frameworks */,
 				E6277039224F13E400492B1A /* Resources */,
 				CF3385B3652F8B428BBEAAA2 /* [CP] Embed Pods Frameworks */,
+				BDF92268BE7E2E9110FBD45C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -122,11 +317,16 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0910;
-				ORGANIZATIONNAME = "The Hawks";
+				ORGANIZATIONNAME = Monash;
 				TargetAttributes = {
 					E627703A224F13E400492B1A = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -154,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E627704C224F13E400492B1A /* LaunchScreen.storyboard in Resources */,
+				02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */,
 				E6277049224F13E400492B1A /* Assets.xcassets in Resources */,
 				E6277044224F13E400492B1A /* Main.storyboard in Resources */,
 			);
@@ -167,15 +368,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-BaitBit-checkManifestLockResult.txt",
 			);
@@ -184,7 +381,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CF3385B3652F8B428BBEAAA2 /* [CP] Embed Pods Frameworks */ = {
+		BDF92268BE7E2E9110FBD45C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -192,26 +389,58 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVTextDetectorResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMVTextDetectorResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF3385B3652F8B428BBEAAA2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FloatingPanel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -221,9 +450,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6957EAF2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift in Sources */,
+				E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */,
+				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,
+				02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */,
+				E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */,
+				E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */,
+				E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */,
+				E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */,
+				0229072922730DDB001E0E4E /* EditProgramViewController.swift in Sources */,
 				E6277047224F13E400492B1A /* BaitBit.xcdatamodeld in Sources */,
+				E6F4F5852271897F0017715D /* NotificationsTableViewController.swift in Sources */,
+				02FC5914226EFC9E002B30BE /* Program.swift in Sources */,
+				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
+				0229072722730D26001E0E4E /* ResourcesViewController.swift in Sources */,
+				E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */,
+				02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */,
+				E6F4F66B227581230017715D /* DocumentUploadViewController.swift in Sources */,
 				E6277041224F13E400492B1A /* ViewController.swift in Sources */,
+				026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */,
+				0229072522730CD6001E0E4E /* HelpViewController.swift in Sources */,
+				02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */,
+				E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */,
+				02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */,
+				E6F4F58A227193A10017715D /* User.swift in Sources */,
+				E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */,
+				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
+				E6F4F583227177C60017715D /* Util.swift in Sources */,
+				02F232C02277C920001EEE39 /* PeriodTableViewCell.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
+				02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */,
+				02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */,
+				E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */,
+				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
+				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
+				02FC5916226EFDDF002B30BE /* Bait.swift in Sources */,
+				02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */,
+				E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */,
+				E6F4F669227578630017715D /* DocumentVerification.swift in Sources */,
+				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
+				02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */,
+				02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */,
+				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
+				E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */,
+				E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */,
+				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +634,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
@@ -379,6 +651,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
