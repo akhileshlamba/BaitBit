@@ -13,9 +13,9 @@
 		0229072522730CD6001E0E4E /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072422730CD6001E0E4E /* HelpViewController.swift */; };
 		0229072722730D26001E0E4E /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072622730D26001E0E4E /* ResourcesViewController.swift */; };
 		0229072922730DDB001E0E4E /* EditProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072822730DDB001E0E4E /* EditProgramViewController.swift */; };
+		0248243222815EE100AB701A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0248243122815EE000AB701A /* GoogleService-Info.plist */; };
 		026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */; };
 		02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */; };
-		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
 		02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */; };
 		02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */; };
@@ -66,9 +66,10 @@
 		0229072422730CD6001E0E4E /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		0229072622730D26001E0E4E /* ResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
 		0229072822730DDB001E0E4E /* EditProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgramViewController.swift; sourceTree = "<group>"; };
+		0248243122815EE000AB701A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		024824332281614D00AB701A /* BaitBit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BaitBit.entitlements; sourceTree = "<group>"; };
 		026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
 		02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCompletedTableViewController.swift; sourceTree = "<group>"; };
-		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
 		02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveBaitTableViewController.swift; sourceTree = "<group>"; };
 		02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitDetailsViewController.swift; sourceTree = "<group>"; };
@@ -250,6 +251,7 @@
 		E627703D224F13E400492B1A /* BaitBit */ = {
 			isa = PBXGroup;
 			children = (
+				024824332281614D00AB701A /* BaitBit.entitlements */,
 				0229072322730CC5001E0E4E /* Help */,
 				0229072222730CA2001E0E4E /* Resources */,
 				E6F4F58B2271A0780017715D /* UserManager */,
@@ -259,7 +261,7 @@
 				E627704A224F13E400492B1A /* LaunchScreen.storyboard */,
 				E6277048224F13E400492B1A /* Assets.xcassets */,
 				E627704D224F13E400492B1A /* Info.plist */,
-				02AA7F102252081E00824685 /* GoogleService-Info.plist */,
+				0248243122815EE000AB701A /* GoogleService-Info.plist */,
 				E6277045224F13E400492B1A /* BaitBit.xcdatamodeld */,
 				02F8F73A2265C77E00FD1D2F /* Entities */,
 				02F8F73C2265C8A600FD1D2F /* Invasive Species Map */,
@@ -315,9 +317,10 @@
 		E6277033224F13E400492B1A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = D4E88Q87ES;
 				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0910;
-				ORGANIZATIONNAME = Monash;
+				ORGANIZATIONNAME = D4E88Q87ES;
 				TargetAttributes = {
 					E627703A224F13E400492B1A = {
 						CreatedOnToolsVersion = 9.1;
@@ -325,6 +328,9 @@
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
 							};
 						};
 					};
@@ -354,7 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E627704C224F13E400492B1A /* LaunchScreen.storyboard in Resources */,
-				02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */,
+				0248243222815EE100AB701A /* GoogleService-Info.plist in Resources */,
 				E6277049224F13E400492B1A /* Assets.xcassets in Resources */,
 				E6277044224F13E400492B1A /* Main.storyboard in Resources */,
 			);
@@ -632,13 +638,15 @@
 			baseConfigurationReference = EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = D4E88Q87ES;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thehawks.baitbit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -649,13 +657,15 @@
 			baseConfigurationReference = F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = D4E88Q87ES;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thehawks.baitbit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
