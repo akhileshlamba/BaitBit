@@ -54,6 +54,9 @@ class BaitFilterTableViewController: UITableViewController {
     }
     
     @IBAction func applyFilters(_ sender: Any) {
+        for cell in self.tableView.visibleCells {
+            
+        }
         delegate?.updateData(filters: self.filters!)
         self.navigationController?.popViewController(animated: true)
     }

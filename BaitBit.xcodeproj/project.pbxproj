@@ -22,6 +22,7 @@
 		02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */; };
 		02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */; };
 		02F232C02277C920001EEE39 /* PeriodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */; };
+		02F232C222782196001EEE39 /* DocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F232C122782196001EEE39 /* DocumentTableViewCell.swift */; };
 		02FC5914226EFC9E002B30BE /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5913226EFC9E002B30BE /* Program.swift */; };
 		02FC5916226EFDDF002B30BE /* Bait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5915226EFDDF002B30BE /* Bait.swift */; };
 		02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FC5919226F34C4002B30BE /* FireStoreDAO.swift */; };
@@ -75,6 +76,7 @@
 		02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitFilterTableViewCell.swift; sourceTree = "<group>"; };
 		02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitFilterTableViewController.swift; sourceTree = "<group>"; };
 		02F232BF2277C920001EEE39 /* PeriodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTableViewCell.swift; sourceTree = "<group>"; };
+		02F232C122782196001EEE39 /* DocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableViewCell.swift; sourceTree = "<group>"; };
 		02FC5913226EFC9E002B30BE /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		02FC5915226EFDDF002B30BE /* Bait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bait.swift; sourceTree = "<group>"; };
 		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */,
 				E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */,
 				02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */,
+				02F232C122782196001EEE39 /* DocumentTableViewCell.swift */,
 				02C42A4D22704C690025B2FA /* RemoveBaitTableViewController.swift */,
 				02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */,
 				0229072822730DDB001E0E4E /* EditProgramViewController.swift */,
@@ -494,6 +497,7 @@
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,
 				E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */,
 				E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */,
+				02F232C222782196001EEE39 /* DocumentTableViewCell.swift in Sources */,
 				E627705A2250F85E00492B1A /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,11 +637,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = 39LHT48JBG;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -650,11 +654,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = 39LHT48JBG;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
