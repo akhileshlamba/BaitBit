@@ -8,9 +8,9 @@
       location = "group:/Users/xiaotianliu/Downloads/BaitBit2/BaitBit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:BaitBit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:BaitBit.xcodeproj">
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
