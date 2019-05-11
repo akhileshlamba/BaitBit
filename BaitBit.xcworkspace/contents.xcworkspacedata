@@ -5,6 +5,9 @@
       location = "group:BaitBit/Monash University Caulfield.gpx">
    </FileRef>
    <FileRef
+      location = "group:/Users/xiaotianliu/Downloads/BaitBit2/BaitBit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:BaitBit.xcodeproj">
    </FileRef>
    <FileRef
