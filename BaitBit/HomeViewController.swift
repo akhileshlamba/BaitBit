@@ -10,6 +10,21 @@ import UIKit
 import CoreData
 import UserNotifications
 
+let months = [
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
+]
+
 class HomeViewController: UIViewController {
 
     var baits: [Bait] = []
@@ -35,6 +50,8 @@ class HomeViewController: UIViewController {
     var documentsPending : [String : Int] = [:]
     var overDueBaitsForProgram : [String : Int] = [:]
     var dueSoonBaitsForProgram : [String : Int] = [:]
+    
+    var textForReminderOnHomeScreen = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +91,8 @@ class HomeViewController: UIViewController {
     }
 
 
+    
+    
     func calculateTotalNotifications(){
         self.user = FirestoreDAO.authenticatedUser!
         overDueBaitsForProgram = [:]
@@ -240,6 +259,21 @@ class HomeViewController: UIViewController {
         checkForNotifications()
         calculateTotalNotifications()
         self.setNavigationBarItems()
+        
+        // Notification for the current Month to be shown on home screen
+        let current = UNUserNotificationCenter.current()
+        current.getPendingNotificationRequests(completionHandler: {(requests) in
+            let calendar = Calendar.current
+            let dateComponents = calendar.dateComponents([.day, .month, .year, .timeZone], from: Date())
+            for request in requests {
+                if request.identifier == months[dateComponents.month!] {
+                    print(request.content.body)
+                    self.textForReminderOnHomeScreen = request.content.body
+                }
+                
+            }
+        })
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {

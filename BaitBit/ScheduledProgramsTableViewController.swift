@@ -10,9 +10,21 @@ import UIKit
 
 class ScheduledProgramsTableViewController: UITableViewController {
 
+    var programsList = [Program]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let programs = FirestoreDAO.authenticatedUser.programs
+        if !programs.isEmpty {
+            for program in programs as NSDictionary {
+                let p = program.value as! Program
+                let days = Calendar.current.dateComponents([.day], from: Date(), to: p.startDate as Date).day
+                if days! >= 1 {
+                    programsList.append(p)
+                }
+            }
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -29,22 +41,27 @@ class ScheduledProgramsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return programsList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "scheduleProgramsIdentifer", for: indexPath)
+        cell.textLabel?.text = programsList[indexPath.row].baitType
+        cell.detailTextLabel?.text = Util.setDateAsString(date: programsList[indexPath.row].startDate)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Coming soon."
+        if programsList.count == 0 {
+            return "There are no scheduled programs"
+        } else {
+            return "There are \(programsList.count) scheduled program(s)"
+        }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
-    
 
     /*
     // Override to support conditional editing of the table view.

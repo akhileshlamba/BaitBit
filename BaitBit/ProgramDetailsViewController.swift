@@ -30,11 +30,37 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var showOverdueButton: UIButton!
     @IBOutlet weak var showDueSoonButton: UIButton!
     
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTextFields()
         self.setRightBarButtonItem()
+        
+        // Recently viewed Items
+        var recentlyViewed = defaults.dictionary(forKey: "recentlyViewed")
+        if recentlyViewed == nil || recentlyViewed!.isEmpty {
+            recentlyViewed = [String: Double]()
+            recentlyViewed![self.program.id] = NSDate().timeIntervalSince1970
+            defaults.set(recentlyViewed, forKey: "recentlyViewed")
+        } else {
+            if recentlyViewed!.count < 3 {
+                recentlyViewed![self.program.id] = NSDate().timeIntervalSince1970
+//                if (recentlyViewed?.keys.contains(self.program.id))! {
+//                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
+//                } else {
+//                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
+//                }
+            } else {
+                let temp = recentlyViewed?.min{a,b in (a.value as! Double) < (b.value as! Double)}
+                recentlyViewed?.removeValue(forKey: temp!.key)
+                recentlyViewed![self.program.id] = NSDate().timeIntervalSince1970
+            }
+            defaults.set(recentlyViewed, forKey: "recentlyViewed")
+            print(recentlyViewed!.count)
+            print(recentlyViewed)
+        }
+        
         
         if program.documents.count == 4 {
             docPendingLabel.text = "Documents"

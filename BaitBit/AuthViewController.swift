@@ -236,7 +236,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         if segue.identifier == "loginSegue" {
             let tabBarController = segue.destination as! TabBarViewController
             let count = tabBarController.viewControllers?.count
-            let settingsVC = tabBarController.viewControllers![count!-1] as! SettingsTableViewController
+            let settingsVC = tabBarController.viewControllers![count!-1] as! MoreTableViewController
             //settingsVC.user = authenticatedUser
             settingsVC.notificationDetails = notificationDetails
             //self.endAnimating()
