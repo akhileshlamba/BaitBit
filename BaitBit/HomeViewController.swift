@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var baitingProgramView: UIView!
     @IBOutlet weak var newProgramButton: UIButton!
 
+    @IBOutlet weak var recentlyViewed: UITableView!
     var sections = [String]()
 
     var user : User!
@@ -52,9 +53,14 @@ class HomeViewController: UIViewController {
     var dueSoonBaitsForProgram : [String : Int] = [:]
     
     var textForReminderOnHomeScreen = ""
+    
+    var recentlyViewedPrograms = [String: Double]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.recentlyViewed.dataSource = self
+        self.recentlyViewed.delegate = self
 
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -274,6 +280,11 @@ class HomeViewController: UIViewController {
             }
         })
         
+        if self.defaults.dictionary(forKey: "recentlyViewed") != nil {
+            recentlyViewedPrograms = self.defaults.dictionary(forKey: "recentlyViewed") as! [String : Double]
+            self.recentlyViewed.reloadData()
+        }
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -320,4 +331,35 @@ class HomeViewController: UIViewController {
     }
 
 
+}
+
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if recentlyViewedPrograms == nil || recentlyViewedPrograms.isEmpty {
+            return 0
+        } else {
+            return recentlyViewedPrograms.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "recentlyViewed", for: indexPath)
+        if recentlyViewedPrograms.isEmpty {
+            return cell
+        } else {
+            let program = self.user.programs[Array(recentlyViewedPrograms.keys)[indexPath.row]]
+            if program != nil {
+                cell.textLabel?.text = program?.baitType
+            }
+            return cell
+        }
+        return cell
+    }
+    
+    
 }
