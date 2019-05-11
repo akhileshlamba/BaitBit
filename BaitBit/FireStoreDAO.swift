@@ -41,7 +41,7 @@ class FirestoreDAO: NSObject {
                         } else {
                             self.notificationDetails = (result?.documents[0].data())!
                             self.notificationDetails["id"] = (result?.documents[0].documentID)!
-                            
+                            Reminder.setOrUpdateRemindersForAnimals(notifications: self.notificationDetails)
                             complete("Success")
                         }
                     })
@@ -69,11 +69,16 @@ class FirestoreDAO: NSObject {
                         self.authenticatedUser.setId(id: ref.documentID)
 
                         Firestore.firestore().collection("notifications").addDocument(data: [
-                            "overDue" : false,
-                            "dueSoon" : false,
-                            "documentation" : false,
+                            "overDue" : true,
+                            "dueSoon" : true,
+                            "documentation" : true,
                             "notificationOfUser" : ref!.documentID,
-                            "license" : false
+                            "license" : true,
+                            "scheduledPrograms" : true,
+                            "dog" : true,
+                            "pig" : true,
+                            "fox" : true,
+                            "rabbit" : true,
                         ]) { err in
                             if err != nil {
                                 let user : User!
@@ -172,7 +177,7 @@ class FirestoreDAO: NSObject {
                     } else {
                         self.notificationDetails = (result?.documents[0].data())!
                         self.notificationDetails["id"] = (result?.documents[0].documentID)!
-                        
+                        Reminder.setOrUpdateRemindersForAnimals(notifications: self.notificationDetails)
                         if complete != nil {
                             complete!(self.authenticatedUser)
                         }
@@ -197,19 +202,50 @@ class FirestoreDAO: NSObject {
         })
     }
 
-    static func updateNotificationDetails(with id: String, details: [String: Any]) {
-        self.notificationDetails = details
-        let notificationsRef = Firestore.firestore().collection("notifications").document(details["id"] as! String)
+    static func updateNotificationDetails(with id: String, updated: [String: Any], previous: [String: Any]) {
+        self.notificationDetails = updated
+        let notificationsRef = Firestore.firestore().collection("notifications").document(updated["id"] as! String)
         notificationsRef.updateData([
-            "overDue" : details["overDue"],
-            "dueSoon" : details["dueSoon"],
-            "documentation" : details["documentation"],
-            "license" : details["license"]
+            "overDue" : updated["overDue"],
+            "dueSoon" : updated["dueSoon"],
+            "documentation" : updated["documentation"],
+            "license" : updated["license"]!,
+            "scheduledPrograms" : updated["scheduledPrograms"]!,
+            "dog" : updated["dog"]!,
+            "pig" : updated["pig"]!,
+            "fox" : updated["fox"]!,
+            "rabbit" : updated["rabbit"]!
         ]) { err in
             if let err = err {
                 print("Error updating document: \(err)")
             } else {
-                self.notificationDetails = details
+                self.notificationDetails = updated
+                
+                if previous["scheduledPrograms"] != nil {
+                    if updated["scheduledPrograms"] as! Bool != previous["scheduledPrograms"] as! Bool {
+                        var programsList = [Program]()
+                        let programs = self.authenticatedUser.programs
+                        if !programs.isEmpty {
+                            for program in programs as NSDictionary {
+                                let p = program.value as! Program
+                                let days = Calendar.current.dateComponents([.day], from: Date(), to: p.startDate as Date).day
+                                if days! >= 1 {
+                                    programsList.append(p)
+                                }
+                            }
+                            print(programsList.count)
+                        }
+                        let bool = updated["scheduledPrograms"] as! Bool
+                        if !bool {
+                            Reminder.removePendingNotifications(for: "animal", programs: programsList)
+                        } else {
+                            Reminder.scheduledProgramReminder(for: programsList)
+                        }
+                    }
+                }
+                
+                Reminder.removePendingNotifications(for: "animal", programs: nil)
+                Reminder.setOrUpdateRemindersForAnimals(notifications: updated)
                 print("Document successfully updated")
             }
         }

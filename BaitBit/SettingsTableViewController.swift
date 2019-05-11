@@ -32,10 +32,9 @@ class SettingsTableViewController: UITableViewController {
 //            notificationDetails = updatedNotificationDetails
 //        }
         
-        items = [[String]]()
-        
-        items.append(["Notifications"])
         items.append(["Over Due", "Due Soon", "Documentation", "License"])
+        items.append(["Scheduled Programs"])
+        items.append(["Dog", "Pig", "Fox", "Rabbit"])
         self.tableView.tableFooterView = UIView(frame: .zero)
         
 //        // Uncomment the following line to preserve selection between presentations
@@ -80,6 +79,21 @@ class SettingsTableViewController: UITableViewController {
                 case "License":
                     updatedNotificationDetails["license"] = notificationCell.toggle.isOn
                     break
+                case "Scheduled Programs":
+                    updatedNotificationDetails["scheduledPrograms"] = notificationCell.toggle.isOn
+                    break
+                case "Dog":
+                    updatedNotificationDetails["dog"] = notificationCell.toggle.isOn
+                    break
+                case "Pig":
+                    updatedNotificationDetails["pig"] = notificationCell.toggle.isOn
+                    break
+                case "Fox":
+                    updatedNotificationDetails["fox"] = notificationCell.toggle.isOn
+                    break
+                case "Rabbit":
+                    updatedNotificationDetails["rabbit"] = notificationCell.toggle.isOn
+                    break
                 default:
                     break
                 }
@@ -87,7 +101,7 @@ class SettingsTableViewController: UITableViewController {
         }
         
         if !NSDictionary(dictionary: updatedNotificationDetails).isEqual(to: notificationDetails){
-            FirestoreDAO.updateNotificationDetails(with: updatedNotificationDetails["id"] as! String, details: updatedNotificationDetails)
+            FirestoreDAO.updateNotificationDetails(with: updatedNotificationDetails["id"] as! String, updated: updatedNotificationDetails, previous: notificationDetails)
             notificationDetails = updatedNotificationDetails
             print(updatedNotificationDetails)
         }
@@ -108,21 +122,8 @@ class SettingsTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "notifications", for: indexPath) as! NotificationsTableViewCell
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "profile", for: indexPath) as! UserProfileTableViewCell
-            
-            cell.avatar.image = UIImage(named: "user")
-            cell.username.text = user.username as! String
-            if user.licenseExpiryDate != nil {
-                cell.viewLicense.text = "View License"
-            } else {
-                cell.viewLicense.text = "Add License"
-            }
-            return cell
-        } else {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "notifications", for: indexPath) as! NotificationsTableViewCell
             switch items[indexPath.section][indexPath.row] {
             case "Over Due":
                 cell.label.text = items[indexPath.section][indexPath.row]
@@ -146,55 +147,176 @@ class SettingsTableViewController: UITableViewController {
             return cell
         }
         
-    }
- 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 100.0
-        } else {
-            return 50.0
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Profile"
-        } else {
-            return "Notification Settings"
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            performSegue(withIdentifier: "licenseSegue", sender: nil)
-        }
-        
         if indexPath.section == 1 {
-            let cell = tableView.cellForRow(at: indexPath) as! NotificationsTableViewCell
-            if cell.toggle.isOn {
-                cell.toggle.isOn = false
-            } else {
-                cell.toggle.isOn = true
-            }
-            
-            switch cell.label.text {
-            case "Over Due":
-                updatedNotificationDetails["overDue"] = cell.toggle.isOn
-                break
-            case "Due Soon":
-                updatedNotificationDetails["dueSoon"] = cell.toggle.isOn
-                break
-            case "Documentation":
-                updatedNotificationDetails["documentation"] = cell.toggle.isOn
-                break
-            case "License":
-                updatedNotificationDetails["license"] = cell.toggle.isOn
+            switch items[indexPath.section][indexPath.row] {
+            case "Scheduled Programs":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                if updatedNotificationDetails["scheduledPrograms"] != nil {
+                    cell.toggle.isOn = updatedNotificationDetails["scheduledPrograms"] as! Bool
+                } else {
+                    cell.toggle.isOn = false
+                }
                 break
             default:
                 break
             }
-            
+            return cell
         }
+        
+        if indexPath.section == 2 {
+            switch items[indexPath.section][indexPath.row] {
+            case "Dog":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                if updatedNotificationDetails["dog"] != nil {
+                    cell.toggle.isOn = updatedNotificationDetails["dog"] as! Bool
+                } else {
+                    cell.toggle.isOn = false
+                }
+                break
+            case "Pig":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                if updatedNotificationDetails["pig"] != nil {
+                    cell.toggle.isOn = updatedNotificationDetails["pig"] as! Bool
+                } else {
+                    cell.toggle.isOn = false
+                }
+                break
+            case "Fox":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                if updatedNotificationDetails["fox"] != nil {
+                    cell.toggle.isOn = updatedNotificationDetails["fox"] as! Bool
+                } else {
+                    cell.toggle.isOn = false
+                }
+                break
+            case "Rabbit":
+                cell.label.text = items[indexPath.section][indexPath.row]
+                if updatedNotificationDetails["rabbit"] != nil {
+                    cell.toggle.isOn = updatedNotificationDetails["rabbit"] as! Bool
+                } else {
+                    cell.toggle.isOn = false
+                }
+                break
+            default:
+                break
+            }
+            return cell
+        }
+        
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "basic", for: indexPath)
+//
+//        if indexPath.section == 2 {
+//            cell.textLabel?.text = items[indexPath.section][indexPath.row]
+//        }
+//
+//        if indexPath.section == 3 {
+//            cell.textLabel?.text = items[indexPath.section][indexPath.row]
+//        }
+//
+        return cell
+        
+    }
+ 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Baits"
+        }
+        
+        if section == 1 {
+            return "Program"
+        }
+        
+        if section == 2 {
+            return "Bait Season"
+        }
+       
+        return "Empty"
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! NotificationsTableViewCell
+        
+        if cell.toggle.isOn {
+            cell.toggle.isOn = false
+        } else {
+            cell.toggle.isOn = true
+        }
+        
+//        if indexPath.section == 0 {
+//
+//            if cell.toggle.isOn {
+//                cell.toggle.isOn = false
+//            } else {
+//                cell.toggle.isOn = true
+//            }
+//
+//            switch cell.label.text {
+//            case "Over Due":
+//                updatedNotificationDetails["overDue"] = cell.toggle.isOn
+//                break
+//            case "Due Soon":
+//                updatedNotificationDetails["dueSoon"] = cell.toggle.isOn
+//                break
+//            case "Documentation":
+//                updatedNotificationDetails["documentation"] = cell.toggle.isOn
+//                break
+//            case "License":
+//                updatedNotificationDetails["license"] = cell.toggle.isOn
+//                break
+//            default:
+//                break
+//            }
+//
+//        }
+//
+//        if indexPath.section == 1 {
+//
+//            if cell.toggle.isOn {
+//                cell.toggle.isOn = false
+//            } else {
+//                cell.toggle.isOn = true
+//            }
+//
+//            switch cell.label.text {
+//            case "Scheduled Programs":
+//                updatedNotificationDetails["scheduledPrograms"] = cell.toggle.isOn
+//                break
+//            default:
+//                break
+//            }
+//
+//        }
+//
+//        if indexPath.section == 2 {
+//
+//            if cell.toggle.isOn {
+//                cell.toggle.isOn = false
+//            } else {
+//                cell.toggle.isOn = true
+//            }
+//
+//            switch cell.label.text {
+//            case "Dog":
+//                updatedNotificationDetails["dog"] = cell.toggle.isOn
+//                break
+//            case "Pig":
+//                updatedNotificationDetails["pig"] = cell.toggle.isOn
+//                break
+//            case "Fox":
+//                updatedNotificationDetails["fox"] = cell.toggle.isOn
+//                break
+//            case "Rabbit":
+//                updatedNotificationDetails["rabbit"] = cell.toggle.isOn
+//                break
+//            default:
+//                break
+//            }
+//
+//        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

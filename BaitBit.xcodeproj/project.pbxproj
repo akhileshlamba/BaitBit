@@ -38,6 +38,8 @@
 		E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770552250B4A700492B1A /* SecondPageViewController.swift */; };
 		E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770572250BCEB00492B1A /* HomeViewController.swift */; };
 		E627705A2250F85E00492B1A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62770592250F85E00492B1A /* MapViewController.swift */; };
+		E63930C52281A9760057B1CF /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63930C42281A9760057B1CF /* MoreTableViewController.swift */; };
+		E63930C72284F8480057B1CF /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63930C62284F8480057B1CF /* Reminder.swift */; };
 		E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */; };
 		E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */; };
 		E64EB24F2275931C009C3CC8 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EB24E2275931C009C3CC8 /* Documents.swift */; };
@@ -93,6 +95,9 @@
 		E62770552250B4A700492B1A /* SecondPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPageViewController.swift; sourceTree = "<group>"; };
 		E62770572250BCEB00492B1A /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E62770592250F85E00492B1A /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		E63930C3228161720057B1CF /* BaitBit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BaitBit.entitlements; sourceTree = "<group>"; };
+		E63930C42281A9760057B1CF /* MoreTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
+		E63930C62284F8480057B1CF /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
 		E64E0F8F226C1528001F13F0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E64E915E2259D41F0087C4AF /* ProgramTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTableViewCell.swift; sourceTree = "<group>"; };
@@ -250,6 +255,7 @@
 		E627703D224F13E400492B1A /* BaitBit */ = {
 			isa = PBXGroup;
 			children = (
+				E63930C3228161720057B1CF /* BaitBit.entitlements */,
 				0229072322730CC5001E0E4E /* Help */,
 				0229072222730CA2001E0E4E /* Resources */,
 				E6F4F58B2271A0780017715D /* UserManager */,
@@ -270,6 +276,7 @@
 				E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */,
 				E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */,
 				E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */,
+				E63930C62284F8480057B1CF /* Reminder.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -281,6 +288,7 @@
 				E64E0F88226AE47C001F13F0 /* RegisterUserViewController.swift */,
 				E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */,
 				E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */,
+				E63930C42281A9760057B1CF /* MoreTableViewController.swift */,
 				E680AAD9226EDEBE00510DB4 /* ProfileViewController.swift */,
 			);
 			name = UserManager;
@@ -325,6 +333,9 @@
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
 							};
 						};
 					};
@@ -389,7 +400,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVTextDetectorResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -400,7 +411,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CF3385B3652F8B428BBEAAA2 /* [CP] Embed Pods Frameworks */ = {
@@ -409,7 +420,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework",
@@ -440,7 +451,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -464,6 +475,7 @@
 				02FC5914226EFC9E002B30BE /* Program.swift in Sources */,
 				E62770542250696900492B1A /* IntroductionPageViewController.swift in Sources */,
 				0229072722730D26001E0E4E /* ResourcesViewController.swift in Sources */,
+				E63930C72284F8480057B1CF /* Reminder.swift in Sources */,
 				E6EA550C2258141300E4AA5C /* AddProgramViewController.swift in Sources */,
 				02157E702256F5C50007A170 /* PinAnnotation.swift in Sources */,
 				E6F4F66B227581230017715D /* DocumentUploadViewController.swift in Sources */,
@@ -486,6 +498,7 @@
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
 				02FC5916226EFDDF002B30BE /* Bait.swift in Sources */,
 				02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */,
+				E63930C52281A9760057B1CF /* MoreTableViewController.swift in Sources */,
 				E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */,
 				E6F4F669227578630017715D /* DocumentVerification.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,

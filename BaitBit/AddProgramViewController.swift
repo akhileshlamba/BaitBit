@@ -96,7 +96,6 @@ class AddProgramViewController: UIViewController, SegueDelegate {
         
         datePicker.datePickerMode = .date
         datePicker.minimumDate = Date()
-        datePicker.maximumDate = Date()
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -162,6 +161,12 @@ class AddProgramViewController: UIViewController, SegueDelegate {
                         //                    performSegue(withIdentifier: "addbait", sender: nil)
                     } else {
                         //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
+                        let flag = FirestoreDAO.notificationDetails["scheduledPrograms"]
+                        if flag != nil {
+                            if flag as! Bool {
+                                Reminder.scheduledProgramReminder(for: self.program!)
+                            }
+                        }
                     }
                     self.performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 }
