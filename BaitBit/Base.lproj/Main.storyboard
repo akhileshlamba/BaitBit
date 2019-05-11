@@ -441,6 +441,7 @@
                             <outlet property="delegate" destination="yz9-lh-Jkz" id="Jz3-JW-9kD"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Notifications" image="notification" id="vCc-pE-Q3K"/>
                     <connections>
                         <segue destination="yr6-W9-ivw" kind="show" identifier="notificationProgramSegue" id="lRn-pD-xYm"/>
                         <segue destination="8lv-Gw-Vzf" kind="show" identifier="licenseNotificationSegue" id="vuz-8r-zAP"/>
@@ -2040,6 +2041,7 @@
                             <outlet property="delegate" destination="Fm5-ls-XGP" id="gSU-mp-Hbr"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="In-progress" id="R2n-uV-ckv"/>
                     <navigationItem key="navigationItem" title="Programs In-progress" id="Tu6-Dm-kf0">
                         <barButtonItem key="rightBarButtonItem" title="Add Program" id="dJc-jH-2qD">
                             <connections>
@@ -2758,7 +2760,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="VNR-3w-AnT" kind="relationship" relationship="viewControllers" id="fLu-SJ-lPx"/>
+                        <segue destination="Fm5-ls-XGP" kind="relationship" relationship="viewControllers" id="2yz-KR-CRA"/>
                         <segue destination="zKp-tB-rFu" kind="relationship" relationship="viewControllers" id="em4-yd-naz"/>
+                        <segue destination="yz9-lh-Jkz" kind="relationship" relationship="viewControllers" id="KaJ-fF-xMU"/>
                         <segue destination="8lv-Gw-Vzf" kind="relationship" relationship="viewControllers" id="ayS-vr-VPL"/>
                     </connections>
                 </tabBarController>
@@ -3541,6 +3545,7 @@
         <image name="logo" width="134" height="164"/>
         <image name="map" width="32" height="32"/>
         <image name="navigation" width="64" height="64"/>
+        <image name="notification" width="21.333333969116211" height="21.333333969116211"/>
         <image name="password" width="21.333333969116211" height="21.333333969116211"/>
         <image name="pawprint" width="21.333333969116211" height="21.333333969116211"/>
         <image name="resources" width="32" height="32"/>
@@ -3553,13 +3558,12 @@
     <inferredMetricsTieBreakers>
         <segue reference="ayS-vr-VPL"/>
         <segue reference="Mah-cT-pM5"/>
-        <segue reference="cr2-hU-SUH"/>
-        <segue reference="T0e-2L-rHm"/>
-        <segue reference="xSR-ls-uec"/>
         <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="XSh-ec-wXm"/>
+        <segue reference="lRn-pD-xYm"/>
+        <segue reference="2yz-KR-CRA"/>
         <segue reference="Rhh-JI-IqV"/>
         <segue reference="PhL-KH-tkF"/>
-        <segue reference="Wes-0h-Ath"/>
+        <segue reference="KaJ-fF-xMU"/>
+        <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>
 </document>
