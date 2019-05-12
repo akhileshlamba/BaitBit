@@ -9,7 +9,7 @@
 import UIKit
 
 class Notifications: NSObject {
-    
+    static var notifications: [String: Any] = [:]
     static func calculateTotalNotifications(of user: User, with notifications: [String: Any]) -> [String: Any]{
         
         let isDueSoon = notifications["dueSoon"] as? Bool
@@ -46,10 +46,10 @@ class Notifications: NSObject {
                     var dueSoonBaits = 0
                     for bait in program.value.baits {
                         if bait.value.isDueSoon {
-                            overDueBaits += 1
+                            dueSoonBaits += 1
                         }
                     }
-                    if overDueBaits != 0 {
+                    if dueSoonBaits != 0 {
                         dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
                     }
                 }
@@ -93,7 +93,7 @@ class Notifications: NSObject {
         response["dueSoon"] = dueSoonBaitsForProgram
         response["documents"] = documentsPending
         response["sections"] = sections
-        
+        self.notifications = response
         return response
     }
 

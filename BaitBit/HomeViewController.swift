@@ -33,7 +33,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var baitingProgramView: UIView!
     @IBOutlet weak var newProgramButton: UIButton!
 
+    @IBOutlet weak var nearbyBaits: UIButton!
     @IBOutlet weak var reminder: UILabel!
+    @IBOutlet weak var actionRequired: UITableView!
     @IBOutlet weak var recentlyViewed: UITableView!
     var sections = [String]()
 
@@ -49,20 +51,30 @@ class HomeViewController: UIViewController {
     var isSendNotificationForDocuments: Bool! = false
 
     var notifcationOfUser : [String: Any]!
-//    var documentsPending : [String : Int] = [:]
-//    var overDueBaitsForProgram : [String : Int] = [:]
-//    var dueSoonBaitsForProgram : [String : Int] = [:]
+    var documentsPending : [String : Int] = [:]
+    var overDueBaitsForProgram : [String : Int] = [:]
+    var dueSoonBaitsForProgram : [String : Int] = [:]
     
     var textForReminderOnHomeScreen = ""
+    var flagForCreation = false
+    var flagForSelection = false
+    var countForSwitchBetweenOverDueAndDueSoon = 0
+    var countForAction = 0
     
     var recentlyViewedPrograms = [String: Double]()
+    var action = [String: Int]()
+    
+    var program : Program!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.recentlyViewed.dataSource = self
         self.recentlyViewed.delegate = self
-
+        
+        self.actionRequired.dataSource = self
+        self.actionRequired.delegate = self
+        
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
@@ -246,6 +258,19 @@ class HomeViewController: UIViewController {
 //        }
 //    }
 
+    func loadData() {
+        countForAction = 0
+        let response = Notifications.calculateTotalNotifications(of: self.user, with: FirestoreDAO.notificationDetails)
+        
+        if !response.isEmpty {
+            overDueBaitsForProgram = response["overDue"] as! [String: Int]
+            dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
+            documentsPending = response["documents"] as! [String: Int]
+            sections = response["sections"] as! [String]
+        }
+        self.actionRequired.reloadData()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
@@ -260,12 +285,14 @@ class HomeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        self.loadData()
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
             self.setNavigationBarItemsForGuest()
             return
         }
+        
+        
         self.notifcationOfUser = FirestoreDAO.notificationDetails
 //        checkForNotifications()
 //        calculateTotalNotifications()
@@ -322,6 +349,17 @@ class HomeViewController: UIViewController {
             let controller = segue.destination as! BaitsProgramMapViewController
             controller.baits = baits
         }
+        
+        if segue.identifier == "programActionSegue" {
+            let controller = segue.destination as! ProgramDetailsViewController
+            controller.program = program
+            Program.program = controller.program
+        }
+        
+        if segue.identifier == "licenseActionSegue" {
+            let controller = segue.destination as! MoreTableViewController
+            controller.user = user
+        }
 
 //        if segue.identifier == "NotificationSegue" {
 //            let controller = segue.destination as! NotificationsTableViewController
@@ -351,25 +389,130 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if recentlyViewedPrograms == nil || recentlyViewedPrograms.isEmpty {
-            return 0
+        if tableView.restorationIdentifier == "recentlyViewed" {
+            if recentlyViewedPrograms == nil || recentlyViewedPrograms.isEmpty {
+                return 0
+            } else {
+                return recentlyViewedPrograms.count
+            }
         } else {
-            return recentlyViewedPrograms.count
+            
+            if overDueBaitsForProgram.count == 0 && dueSoonBaitsForProgram.count == 0 && documentsPending.count == 0 && !self.user.licenseExpiringSoon {
+                return 0
+            } else if self.user.licenseExpiringSoon && overDueBaitsForProgram.count == 0 && dueSoonBaitsForProgram.count == 0 && documentsPending.count == 0 {
+                return 1
+            } else {
+                return 2
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recentlyViewed", for: indexPath)
-        if recentlyViewedPrograms.isEmpty {
-            return cell
-        } else {
-            let program = self.user.programs[Array(recentlyViewedPrograms.keys)[indexPath.row]]
-            if program != nil {
-                cell.textLabel?.text = program?.baitType
+        
+        if tableView.restorationIdentifier == "recentlyViewed" {
+            if recentlyViewedPrograms.isEmpty {
+                return cell
+            } else {
+                let program = self.user.programs[Array(recentlyViewedPrograms.keys)[indexPath.row]]
+                if program != nil {
+                    cell.textLabel?.text = program?.baitType
+                }
+                return cell
             }
-            return cell
+        } else {
+            if countForAction < 2 {
+                if !overDueBaitsForProgram.isEmpty && overDueBaitsForProgram.values.count > indexPath.row {
+                    countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
+                    let count = Array(overDueBaitsForProgram.values)[indexPath.row]
+                    let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
+                    let name = key.split(separator: "%")[1]
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.text = "\(count) Baits over due in \(name) program"
+                    cell.textLabel?.numberOfLines = 2
+                    flagForCreation = true
+                    countForAction += 1
+                } else  if !dueSoonBaitsForProgram.isEmpty {
+                    var row = indexPath.row
+                    if flagForCreation {
+                        row = indexPath.row - countForSwitchBetweenOverDueAndDueSoon
+                    }
+                    let count = Array(dueSoonBaitsForProgram.values)[row]
+                    let key = Array(dueSoonBaitsForProgram.keys)[row]
+                    let name = key.split(separator: "%")[1]
+                    cell.imageView!.image = UIImage(named: "warning")
+                    cell.textLabel?.text = "\(count) Baits due Soon in \(name) program"
+                    cell.textLabel?.numberOfLines = 2
+                    countForAction += 1
+                }  else if !documentsPending.isEmpty {
+                    let count = Array(documentsPending.values)[indexPath.row]
+                    let key = Array(documentsPending.keys)[indexPath.row]
+                    let name = key.split(separator: "%")[1]
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.text = "\(count) Documents pending in \(name) program"
+                    cell.textLabel?.numberOfLines = 2
+                    countForAction += 1
+                } else if user.licenseExpiryDate != nil {
+                    let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+                    if days! >= 0{
+                        cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                    } else {
+                        cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                    }
+                    
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.numberOfLines = 2
+                    countForAction += 1
+                } else {
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.text = "Please uplaod the Baiting License"
+                    cell.textLabel?.numberOfLines = 2
+                    countForAction += 1
+                }
+            }
+            
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.restorationIdentifier == "recentlyViewed" {
+            program = self.user.programs[Array(recentlyViewedPrograms.keys)[indexPath.row]]
+            tableView.deselectRow(at: indexPath, animated: true)
+            performSegue(withIdentifier: "programActionSegue", sender: nil)
+        } else {
+            countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
+            if !overDueBaitsForProgram.isEmpty && overDueBaitsForProgram.values.count > indexPath.row{
+                flagForSelection = true
+                countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
+                let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
+                let id = String(key.split(separator: "%")[0])
+                let programs = user.programs
+                program = programs[id]
+                tableView.deselectRow(at: indexPath, animated: true)
+                performSegue(withIdentifier: "programActionSegue", sender: nil)
+            } else if !dueSoonBaitsForProgram.isEmpty {
+                let row = indexPath.row - countForSwitchBetweenOverDueAndDueSoon
+                let key = Array(dueSoonBaitsForProgram.keys)[row]
+                let id = String(key.split(separator: "%")[0])
+                let programs = user.programs
+                program = programs[id]
+                tableView.deselectRow(at: indexPath, animated: true)
+                performSegue(withIdentifier: "programActionSegue", sender: nil)
+            } else if !documentsPending.isEmpty {
+                let count = Array(documentsPending.values)[indexPath.row]
+                let key = Array(documentsPending.keys)[indexPath.row]
+                let id = String(key.split(separator: "%")[0])
+                let name = key.split(separator: "%")[1]
+                let programs = user.programs
+                program = programs[id]
+                tableView.deselectRow(at: indexPath, animated: true)
+                performSegue(withIdentifier: "programActionSegue", sender: nil)
+            } else {
+                performSegue(withIdentifier: "licenseActionSegue", sender: nil)
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        }
     }
     
     
