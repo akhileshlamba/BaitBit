@@ -24,6 +24,9 @@ class CompletedProgramsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.loadProgramList()
+        self.applySpeciesFilter()
+        self.setLabels()
     }
     
     var programList: [Program] = []
@@ -39,13 +42,18 @@ class CompletedProgramsViewController: UIViewController {
         self.filteredProgramList = self.programList.filter({ (program) -> Bool in
             return program.species! == self.speciesTextField.text
         })
+//        self.filteredProgramList = self.programList
     }
     
     func setLabels() {
-        self.numOfPrograms.text = "\(self.filteredProgramList.count)"
+        self.numOfPrograms.text = "\(self.programList.count)"
         if self.filteredProgramList.count > 0 {
             self.duration.text = "\(Analytics.averageDuration(programs: self.filteredProgramList) ?? 0) day(s)"
             self.minMax.text = "Min: \(Analytics.minDuration(programs: self.filteredProgramList) ?? 0) day(s) Max: \(Analytics.maxDuration(programs: self.filteredProgramList) ?? 0) day(s)"
+            self.baitType.text = Analytics.mostUsedBait(programs: self.filteredProgramList)
+            self.baitsTaken.text = "\(Int(Analytics.baitsTakenRate(programs: self.filteredProgramList) ?? 0) * 100)%"
+            self.nonTargetedCarcass.text = "\(Analytics.numOfNontargetedCarcass(programs: self.filteredProgramList))"
+            self.RemovedOverdue.text = "\(Analytics.numOfRemovedOverdue(programs: self.filteredProgramList))"
         }
     }
 
