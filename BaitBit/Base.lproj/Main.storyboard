@@ -571,7 +571,7 @@
         <!--Completed programs-->
         <scene sceneID="TVP-qI-kbu">
             <objects>
-                <viewController title="Completed programs" id="7r4-fT-lru" sceneMemberID="viewController">
+                <viewController title="Completed programs" id="7r4-fT-lru" customClass="CompletedProgramsViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UWS-Mn-RTb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1011,7 +1011,7 @@
         <!--Program details-->
         <scene sceneID="ZEJ-75-q7A">
             <objects>
-                <viewController title="Program details" id="mct-G1-N19" sceneMemberID="viewController">
+                <viewController title="Program details" id="mct-G1-N19" customClass="CompletedProgramDetailsViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Nq-9b-Jxk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3864,7 +3864,7 @@
         <segue reference="2yz-KR-CRA"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="J1s-mq-wqv"/>
-        <segue reference="p5x-i1-zZX"/>
+        <segue reference="cV2-59-FI4"/>
         <segue reference="KaJ-fF-xMU"/>
         <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>
