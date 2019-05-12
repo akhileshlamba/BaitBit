@@ -14,6 +14,8 @@
 		0229072722730D26001E0E4E /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072622730D26001E0E4E /* ResourcesViewController.swift */; };
 		0229072922730DDB001E0E4E /* EditProgramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0229072822730DDB001E0E4E /* EditProgramViewController.swift */; };
 		026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */; };
+		0281ACA82287CFF20003C8E6 /* CompletedProgramsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACA72287CFF20003C8E6 /* CompletedProgramsViewController.swift */; };
+		0281ACAA2287D1090003C8E6 /* CompletedProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */; };
 		02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */; };
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
@@ -71,6 +73,8 @@
 		0229072622730D26001E0E4E /* ResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
 		0229072822730DDB001E0E4E /* EditProgramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgramViewController.swift; sourceTree = "<group>"; };
 		026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
+		0281ACA72287CFF20003C8E6 /* CompletedProgramsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramsViewController.swift; sourceTree = "<group>"; };
+		0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramDetailsViewController.swift; sourceTree = "<group>"; };
 		02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCompletedTableViewController.swift; sourceTree = "<group>"; };
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
@@ -85,8 +89,6 @@
 		02FC5919226F34C4002B30BE /* FireStoreDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreDAO.swift; sourceTree = "<group>"; };
 		02FD58712259CE0D0000B6E0 /* BaitAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitAnnotation.swift; sourceTree = "<group>"; };
 		02FD5873225A02A10000B6E0 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		2421C81BD134003B6C9D0785 /* Pods-BaitBit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit.release.xcconfig"; sourceTree = "<group>"; };
-		488B7B7D9CCD92F70653FAFE /* Pods-BaitBit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaitBit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit.debug.xcconfig"; sourceTree = "<group>"; };
 		7F4EA703779F29DE2123C36F /* Pods_BaitBit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaitBit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703B224F13E400492B1A /* BaitBit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaitBit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E627703E224F13E400492B1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,15 @@
 				0229072422730CD6001E0E4E /* HelpViewController.swift */,
 			);
 			name = Help;
+			sourceTree = "<group>";
+		};
+		0281ACA62287CFBD0003C8E6 /* Completed programs */ = {
+			isa = PBXGroup;
+			children = (
+				0281ACA72287CFF20003C8E6 /* CompletedProgramsViewController.swift */,
+				0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */,
+			);
+			name = "Completed programs";
 			sourceTree = "<group>";
 		};
 		02C42A4C22703A260025B2FA /* Utilities */ = {
@@ -237,8 +248,6 @@
 			children = (
 				EBDD013052AD0359C1B843F3 /* Pods-BaitBit.debug.xcconfig */,
 				F32CC9CD8F00BB3E83AA13FF /* Pods-BaitBit.release.xcconfig */,
-				488B7B7D9CCD92F70653FAFE /* Pods-BaitBit.debug.xcconfig */,
-				2421C81BD134003B6C9D0785 /* Pods-BaitBit.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -279,6 +288,7 @@
 				02F8F73A2265C77E00FD1D2F /* Entities */,
 				02F8F73C2265C8A600FD1D2F /* Invasive Species Map */,
 				02F8F73B2265C84500FD1D2F /* BaitManager */,
+				0281ACA62287CFBD0003C8E6 /* Completed programs */,
 				E627703E224F13E400492B1A /* AppDelegate.swift */,
 				E62770572250BCEB00492B1A /* HomeViewController.swift */,
 				E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */,
@@ -408,7 +418,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleMobileVision/GoogleMVTextDetectorResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -417,7 +427,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CF3385B3652F8B428BBEAAA2 /* [CP] Embed Pods Frameworks */ = {
@@ -426,7 +436,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework",
@@ -457,7 +467,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -471,6 +481,7 @@
 				E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */,
 				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,
 				02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */,
+				0281ACAA2287D1090003C8E6 /* CompletedProgramDetailsViewController.swift in Sources */,
 				E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */,
 				E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */,
 				E680AAD8226ED9B300510DB4 /* TabBarViewController.swift in Sources */,
@@ -502,6 +513,7 @@
 				02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */,
 				E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */,
 				02157E6C225573E80007A170 /* Occurrence.swift in Sources */,
+				0281ACA82287CFF20003C8E6 /* CompletedProgramsViewController.swift in Sources */,
 				E62770562250B4A700492B1A /* SecondPageViewController.swift in Sources */,
 				02FC5916226EFDDF002B30BE /* Bait.swift in Sources */,
 				02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */,
@@ -654,11 +666,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = 39LHT48JBG;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -671,11 +683,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5MFW25MTYT;
+				DEVELOPMENT_TEAM = 39LHT48JBG;
 				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = BaitBit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit;
+				PRODUCT_BUNDLE_IDENTIFIER = Monash.BaitBit.testing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
