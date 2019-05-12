@@ -294,13 +294,13 @@ class Reminder: NSObject {
             let date = Calendar.current.date(byAdding: dayComp, to: program.startDate as Date)
             dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date!)
         }
-        
-        dateComponents.hour = 12
-        dateComponents.timeZone = TimeZone.current
+        var dateComponents1 = DateComponents()
+        dateComponents1.minute = 2
+        dateComponents1.timeZone = TimeZone.current
         
         // Create the trigger as a repeating event.
         let trigger = UNCalendarNotificationTrigger(
-            dateMatching: dateComponents, repeats: false)
+            dateMatching: dateComponents1, repeats: true)
         
         print(trigger.nextTriggerDate())
         
