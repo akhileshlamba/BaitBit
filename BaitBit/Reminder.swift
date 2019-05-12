@@ -18,7 +18,7 @@ class Reminder: NSObject {
         
         if type == "animal" {
             center.removePendingNotificationRequests(withIdentifiers: ["January", "February", "March", "April", "May", "August", "September", "October", "November", "December"])
-            defaults.set(false, forKey: "remindersForAnimals")
+            defaults.set(false, forKey: "setRemindersForAnimals")
         }
         
         if type == "scheduledPrograms" {
@@ -40,11 +40,11 @@ class Reminder: NSObject {
     static func setOrUpdateRemindersForAnimals(notifications notifications: [String: Any]) {
         
         
-        if !defaults.bool(forKey: "remindersForAnimals") {
+        if !defaults.bool(forKey: "setRemindersForAnimals") {
             for i in 1...12 {
                 setRemindersForAnimals(month: i, notifications: notifications)
             }
-            defaults.set(true, forKey: "remindersForAnimals")
+            defaults.set(true, forKey: "setRemindersForAnimals")
         }
         
     }
@@ -251,8 +251,6 @@ class Reminder: NSObject {
         default:
             break
         }
-        
-        defaults.set(true, forKey: "setRemindersForAnimals")
         
     }
     

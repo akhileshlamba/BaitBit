@@ -67,8 +67,9 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 FirestoreDAO.getUserDataForBackgroundTask(from: defaults.string(forKey: "userId")!, complete: {(user) in
-                    let remindersForAnimals = self.defaults.bool(forKey:"setRemindersForAnimals")
-                    if !remindersForAnimals {
+                    
+                    let remindersForPrograms = self.defaults.bool(forKey:"scheduledProgramReminder")
+                    if !remindersForPrograms {
                         var programsList = [Program]()
                         let programs = FirestoreDAO.authenticatedUser.programs
                         if !programs.isEmpty {
@@ -84,8 +85,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
                         Reminder.scheduledProgramReminder(for: programsList)
                     }
                     
-                    let remindersForPrograms = self.defaults.bool(forKey:"scheduledProgramReminder")
-                    if !remindersForPrograms {
+                    let remindersForAnimals = self.defaults.bool(forKey:"setRemindersForAnimals")
+                    if !remindersForAnimals {
                         Reminder.setOrUpdateRemindersForAnimals(notifications: FirestoreDAO.notificationDetails)
                     }
                     

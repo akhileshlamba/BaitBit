@@ -57,7 +57,7 @@ class NotificationsTableViewController: UITableViewController {
     }
 
     func loadData() {
-        let response = Notifications.calculateTotalNotifications(of: self.users, with: FirestoreDAO.notificationDetails)
+        let response = Notifications.notifications
         
         if !response.isEmpty {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]

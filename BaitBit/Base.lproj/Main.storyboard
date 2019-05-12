@@ -1911,15 +1911,23 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-ZN-H71">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-ZN-H71">
                                                 <rect key="frame" x="20" y="81" width="295" height="50"/>
-                                                <color key="backgroundColor" red="0.59166675806045532" green="0.75710660219192505" blue="0.36069345474243164" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="CXX-t1-Lv6"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <state key="normal" title="View all baits near me">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal">
+                                                    <attributedString key="attributedTitle">
+                                                        <fragment content="View all baits near me">
+                                                            <attributes>
+                                                                <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <font key="NSFont" size="18" name=".SFNSText"/>
+                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                <integer key="NSUnderline" value="1"/>
+                                                            </attributes>
+                                                        </fragment>
+                                                    </attributedString>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1992,18 +2000,13 @@
                                                     <constraint firstAttribute="height" constant="46" id="Y8g-xA-SmL"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                        <integer key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mm3-Il-yMs">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="recentlyViewed" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mm3-Il-yMs">
                                                 <rect key="frame" x="0.0" y="45" width="335" height="145"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -2047,12 +2050,7 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="5"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <integer key="value" value="1"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                                <color key="value" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbY-km-wqO">
@@ -2071,26 +2069,21 @@
                                                     <constraint firstAttribute="height" constant="46" id="N2y-jt-2P2"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                        <integer key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
                                             </label>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="w47-eb-n8H">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="action" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="w47-eb-n8H">
                                                 <rect key="frame" x="0.0" y="45" width="335" height="145"/>
-                                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="145" id="0bF-8f-20a"/>
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="recentlyViewed" textLabel="NfE-Hi-zCC" style="IBUITableViewCellStyleDefault" id="nri-cg-5z3">
-                                                        <rect key="frame" x="0.0" y="55.5" width="335" height="44"/>
+                                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nri-cg-5z3" id="Wcu-fr-6Zy">
                                                             <rect key="frame" x="0.0" y="0.0" width="302" height="43.5"/>
@@ -2124,14 +2117,12 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <integer key="value" value="1"/>
+                                                <integer key="value" value="6"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
                                                 <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zf2-aO-bPm">
@@ -2203,9 +2194,13 @@
                     <tabBarItem key="tabBarItem" title="Home" image="home" id="i1B-0Q-QDY"/>
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
+                        <outlet property="actionRequired" destination="w47-eb-n8H" id="uVL-xC-8sJ"/>
+                        <outlet property="nearbyBaits" destination="fUy-ZN-H71" id="7AE-X2-j7Z"/>
                         <outlet property="newProgramButton" destination="09x-Ad-XMy" id="GBD-Y6-rsQ"/>
                         <outlet property="recentlyViewed" destination="Mm3-Il-yMs" id="i7n-Ht-bUh"/>
                         <outlet property="reminder" destination="2Bl-h2-MzR" id="7Ud-e1-mV3"/>
+                        <segue destination="yr6-W9-ivw" kind="show" identifier="programActionSegue" id="9G0-J6-Wy4"/>
+                        <segue destination="8lv-Gw-Vzf" kind="show" identifier="licenseActionSegue" id="3Vf-Pw-7U0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ALT-Fi-2pw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3805,13 +3800,13 @@
         <image name="user1" width="21.333333969116211" height="21.333333969116211"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ayS-vr-VPL"/>
+        <segue reference="3Vf-Pw-7U0"/>
         <segue reference="Mah-cT-pM5"/>
-        <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="T0e-2L-rHm"/>
+        <segue reference="cr2-hU-SUH"/>
+        <segue reference="9G0-J6-Wy4"/>
         <segue reference="Rhh-JI-IqV"/>
         <segue reference="PhL-KH-tkF"/>
         <segue reference="cV2-59-FI4"/>
-        <segue reference="91M-ev-XBb"/>
+        <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>
 </document>
