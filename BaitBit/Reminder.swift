@@ -32,6 +32,11 @@ class Reminder: NSObject {
         }
     }
     
+    static func removeAllNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+    }
+    
     static func setOrUpdateRemindersForAnimals(notifications notifications: [String: Any]) {
         
         
@@ -247,6 +252,8 @@ class Reminder: NSObject {
             break
         }
         
+        defaults.set(true, forKey: "setRemindersForAnimals")
+        
     }
     
     static func setNotificationRequest(month month: Int, text text: String, identifier identifier: String) {
@@ -297,12 +304,15 @@ class Reminder: NSObject {
         let trigger = UNCalendarNotificationTrigger(
             dateMatching: dateComponents, repeats: false)
         
+        print(trigger.nextTriggerDate())
+        
         let request = UNNotificationRequest(identifier: program.id,
                                             content: content, trigger: trigger)
         
         // Schedule the request with the system.
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.add(request, withCompletionHandler: nil)
+        defaults.set(true, forKey: "scheduledProgramReminder")
     }
     
     static func scheduledProgramReminder(for programs: [Program]) {

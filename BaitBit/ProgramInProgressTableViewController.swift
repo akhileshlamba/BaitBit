@@ -44,9 +44,25 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setNavigationBarItems()
         self.reloadProgramList()
     }
 
+    func setNavigationBarItems() {
+                self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Program", style: .plain, target: self, action: #selector(addProgram))
+        //self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        self.tabBarController?.navigationItem.hidesBackButton = true
+        self.tabBarController?.navigationItem.title = "In-progress Programs"
+        //        self.navigationController?.hidesBarsOnTap = true
+        //        self.tabBarController?.hidesBottomBarWhenPushed = false
+    }
+    
+    @objc func addProgram() {
+        // TODO: implement logout: embed the pop action inside logout action
+        performSegue(withIdentifier: "AddProgramSegue", sender: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

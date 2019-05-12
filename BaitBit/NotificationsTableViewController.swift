@@ -40,53 +40,13 @@ class NotificationsTableViewController: UITableViewController {
 //        isLicenseExpiring = false
 //
         self.users = FirestoreDAO.authenticatedUser
-//        if isOverDue || isDueSoon {
-//            calculateTotalNoOfOverDueAndDueSoonBaits(of: self.users)
-//        }
-        
-        //self.tableView.tableFooterView = UIView(frame: .zero)
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+       
     }
     
-//    func calculateTotalNoOfOverDueAndDueSoonBaits(of user: User){
-//        for program in user.programs {
-//            var overDueBaits = 0
-//            var dueSoonBaits = 0
-//            for bait in program.value.baits {
-//                if bait.value.isOverdue {
-//                    overDueBaits += 1
-//                } else if bait.value.isDueSoon {
-//                    dueSoonBaits += 1
-//                }
-//            }
-//            if overDueBaits != 0 {
-//                overDueBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
-//            }
-//            if dueSoonBaits != 0 {
-//                dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = dueSoonBaits
-//            }
-//        }
-//
-//        if dueSoonBaitsForProgram.count != 0 || overDueBaitsForProgram.count != 0{
-//            sections.append("Bait Status")
-//        }
-//
-//        if user.licenseExpiringSoon {
-//            print("Here")
-//            sections.append("License")
-//        }
-//
-//
-//
-//    }
-
     // MARK: - Table view data source
 
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         if sections.count == 0 {
             return 1
@@ -96,7 +56,38 @@ class NotificationsTableViewController: UITableViewController {
         
     }
 
+    func loadData() {
+        let response = Notifications.calculateTotalNotifications(of: self.users, with: FirestoreDAO.notificationDetails)
+        
+        if !response.isEmpty {
+            overDueBaitsForProgram = response["overDue"] as! [String: Int]
+            dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
+            documentsPending = response["documents"] as! [String: Int]
+            sections = response["sections"] as! [String]
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        self.setNavigationBarItems()
+        DispatchQueue.main.async { [weak self] in
+            self!.loadData()
+            self?.tableView.reloadData()
+        }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //self.tableView.reloadData()
+    }
+    
+    func setNavigationBarItems() {
+        //        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
+        self.tabBarController?.navigationItem.hidesBackButton = true
+        self.tabBarController?.navigationItem.title = "Notifications"
+        //        self.navigationController?.hidesBarsOnTap = true
+        //        self.tabBarController?.hidesBottomBarWhenPushed = false
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,26 +142,6 @@ class NotificationsTableViewController: UITableViewController {
                     cell.textLabel?.text = "\(count) Baits due Soon in \(name) program"
                     cell.textLabel?.numberOfLines = 2
                 }
-                
-//                countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
-//                if countForSwitchBetweenOverDueAndDueSoon > indexPath.row {
-//                    let count = Array(overDueBaitsForProgram.values)[indexPath.row]
-//                    let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
-//                    let name = key.split(separator: "%")[1]
-//                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-//                    cell.textLabel?.text = "\(count) Baits over due in \(name) program"
-//                    cell.textLabel?.numberOfLines = 2
-//                }else {
-//                    let count = Array(dueSoonBaitsForProgram.values)[indexPath.row - countForSwitchBetweenOverDueAndDueSoon]
-//                    let key = Array(dueSoonBaitsForProgram.keys)[indexPath.row - countForSwitchBetweenOverDueAndDueSoon]
-//                    let name = key.split(separator: "%")[1]
-//                    cell.imageView!.image = UIImage(named: "warning")
-//                    cell.textLabel?.text = "\(count) Baits due Soon in \(name) program"
-//                    cell.textLabel?.numberOfLines = 2
-//                }
-                self.view.frame.origin.x = 20
-                cell.layer.cornerRadius = 6.0
-                cell.layer.shadowRadius = 2.0
                 break
                 
             case "Documentation":
@@ -294,7 +265,7 @@ class NotificationsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 75
     }
  
 
@@ -345,7 +316,7 @@ class NotificationsTableViewController: UITableViewController {
         }
         
         if segue.identifier == "licenseNotificationSegue" {
-            let controller = segue.destination as! SettingsTableViewController
+            let controller = segue.destination as! MoreTableViewController
             controller.user = users
         }
     }
