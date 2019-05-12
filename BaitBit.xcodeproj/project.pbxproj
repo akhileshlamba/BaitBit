@@ -49,6 +49,7 @@
 		E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */; };
 		E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */; };
 		E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */; };
+		E6544F8B2286DDD000ADAB45 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6544F8A2286DDD000ADAB45 /* Notifications.swift */; };
 		E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */; };
 		E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */; };
 		E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */; };
@@ -111,6 +112,7 @@
 		E64EF8C422586BDD00D96892 /* AddBaitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBaitViewController.swift; sourceTree = "<group>"; };
 		E64EF8C62258927300D96892 /* ProgramInProgressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInProgressTableViewController.swift; sourceTree = "<group>"; };
 		E64EF8C82258CDE100D96892 /* BaitsProgramMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaitsProgramMapViewController.swift; sourceTree = "<group>"; };
+		E6544F8A2286DDD000ADAB45 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
 		E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
 		E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */,
 				E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */,
 				E63930C62284F8480057B1CF /* Reminder.swift */,
+				E6544F8A2286DDD000ADAB45 /* Notifications.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */,
 				0229072522730CD6001E0E4E /* HelpViewController.swift in Sources */,
 				02C42A4E22704C690025B2FA /* RemoveBaitTableViewController.swift in Sources */,
+				E6544F8B2286DDD000ADAB45 /* Notifications.swift in Sources */,
 				E64EF8C92258CDE100D96892 /* BaitsProgramMapViewController.swift in Sources */,
 				02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */,
 				E6F4F58A227193A10017715D /* User.swift in Sources */,

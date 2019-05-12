@@ -67,6 +67,27 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             }
             else {
                 FirestoreDAO.getUserDataForBackgroundTask(from: defaults.string(forKey: "userId")!, complete: {(user) in
+                    let remindersForAnimals = self.defaults.bool(forKey:"setRemindersForAnimals")
+                    if !remindersForAnimals {
+                        var programsList = [Program]()
+                        let programs = FirestoreDAO.authenticatedUser.programs
+                        if !programs.isEmpty {
+                            for program in programs as NSDictionary {
+                                let p = program.value as! Program
+                                let days = Calendar.current.dateComponents([.day], from: Date(), to: p.startDate as Date).day
+                                if days! >= 1 {
+                                    programsList.append(p)
+                                }
+                            }
+                            print(programsList.count)
+                        }
+                        Reminder.scheduledProgramReminder(for: programsList)
+                    }
+                    
+                    let remindersForPrograms = self.defaults.bool(forKey:"scheduledProgramReminder")
+                    if !remindersForPrograms {
+                        Reminder.setOrUpdateRemindersForAnimals(notifications: FirestoreDAO.notificationDetails)
+                    }
                     
                     self.performSegue(withIdentifier: "loginSegue", sender: nil)
                 })

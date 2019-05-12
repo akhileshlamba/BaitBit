@@ -42,6 +42,24 @@ class FirestoreDAO: NSObject {
                             self.notificationDetails = (result?.documents[0].data())!
                             self.notificationDetails["id"] = (result?.documents[0].documentID)!
                             Reminder.setOrUpdateRemindersForAnimals(notifications: self.notificationDetails)
+                            let flag = self.notificationDetails["scheduledPrograms"]
+                            if flag != nil {
+                                if flag as! Bool {
+                                    var programsList = [Program]()
+                                    let programs = self.authenticatedUser.programs
+                                    if !programs.isEmpty {
+                                        for program in programs as NSDictionary {
+                                            let p = program.value as! Program
+                                            let days = Calendar.current.dateComponents([.day], from: Date(), to: p.startDate as Date).day
+                                            if days! >= 1 {
+                                                programsList.append(p)
+                                            }
+                                        }
+                                        print(programsList.count)
+                                    }
+                                    Reminder.scheduledProgramReminder(for: programsList)
+                                }
+                            }
                             complete("Success")
                         }
                     })
