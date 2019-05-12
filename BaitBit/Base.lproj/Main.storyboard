@@ -970,6 +970,17 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tbU-Xr-FAM"/>
                     </view>
+                    <connections>
+                        <outlet property="RemovedOverdue" destination="qlv-nS-BX7" id="Qxh-6M-iP0"/>
+                        <outlet property="baitType" destination="dv0-jz-qws" id="aH0-eu-COY"/>
+                        <outlet property="baitsTaken" destination="eJK-ai-Vm2" id="blR-3w-kXS"/>
+                        <outlet property="duration" destination="8o9-MJ-uEu" id="grH-uz-O6H"/>
+                        <outlet property="minMax" destination="aNP-0p-tu6" id="k8I-Zu-CLg"/>
+                        <outlet property="nonTargetedCarcass" destination="g1N-WP-VaU" id="G6F-wA-Gs1"/>
+                        <outlet property="numOfPrograms" destination="nL2-Q2-uCb" id="Ayg-sA-4TW"/>
+                        <outlet property="speciesTextField" destination="dEF-Kb-mvV" id="Pzg-Mr-V73"/>
+                        <outlet property="usedTimes" destination="Wf0-mT-qiX" id="KLs-ED-1kG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pZJ-FL-oVu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -986,13 +997,27 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xia-9U-dNq">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILp-KC-Yhu">
+                                <rect key="frame" x="295" y="587" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="03a-iy-QQK"/>
+                                    <constraint firstAttribute="width" secondItem="ILp-KC-Yhu" secondAttribute="height" multiplier="1:1" id="K1c-zA-zMk"/>
+                                </constraints>
+                                <state key="normal" image="navigation"/>
+                                <connections>
+                                    <action selector="backToCurrentLocation:" destination="ZSX-rJ-Ras" eventType="touchUpInside" id="Nf6-Au-F8b"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="ILp-KC-Yhu" firstAttribute="width" secondItem="ILp-KC-Yhu" secondAttribute="height" multiplier="1:1" id="5SY-SS-eA3"/>
                             <constraint firstItem="Xia-9U-dNq" firstAttribute="leading" secondItem="NLQ-0P-BGb" secondAttribute="leading" id="6Lh-ka-XtN"/>
+                            <constraint firstAttribute="bottom" secondItem="ILp-KC-Yhu" secondAttribute="bottom" constant="30" id="6dp-08-dNs"/>
                             <constraint firstItem="NLQ-0P-BGb" firstAttribute="trailing" secondItem="Xia-9U-dNq" secondAttribute="trailing" id="C9L-Dc-aeh"/>
                             <constraint firstItem="NLQ-0P-BGb" firstAttribute="bottom" secondItem="Xia-9U-dNq" secondAttribute="bottom" id="H64-6y-HKY"/>
                             <constraint firstItem="Xia-9U-dNq" firstAttribute="top" secondItem="NLQ-0P-BGb" secondAttribute="top" id="ZeV-C1-7Jb"/>
+                            <constraint firstItem="NLQ-0P-BGb" firstAttribute="trailing" secondItem="ILp-KC-Yhu" secondAttribute="trailing" constant="30" id="thK-FH-7zo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NLQ-0P-BGb"/>
                     </view>

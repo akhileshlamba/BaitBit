@@ -22,8 +22,17 @@ class Bait: NSObject {
     var photoURL: String?
     var program: Program?
     var isRemoved: Bool
+    var isTaken: Bool?
+    var carcassFound: Bool?
+    var targetCarcassFound: Bool?
+    var removedDate : Date?
+    var isRemovedOverdue: Bool? {
+        if self.removedDate == nil {
+            return nil
+        }
+        return self.removedDate! > self.dueDate as Date
+    }
     
-    var removeDate : Date = Date()
     var status: BaitStatus {
         if isRemoved {
             return .REMOVED
@@ -44,7 +53,11 @@ class Bait: NSObject {
         return NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)! as NSDate
     }
     var durationInDays: Int {
-        return Calendar.current.dateComponents([.day], from: laidDate as Date, to: NSDate() as Date).day!
+        if !isRemoved {
+            return Calendar.current.dateComponents([.day], from: laidDate as Date, to: NSDate() as Date).day!
+        } else {
+            return Calendar.current.dateComponents([.day], from: laidDate as Date, to: removedDate!).day!
+        }
     }
     
     var durationFormatted: String {

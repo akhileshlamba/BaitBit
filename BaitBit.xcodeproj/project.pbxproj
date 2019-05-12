@@ -16,6 +16,8 @@
 		026BF5A7226ECE9100241879 /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */; };
 		0281ACA82287CFF20003C8E6 /* CompletedProgramsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACA72287CFF20003C8E6 /* CompletedProgramsViewController.swift */; };
 		0281ACAA2287D1090003C8E6 /* CompletedProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */; };
+		0281ACAC2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACAB2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift */; };
+		0281ACAE2287E3F60003C8E6 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACAD2287E3F60003C8E6 /* Analytics.swift */; };
 		02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */; };
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
@@ -75,6 +77,8 @@
 		026BF5A6226ECE9100241879 /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
 		0281ACA72287CFF20003C8E6 /* CompletedProgramsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramsViewController.swift; sourceTree = "<group>"; };
 		0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramDetailsViewController.swift; sourceTree = "<group>"; };
+		0281ACAB2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramsMapViewController.swift; sourceTree = "<group>"; };
+		0281ACAD2287E3F60003C8E6 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCompletedTableViewController.swift; sourceTree = "<group>"; };
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 			children = (
 				0281ACA72287CFF20003C8E6 /* CompletedProgramsViewController.swift */,
 				0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */,
+				0281ACAB2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift */,
+				0281ACAD2287E3F60003C8E6 /* Analytics.swift */,
 			);
 			name = "Completed programs";
 			sourceTree = "<group>";
@@ -505,10 +511,12 @@
 				02F232BC2277C185001EEE39 /* BaitFilterTableViewCell.swift in Sources */,
 				E6F4F58A227193A10017715D /* User.swift in Sources */,
 				E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */,
+				0281ACAE2287E3F60003C8E6 /* Analytics.swift in Sources */,
 				E64EF8C522586BDD00D96892 /* AddBaitViewController.swift in Sources */,
 				E6F4F583227177C60017715D /* Util.swift in Sources */,
 				02F232C02277C920001EEE39 /* PeriodTableViewCell.swift in Sources */,
 				E627703F224F13E400492B1A /* AppDelegate.swift in Sources */,
+				0281ACAC2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift in Sources */,
 				02FD58722259CE0D0000B6E0 /* BaitAnnotation.swift in Sources */,
 				02FC591A226F34C4002B30BE /* FireStoreDAO.swift in Sources */,
 				E680AADA226EDEBE00510DB4 /* ProfileViewController.swift in Sources */,

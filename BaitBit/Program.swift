@@ -45,6 +45,7 @@ class Program: NSObject {
     var species: String?
     var startDate: NSDate
     var isActive: Bool
+    var endDate: Date?
     var baits: [String : Bait] = [:]
     var maximumDuration: DateComponents {
         var component = DateComponents()
@@ -81,7 +82,11 @@ class Program: NSObject {
     }
     
     var durationInDays: Int {
-        return Calendar.current.dateComponents([.day], from: startDate as Date, to: NSDate() as Date).day!
+        if self.isActive {
+            return Calendar.current.dateComponents([.day], from: startDate as Date, to: NSDate() as Date).day!
+        } else {
+            return Calendar.current.dateComponents([.day], from: startDate as Date, to: endDate!).day!
+        }
     }
     
     var durationFormatted: String {
@@ -123,6 +128,24 @@ class Program: NSObject {
     var numberOfRemovedBaits: Int {
         return self.baits.filter({ (element) -> Bool in
             return element.value.isRemoved
+        }).count
+    }
+    
+    var numberOfBaitsTaken: Int {
+        return self.baits.filter({ (element) -> Bool in
+            return element.value.isTaken ?? false
+        }).count
+    }
+    
+    var numberOfNontargetedCarcass: Int {
+        return self.baits.filter({ (element) -> Bool in
+            return !(element.value.targetCarcassFound ?? true)
+        }).count
+    }
+    
+    var numberOfRemovedOverdue: Int {
+        return self.baits.filter({ (element) -> Bool in
+            return element.value.isRemovedOverdue ?? false
         }).count
     }
     

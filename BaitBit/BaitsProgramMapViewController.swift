@@ -12,7 +12,6 @@ import CoreData
 
 class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
-    @IBOutlet weak var add_bait_button: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     var currentLocation = CLLocationCoordinate2D(latitude: -37.87763, longitude: 145.045374)
     var locationManager: CLLocationManager = CLLocationManager()
