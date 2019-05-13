@@ -55,6 +55,8 @@
 		E6544F8B2286DDD000ADAB45 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6544F8A2286DDD000ADAB45 /* Notifications.swift */; };
 		E6544F8D22882C0600ADAB45 /* ResourcesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6544F8C22882C0600ADAB45 /* ResourcesTableViewController.swift */; };
 		E6544F8F228835CA00ADAB45 /* CheckListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6544F8E228835CA00ADAB45 /* CheckListTableViewController.swift */; };
+		E6544F91228940B800ADAB45 /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6544F90228940B800ADAB45 /* Encryption.swift */; };
+		E6544F93228956BA00ADAB45 /* QuickLinksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6544F92228956BA00ADAB45 /* QuickLinksTableViewController.swift */; };
 		E680AAD2226EB77A00510DB4 /* UserProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */; };
 		E680AAD4226EC29800510DB4 /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */; };
 		E680AAD6226EC2D000510DB4 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */; };
@@ -123,6 +125,8 @@
 		E6544F8A2286DDD000ADAB45 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		E6544F8C22882C0600ADAB45 /* ResourcesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesTableViewController.swift; sourceTree = "<group>"; };
 		E6544F8E228835CA00ADAB45 /* CheckListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListTableViewController.swift; sourceTree = "<group>"; };
+		E6544F90228940B800ADAB45 /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
+		E6544F92228956BA00ADAB45 /* QuickLinksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLinksTableViewController.swift; sourceTree = "<group>"; };
 		E680AAD1226EB77A00510DB4 /* UserProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewCell.swift; sourceTree = "<group>"; };
 		E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
 		E680AAD5226EC2D000510DB4 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 				E6544F8C22882C0600ADAB45 /* ResourcesTableViewController.swift */,
 				E6544F8E228835CA00ADAB45 /* CheckListTableViewController.swift */,
 				0229072622730D26001E0E4E /* ResourcesViewController.swift */,
+				E6544F92228956BA00ADAB45 /* QuickLinksTableViewController.swift */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				02C42A4F22713F660025B2FA /* BaitDetailsViewController.swift */,
 				0229072822730DDB001E0E4E /* EditProgramViewController.swift */,
 				02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */,
+				E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */,
 				E6F4F66A227581230017715D /* DocumentUploadViewController.swift */,
 				02F232BB2277C185001EEE39 /* BaitFilterTableViewCell.swift */,
 				02F232BD2277C521001EEE39 /* BaitFilterTableViewController.swift */,
@@ -309,9 +315,9 @@
 				E680AAD3226EC29800510DB4 /* NotificationsTableViewCell.swift */,
 				E680AAD7226ED9B300510DB4 /* TabBarViewController.swift */,
 				E6F4F5842271897F0017715D /* NotificationsTableViewController.swift */,
-				E6957EAE2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift */,
 				E63930C62284F8480057B1CF /* Reminder.swift */,
 				E6544F8A2286DDD000ADAB45 /* Notifications.swift */,
+				E6544F90228940B800ADAB45 /* Encryption.swift */,
 			);
 			path = BaitBit;
 			sourceTree = "<group>";
@@ -454,6 +460,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-BaitBit/Pods-BaitBit-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework",
@@ -469,6 +476,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FloatingPanel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleAPIClientForREST.framework",
@@ -499,6 +507,7 @@
 				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,
 				E6544F8D22882C0600ADAB45 /* ResourcesTableViewController.swift in Sources */,
 				02F232BE2277C521001EEE39 /* BaitFilterTableViewController.swift in Sources */,
+				E6544F91228940B800ADAB45 /* Encryption.swift in Sources */,
 				0281ACAA2287D1090003C8E6 /* CompletedProgramDetailsViewController.swift in Sources */,
 				E64E915F2259D41F0087C4AF /* ProgramTableViewCell.swift in Sources */,
 				E64E0F89226AE47C001F13F0 /* RegisterUserViewController.swift in Sources */,
@@ -541,6 +550,7 @@
 				E64EF8C72258927300D96892 /* ProgramInProgressTableViewController.swift in Sources */,
 				E6F4F669227578630017715D /* DocumentVerification.swift in Sources */,
 				E62770582250BCEB00492B1A /* HomeViewController.swift in Sources */,
+				E6544F93228956BA00ADAB45 /* QuickLinksTableViewController.swift in Sources */,
 				02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */,
 				02C42A5022713F660025B2FA /* BaitDetailsViewController.swift in Sources */,
 				02157E6E2256C53C0007A170 /* OccurrenceAnnotation.swift in Sources */,

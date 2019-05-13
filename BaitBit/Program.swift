@@ -83,7 +83,9 @@ class Program: NSObject {
     
     var durationInDays: Int {
         if self.isActive {
-            return Calendar.current.dateComponents([.day], from: startDate as Date, to: NSDate() as Date).day!
+            let firstDate = Calendar.current.startOfDay(for: startDate as Date)
+            let secondDate = Calendar.current.startOfDay(for: Date())
+            return Calendar.current.dateComponents([.day], from: firstDate, to: secondDate).day!
         } else {
             return Calendar.current.dateComponents([.day], from: startDate as Date, to: endDate!).day!
         }
@@ -91,7 +93,7 @@ class Program: NSObject {
     
     var durationFormatted: String {
         if durationInDays <= 1 {
-            return "\(durationInDays) day"
+            return "\(abs(durationInDays)) day(s)"
         } else {
             return "\(durationInDays) days"
         }
@@ -171,5 +173,16 @@ class Program: NSObject {
     
     var areDocumentsPending : Bool {
         return documents.count != 4
+    }
+    
+    var futureDate : Bool {
+        let firstDate = Calendar.current.startOfDay(for: startDate as Date)
+        let secondDate = Calendar.current.startOfDay(for: Date())
+        let day = Calendar.current.dateComponents([.day], from: secondDate, to: firstDate).day
+        if day! > 0 {
+            return true
+        } else {
+            return false
+        }
     }
 }

@@ -30,6 +30,9 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var showOverdueButton: UIButton!
     @IBOutlet weak var showDueSoonButton: UIButton!
     
+    var flag : Bool = false
+    
+    @IBOutlet weak var durationLabel: UILabel!
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -133,6 +136,10 @@ class ProgramDetailsViewController: UIViewController {
         self.startDateTextField.text = "Start date: \(formattedDate)"
         self.totalBaitsTextField.text = "\(self.program.numberOfAllBaits)"
 
+        if self.program.futureDate {
+            self.addOrViewBaitButton.isHidden = true
+            self.durationLabel.text = "Start In"
+        }
         
         if self.program.numberOfAllBaits == 0 {
             self.addOrViewBaitButton.setTitle("Add Baits", for: .normal)
