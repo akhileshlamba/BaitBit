@@ -454,16 +454,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.textLabel?.numberOfLines = 2
                     countForAction += 1
                 } else if user.licenseExpiryDate != nil {
-                    let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
-                    if days! >= 0{
-                        cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                    } else {
-                        cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                    
+                    if FirestoreDAO.notificationDetails["license"] as! Bool {
+                        let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+                        if days! >= 0{
+                            cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                        } else {
+                            cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                        }
+                        
+                        cell.imageView!.image = UIImage(named: "exclamation-mark")
+                        cell.textLabel?.numberOfLines = 2
+                        countForAction += 1
                     }
                     
-                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.numberOfLines = 2
-                    countForAction += 1
+                    
                 } else {
                     cell.imageView!.image = UIImage(named: "exclamation-mark")
                     cell.textLabel?.text = "Please uplaod the Baiting License"

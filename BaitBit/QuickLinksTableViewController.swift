@@ -29,11 +29,11 @@ class QuickLinksTableViewController: UITableViewController {
         
         string = "http://agriculture.vic.gov.au/__data/assets/pdf_file/0003/263541/Directions-for-use-1080-and-PAPP.pdf?v=2"
         
-        list[string] =  "Directiona of bait use"
+        list[string] =  "Directions of bait use"
         
         images.append("planning")
-        images.append("License_due_red")
-        images.append("Bait_Blue")
+        images.append("license")
+        images.append("bait_blue-1")
         images.append("direction")
         
         // Uncomment the following line to preserve selection between presentations
@@ -64,14 +64,50 @@ class QuickLinksTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "quickLinksIdentifier", for: indexPath)
-        cell.imageView?.image = UIImage(named: images[indexPath.row])
-        cell.textLabel?.text = Array(list.values)[indexPath.row]
+        
+        if indexPath.row == 0 {
+            cell.imageView?.image = UIImage(named: images[indexPath.row])
+            cell.textLabel?.text = "Apply for non-commercial license"
+        }
+        
+        if indexPath.row == 1 {
+            cell.imageView?.image = UIImage(named: images[indexPath.row])
+            cell.textLabel?.text = "Apply for commercial license"
+        }
+        
+        if indexPath.row == 2 {
+            cell.imageView?.image = UIImage(named: images[indexPath.row])
+            cell.textLabel?.text = "View list of bait retailers"
+        }
+        
+        if indexPath.row == 3 {
+            cell.imageView?.image = UIImage(named: images[indexPath.row])
+            cell.textLabel?.text = "Directions of bait use"
+        }
+        
+        
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIApplication.shared.open(URL(string: Array(list.keys)[0])!)
+        var string = ""
+        if indexPath.row == 0 {
+            string = "http://agriculture.vic.gov.au/agriculture/farm-management/chemical-use/agricultural-chemical-use/licenses-permits-and-forms/agricultural-chemical-users-permit"
+        }
+        
+        if indexPath.row == 1 {
+            string = "http://agriculture.vic.gov.au/agriculture/farm-management/chemical-use/agricultural-chemical-use/licenses-permits-and-forms/commercial-operator-licence"
+        }
+        
+        if indexPath.row == 2 {
+            string = "https://www.agsafe.org.au/documents/item/169"
+        }
+        
+        if indexPath.row == 3 {
+            string = "http://agriculture.vic.gov.au/__data/assets/pdf_file/0003/263541/Directions-for-use-1080-and-PAPP.pdf?v=2"
+        }
+        UIApplication.shared.open(URL(string: string)!)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

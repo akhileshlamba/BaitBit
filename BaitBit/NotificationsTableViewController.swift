@@ -22,6 +22,7 @@ class NotificationsTableViewController: UITableViewController {
     var overDueBaitsForProgram : [String : Int] = [:]
     var dueSoonBaitsForProgram : [String : Int] = [:]
     var documentsPending : [String : Int] = [:]
+    var scheduledPrograms : [String: Int] = [:]
     
     var sections1 = [[String: Int]]()
     
@@ -63,6 +64,7 @@ class NotificationsTableViewController: UITableViewController {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]
             dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
             documentsPending = response["documents"] as! [String: Int]
+            scheduledPrograms = response["scheduledPrograms"] as! [String: Int]
             sections = response["sections"] as! [String]
         }
     }
@@ -102,6 +104,9 @@ class NotificationsTableViewController: UITableViewController {
                 break
             case "Documentation":
                 count = documentsPending.count
+                break
+            case "Scheduled Programs":
+                count = scheduledPrograms.count
                 break
             default:
                 count = 1
@@ -144,6 +149,18 @@ class NotificationsTableViewController: UITableViewController {
                 }
                 break
                 
+            case "Scheduled Programs":
+                if !scheduledPrograms.isEmpty {
+                    let key = Array(scheduledPrograms.keys)[indexPath.row]
+                    let name = key.split(separator: "%")[1]
+                    let id = String(key.split(separator: "%")[0])
+                    let programs = users.programs
+                    program = programs[id]
+                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.text = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
+                    cell.textLabel?.numberOfLines = 2
+                }
+                
             case "Documentation":
                 if !documentsPending.isEmpty {
                     let count = Array(documentsPending.values)[indexPath.row]
@@ -154,6 +171,7 @@ class NotificationsTableViewController: UITableViewController {
                     cell.textLabel?.numberOfLines = 2
                 }
                 break
+                
             case "License":
                 if users.licenseExpiryDate != nil {
                     let days = Calendar.current.dateComponents([.day], from: Date(), to: users.licenseExpiryDate! as Date).day
@@ -191,6 +209,10 @@ class NotificationsTableViewController: UITableViewController {
                 break
             case "License":
                 title = "License"
+                break
+                
+            case "Scheduled Programs":
+                title = "Scheduled Programs"
                 break
             default:
                 title = "No new notifications"
@@ -245,6 +267,18 @@ class NotificationsTableViewController: UITableViewController {
             if !documentsPending.isEmpty {
                 let count = Array(documentsPending.values)[indexPath.row]
                 let key = Array(documentsPending.keys)[indexPath.row]
+                let id = String(key.split(separator: "%")[0])
+                let name = key.split(separator: "%")[1]
+                let programs = users.programs
+                program = programs[id]
+                self.tableView.deselectRow(at: indexPath, animated: true)
+                performSegue(withIdentifier: "notificationProgramSegue", sender: nil)
+            }
+            break
+            
+        case "Scheduled Programs":
+            if !scheduledPrograms.isEmpty {
+                let key = Array(scheduledPrograms.keys)[indexPath.row]
                 let id = String(key.split(separator: "%")[0])
                 let name = key.split(separator: "%")[1]
                 let programs = users.programs

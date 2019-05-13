@@ -43,7 +43,7 @@ class MoreTableViewController: UITableViewController {
         items.append(["Notifications"])
         
         images.append([""])
-        images.append(["in-progress", "In-progress"])
+        images.append(["in-progress", "completed"])
         images.append(["resources", "external-link"])
         images.append(["notification"])
         
