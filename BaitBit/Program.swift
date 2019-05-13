@@ -137,6 +137,14 @@ class Program: NSObject {
         }).count
     }
     
+    var baitsTakenRate: Double? {
+        if self.numberOfAllBaits == 0 {
+            return nil
+        }
+        
+        return Double(self.numberOfBaitsTaken) / Double(self.numberOfAllBaits)
+    }
+    
     var numberOfNontargetedCarcass: Int {
         return self.baits.filter({ (element) -> Bool in
             return !(element.value.targetCarcassFound ?? true)

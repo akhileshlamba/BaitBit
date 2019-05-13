@@ -73,8 +73,8 @@ class ProgramCompletedTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "CompletedProgramDetailSegue", sender: nil)
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -133,7 +133,10 @@ class ProgramCompletedTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         if segue.identifier == "CompletedProgramDetailSegue" {
-            
+            let controller = segue.destination as! CompletedProgramDetailsViewController
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                controller.program = self.programList[indexPath.row]
+            }
         }
     }
     

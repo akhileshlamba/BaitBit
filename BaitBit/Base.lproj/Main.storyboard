@@ -1423,6 +1423,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MI9-T2-7SL"/>
                     </view>
+                    <connections>
+                        <outlet property="baitType" destination="5Ua-7c-6iY" id="JTF-ID-teh"/>
+                        <outlet property="baitsTakenRate" destination="s3H-0f-c7C" id="6aT-kB-J71"/>
+                        <outlet property="duration" destination="T8Q-eY-obZ" id="baZ-oU-14a"/>
+                        <outlet property="endDate" destination="lJq-v7-vJx" id="QGH-VV-eo6"/>
+                        <outlet property="numberOfNontargetedCarcass" destination="PKb-EQ-jfR" id="b3W-48-fLw"/>
+                        <outlet property="numberOfRemovedOverdue" destination="iCu-M6-EzL" id="Cwn-pK-IeE"/>
+                        <outlet property="programImage" destination="oXr-Tl-eGj" id="kLM-sE-sUy"/>
+                        <outlet property="species" destination="QGe-Ck-YaQ" id="aQd-4j-7Uz"/>
+                        <outlet property="startDate" destination="Uog-Wk-FLH" id="rV5-nq-SDf"/>
+                        <outlet property="totalBaitsUsed" destination="50A-Nk-Gqu" id="XV5-SB-kGy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U2c-N0-af2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3888,11 +3900,11 @@
     <inferredMetricsTieBreakers>
         <segue reference="3Vf-Pw-7U0"/>
         <segue reference="Mah-cT-pM5"/>
-        <segue reference="cr2-hU-SUH"/>
+        <segue reference="6Fw-Ph-v0g"/>
         <segue reference="9G0-J6-Wy4"/>
-        <segue reference="Rhh-JI-IqV"/>
-        <segue reference="PhL-KH-tkF"/>
-        <segue reference="cV2-59-FI4"/>
+        <segue reference="xSR-ls-uec"/>
+        <segue reference="J1s-mq-wqv"/>
+        <segue reference="p5x-i1-zZX"/>
         <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>
 </document>
