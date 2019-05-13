@@ -46,6 +46,12 @@ class Analytics: NSObject {
         }?.key
     }
     
+    static func numberOfPrograms(of baitType: String, in programs: [Program]) -> Int {
+        return programs.filter({ (program) -> Bool in
+            return program.baitType == baitType
+        }).count
+    }
+    
     static func baitsTakenRate(programs: [Program]) -> Double? {
         let totalNumOfBaits = programs.reduce(0) { (result, next) -> Int in
             return result + next.numberOfAllBaits

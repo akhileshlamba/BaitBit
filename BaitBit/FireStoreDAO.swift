@@ -168,6 +168,10 @@ class FirestoreDAO: NSObject {
                 } else {
                     program.baits = [:]
                 }
+                
+                if p["endDate"] != nil {
+                    program.endDate = dateformatter.date(from: p["endDate"] as! String)
+                }
             }
 
             print(self.authenticatedUser)
@@ -367,76 +371,76 @@ class FirestoreDAO: NSObject {
         })
     }
 
-    static func getAllPrograms(programs: NSDictionary, complete: (([Program]) -> Void)?) {
-        var programList = [Program]()
-        for elem in programs {
-            let id = elem.key as! String
-            let p = elem.value as! NSDictionary
-            let baitType = p["baitType"] as! String
-            let species = p["species"] as! String
-            let startDate = p["startDate"] as! String
-            let isActive = p["isActive"] as! Bool
-            let dateformatter = DateFormatter()
-            dateformatter.dateFormat = "MMM dd, yyyy"
-            let program:Program = Program(id: id,
-                                          baitType: baitType,
-                                          species: species,
-                                          startDate: dateformatter.date(from: startDate) as NSDate?,
-                                          isActive: isActive)
-            program.addToBaits(baits: getAllBaits(for: program))
-            programList.append(program)
-        }
-        complete?(programList)
-    }
+//    static func getAllPrograms(programs: NSDictionary, complete: (([Program]) -> Void)?) {
+//        var programList = [Program]()
+//        for elem in programs {
+//            let id = elem.key as! String
+//            let p = elem.value as! NSDictionary
+//            let baitType = p["baitType"] as! String
+//            let species = p["species"] as! String
+//            let startDate = p["startDate"] as! String
+//            let isActive = p["isActive"] as! Bool
+//            let dateformatter = DateFormatter()
+//            dateformatter.dateFormat = "MMM dd, yyyy"
+//            let program:Program = Program(id: id,
+//                                          baitType: baitType,
+//                                          species: species,
+//                                          startDate: dateformatter.date(from: startDate) as NSDate?,
+//                                          isActive: isActive)
+//            program.addToBaits(baits: getAllBaits(for: program))
+//            programList.append(program)
+//        }
+//        complete?(programList)
+//    }
 
-    static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
-        var programList = [Program]()
-        if self.user == nil {
-            reloadUserDataFromFirebase { (user) in
-                if let programs = user["programs"] as? NSDictionary {
-                    for elem in programs {
-                        let id = elem.key as! String
-                        let p = elem.value as! NSDictionary
-                        let baitType = p["baitType"] as! String
-                        let species = p["species"] as! String
-                        let startDate = p["startDate"] as! String
-                        let isActive = p["isActive"] as! Bool
-                        let dateformatter = DateFormatter()
-                        dateformatter.dateFormat = "MMM dd, yyyy"
-                        let program:Program = Program(id: id,
-                                                      baitType: baitType,
-                                                      species: species,
-                                                      startDate: dateformatter.date(from: startDate) as NSDate?,
-                                                      isActive: isActive)
-                        program.addToBaits(baits: getAllBaits(for: program))
-                        programList.append(program)
-                    }
-                }
-                complete(programList)
-            }
-        } else {
-            if let programs = self.user!["programs"] as? NSDictionary {
-                for elem in programs {
-                    let id = elem.key as! String
-                    let p = elem.value as! NSDictionary
-                    let baitType = p["baitType"] as! String
-                    let species = p["species"] as! String
-                    let startDate = p["startDate"] as! String
-                    let isActive = p["isActive"] as! Bool
-                    let dateformatter = DateFormatter()
-                    dateformatter.dateFormat = "MMM dd, yyyy"
-                    let program:Program = Program(id: id,
-                                                  baitType: baitType,
-                                                  species: species,
-                                                  startDate: dateformatter.date(from: startDate) as NSDate?,
-                                                  isActive: isActive)
-                    program.addToBaits(baits: getAllBaits(for: program))
-                    programList.append(program)
-                }
-            }
-            complete(programList)
-        }
-    }
+//    static func getAllPrograms(complete: @escaping ([Program]) -> Void) {
+//        var programList = [Program]()
+//        if self.user == nil {
+//            reloadUserDataFromFirebase { (user) in
+//                if let programs = user["programs"] as? NSDictionary {
+//                    for elem in programs {
+//                        let id = elem.key as! String
+//                        let p = elem.value as! NSDictionary
+//                        let baitType = p["baitType"] as! String
+//                        let species = p["species"] as! String
+//                        let startDate = p["startDate"] as! String
+//                        let isActive = p["isActive"] as! Bool
+//                        let dateformatter = DateFormatter()
+//                        dateformatter.dateFormat = "MMM dd, yyyy"
+//                        let program:Program = Program(id: id,
+//                                                      baitType: baitType,
+//                                                      species: species,
+//                                                      startDate: dateformatter.date(from: startDate) as NSDate?,
+//                                                      isActive: isActive)
+//                        program.addToBaits(baits: getAllBaits(for: program))
+//                        programList.append(program)
+//                    }
+//                }
+//                complete(programList)
+//            }
+//        } else {
+//            if let programs = self.user!["programs"] as? NSDictionary {
+//                for elem in programs {
+//                    let id = elem.key as! String
+//                    let p = elem.value as! NSDictionary
+//                    let baitType = p["baitType"] as! String
+//                    let species = p["species"] as! String
+//                    let startDate = p["startDate"] as! String
+//                    let isActive = p["isActive"] as! Bool
+//                    let dateformatter = DateFormatter()
+//                    dateformatter.dateFormat = "MMM dd, yyyy"
+//                    let program:Program = Program(id: id,
+//                                                  baitType: baitType,
+//                                                  species: species,
+//                                                  startDate: dateformatter.date(from: startDate) as NSDate?,
+//                                                  isActive: isActive)
+//                    program.addToBaits(baits: getAllBaits(for: program))
+//                    programList.append(program)
+//                }
+//            }
+//            complete(programList)
+//        }
+//    }
 
     static func getAllBaitsss(for baits: NSDictionary, program: Program) -> [Bait] {
         var baitList = [Bait]()
@@ -477,47 +481,47 @@ class FirestoreDAO: NSObject {
         return baitList
     }
 
-    static func getAllBaits(for program: Program) -> [Bait] {
-        var baitList = [Bait]()
-
-        if let programs = user!["programs"] as? NSDictionary {
-            let p = programs[program.id] as! NSDictionary
-            if let baits = p["baits"] as? NSDictionary {
-                for elem in baits {
-                    let id = elem.key as! String
-                    let b = elem.value as! NSDictionary
-                    let laidDate = b["laidDate"] as! String
-                    let latitude = b["latitude"] as! Double
-                    let longitude = b["longitude"] as! Double
-                    var photoPath:String?
-                    var photoURL:String?
-                    if b["photPath"] != nil {
-                        photoPath = b["photoPath"] as! String
-                    } else {
-                        photoPath = nil
-                    }
-                    if b["photoURL"] != nil {
-                        photoURL = b["photoURL"] as? String
-                    } else {
-                        photoURL = nil
-                    }
-                    let isRemoved = b["isRemoved"] as! Bool
-                    let dateformatter = DateFormatter()
-                    dateformatter.dateFormat = "MMM dd, yyyy"
-                    let bait = Bait(id: id,
-                                    laidDate: dateformatter.date(from: laidDate)! as NSDate,
-                                    latitude: latitude,
-                                    longitude: longitude,
-                                    photoPath: photoPath,
-                                    photoURL: photoURL,
-                                    program: program,
-                                    isRemoved: isRemoved)
-                    baitList.append(bait)
-                }
-            }
-        }
-        return baitList
-    }
+//    static func getAllBaits(for program: Program) -> [Bait] {
+//        var baitList = [Bait]()
+//
+//        if let programs = user!["programs"] as? NSDictionary {
+//            let p = programs[program.id] as! NSDictionary
+//            if let baits = p["baits"] as? NSDictionary {
+//                for elem in baits {
+//                    let id = elem.key as! String
+//                    let b = elem.value as! NSDictionary
+//                    let laidDate = b["laidDate"] as! String
+//                    let latitude = b["latitude"] as! Double
+//                    let longitude = b["longitude"] as! Double
+//                    var photoPath:String?
+//                    var photoURL:String?
+//                    if b["photPath"] != nil {
+//                        photoPath = b["photoPath"] as! String
+//                    } else {
+//                        photoPath = nil
+//                    }
+//                    if b["photoURL"] != nil {
+//                        photoURL = b["photoURL"] as? String
+//                    } else {
+//                        photoURL = nil
+//                    }
+//                    let isRemoved = b["isRemoved"] as! Bool
+//                    let dateformatter = DateFormatter()
+//                    dateformatter.dateFormat = "MMM dd, yyyy"
+//                    let bait = Bait(id: id,
+//                                    laidDate: dateformatter.date(from: laidDate)! as NSDate,
+//                                    latitude: latitude,
+//                                    longitude: longitude,
+//                                    photoPath: photoPath,
+//                                    photoURL: photoURL,
+//                                    program: program,
+//                                    isRemoved: isRemoved)
+//                    baitList.append(bait)
+//                }
+//            }
+//        }
+//        return baitList
+//    }
 
     static func createOrUpdate(program: Program, complete: @escaping (Bool) -> Void) {
         let document = usersRef.document("\(authenticatedUser.id )")

@@ -61,13 +61,13 @@ class ProgramCompletedTableViewController: UITableViewController {
             let a:Program = self.programList[indexPath.row]
             cell.textLabel?.text = a.baitType!
             cell.detailTextLabel?.text = Util.setDateAsString(date: a.startDate)
-            if a.hasOverdueBaits {
-                cell.imageView!.image = UIImage(named: "exclamation-mark")
-            } else if a.hasDueSoonBaits {
-                cell.imageView!.image = UIImage(named: "warning")
-            } else {
-                cell.imageView!.image = UIImage(named: "checked")
-            }
+//            if a.hasOverdueBaits {
+//                cell.imageView!.image = UIImage(named: "exclamation-mark")
+//            } else if a.hasDueSoonBaits {
+//                cell.imageView!.image = UIImage(named: "warning")
+//            } else {
+//                cell.imageView!.image = UIImage(named: "checked")
+//            }
         }
         return cell
     }
