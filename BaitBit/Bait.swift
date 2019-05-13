@@ -53,11 +53,14 @@ class Bait: NSObject {
         return NSCalendar.current.date(byAdding: self.program!.maximumDuration, to: startDate)! as NSDate
     }
     var durationInDays: Int {
+        let firstDate = Calendar.current.startOfDay(for: laidDate as Date)
+        var secondDate: Date
         if !isRemoved {
-            return Calendar.current.dateComponents([.day], from: laidDate as Date, to: NSDate() as Date).day!
+            secondDate = Calendar.current.startOfDay(for: Date())
         } else {
-            return Calendar.current.dateComponents([.day], from: laidDate as Date, to: removedDate!).day!
+            secondDate = Calendar.current.startOfDay(for: removedDate!)
         }
+        return Calendar.current.dateComponents([.day], from: firstDate, to: secondDate).day!
     }
     
     var durationFormatted: String {
