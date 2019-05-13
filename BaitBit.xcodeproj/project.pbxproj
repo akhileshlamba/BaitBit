@@ -18,6 +18,7 @@
 		0281ACAA2287D1090003C8E6 /* CompletedProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */; };
 		0281ACAC2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACAB2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift */; };
 		0281ACAE2287E3F60003C8E6 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACAD2287E3F60003C8E6 /* Analytics.swift */; };
+		0281ACB0228940A20003C8E6 /* CompletedProgramsMapFilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281ACAF228940A20003C8E6 /* CompletedProgramsMapFilterTableViewController.swift */; };
 		02A86F6022756FFD00F58897 /* ProgramCompletedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */; };
 		02AA7F112252081E00824685 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02AA7F102252081E00824685 /* GoogleService-Info.plist */; };
 		02C42A4B227005C20025B2FA /* DocumentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */; };
@@ -81,6 +82,7 @@
 		0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramDetailsViewController.swift; sourceTree = "<group>"; };
 		0281ACAB2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramsMapViewController.swift; sourceTree = "<group>"; };
 		0281ACAD2287E3F60003C8E6 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
+		0281ACAF228940A20003C8E6 /* CompletedProgramsMapFilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedProgramsMapFilterTableViewController.swift; sourceTree = "<group>"; };
 		02A86F5F22756FFD00F58897 /* ProgramCompletedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCompletedTableViewController.swift; sourceTree = "<group>"; };
 		02AA7F102252081E00824685 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C42A4A227005C20025B2FA /* DocumentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsTableViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				0281ACA92287D1090003C8E6 /* CompletedProgramDetailsViewController.swift */,
 				0281ACAB2287DC0C0003C8E6 /* CompletedProgramsMapViewController.swift */,
 				0281ACAD2287E3F60003C8E6 /* Analytics.swift */,
+				0281ACAF228940A20003C8E6 /* CompletedProgramsMapFilterTableViewController.swift */,
 			);
 			name = "Completed programs";
 			sourceTree = "<group>";
@@ -490,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6544F8F228835CA00ADAB45 /* CheckListTableViewController.swift in Sources */,
+				0281ACB0228940A20003C8E6 /* CompletedProgramsMapFilterTableViewController.swift in Sources */,
 				E6957EAF2276D66A003F19C6 /* ScheduledProgramsTableViewController.swift in Sources */,
 				E6B3947F226965D500DD3F69 /* AuthViewController.swift in Sources */,
 				02FD5874225A02A10000B6E0 /* FilterViewController.swift in Sources */,

@@ -993,7 +993,7 @@
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="deleteProgram:" destination="era-4m-qou" eventType="touchUpInside" id="NbE-zv-Tg4"/>
-                                                    <segue destination="kPd-zq-UaI" kind="show" id="cV2-59-FI4"/>
+                                                    <segue destination="kPd-zq-UaI" kind="show" identifier="MapForAllCompletedProgramsSegue" id="cV2-59-FI4"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1072,7 +1072,7 @@
         <!--Map-->
         <scene sceneID="tRa-Lf-MdA">
             <objects>
-                <viewController title="Map" id="kPd-zq-UaI" sceneMemberID="viewController">
+                <viewController title="Map" id="kPd-zq-UaI" customClass="CompletedProgramsMapViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="39n-YA-PRF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1089,6 +1089,7 @@
                                 <state key="normal" image="navigation"/>
                                 <connections>
                                     <action selector="backToCurrentLocation:" destination="ZSX-rJ-Ras" eventType="touchUpInside" id="Nf6-Au-F8b"/>
+                                    <action selector="backToCurrentLocation:" destination="kPd-zq-UaI" eventType="touchUpInside" id="ODY-mv-ipb"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1105,7 +1106,9 @@
                         <viewLayoutGuide key="safeArea" id="NLQ-0P-BGb"/>
                     </view>
                     <connections>
-                        <segue destination="aiS-ql-11C" kind="show" id="mYK-53-HT1"/>
+                        <outlet property="backToCurrentLocationButton" destination="ILp-KC-Yhu" id="T4r-w1-EYy"/>
+                        <outlet property="mapView" destination="Xia-9U-dNq" id="0sM-Fo-wp2"/>
+                        <segue destination="aiS-ql-11C" kind="show" identifier="MapFilterSegue" id="mYK-53-HT1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U8m-tE-eEW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1261,7 +1264,7 @@
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="addOrViewBait:" destination="yr6-W9-ivw" eventType="touchUpInside" id="Y6B-lC-fI8"/>
-                                                    <segue destination="kPd-zq-UaI" kind="show" id="p5x-i1-zZX"/>
+                                                    <segue destination="kPd-zq-UaI" kind="show" identifier="MapForACompletedProgramSegue" id="p5x-i1-zZX"/>
                                                 </connections>
                                             </button>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle-red" translatesAutoresizingMaskIntoConstraints="NO" id="q3a-ur-3v0">
@@ -1924,13 +1927,29 @@
         <!--Map filter-->
         <scene sceneID="Eag-1Z-E0e">
             <objects>
-                <tableViewController title="Map filter" id="aiS-ql-11C" sceneMemberID="viewController">
+                <tableViewController title="Map filter" id="aiS-ql-11C" customClass="CompletedProgramsMapFilterTableViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="jRy-0H-rvq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="anC-Bz-u0z">
+                            <rect key="frame" x="0.0" y="117.5" width="375" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.95221728090000002" green="0.70047885180000002" blue="0.2468855083" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="W7g-Xp-8qK"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="Apply filters">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="applyFilters:" destination="aiS-ql-11C" eventType="touchUpInside" id="v4v-ZU-hnW"/>
+                                <action selector="deleteProgram:" destination="era-4m-qou" eventType="touchUpInside" id="ody-2h-a9B"/>
+                            </connections>
+                        </button>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="VmL-N6-OyS">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapFilterCell" id="VmL-N6-OyS" customClass="BaitFilterTableViewCell" customModule="BaitBit" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VmL-N6-OyS" id="5Oc-J4-8Ms">
@@ -1946,6 +1965,9 @@
                                         <constraint firstAttribute="trailing" secondItem="XEG-iH-3mq" secondAttribute="trailing" constant="16" id="lpi-Qm-fzZ"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="toggle" destination="XEG-iH-3mq" id="fcp-hv-7CU"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1956,7 +1978,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HKY-hd-bfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4026" y="3491"/>
+            <point key="canvasLocation" x="4024.8000000000002" y="3490.704647676162"/>
         </scene>
         <!--Program filter-->
         <scene sceneID="bvl-jJ-hyL">
@@ -3898,13 +3920,13 @@
         <image name="user1" width="21.333333969116211" height="21.333333969116211"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3Vf-Pw-7U0"/>
+        <segue reference="vuz-8r-zAP"/>
         <segue reference="Mah-cT-pM5"/>
         <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="9G0-J6-Wy4"/>
-        <segue reference="xSR-ls-uec"/>
+        <segue reference="lRn-pD-xYm"/>
+        <segue reference="Rhh-JI-IqV"/>
         <segue reference="J1s-mq-wqv"/>
-        <segue reference="p5x-i1-zZX"/>
-        <segue reference="Wes-0h-Ath"/>
+        <segue reference="cV2-59-FI4"/>
+        <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>
 </document>
