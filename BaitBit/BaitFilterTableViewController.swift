@@ -55,7 +55,34 @@ class BaitFilterTableViewController: UITableViewController {
     
     @IBAction func applyFilters(_ sender: Any) {
         for cell in self.tableView.visibleCells {
-            
+            let indexPath = tableView.indexPath(for: cell)
+            let toggleIsOn = (cell as! BaitFilterTableViewCell).toggle.isOn
+            if indexPath!.section == 0 { // change back after finish date picker
+                switch indexPath!.row {
+                case 0:
+                    filters?.showOverdue = toggleIsOn
+                    break
+                case 1:
+                    filters?.showDueSoon = toggleIsOn
+                    break
+                case 2:
+                    filters?.showActive = toggleIsOn
+                    break
+                default:
+                    break
+                }
+            } else {
+                switch indexPath!.row {
+                case 0:
+                    filters?.showTaken = toggleIsOn
+                    break
+                case 1:
+                    filters?.showUntouched = toggleIsOn
+                    break
+                default:
+                    break
+                }
+            }
         }
         delegate?.updateData(filters: self.filters!)
         self.navigationController?.popViewController(animated: true)
@@ -98,7 +125,6 @@ class BaitFilterTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusCell", for: indexPath) as! BaitFilterTableViewCell
             cell.icon.image = UIImage(named: titleDataSources[indexPath.section + 1][indexPath.row]) // change back after finish date picker
             cell.label.text = titleDataSources[indexPath.section + 1][indexPath.row] // change back after finish date picker
-            cell.toggle.isEnabled = false
             if indexPath.section == 0 {
                 switch indexPath.row {
                 case 0:

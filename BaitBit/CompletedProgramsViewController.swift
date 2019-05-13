@@ -88,15 +88,25 @@ class CompletedProgramsViewController: UIViewController {
         self.view.endEditing(true)
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "MapForAllCompletedProgramsSegue" {
+            let controller = segue.destination as! CompletedProgramsMapViewController
+            controller.baits = self.getAllBaits(from: self.programList)
+        }
     }
-    */
+    
+    func getAllBaits(from programs: [Program]) -> [Bait] {
+        var baits = [Bait]()
+        programs.forEach { (program) in
+            baits.append(contentsOf: program.baits.values)
+        }
+        return baits
+    }
 
 }
 
