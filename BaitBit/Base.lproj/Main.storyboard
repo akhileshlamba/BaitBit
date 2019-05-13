@@ -154,6 +154,7 @@
                     </tableView>
                     <connections>
                         <segue destination="I0p-Sn-Q8J" kind="show" identifier="checklistSegue" id="YBC-u6-SRv"/>
+                        <segue destination="1XA-Sy-wTR" kind="show" identifier="quickLinksSegue" id="m51-CX-glk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vov-yL-Jrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -320,7 +321,55 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="252-as-bef" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-60" y="2393.2533733133437"/>
+            <point key="canvasLocation" x="-727" y="2403"/>
+        </scene>
+        <!--Quick Links-->
+        <scene sceneID="Jbv-Aq-udI">
+            <objects>
+                <tableViewController title="Quick Links" id="1XA-Sy-wTR" customClass="QuickLinksTableViewController" customModule="BaitBit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="U1C-kh-ubp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hCq-ga-mlK">
+                            <rect key="frame" x="0.0" y="117.5" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.98431372549999996" green="0.67843137249999996" blue="0.058823529409999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <state key="normal" title="Call Customer Service (136 186)">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="callCustomerService:" destination="1XA-Sy-wTR" eventType="touchUpInside" id="CU3-IT-13T"/>
+                            </connections>
+                        </button>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="quickLinksIdentifier" textLabel="nNU-ea-fyQ" style="IBUITableViewCellStyleDefault" id="Vhv-dc-q5L">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vhv-dc-q5L" id="BgG-J8-b0r">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nNU-ea-fyQ">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="1XA-Sy-wTR" id="eK0-1b-jIM"/>
+                            <outlet property="delegate" destination="1XA-Sy-wTR" id="y7X-BH-ENs"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Ag-JD-nfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="556" y="2402"/>
         </scene>
         <!--New Program-->
         <scene sceneID="jHs-3P-Apk">
@@ -2243,14 +2292,26 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5h-Ra-QbN">
+                                                <rect key="frame" x="8" y="8" width="319" height="59"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="59" id="vLR-Bd-a5s"/>
+                                                </constraints>
+                                                <connections>
+                                                    <segue destination="MBa-sb-IJs" kind="show" id="RAn-hk-cYE"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.59215686274509804" green="0.75686274509803919" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="c5h-Ra-QbN" secondAttribute="trailing" constant="8" id="Hho-F1-4Dv"/>
                                             <constraint firstItem="py7-R8-or2" firstAttribute="leading" secondItem="zf2-aO-bPm" secondAttribute="leading" constant="17" id="IKt-HG-AHZ"/>
                                             <constraint firstAttribute="height" constant="75" id="Of3-nV-Q9Q"/>
+                                            <constraint firstItem="c5h-Ra-QbN" firstAttribute="leading" secondItem="zf2-aO-bPm" secondAttribute="leading" constant="8" id="dOv-Nw-gn3"/>
                                             <constraint firstItem="2Bl-h2-MzR" firstAttribute="leading" secondItem="py7-R8-or2" secondAttribute="trailing" constant="14" id="f4Z-CM-W39"/>
                                             <constraint firstItem="2Bl-h2-MzR" firstAttribute="top" secondItem="zf2-aO-bPm" secondAttribute="top" constant="17" id="fm8-cR-MbT"/>
                                             <constraint firstAttribute="trailing" secondItem="2Bl-h2-MzR" secondAttribute="trailing" constant="8" id="kBk-yp-o5q"/>
+                                            <constraint firstItem="c5h-Ra-QbN" firstAttribute="top" secondItem="zf2-aO-bPm" secondAttribute="top" constant="8" id="qE7-9c-5tE"/>
                                             <constraint firstItem="py7-R8-or2" firstAttribute="top" secondItem="zf2-aO-bPm" secondAttribute="top" constant="8" id="tgQ-R8-S4W"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -2344,6 +2405,9 @@
                             <outlet property="delegate" destination="Q36-dS-Wgw" id="rfl-bX-kX1"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="yr6-W9-ivw" kind="show" identifier="scheduledProgramDetails" id="JeJ-QK-9O7"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y35-AH-zUn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2587,12 +2651,12 @@
                                                     <constraint firstAttribute="width" secondItem="Uco-Th-8nQ" secondAttribute="height" multiplier="1:1" id="y8f-Wa-BcP"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bait type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQh-xD-pjh">
-                                                <rect key="frame" x="120" y="81" width="235" height="24"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bait type" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQh-xD-pjh">
+                                                <rect key="frame" x="120" y="55" width="235" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="24" id="Q24-5n-clz"/>
+                                                    <constraint firstAttribute="height" constant="50" id="Q24-5n-clz"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -2941,6 +3005,7 @@
                         <outlet property="docPendingLabel" destination="tOA-2Q-oVF" id="ssK-hm-pxu"/>
                         <outlet property="documnentsPending" destination="sft-LX-ips" id="sXm-Z2-nCl"/>
                         <outlet property="dueSoonBaits" destination="Kz7-H8-Owv" id="kch-A7-iZg"/>
+                        <outlet property="durationLabel" destination="NKF-8R-Ke1" id="cUU-JS-pDH"/>
                         <outlet property="durationTextField" destination="d8s-aN-P02" id="uq1-lN-j81"/>
                         <outlet property="numberOfActiveBaitsTextField" destination="MNA-en-BnJ" id="HzM-AC-vVK"/>
                         <outlet property="numberOfDueSoonBaitsTextField" destination="fGS-cs-Zkj" id="b1T-kb-CkB"/>
@@ -3903,7 +3968,7 @@
         <segue reference="6Fw-Ph-v0g"/>
         <segue reference="9G0-J6-Wy4"/>
         <segue reference="xSR-ls-uec"/>
-        <segue reference="J1s-mq-wqv"/>
+        <segue reference="PhL-KH-tkF"/>
         <segue reference="p5x-i1-zZX"/>
         <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>

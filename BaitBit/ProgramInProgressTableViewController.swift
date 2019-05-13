@@ -29,7 +29,7 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
         loading.startAnimating()
         programList.removeAll()
         for program in FirestoreDAO.authenticatedUser.programs {
-            if program.value.isActive {
+            if program.value.isActive && !program.value.futureDate{
                 programList.append(program.value)
             }
         }

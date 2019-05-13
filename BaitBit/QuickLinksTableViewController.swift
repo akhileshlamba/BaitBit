@@ -1,29 +1,40 @@
 //
-//  ScheduledProgramsTableViewController.swift
+//  QuickLinksTableViewController.swift
 //  BaitBit
 //
-//  Created by Akhilesh Lamba on 29/4/19.
+//  Created by Akhilesh Lamba on 13/5/19.
 //  Copyright © 2019 Monash. All rights reserved.
 //
 
 import UIKit
 
-class ScheduledProgramsTableViewController: UITableViewController {
+class QuickLinksTableViewController: UITableViewController {
 
-    var programsList = [Program]()
+    var list = [String: String]()
+    var images = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let programs = FirestoreDAO.authenticatedUser.programs
-        if !programs.isEmpty {
-            for program in programs as NSDictionary {
-                let p = program.value as! Program
-                let days = Calendar.current.dateComponents([.day], from: Date(), to: p.startDate as Date).day
-                if days! >= 1 {
-                    programsList.append(p)
-                }
-            }
-        }
+        var string = "http://agriculture.vic.gov.au/agriculture/farm-management/chemical-use/agricultural-chemical-use/licenses-permits-and-forms/agricultural-chemical-users-permit"
+        
+        list[string] = "Apply for non-commercial license"
+        
+        string = "http://agriculture.vic.gov.au/agriculture/farm-management/chemical-use/agricultural-chemical-use/licenses-permits-and-forms/commercial-operator-licence"
+        
+        list[string] = "Apply for commercial license"
+        
+        string = "https://www.agsafe.org.au/documents/item/169"
+        
+        list[string] = "View list of bait retailers"
+        
+        string = "http://agriculture.vic.gov.au/__data/assets/pdf_file/0003/263541/Directions-for-use-1080-and-PAPP.pdf?v=2"
+        
+        list[string] =  "Directiona of bait use"
+        
+        images.append("planning")
+        images.append("License_due_red")
+        images.append("Bait_Blue")
+        images.append("direction")
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -32,12 +43,14 @@ class ScheduledProgramsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    @IBAction func callCustomerService(_ sender: Any) {
+        guard let number = URL(string: "telprompt://136186") else { return }
+        UIApplication.shared.open(number,options: [:], completionHandler:
+        nil)
+        
+    }
     // MARK: - Table view data source
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
-    }
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -45,29 +58,23 @@ class ScheduledProgramsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return programsList.count
+        return list.count
     }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "scheduleProgramsIdentifer", for: indexPath)
-        cell.textLabel?.text = programsList[indexPath.row].baitType
-        cell.detailTextLabel?.text = Util.setDateAsString(date: programsList[indexPath.row].startDate)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "quickLinksIdentifier", for: indexPath)
+        cell.imageView?.image = UIImage(named: images[indexPath.row])
+        cell.textLabel?.text = Array(list.values)[indexPath.row]
+
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if programsList.count == 0 {
-            return "There are no scheduled programs"
-        } else {
-            return "There are \(programsList.count) scheduled program(s)"
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        UIApplication.shared.open(URL(string: Array(list.keys)[0])!)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "scheduledProgramDetails", sender: nil)
-        
-        self.tableView.deselectRow(at: indexPath, animated: true)
-    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -104,23 +111,14 @@ class ScheduledProgramsTableViewController: UITableViewController {
     }
     */
 
-    
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
-        if segue.identifier == "scheduledProgramDetails" {
-            let controller = segue.destination as! ProgramDetailsViewController
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-                controller.program = self.programsList[indexPath.row]
-                Program.program = controller.program
-            }
-        }
-        
     }
-    
+    */
 
 }

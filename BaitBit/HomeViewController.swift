@@ -230,6 +230,7 @@ class HomeViewController: UIViewController {
 
     func setNavigationBarItems() {
         self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
 
 //        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "notification"), style: .done, target: self, action: #selector(notification))
 

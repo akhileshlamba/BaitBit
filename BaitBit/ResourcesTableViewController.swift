@@ -32,11 +32,13 @@ class ResourcesTableViewController: UITableViewController {
         sections.append("Bait purchase and storage")
         sections.append("Bait use")
         sections.append("Post baiting")
+        sections.append("Quick Links")
         
         images.append("planning")
         images.append("purchase")
         images.append("Bait_Blue")
         images.append("in-progress")
+        images.append("external-link")
         
         loadPlanning()
         loadPurchase()
@@ -98,6 +100,7 @@ class ResourcesTableViewController: UITableViewController {
         
         postBaiting[string] = temp
     }
+    
 
     @IBAction func openLink(_ sender: Any) {
         
@@ -125,7 +128,11 @@ class ResourcesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "checklistSegue", sender: nil)
+        if sections[indexPath.row] == "Quick Links" {
+            performSegue(withIdentifier: "quickLinksSegue", sender: nil)
+        } else {
+            performSegue(withIdentifier: "checklistSegue", sender: nil)
+        }
     }
     
     
