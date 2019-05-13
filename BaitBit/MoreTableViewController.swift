@@ -15,6 +15,8 @@ class MoreTableViewController: UITableViewController {
     var notificationDetails = [String: Any]()
     var updatedNotificationDetails = [String: Any]()
     
+    var images = [[String]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,8 +39,14 @@ class MoreTableViewController: UITableViewController {
         
         items.append(["License"])
         items.append(["Completed Programs", "Scheduled Programs"])
-        items.append(["Help", "Resources"])
+        items.append(["Resources", "Quick Links"])
         items.append(["Notifications"])
+        
+        images.append([""])
+        images.append(["in-progress", "In-progress"])
+        images.append(["resources", "external-link"])
+        images.append(["notification"])
+        
         self.tableView.tableFooterView = UIView(frame: .zero)
         
         //        // Uncomment the following line to preserve selection between presentations
@@ -47,6 +55,13 @@ class MoreTableViewController: UITableViewController {
         //        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         //        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    @IBAction func callCustomerService(_ sender: Any) {
+        guard let number = URL(string: "telprompt://136186") else { return }
+        UIApplication.shared.open(number,options: [:], completionHandler:
+            nil)
+    }
+    
     
     func setNavigationBarItems() {
         self.tabBarController?.navigationItem.leftBarButtonItem = nil
@@ -125,6 +140,7 @@ class MoreTableViewController: UITableViewController {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "basic", for: indexPath)
             cell.textLabel?.text = items[indexPath.section][indexPath.row]
+            cell.imageView!.image = UIImage(named: images[indexPath.section][indexPath.row])
             return cell
         }
         //        let cell = tableView.dequeueReusableCell(withIdentifier: "basic", for: indexPath)
@@ -151,7 +167,7 @@ class MoreTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Profile"
+            return "License"
         }
         
         if section == 1 {
@@ -185,10 +201,10 @@ class MoreTableViewController: UITableViewController {
         
         if indexPath.section == 2 {
             if indexPath.row == 0 {
-                performSegue(withIdentifier: "helpSegue", sender: nil)
+                performSegue(withIdentifier: "resourcesSegue", sender: nil)
             }
             if indexPath.row == 1 {
-                performSegue(withIdentifier: "resourcesSegue", sender: nil)
+                performSegue(withIdentifier: "quickLinksSegue", sender: nil)
             }
         }
         
