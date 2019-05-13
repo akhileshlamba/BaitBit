@@ -1890,6 +1890,7 @@
                         <outlet property="durationLabel" destination="8F8-cm-6mP" id="PzS-ca-gtA"/>
                         <outlet property="durationView" destination="f3W-hu-PGb" id="ERf-vX-TSO"/>
                         <outlet property="loading" destination="QaS-Ru-9rb" id="COA-wZ-uvG"/>
+                        <outlet property="removeButton" destination="C9R-Wh-qHN" id="BFt-gT-Ic9"/>
                         <outlet property="startDateLabel" destination="6H8-gt-VIZ" id="SuU-On-jEh"/>
                     </connections>
                 </viewController>
