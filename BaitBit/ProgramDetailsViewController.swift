@@ -81,6 +81,7 @@ class ProgramDetailsViewController: UIViewController {
         }else {
             Util.confirmMessage(view: self, "Are you sure to END this program?", "End program", confirmAction: { (_) in
                 self.program.isActive = false
+                self.program.endDate = Date()
                 FirestoreDAO.end(program: self.program, complete: { (result) in
                     if result {
                         Util.displayMessage(view: self, "Program ended successfully", "Program Ended", "OK", completion: { (_) in

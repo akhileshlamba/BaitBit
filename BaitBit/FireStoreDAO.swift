@@ -475,6 +475,18 @@ class FirestoreDAO: NSObject {
                             photoURL: photoURL,
                             program: program,
                             isRemoved: isRemoved)
+            if let isTaken = b["isTaken"] as? Bool {
+                bait.isTaken = isTaken
+            }
+            if let carcassFound = b["carcassFound"] as? Bool {
+                bait.carcassFound = carcassFound
+            }
+            if let targetCarcassFound = b["targetCarcassFound"] as? Bool {
+                bait.targetCarcassFound = targetCarcassFound
+            }
+            if let removedDate = b["removedDate"] as? String {
+                bait.removedDate = Util.convertStringToDate(string: removedDate) as Date?
+            }
             baitList.append(bait)
         }
 
@@ -628,7 +640,11 @@ class FirestoreDAO: NSObject {
                     program.id: [
                         "baits": [
                             bait.id: [
-                                "isRemoved": true
+                                "isRemoved": true,
+                                "isTaken": bait.isTaken,
+                                "carcassFound": bait.carcassFound,
+                                "targetCarcassFound": bait.targetCarcassFound,
+                                "removedDate": Util.setDateAsString(date: bait.removedDate as! NSDate)
                             ]
                         ]
                     ]
@@ -638,7 +654,7 @@ class FirestoreDAO: NSObject {
     
     static func end(program: Program, complete: ((Bool) -> Void)?) {
         self.setData(for: self.authenticatedUser,
-                     data: ["programs": [program.id: ["isActive": false]]],
+                     data: ["programs": [program.id: ["isActive": false, "endDate": Util.setDateAsString(date: program.endDate as! NSDate)]]],
                      complete: complete)
     }
     
