@@ -46,7 +46,8 @@ class Bait: NSObject {
         }
     }
     var numberOfDaysBeforeDue: Int {
-        return Calendar.current.dateComponents([.day], from: NSDate() as Date, to: self.dueDate as Date).day!
+        let today = Calendar.current.startOfDay(for: Date())
+        return Calendar.current.dateComponents([.day], from: today, to: self.dueDate as Date).day!
     }
     var dueDate: NSDate {
         let startDate = Calendar.startOfDay(Calendar.current)(for: laidDate as Date)

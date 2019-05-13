@@ -21,6 +21,8 @@ class BaitDetailsViewController: UIViewController {
     
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
+    @IBOutlet weak var removeButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setFields()
@@ -30,9 +32,21 @@ class BaitDetailsViewController: UIViewController {
     }
     
     func setFields() {
-        self.dueLabel.text = "Due in \(self.bait.numberOfDaysBeforeDue) day(s)"
+        if self.bait.numberOfDaysBeforeDue > 1 {
+            self.dueLabel.text = "Due in \(self.bait.numberOfDaysBeforeDue) days"
+        } else if self.bait.numberOfDaysBeforeDue == 1 {
+            self.dueLabel.text = "Due tomorrow"
+        } else if self.bait.numberOfDaysBeforeDue == 0 {
+            self.dueLabel.text = "Due today"
+        } else {
+            self.dueLabel.text = "\(-self.bait.numberOfDaysBeforeDue) day(s) overdue"
+        }
+        if self.bait.isRemoved {
+            self.dueLabel.text = "This bait was removed."
+            self.removeButton.isHidden = true
+        }
         self.durationLabel.text = self.bait.durationFormatted
-        self.startDateLabel.text = "\(Util.setDateAsString(date: self.bait.laidDate))"
+        self.startDateLabel.text = "Laid date: \(Util.setDateAsString(date: self.bait.laidDate))"
     }
 
     @IBAction func dragDownFromTop(_ sender: UIScreenEdgePanGestureRecognizer) {
