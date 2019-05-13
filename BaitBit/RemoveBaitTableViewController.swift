@@ -11,11 +11,17 @@ import UIKit
 class RemoveBaitTableViewController: UITableViewController {
     
     let status = ["Taken", "Untouched"]
-    let death = ["Carcass found near by"]
+    let death = ["No carcass found", "Targeted carcass found near by", "Non-targeted carcass found near by"]
     var dataSourceForCells = [[String]]()
     let identifiersForCells = ["BaitStatusCell", "SpeciesDeathCell"]
     let titleForHeaders = ["Bait status (Choose one)", "Species death (Optional)"]
     var bait: Bait!
+    
+    var isTaken: Bool?
+    var carcassFound: Bool?
+    var targetCarcassFound: Bool?
+    
+    let checked: [Bool:UITableViewCellAccessoryType] = [true:.checkmark, false:.none]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,9 +42,25 @@ class RemoveBaitTableViewController: UITableViewController {
     }
     
     @IBAction func removeBait(_ sender: Any) {
+        guard self.isTaken != nil else {
+            Util.displayErrorMessage(view: self, "Please specify whether the bait was taken.", "Error")
+            return
+        }
+        
+        if self.isTaken! && self.carcassFound == nil {
+            self.carcassFound = false
+        }
+        print("isTaken: \(self.isTaken)")
+        print("carcassFound: \(self.carcassFound)")
+        print("targetCarcassFound: \(self.targetCarcassFound)")
+        
         Util.confirmMessage(view: self, "You are going to remove this bait, please make sure everything is clear.", "Remove bait", confirmAction: { (_) in
             // TODO: remove bait, i.e. set bait.isRemove = true, then update to firestore,
             self.bait.isRemoved = true
+            self.bait.removedDate = Date()
+            self.bait.isTaken = self.isTaken
+            self.bait.carcassFound = self.carcassFound
+            self.bait.targetCarcassFound = self.targetCarcassFound
             FirestoreDAO.remove(bait: self.bait, from: self.bait.program!, complete: { (result) in
                 if result {
                     let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
@@ -53,7 +75,15 @@ class RemoveBaitTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return self.dataSourceForCells.count
+        if let taken = self.isTaken {
+            if taken {
+                return 2
+            } else {
+                return 1
+            }
+        }
+        return 1
+//        return self.dataSourceForCells.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,6 +96,27 @@ class RemoveBaitTableViewController: UITableViewController {
         var cell = UITableViewCell()
         cell = tableView.dequeueReusableCell(withIdentifier: self.identifiersForCells[indexPath.section], for: indexPath)
         cell.textLabel?.text = self.dataSourceForCells[indexPath.section][indexPath.row]
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                cell.accessoryType = checked[self.isTaken ?? false]!
+            } else {
+                cell.accessoryType = checked[!(self.isTaken ?? true)]!
+            }
+        } else {
+            switch indexPath.row {
+            case 0:
+                cell.accessoryType = checked[!(self.carcassFound ?? true)]!
+                break
+            case 1:
+                cell.accessoryType = checked[self.targetCarcassFound ?? false]!
+                break
+            case 2:
+                cell.accessoryType = checked[!(self.targetCarcassFound ?? true)]!
+                break
+            default:
+                break
+            }
+        }
 
         // Configure the cell...
 
@@ -76,13 +127,43 @@ class RemoveBaitTableViewController: UITableViewController {
         if indexPath.section == 0 {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
             tableView.cellForRow(at: IndexPath(row: 1 - indexPath.row, section: indexPath.section))?.accessoryType = .none
+            self.isTaken = (indexPath.row == 0)
+            if !self.isTaken! {
+                self.carcassFound = nil
+                self.targetCarcassFound = nil
+            }
+            self.tableView.reloadData()
         }
         
         if indexPath.section == 1 {
-            if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-                tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            } else {
-                tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            for i in 0...2 {
+                if i == indexPath.row {
+                    tableView.cellForRow(at: IndexPath(row: i, section: indexPath.section))?.accessoryType = .checkmark
+                } else {
+                    tableView.cellForRow(at: IndexPath(row: i, section: indexPath.section))?.accessoryType = .none
+                }
+            }
+//            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//            if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+//                tableView.cellForRow(at: indexPath)?.accessoryType = .none
+//            } else {
+//                tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+//            }
+            switch indexPath.row {
+            case 0:
+                self.carcassFound = false
+                self.targetCarcassFound = nil
+                break
+            case 1:
+                self.carcassFound = true
+                self.targetCarcassFound = true
+                break
+            case 2:
+                self.carcassFound = true
+                self.targetCarcassFound = false
+                break
+            default:
+                break
             }
         }
         
