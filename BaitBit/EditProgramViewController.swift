@@ -19,7 +19,7 @@ class EditProgramViewController: UIViewController {
     var baitTypes: [String] = []
     let speciesType: [String] = ["(Please Select)", "Dog", "Pig", "Rabbit", "Fox"]
     var alternateSpecies : [String] = []
-
+    let defaults = UserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,12 +71,18 @@ class EditProgramViewController: UIViewController {
     }
     
     @IBAction func deleteProgram(_ sender: Any) {
+        let id = self.progrom.id
+        let program = self.progrom
         Util.confirmMessage(view: self, "Are you sure to delete the program", "Delete program", confirmAction: { (_) in
             FirestoreDAO.delete(program: self.progrom, complete: { (result) in
                 if !result {
                     Util.displayErrorMessage(view: self, "Could not delete program due to internet connection issue", "Error")
                     return
                 }
+                Reminder.removePendingNotifications(for: "scheduledPrograms", programs: [program!])
+                var recentlyViewed = self.defaults.dictionary(forKey: "recentlyViewed")
+                recentlyViewed?.removeValue(forKey: id)
+                self.defaults.set(recentlyViewed, forKey: "recentlyViewed")
                 let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
                 self.navigationController?.popToViewController(controller!, animated: true)
             })

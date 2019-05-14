@@ -106,7 +106,7 @@ class Notifications: NSObject {
             sections.append("Scheduled Programs")
         }
         
-        print(scheduledPrograms)
+        print(documentsPending)
         
         var response = [String: Any]()
         response["overDue"] = overDueBaitsForProgram

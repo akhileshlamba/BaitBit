@@ -57,9 +57,11 @@ class NotificationsTableViewController: UITableViewController {
         
     }
 
+    
     func loadData() {
-        let response = Notifications.notifications
-        
+        countForSwitchBetweenOverDueAndDueSoon = 0
+        let response = Notifications.calculateTotalNotifications(of: FirestoreDAO.authenticatedUser, with: FirestoreDAO.notificationDetails)
+        self.users = FirestoreDAO.authenticatedUser
         if !response.isEmpty {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]
             dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
@@ -174,15 +176,17 @@ class NotificationsTableViewController: UITableViewController {
                 
             case "License":
                 if users.licenseExpiryDate != nil {
-                    let days = Calendar.current.dateComponents([.day], from: Date(), to: users.licenseExpiryDate! as Date).day
-                    if days! >= 0{
-                        cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
-                    } else {
-                        cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                    if FirestoreDAO.notificationDetails["license"] as! Bool {
+                        let days = Calendar.current.dateComponents([.day], from: Date(), to: users.licenseExpiryDate! as Date).day
+                        if days! >= 0{
+                            cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                        } else {
+                            cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                        }
+                        
+                        cell.imageView!.image = UIImage(named: "exclamation-mark")
+                        cell.textLabel?.numberOfLines = 2
                     }
-                    
-                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.numberOfLines = 2
                 } else {
                     cell.imageView!.image = UIImage(named: "exclamation-mark")
                     cell.textLabel?.text = "Please uplaod the Baiting License"
