@@ -60,7 +60,7 @@ class CompletedProgramsViewController: UIViewController {
             let bait = Analytics.mostUsedBait(programs: self.filteredProgramList)
             self.baitType.text = bait
             self.usedTimes.text = "Used in \(Analytics.numberOfPrograms(of: bait!, in: self.filteredProgramList)) out of \(self.filteredProgramList.count) program(s)"
-            self.baitsTaken.text = "\(Int(Analytics.baitsTakenRate(programs: self.filteredProgramList) ?? 0) * 100)%"
+            self.baitsTaken.text = "\(Int((Analytics.baitsTakenRate(programs: self.filteredProgramList) ?? 0) * 100))%"
             self.nonTargetedCarcass.text = "\(Analytics.numOfNontargetedCarcass(programs: self.filteredProgramList))"
             self.RemovedOverdue.text = "\(Analytics.numOfRemovedOverdue(programs: self.filteredProgramList))"
         } else {
@@ -97,6 +97,24 @@ class CompletedProgramsViewController: UIViewController {
         if segue.identifier == "MapForAllCompletedProgramsSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
             controller.baits = self.getAllBaits(from: self.programList)
+        }
+        
+        if segue.identifier == "BaitsTakenSegue" {
+            let controller = segue.destination as! CompletedProgramsMapViewController
+            controller.baits = self.getAllBaits(from: self.programList)
+            controller.filters = (true, true, true, true)
+        }
+        
+        if segue.identifier == "NontargetedCarcassSegue" {
+            let controller = segue.destination as! CompletedProgramsMapViewController
+            controller.baits = self.getAllBaits(from: self.programList)
+            controller.filters = (true, true, false, true)
+        }
+        
+        if segue.identifier == "RemovedOverdueSegue" {
+            let controller = segue.destination as! CompletedProgramsMapViewController
+            controller.baits = self.getAllBaits(from: self.programList)
+            controller.filters = (true, true, true, true)
         }
     }
     
