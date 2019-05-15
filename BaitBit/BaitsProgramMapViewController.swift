@@ -103,7 +103,14 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         }
         
         self.baitAnnotations.removeAll()
-        if self.program != nil {
+        if !self.baits.isEmpty {
+            for bait in self.baits {
+                if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil {
+                    let baitAnnotation = BaitAnnotation(bait: bait)
+                    self.baitAnnotations.append(baitAnnotation)
+                }
+            }
+        } else if self.program != nil {
             if let baitList = self.program?.baits.values {
                 for element in baitList {
                     if let bait = element as? Bait {
@@ -113,16 +120,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
                         }
                     }
                 }
-//                self.mapView.addAnnotations(baitAnnotations)
             }
-        } else if !self.baits.isEmpty {
-            for bait in self.baits {
-                if bait.latitude != 0 || bait.longitude != 0 || bait.program != nil {
-                    let baitAnnotation = BaitAnnotation(bait: bait)
-                    self.baitAnnotations.append(baitAnnotation)
-                }
-            }
-//            self.mapView.addAnnotations(baitAnnotations)
         }
         applyFilters()
         
@@ -205,7 +203,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
                 annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: "\(fencedAnnotation.bait.status)")
+            annoationView.image = UIImage(named: fencedAnnotation.imageName)
             annoationView.canShowCallout = true
             let calloutButton = UIButton(type: .infoLight)
             calloutButton.addTarget(self, action: #selector(self.didSelectBait), for: .touchUpInside)
