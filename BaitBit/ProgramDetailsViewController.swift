@@ -41,6 +41,18 @@ class ProgramDetailsViewController: UIViewController {
         self.setRightBarButtonItem()
         
         // Recently viewed Items
+        
+        
+        
+        if program.documents.count == 4 {
+            docPendingLabel.text = "Documents"
+        }
+        // Do any additional setup after loading the view.
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
+    }
+    
+    
+    func recentlyViewed() {
         var recentlyViewed = defaults.dictionary(forKey: "recentlyViewed")
         if recentlyViewed == nil || recentlyViewed!.isEmpty {
             recentlyViewed = [String: Double]()
@@ -49,11 +61,11 @@ class ProgramDetailsViewController: UIViewController {
         } else {
             if recentlyViewed!.count < 3 {
                 recentlyViewed![self.program.id] = NSDate().timeIntervalSince1970
-//                if (recentlyViewed?.keys.contains(self.program.id))! {
-//                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
-//                } else {
-//                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
-//                }
+                //                if (recentlyViewed?.keys.contains(self.program.id))! {
+                //                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
+                //                } else {
+                //                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
+                //                }
             } else {
                 let temp = recentlyViewed?.min{a,b in (a.value as! Double) < (b.value as! Double)}
                 recentlyViewed?.removeValue(forKey: temp!.key)
@@ -63,13 +75,6 @@ class ProgramDetailsViewController: UIViewController {
             print(recentlyViewed!.count)
             print(recentlyViewed)
         }
-        
-        
-        if program.documents.count == 4 {
-            docPendingLabel.text = "Documents"
-        }
-        // Do any additional setup after loading the view.
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(back))
     }
     
     @objc func edit() {
@@ -103,6 +108,7 @@ class ProgramDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        recentlyViewed()
         //self.program = FirestoreDAO.authenticatedUser.programs[program.id]
         self.updateTextFields()
         self.setRightBarButtonItem()

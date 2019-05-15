@@ -13,28 +13,31 @@ class ScheduledProgramsTableViewController: UITableViewController {
     var programsList = [Program]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let programs = FirestoreDAO.authenticatedUser.programs
-        if !programs.isEmpty {
-            for program in programs as NSDictionary {
-                let p = program.value as! Program
-                let days = Calendar.current.dateComponents([.day], from: Date(), to: p.startDate as Date).day
-                if days! >= 1 {
-                    programsList.append(p)
-                }
-            }
-        }
-        
+        loadData()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func loadData() {
+        let programs = FirestoreDAO.authenticatedUser.programs
+        programsList = []
+        if !programs.isEmpty {
+            for program in programs as NSDictionary {
+                let p = program.value as! Program
+                if p.futureDate {
+                    programsList.append(p)
+                }
+            }
+        }
+    }
 
     // MARK: - Table view data source
 
     override func viewWillAppear(_ animated: Bool) {
+        loadData()
         self.tableView.reloadData()
     }
     

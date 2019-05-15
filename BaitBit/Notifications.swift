@@ -16,9 +16,11 @@ class Notifications: NSObject {
         let isOverDue = notifications["overDue"] as? Bool
         let isDocumentationPending = notifications["documentation"] as? Bool
         let isLicenseExpiring = notifications["license"] as? Bool
+        let isScheduledProgramNotificationSet = notifications["scheduledPrograms"] as? Bool
         
         var overDueBaitsForProgram = [String: Int]()
         var dueSoonBaitsForProgram = [String: Int]()
+        var scheduledPrograms = [String: Int]()
         var documentsPending = [String: Int]()
         var sections = [String]()
         if isOverDue! {
@@ -50,8 +52,20 @@ class Notifications: NSObject {
                         }
                     }
                     if dueSoonBaits != 0 {
-                        dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
+                        dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = dueSoonBaits
                     }
+                }
+            }
+        }
+        
+        if isScheduledProgramNotificationSet! {
+            for program in user.programs {
+                var schProgram = 0
+                if program.value.isActive && program.value.futureDate{
+                    schProgram += 1
+                }
+                if schProgram != 0 {
+                    scheduledPrograms["\(program.value.id)%\(program.value.baitType as! String)"] = schProgram
                 }
             }
         }
@@ -88,10 +102,17 @@ class Notifications: NSObject {
             sections.append("Documentation")
         }
         
+        if !scheduledPrograms.isEmpty {
+            sections.append("Scheduled Programs")
+        }
+        
+        print(documentsPending)
+        
         var response = [String: Any]()
         response["overDue"] = overDueBaitsForProgram
         response["dueSoon"] = dueSoonBaitsForProgram
         response["documents"] = documentsPending
+        response["scheduledPrograms"] = scheduledPrograms
         response["sections"] = sections
         self.notifications = response
         return response

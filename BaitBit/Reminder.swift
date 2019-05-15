@@ -15,6 +15,11 @@ class Reminder: NSObject {
     
     static func removePendingNotifications(for type: String, programs: [Program]?) {
         let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests(completionHandler: {(requests) in
+            for request in requests {
+                print(request)
+            }
+        })
         
         if type == "animal" {
             center.removePendingNotificationRequests(withIdentifiers: ["January", "February", "March", "April", "May", "August", "September", "October", "November", "December"])
@@ -25,11 +30,19 @@ class Reminder: NSObject {
             var list = [String]()
             if !programs!.isEmpty && programs!.count > 0{
                 for program in programs! {
+                    print(program.id)
                     list.append(program.id)
                 }
             }
             center.removePendingNotificationRequests(withIdentifiers: list)
         }
+        
+        center.getPendingNotificationRequests(completionHandler: {(requests) in
+            print("Here")
+            for request in requests {
+                print(request)
+            }
+        })
     }
     
     static func removeAllNotifications() {
@@ -271,6 +284,8 @@ class Reminder: NSObject {
         
         let request = UNNotificationRequest(identifier: identifier,
                                             content: content, trigger: trigger)
+        print("Animal Notifications")
+        print(trigger.nextTriggerDate())
         
         // Schedule the request with the system.
         let notificationCenter = UNUserNotificationCenter.current()
@@ -278,7 +293,9 @@ class Reminder: NSObject {
     }
     
     static func scheduledProgramReminder(for program: Program) {
-        let days = Calendar.current.dateComponents([.day], from: Date(), to: program.startDate as Date).day
+        let secondDate = Calendar.current.startOfDay(for: program.startDate as Date)
+        let firstDate = Calendar.current.startOfDay(for: Date())
+        let days = Calendar.current.dateComponents([.day], from: firstDate, to: secondDate).day
         
         let content = UNMutableNotificationContent()
         content.title = program.baitType!
@@ -286,17 +303,20 @@ class Reminder: NSObject {
         if days! >= 2 {
             content.body = "Program due in 2 days on \(Util.setDateAsString(date: program.startDate))"
             let dayComp = DateComponents(day: -2)
-            let date = Calendar.current.date(byAdding: dayComp, to: program.startDate as Date)
+            let date = Calendar.current.date(byAdding: dayComp, to: secondDate)
             dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date!)
         } else {
             content.body = "Program due in 1 day on \(Util.setDateAsString(date: program.startDate))"
             let dayComp = DateComponents(day: -1)
-            let date = Calendar.current.date(byAdding: dayComp, to: program.startDate as Date)
+            let date = Calendar.current.date(byAdding: dayComp, to: secondDate)
             dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date!)
         }
         var dateComponents1 = DateComponents()
         dateComponents1.minute = 2
         dateComponents1.timeZone = TimeZone.current
+        
+//        dateComponents.hour = 12
+//        dateComponents.timeZone = TimeZone.current
         
         // Create the trigger as a repeating event.
         let trigger = UNCalendarNotificationTrigger(

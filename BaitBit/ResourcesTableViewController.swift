@@ -32,13 +32,11 @@ class ResourcesTableViewController: UITableViewController {
         sections.append("Bait purchase and storage")
         sections.append("Bait use")
         sections.append("Post baiting")
-        sections.append("Quick Links")
         
         images.append("planning")
         images.append("purchase")
-        images.append("Bait_Blue")
+        images.append("bait_blue-1")
         images.append("in-progress")
-        images.append("external-link")
         
         loadPlanning()
         loadPurchase()

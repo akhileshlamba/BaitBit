@@ -54,6 +54,7 @@ class HomeViewController: UIViewController {
     var documentsPending : [String : Int] = [:]
     var overDueBaitsForProgram : [String : Int] = [:]
     var dueSoonBaitsForProgram : [String : Int] = [:]
+    var scheduledPrograms : [String: Int] = [:]
     
     var textForReminderOnHomeScreen = ""
     var flagForCreation = false
@@ -261,12 +262,14 @@ class HomeViewController: UIViewController {
 
     func loadData() {
         countForAction = 0
-        let response = Notifications.calculateTotalNotifications(of: self.user, with: FirestoreDAO.notificationDetails)
+        countForSwitchBetweenOverDueAndDueSoon = 0
+        let response = Notifications.calculateTotalNotifications(of: FirestoreDAO.authenticatedUser, with: FirestoreDAO.notificationDetails)
         
         if !response.isEmpty {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]
             dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
             documentsPending = response["documents"] as! [String: Int]
+            scheduledPrograms = response["scheduledPrograms"] as! [String: Int]
             sections = response["sections"] as! [String]
         }
         self.actionRequired.reloadData()
@@ -305,20 +308,29 @@ class HomeViewController: UIViewController {
         current.getPendingNotificationRequests(completionHandler: {(requests) in
             let calendar = Calendar.current
             let dateComponents = calendar.dateComponents([.day, .month, .year, .timeZone], from: Date())
+            var flag = false
             for request in requests {
                 if request.identifier == months[dateComponents.month!] {
                     DispatchQueue.main.async { [weak self] in
                         self!.reminder.text = request.content.body
                         //self?.tableView.reloadData()
                     }
+                    flag = true
                     print(request.content.body)
                     self.textForReminderOnHomeScreen = request.content.body
                 }
                 
             }
+            
+            if !flag {
+                DispatchQueue.main.async { [weak self] in
+                    self!.reminder.text = "Reminders disabled for Baits Season"
+                    //self?.tableView.reloadData()
+                }
+            }
         })
         
-        
+        self.user = FirestoreDAO.authenticatedUser!
         if self.defaults.dictionary(forKey: "recentlyViewed") != nil {
             recentlyViewedPrograms = self.defaults.dictionary(forKey: "recentlyViewed") as! [String : Double]
             self.recentlyViewed.reloadData()
@@ -397,10 +409,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return recentlyViewedPrograms.count
             }
         } else {
-            
-            if overDueBaitsForProgram.count == 0 && dueSoonBaitsForProgram.count == 0 && documentsPending.count == 0 && !self.user.licenseExpiringSoon {
+            let license = FirestoreDAO.notificationDetails["license"] as? Bool
+            var total = overDueBaitsForProgram.count + dueSoonBaitsForProgram.count + documentsPending.count + scheduledPrograms.count
+            if user.licenseExpiryDate == nil || license! && user.licenseExpiringSoon {
+                total += 1
+            }
+            if total == 0 {
                 return 0
-            } else if self.user.licenseExpiringSoon && overDueBaitsForProgram.count == 0 && dueSoonBaitsForProgram.count == 0 && documentsPending.count == 0 {
+            } else if total == 1 {
                 return 1
             } else {
                 return 2
@@ -424,7 +440,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             if countForAction < 2 {
                 if !overDueBaitsForProgram.isEmpty && overDueBaitsForProgram.values.count > indexPath.row {
-                    countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
                     let count = Array(overDueBaitsForProgram.values)[indexPath.row]
                     let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
                     let name = key.split(separator: "%")[1]
@@ -433,37 +448,49 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.textLabel?.numberOfLines = 2
                     flagForCreation = true
                     countForAction += 1
-                } else  if !dueSoonBaitsForProgram.isEmpty {
-                    var row = indexPath.row
-                    if flagForCreation {
-                        row = indexPath.row - countForSwitchBetweenOverDueAndDueSoon
-                    }
-                    let count = Array(dueSoonBaitsForProgram.values)[row]
-                    let key = Array(dueSoonBaitsForProgram.keys)[row]
+                } else  if !dueSoonBaitsForProgram.isEmpty && dueSoonBaitsForProgram.values.count > (indexPath.row - countForAction) {
+                    let count = Array(dueSoonBaitsForProgram.values)[indexPath.row - countForAction]
+                    let key = Array(dueSoonBaitsForProgram.keys)[indexPath.row - countForAction]
                     let name = key.split(separator: "%")[1]
                     cell.imageView!.image = UIImage(named: "warning")
                     cell.textLabel?.text = "\(count) Baits due Soon in \(name) program"
                     cell.textLabel?.numberOfLines = 2
                     countForAction += 1
-                }  else if !documentsPending.isEmpty {
-                    let count = Array(documentsPending.values)[indexPath.row]
-                    let key = Array(documentsPending.keys)[indexPath.row]
+                }  else if !documentsPending.isEmpty && documentsPending.values.count > (indexPath.row - countForAction) {
+                    let count = Array(documentsPending.values)[indexPath.row - countForAction]
+                    let key = Array(documentsPending.keys)[indexPath.row - countForAction]
                     let name = key.split(separator: "%")[1]
                     cell.imageView!.image = UIImage(named: "exclamation-mark")
                     cell.textLabel?.text = "\(count) Documents pending in \(name) program"
                     cell.textLabel?.numberOfLines = 2
                     countForAction += 1
-                } else if user.licenseExpiryDate != nil {
-                    let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
-                    if days! >= 0{
-                        cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                    } else {
-                        cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                    }
-                    
+                } else if !scheduledPrograms.isEmpty && scheduledPrograms.values.count > (indexPath.row - countForAction) {
+                    let key = Array(scheduledPrograms.keys)[indexPath.row - countForAction]
+                    let name = key.split(separator: "%")[1]
+                    let id = String(key.split(separator: "%")[0])
+                    let programs = user.programs
+                    program = programs[id]
                     cell.imageView!.image = UIImage(named: "exclamation-mark")
+                    cell.textLabel?.text = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
                     cell.textLabel?.numberOfLines = 2
                     countForAction += 1
+                
+                } else if user.licenseExpiryDate != nil {
+                    
+                    if FirestoreDAO.notificationDetails["license"] as! Bool {
+                        let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+                        if days! >= 0{
+                            cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                        } else {
+                            cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                        }
+                        
+                        cell.imageView!.image = UIImage(named: "exclamation-mark")
+                        cell.textLabel?.numberOfLines = 2
+                        countForAction += 1
+                    }
+                    
+                    
                 } else {
                     cell.imageView!.image = UIImage(named: "exclamation-mark")
                     cell.textLabel?.text = "Please uplaod the Baiting License"
@@ -509,7 +536,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 program = programs[id]
                 tableView.deselectRow(at: indexPath, animated: true)
                 performSegue(withIdentifier: "programActionSegue", sender: nil)
-            } else {
+            } else if !scheduledPrograms.isEmpty {
+                let key = Array(scheduledPrograms.keys)[indexPath.row]
+                let id = String(key.split(separator: "%")[0])
+                let name = key.split(separator: "%")[1]
+                let programs = user.programs
+                program = programs[id]
+                tableView.deselectRow(at: indexPath, animated: true)
+                performSegue(withIdentifier: "programActionSegue", sender: nil)
+            }
+            else {
                 performSegue(withIdentifier: "licenseActionSegue", sender: nil)
                 tableView.deselectRow(at: indexPath, animated: true)
             }
