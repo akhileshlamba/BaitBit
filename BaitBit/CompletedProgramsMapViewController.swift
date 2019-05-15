@@ -102,7 +102,6 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
                         }
                     }
                 }
-                //                self.mapView.addAnnotations(baitAnnotations)
             }
         } else if !self.baits.isEmpty {
             for bait in self.baits {
@@ -111,7 +110,6 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
                     self.baitAnnotations.append(baitAnnotation)
                 }
             }
-            //            self.mapView.addAnnotations(baitAnnotations)
         }
         applyFilters()
         
@@ -180,7 +178,7 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
                 annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: "\(fencedAnnotation.bait.status)")
+            annoationView.image = UIImage(named: fencedAnnotation.imageName)
             annoationView.canShowCallout = true
             
             return annoationView

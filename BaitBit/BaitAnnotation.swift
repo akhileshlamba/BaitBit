@@ -14,6 +14,25 @@ class BaitAnnotation: NSObject, MKAnnotation {
     var identifier: String
     var bait: Bait
     var title: String?
+    var imageName: String {
+        if !self.bait.isRemoved {
+            return "\(self.bait.status)"
+        }
+        
+        if !self.bait.isTaken! {
+            return "Untouched"
+        }
+        
+        if !self.bait.carcassFound! {
+            return "Taken"
+        }
+        
+        if self.bait.targetCarcassFound! {
+            return "Targeted carcass"
+        } else {
+            return "Non-targeted carcass"
+        }
+    }
     
     init(bait: Bait) {
         self.bait = bait
