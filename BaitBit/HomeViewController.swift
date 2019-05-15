@@ -100,6 +100,10 @@ class HomeViewController: UIViewController {
         for program in self.user.programs.values {
             self.baits.append(contentsOf: program.baits.values)
         }
+        
+        self.baits = self.baits.filter({ (bait) -> Bool in
+            return !bait.isRemoved
+        })
     }
 
 //    func checkForNotifications(){
