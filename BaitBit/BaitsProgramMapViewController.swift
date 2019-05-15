@@ -24,6 +24,8 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     var baitAnnotations: [BaitAnnotation] = []
     var filteredBaitAnnotations: [BaitAnnotation] = []
     
+    var isTrackingCurrentLoc: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,6 +60,9 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         }
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: focus!.latitude, longitude: focus!.longitude), 4000, 4000), animated: false)
 
+        // add a tap gesture recognizer
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
+        self.view.addGestureRecognizer(tap)
 
     }
     
@@ -81,24 +86,17 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     }
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-        locationManager.startUpdatingLocation()
-        sender.isHidden = true
+        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        self.isTrackingCurrentLoc = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        locationManager.stopUpdatingLocation()
-        self.backToCurrentLocationButton.isHidden = false
+        self.isTrackingCurrentLoc = false
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let annotations = mapView.annotations
-        for annotation in annotations {
-            if annotation is PinAnnotation {
-                self.mapView.removeAnnotation(annotation)
-            }
-        }
+    @objc func tapping() {
+        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
     }
-    
 
     func loadData() {
         for annotation in self.mapView.annotations {
@@ -184,8 +182,9 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
-        
+        if self.isTrackingCurrentLoc {
+            self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        }
         let annotations = mapView.annotations
         for annotation in annotations {
             if annotation is PinAnnotation {
