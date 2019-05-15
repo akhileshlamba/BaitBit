@@ -62,7 +62,7 @@ class Analytics: NSObject {
         }
         
         let totalNumOfBaitsTaken = programs.reduce(0) { (result, next) -> Int in
-            return result + next.numberOfAllBaits
+            return result + next.numberOfBaitsTaken
         }
         
         return Double(totalNumOfBaitsTaken) / Double(totalNumOfBaits)
