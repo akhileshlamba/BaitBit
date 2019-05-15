@@ -33,7 +33,8 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
                 self.navigationItem.rightBarButtonItem?.isEnabled = false
                 self.navigationItem.rightBarButtonItem?.tintColor = .clear
             } else {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add bait", style: .plain, target: self, action: #selector(self.addBait))
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Add bait"), style: .plain, target: self, action: #selector(self.addBait))
+                self.navigationItem.rightBarButtonItems?.append(UIBarButtonItem(image: UIImage(named: "filter"), style: .plain, target: self, action: #selector(self.filter)))
             }
         }
         
@@ -62,6 +63,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     
     @objc func addBait() {
         performSegue(withIdentifier: "AddBaitSegue", sender: nil)
+    }
+    
+    @objc func filter() {
+        performSegue(withIdentifier: "BaitFilterSegue", sender: nil)
     }
 
     override func didReceiveMemoryWarning() {
