@@ -50,6 +50,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedSpeciesIndex: Int = 0
     @IBOutlet weak var backToCurrentLocationButton: UIButton!
     
+    var isTrackingCurrentLoc: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,7 +89,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-        locationManager.startUpdatingLocation()
+        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        self.isTrackingCurrentLoc = true
     }
     
     @objc func filter() {
@@ -95,22 +98,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         self.setNavigationBarItems()
-//        loadData()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        locationManager.stopUpdatingLocation()
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let annotations = mapView.annotations
-        for annotation in annotations {
-            if annotation is PinAnnotation {
-                self.mapView.removeAnnotation(annotation)
-            }
-        }
+        self.isTrackingCurrentLoc = false
     }
     
     @objc func tapping() {
@@ -120,7 +113,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //            self.navigationController?.setNavigationBarHidden(true, animated: true)
 //        }
         self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
-
     }
     
     // This method is to load data from remote dataset
@@ -185,8 +177,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let loc = locations.last!
         currentLocation = loc.coordinate
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
-        
+        if self.isTrackingCurrentLoc {
+            self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        }
         let annotations = mapView.annotations
         for annotation in annotations {
             if annotation is PinAnnotation {

@@ -970,12 +970,21 @@
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2i6-uS-dxY">
                                                         <rect key="frame" x="20" y="0.0" width="85" height="85"/>
+                                                        <connections>
+                                                            <segue destination="kPd-zq-UaI" kind="show" identifier="BaitsTakenSegue" id="tgY-i9-7ea"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hU3-Hx-Kxd">
                                                         <rect key="frame" x="125" y="0.0" width="85" height="85"/>
+                                                        <connections>
+                                                            <segue destination="kPd-zq-UaI" kind="show" identifier="NontargetedCarcassSegue" id="pDB-Mg-oLQ"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwA-7o-ovA">
                                                         <rect key="frame" x="230" y="0.0" width="85" height="85"/>
+                                                        <connections>
+                                                            <segue destination="kPd-zq-UaI" kind="show" identifier="RemovedOverdueSegue" id="yjF-EG-c9V"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
@@ -1383,12 +1392,21 @@
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fm-Q1-UWa">
                                                 <rect key="frame" x="18" y="333" width="85" height="85"/>
+                                                <connections>
+                                                    <segue destination="kPd-zq-UaI" kind="show" identifier="BaitsTakenSegue" id="4po-OH-zlt"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdt-aI-xOV">
                                                 <rect key="frame" x="145" y="333" width="85" height="85"/>
+                                                <connections>
+                                                    <segue destination="kPd-zq-UaI" kind="show" identifier="NontargetedCarcassSegue" id="1DI-YT-tUq"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ic-La-Syk">
                                                 <rect key="frame" x="270" y="333" width="85" height="85"/>
+                                                <connections>
+                                                    <segue destination="kPd-zq-UaI" kind="show" identifier="RemovedOverdueSegue" id="tFD-TL-CAJ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -1502,19 +1520,6 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="qW3-A6-8pv">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34p-NA-qYm">
-                                <rect key="frame" x="325" y="84" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="ht0-8s-Mk0"/>
-                                    <constraint firstAttribute="width" secondItem="34p-NA-qYm" secondAttribute="height" multiplier="1:1" id="iuy-jZ-riR"/>
-                                </constraints>
-                                <state key="normal" image="filter">
-                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="JyZ-vM-dAV" kind="show" identifier="BaitFilterSegue" id="hzz-dc-Nah"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MrA-XP-LzJ">
                                 <rect key="frame" x="295" y="587" width="50" height="50"/>
                                 <constraints>
@@ -1532,10 +1537,8 @@
                             <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="MrA-XP-LzJ" secondAttribute="trailing" constant="30" id="1UO-1e-GW8"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="leading" secondItem="VQK-XX-DwK" secondAttribute="leading" id="36g-wB-Jxq"/>
                             <constraint firstAttribute="trailing" secondItem="qW3-A6-8pv" secondAttribute="trailing" id="4Jk-8R-19B"/>
-                            <constraint firstItem="wWh-PO-y6k" firstAttribute="trailing" secondItem="34p-NA-qYm" secondAttribute="trailing" constant="20" id="TRP-QG-gYA"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="bottom" secondItem="wWh-PO-y6k" secondAttribute="bottom" id="aTL-uK-zBY"/>
                             <constraint firstItem="qW3-A6-8pv" firstAttribute="top" secondItem="wWh-PO-y6k" secondAttribute="top" id="h1K-lP-cXz"/>
-                            <constraint firstItem="34p-NA-qYm" firstAttribute="top" secondItem="wWh-PO-y6k" secondAttribute="top" constant="20" id="hXc-JH-XRa"/>
                             <constraint firstItem="wWh-PO-y6k" firstAttribute="bottom" secondItem="MrA-XP-LzJ" secondAttribute="bottom" constant="30" id="mQA-3t-boF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wWh-PO-y6k"/>
@@ -1545,6 +1548,7 @@
                         <outlet property="mapView" destination="qW3-A6-8pv" id="QSt-hR-wlc"/>
                         <segue destination="QgP-EE-RZ9" kind="show" identifier="BaitDetailSegue" id="Mem-A5-v85"/>
                         <segue destination="hxk-qI-7fy" kind="show" identifier="AddBaitSegue" id="Rhh-JI-IqV"/>
+                        <segue destination="JyZ-vM-dAV" kind="show" identifier="BaitFilterSegue" id="JzU-X5-v5K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p1P-Td-8WD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4024,7 +4028,6 @@
         <image name="circle-orange" width="128" height="128"/>
         <image name="circle-red" width="128" height="128"/>
         <image name="document_orange" width="85.333335876464844" height="85.333335876464844"/>
-        <image name="filter" width="21.333333969116211" height="21.333333969116211"/>
         <image name="help" width="32" height="32"/>
         <image name="home" width="32" height="32"/>
         <image name="in-progress" width="21.333333969116211" height="21.333333969116211"/>
@@ -4043,13 +4046,13 @@
         <image name="user1" width="21.333333969116211" height="21.333333969116211"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3Vf-Pw-7U0"/>
+        <segue reference="ayS-vr-VPL"/>
         <segue reference="Mah-cT-pM5"/>
         <segue reference="6Fw-Ph-v0g"/>
         <segue reference="9G0-J6-Wy4"/>
-        <segue reference="xSR-ls-uec"/>
-        <segue reference="PhL-KH-tkF"/>
-        <segue reference="p5x-i1-zZX"/>
+        <segue reference="Rhh-JI-IqV"/>
+        <segue reference="Jag-bg-Z1u"/>
+        <segue reference="4po-OH-zlt"/>
         <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>
 </document>
