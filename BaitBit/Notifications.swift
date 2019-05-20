@@ -27,7 +27,6 @@ class Notifications: NSObject {
             for program in user.programs {
                 if program.value.isActive {
                     var overDueBaits = 0
-                    var dueSoonBaits = 0
                     for bait in program.value.baits {
                         if bait.value.isOverdue {
                             overDueBaits += 1
@@ -44,7 +43,6 @@ class Notifications: NSObject {
         if isDueSoon! {
             for program in user.programs {
                 if program.value.isActive {
-                    var overDueBaits = 0
                     var dueSoonBaits = 0
                     for bait in program.value.baits {
                         if bait.value.isDueSoon {
@@ -109,11 +107,11 @@ class Notifications: NSObject {
         print(documentsPending)
         
         var response = [String: Any]()
-        response["overDue"] = overDueBaitsForProgram
+        response["overDue"] = overDueBaitsForProgram // [String:  Int]
         response["dueSoon"] = dueSoonBaitsForProgram
         response["documents"] = documentsPending
         response["scheduledPrograms"] = scheduledPrograms
-        response["sections"] = sections
+        response["sections"] = sections // [String]
         self.notifications = response
         return response
     }

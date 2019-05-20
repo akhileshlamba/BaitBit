@@ -3682,12 +3682,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RNx-e4-s0C">
-                                            <rect key="frame" x="300" y="13.5" width="51" height="32.5"/>
+                                            <rect key="frame" x="300" y="13.5" width="51" height="31"/>
                                         </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Over Due" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VtD-x9-D5M">
-                                            <rect key="frame" x="44" y="15.5" width="210" height="28.5"/>
+                                            <rect key="frame" x="25" y="15" width="210" height="28.5"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="210" id="lAO-UE-X81"/>
+                                                <constraint firstAttribute="height" constant="28.5" id="niz-I6-9cm"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -3695,12 +3695,11 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="VtD-x9-D5M" firstAttribute="centerY" secondItem="osR-9d-hpn" secondAttribute="centerY" id="1xI-Sc-Shd"/>
-                                        <constraint firstItem="RNx-e4-s0C" firstAttribute="leading" secondItem="VtD-x9-D5M" secondAttribute="trailing" constant="46" id="Mm4-Oi-Eyu"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="VtD-x9-D5M" secondAttribute="bottom" constant="5" id="mSz-qn-OJB"/>
-                                        <constraint firstItem="VtD-x9-D5M" firstAttribute="leading" secondItem="osR-9d-hpn" secondAttribute="leadingMargin" constant="28" id="qva-F9-Dfs"/>
-                                        <constraint firstItem="RNx-e4-s0C" firstAttribute="centerY" secondItem="osR-9d-hpn" secondAttribute="centerY" id="sA7-y4-kgc"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="RNx-e4-s0C" secondAttribute="bottom" constant="3" id="wkn-4S-Nh0"/>
+                                        <constraint firstItem="RNx-e4-s0C" firstAttribute="top" secondItem="osR-9d-hpn" secondAttribute="top" constant="13.5" id="1F1-dM-1HK"/>
+                                        <constraint firstAttribute="trailing" secondItem="RNx-e4-s0C" secondAttribute="trailing" constant="26" id="8Ri-o6-GQR"/>
+                                        <constraint firstItem="VtD-x9-D5M" firstAttribute="leading" secondItem="osR-9d-hpn" secondAttribute="leading" constant="25" id="La5-Sd-g76"/>
+                                        <constraint firstItem="RNx-e4-s0C" firstAttribute="leading" secondItem="VtD-x9-D5M" secondAttribute="trailing" constant="65" id="MhO-im-ha4"/>
+                                        <constraint firstItem="VtD-x9-D5M" firstAttribute="top" secondItem="osR-9d-hpn" secondAttribute="top" constant="15" id="jr3-wZ-RQh"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

@@ -38,6 +38,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var actionRequired: UITableView!
     @IBOutlet weak var recentlyViewed: UITableView!
     var sections = [String]()
+    var tableToLoad: [String: String] = [:]
 
     var user : User!
 
@@ -69,6 +70,17 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
+//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+
+        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+        if !loggedIn {
+            self.newProgramButton.isHidden = true
+            self.recentlyViewed.isHidden = true
+            self.actionRequired.isHidden = true
+            self.setNavigationBarItemsForGuest()
+            return
+        }
         
         self.recentlyViewed.dataSource = self
         self.recentlyViewed.delegate = self
@@ -76,16 +88,6 @@ class HomeViewController: UIViewController {
         self.actionRequired.dataSource = self
         self.actionRequired.delegate = self
         
-        // Do any additional setup after loading the view.
-//        self.navigationController?.setNavigationBarHidden(true, animated: true)
-
-        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
-        if !loggedIn {
-            self.baitingProgramView.isHidden = true
-            self.newProgramButton.isHidden = true
-            self.setNavigationBarItemsForGuest()
-            return
-        }
         self.user = FirestoreDAO.authenticatedUser!
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         //checkForNotifications()
@@ -105,122 +107,6 @@ class HomeViewController: UIViewController {
             return !bait.isRemoved
         })
     }
-
-//    func checkForNotifications(){
-//
-//        self.isDueSoon = self.notifcationOfUser["dueSoon"] as? Bool
-//        self.isOverDue = self.notifcationOfUser["overDue"] as? Bool
-//        self.isDocumentationPending = self.notifcationOfUser["documentation"] as? Bool
-//        self.isLicenseExpiring = self.notifcationOfUser["license"] as? Bool
-//    }
-//
-//
-//
-//
-//    func calculateTotalNotifications(){
-//        self.user = FirestoreDAO.authenticatedUser!
-//        overDueBaitsForProgram = [:]
-//        dueSoonBaitsForProgram = [:]
-//        documentsPending = [:]
-//        sections = []
-//        if isOverDue {
-//            for program in user.programs {
-//                if program.value.isActive {
-//                    var overDueBaits = 0
-//                    var dueSoonBaits = 0
-//                    for bait in program.value.baits {
-//                        if bait.value.isOverdue {
-//                            overDueBaits += 1
-//                        }
-//                    }
-//                    if overDueBaits != 0 {
-//                        overDueBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//        if isDueSoon {
-//            for program in user.programs {
-//                if program.value.isActive {
-//                    var overDueBaits = 0
-//                    var dueSoonBaits = 0
-//                    for bait in program.value.baits {
-//                        if bait.value.isDueSoon {
-//                            overDueBaits += 1
-//                        }
-//                    }
-//                    if overDueBaits != 0 {
-//                        dueSoonBaitsForProgram["\(program.value.id)%\(program.value.baitType as! String)"] = overDueBaits
-//                    }
-//                }
-//            }
-//        }
-//
-//        if isDocumentationPending {
-//            for program in user.programs {
-//                if program.value.isActive {
-//                    if !program.value.documents.isEmpty {
-//                        if program.value.areDocumentsPending {
-//                            isSendNotificationForDocuments = true
-//                            documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4 - program.value.documents.count
-//                        }
-//                    } else {
-//                        documentsPending["\(program.value.id)%\(program.value.baitType as! String)"] = 4
-//                    }
-//                }
-//            }
-//        }
-//
-//
-//
-//        if dueSoonBaitsForProgram.count != 0 || overDueBaitsForProgram.count != 0{
-//            isSendNotificationForBaits = true
-//            sections.append("Bait Status")
-//        }
-//
-//        if user.licenseExpiryDate != nil {
-//            if isLicenseExpiring && user.licenseExpiringSoon {
-//                isSendNotificationForLicense = true
-//                sections.append("License")
-//            }
-//        } else {
-//            sections.append("License")
-//        }
-//
-//        if !documentsPending.isEmpty {
-//            sections.append("Documentation")
-//        }
-//
-//    }
-
-//    func sendNotifications() {
-//        let content = UNMutableNotificationContent()
-//        content.title = "Movement Detected!"
-//        content.subtitle = "You have entered"
-//
-//        if isSendNotificationForDocuments {
-//            content.title = "Documents Pending"
-//            content.subtitle = "Docs"
-//        }
-//
-//        if isSendNotificationForLicense {
-//            content.title = "License Expiring soon"
-//            content.subtitle = "License expiring"
-//        }
-//
-//        if isSendNotificationForBaits {
-//            content.title = "Baits due or over due "
-//            content.subtitle = "Some baits are either over due or due soon."
-//        }
-//
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-//        let request = UNNotificationRequest(identifier: "Time done", content: content, trigger: trigger)
-//        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-//
-//
-//    }
 
     @objc func logout() {
         // TODO: implement logout: embed the pop action inside logout action
@@ -266,8 +152,11 @@ class HomeViewController: UIViewController {
 
     func loadData() {
         countForAction = 0
+        user = FirestoreDAO.authenticatedUser
         countForSwitchBetweenOverDueAndDueSoon = 0
         let response = Notifications.calculateTotalNotifications(of: FirestoreDAO.authenticatedUser, with: FirestoreDAO.notificationDetails)
+        
+        tableToLoad = [:]
         
         if !response.isEmpty {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]
@@ -276,6 +165,48 @@ class HomeViewController: UIViewController {
             scheduledPrograms = response["scheduledPrograms"] as! [String: Int]
             sections = response["sections"] as! [String]
         }
+        
+        if !overDueBaitsForProgram.isEmpty {
+            for program in overDueBaitsForProgram {
+                let id = String(program.key.split(separator: "%")[0])
+                let name = String(program.key.split(separator: "%")[1])
+                let count = program.value
+                let string = "\(count) Baits over due in \(name) program"
+                tableToLoad[id+"%OverDue"] = string
+            }
+        }
+        
+        if !dueSoonBaitsForProgram.isEmpty {
+            for program in dueSoonBaitsForProgram {
+                let id = String(program.key.split(separator: "%")[0])
+                let name = String(program.key.split(separator: "%")[1])
+                let count = program.value
+                let string = "\(count) Baits due soon in \(name) program"
+                tableToLoad[id+"%DueSoon"] = string
+            }
+        }
+        
+        if !documentsPending.isEmpty {
+            for program in documentsPending {
+                let id = String(program.key.split(separator: "%")[0])
+                let name = String(program.key.split(separator: "%")[1])
+                let count = program.value
+                let string = "\(count) documents pending in \(name) program"
+                tableToLoad[id+"%Documents"] = string
+            }
+        }
+        
+        if !scheduledPrograms.isEmpty {
+            for p in scheduledPrograms {
+                let id = String(p.key.split(separator: "%")[0])
+                let name = String(p.key.split(separator: "%")[1])
+                let programs = user.programs
+                program = programs[id]
+                let string = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
+                tableToLoad[id+"%Scheduled"] = string
+            }
+        }
+        
         self.actionRequired.reloadData()
     }
     
@@ -283,6 +214,8 @@ class HomeViewController: UIViewController {
         super.viewDidAppear(animated)
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
+            self.recentlyViewed.isHidden = true
+            self.actionRequired.isHidden = true
             self.setNavigationBarItemsForGuest()
             return
         }
@@ -293,18 +226,17 @@ class HomeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadData()
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
+            self.recentlyViewed.isHidden = true
+            self.actionRequired.isHidden = true
             self.setNavigationBarItemsForGuest()
             return
         }
-        
-        
         self.notifcationOfUser = FirestoreDAO.notificationDetails
 //        checkForNotifications()
 //        calculateTotalNotifications()
-        
+        self.loadData()
         self.setNavigationBarItems()
         
         // Notification for the current Month to be shown on home screen
@@ -443,43 +375,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             if countForAction < 2 {
-                if !overDueBaitsForProgram.isEmpty && overDueBaitsForProgram.values.count > indexPath.row {
-                    let count = Array(overDueBaitsForProgram.values)[indexPath.row]
-                    let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
-                    let name = key.split(separator: "%")[1]
-                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.text = "\(count) Baits over due in \(name) program"
-                    cell.textLabel?.numberOfLines = 2
-                    flagForCreation = true
-                    countForAction += 1
-                } else  if !dueSoonBaitsForProgram.isEmpty && dueSoonBaitsForProgram.values.count > (indexPath.row - countForAction) {
-                    let count = Array(dueSoonBaitsForProgram.values)[indexPath.row - countForAction]
-                    let key = Array(dueSoonBaitsForProgram.keys)[indexPath.row - countForAction]
-                    let name = key.split(separator: "%")[1]
-                    cell.imageView!.image = UIImage(named: "warning")
-                    cell.textLabel?.text = "\(count) Baits due Soon in \(name) program"
-                    cell.textLabel?.numberOfLines = 2
-                    countForAction += 1
-                }  else if !documentsPending.isEmpty && documentsPending.values.count > (indexPath.row - countForAction) {
-                    let count = Array(documentsPending.values)[indexPath.row - countForAction]
-                    let key = Array(documentsPending.keys)[indexPath.row - countForAction]
-                    let name = key.split(separator: "%")[1]
-                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.text = "\(count) Documents pending in \(name) program"
-                    cell.textLabel?.numberOfLines = 2
-                    countForAction += 1
-                } else if !scheduledPrograms.isEmpty && scheduledPrograms.values.count > (indexPath.row - countForAction) {
-                    let key = Array(scheduledPrograms.keys)[indexPath.row - countForAction]
-                    let name = key.split(separator: "%")[1]
-                    let id = String(key.split(separator: "%")[0])
-                    let programs = user.programs
-                    program = programs[id]
-                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.text = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
-                    cell.textLabel?.numberOfLines = 2
-                    countForAction += 1
                 
-                } else if user.licenseExpiryDate != nil {
+                if !tableToLoad.isEmpty{
+                    cell.imageView!.image = UIImage(named: "warning")
+                    cell.textLabel?.text = Array(tableToLoad.values)[indexPath.row]
+                    cell.textLabel?.numberOfLines = 2
+                }else if user.licenseExpiryDate != nil {
                     
                     if FirestoreDAO.notificationDetails["license"] as! Bool {
                         let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
@@ -513,42 +414,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             performSegue(withIdentifier: "programActionSegue", sender: nil)
         } else {
-            countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
-            if !overDueBaitsForProgram.isEmpty && overDueBaitsForProgram.values.count > indexPath.row{
-                flagForSelection = true
-                countForSwitchBetweenOverDueAndDueSoon = overDueBaitsForProgram.values.count
-                let key = Array(overDueBaitsForProgram.keys)[indexPath.row]
+            if !tableToLoad.isEmpty{
+                let key = Array(tableToLoad.keys)[indexPath.row]
                 let id = String(key.split(separator: "%")[0])
-                let programs = user.programs
-                program = programs[id]
-                tableView.deselectRow(at: indexPath, animated: true)
+                self.program = self.user.programs[id]
                 performSegue(withIdentifier: "programActionSegue", sender: nil)
-            } else if !dueSoonBaitsForProgram.isEmpty {
-                let row = indexPath.row - countForSwitchBetweenOverDueAndDueSoon
-                let key = Array(dueSoonBaitsForProgram.keys)[row]
-                let id = String(key.split(separator: "%")[0])
-                let programs = user.programs
-                program = programs[id]
                 tableView.deselectRow(at: indexPath, animated: true)
-                performSegue(withIdentifier: "programActionSegue", sender: nil)
-            } else if !documentsPending.isEmpty {
-                let count = Array(documentsPending.values)[indexPath.row]
-                let key = Array(documentsPending.keys)[indexPath.row]
-                let id = String(key.split(separator: "%")[0])
-                let name = key.split(separator: "%")[1]
-                let programs = user.programs
-                program = programs[id]
-                tableView.deselectRow(at: indexPath, animated: true)
-                performSegue(withIdentifier: "programActionSegue", sender: nil)
-            } else if !scheduledPrograms.isEmpty {
-                let key = Array(scheduledPrograms.keys)[indexPath.row]
-                let id = String(key.split(separator: "%")[0])
-                let name = key.split(separator: "%")[1]
-                let programs = user.programs
-                program = programs[id]
-                tableView.deselectRow(at: indexPath, animated: true)
-                performSegue(withIdentifier: "programActionSegue", sender: nil)
             }
+                
             else {
                 performSegue(withIdentifier: "licenseActionSegue", sender: nil)
                 tableView.deselectRow(at: indexPath, animated: true)
