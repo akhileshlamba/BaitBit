@@ -152,6 +152,7 @@ class HomeViewController: UIViewController {
 
     func loadData() {
         countForAction = 0
+        user = FirestoreDAO.authenticatedUser
         countForSwitchBetweenOverDueAndDueSoon = 0
         let response = Notifications.calculateTotalNotifications(of: FirestoreDAO.authenticatedUser, with: FirestoreDAO.notificationDetails)
         
@@ -202,7 +203,7 @@ class HomeViewController: UIViewController {
                 let programs = user.programs
                 program = programs[id]
                 let string = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
-                tableToLoad[id+"%Documents"] = string
+                tableToLoad[id+"%Scheduled"] = string
             }
         }
         
