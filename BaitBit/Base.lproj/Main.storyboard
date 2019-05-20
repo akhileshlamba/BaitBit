@@ -96,7 +96,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZCt-dd-ytN"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Invasive Species Map" image="map" id="017-Zg-M8f"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" id="017-Zg-M8f"/>
                     <connections>
                         <outlet property="backToCurrentLocationButton" destination="Z5Z-eA-0ej" id="Y9Y-rk-F42"/>
                         <outlet property="mapView" destination="MKo-ha-TOa" id="9iG-mc-VJ8"/>
@@ -2482,7 +2482,7 @@
                             <outlet property="delegate" destination="Fm5-ls-XGP" id="gSU-mp-Hbr"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Current Program" image="in-progress" id="nAV-07-ATt"/>
+                    <tabBarItem key="tabBarItem" title="Program" image="in-progress-1" id="nAV-07-ATt"/>
                     <navigationItem key="navigationItem" title="Programs In-progress" id="Tu6-Dm-kf0">
                         <barButtonItem key="rightBarButtonItem" title="Add Program" id="dJc-jH-2qD">
                             <connections>
@@ -4031,7 +4031,7 @@
         <image name="document_orange" width="85.333335876464844" height="85.333335876464844"/>
         <image name="help" width="32" height="32"/>
         <image name="home" width="32" height="32"/>
-        <image name="in-progress" width="21.333333969116211" height="21.333333969116211"/>
+        <image name="in-progress-1" width="32" height="32"/>
         <image name="light-bulb" width="32" height="32"/>
         <image name="line" width="512" height="512"/>
         <image name="logo" width="134" height="164"/>
@@ -4050,10 +4050,10 @@
         <segue reference="ayS-vr-VPL"/>
         <segue reference="Mah-cT-pM5"/>
         <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="9G0-J6-Wy4"/>
+        <segue reference="XSh-ec-wXm"/>
         <segue reference="Rhh-JI-IqV"/>
         <segue reference="Jag-bg-Z1u"/>
         <segue reference="4po-OH-zlt"/>
-        <segue reference="Wes-0h-Ath"/>
+        <segue reference="91M-ev-XBb"/>
     </inferredMetricsTieBreakers>
 </document>
