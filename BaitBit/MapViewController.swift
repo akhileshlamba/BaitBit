@@ -41,7 +41,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //    }
     
     @IBOutlet weak var mapView: MKMapView!
-    var currentLocation = CLLocationCoordinate2D()
+    var currentLocation = CLLocationCoordinate2D(latitude: -37.87763, longitude: 145.045374)
     var locationManager: CLLocationManager = CLLocationManager()
     let databaseRef: DatabaseReference = Database.database().reference().child("invasive_species")
     var occurrenceAnnotations: [OccurrenceAnnotation] = []
