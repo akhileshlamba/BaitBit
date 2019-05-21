@@ -30,17 +30,20 @@ class DocumentUploadViewController: UIViewController {
     var storageRef = Storage.storage()
     
     var fromCreateAdd : Bool! = false
+    var imageURL : NSURL?
     
     var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var chooseCamers: UIButton!
     
     @IBOutlet weak var uploadButton: UIButton!
     
+    let defaults = UserDefaults()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let vision = Vision.vision()
         textRecognizer = vision.onDeviceTextRecognizer()
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.gray)
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorView.Style.whiteLarge)
         
         if fromCreateAdd{
             chooseCamers.setTitle("Upload your Document", for: .normal)
@@ -81,6 +84,31 @@ class DocumentUploadViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if uploadDelegate != nil {
+            
+            // testing another method for
+            //defaults.removeObject(forKey: "documentsUpload")
+            if self.defaults.dictionary(forKey: "documentsUpload") != nil {
+                var documentsUpload = self.defaults.dictionary(forKey: "documentsUpload") as! [String : String]
+               
+                if !documentsUpload.isEmpty{
+                    if documentsUpload[documentName] != nil {
+                        if self.localFileExists(fileName: documentsUpload[documentName]!) {
+                            if let localImage = self.loadImageData(fileName: documentsUpload[documentName]!)
+                            {
+                                self.image.image = localImage
+                                chooseCamers.setTitle("", for: .normal)
+                            }
+                        }
+                        uploadButton.isHidden = true
+                    }
+                }
+            }
+            
+        }
+    }
+    
     func localFileExists(fileName: String) -> Bool {
         var localFileExists = false
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
@@ -106,6 +134,24 @@ class DocumentUploadViewController: UIViewController {
         }
         
         return image
+    }
+    
+    func removeImageData(fileName: String) -> Bool {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let url = NSURL(fileURLWithPath: path)
+        var isRemoved: Bool = false
+        if let pathComponent = url.appendingPathComponent(fileName) {
+            let filePath = pathComponent.path
+            let fileManager = FileManager.default
+            do {
+                try fileManager.removeItem(atPath: filePath)
+                isRemoved = true
+            } catch _ as NSError {
+                isRemoved = false
+            }
+        }
+        
+        return isRemoved
     }
     
     func saveLocalData(fileName: String, imageData: Data) {
@@ -209,6 +255,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
     // MARK: - ImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         print("did finish picking photo.")
+        //imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             print("did get into the if statement")
             //            self.savePhoto(pickedImage)
@@ -269,6 +316,9 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
         // Preparing timestamp and image data
         
         if uploadDelegate != nil {
+            
+            // testing another method for
+            
             FirestoreDAO.uploadDocument(of: FirestoreDAO.authenticatedUser.id, document: pickedImage, name: documentName, complete: {(result) in
                 if result != nil {
                     self.uploadDelegate?.documentData(data: result!)
@@ -276,7 +326,21 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
                     self.activityIndicator.stopAnimating()
                     self.displayErrorMessage("Document uploaded Successfully", "Success")
                 } else {
+                    self.activityIndicator.isHidden = true
+                    self.activityIndicator.stopAnimating()
                     self.displayErrorMessage("Problem in updating Document", "Error")
+                    if self.defaults.dictionary(forKey: "documentsUpload") != nil {
+                        var documentsUpload = self.defaults.dictionary(forKey: "documentsUpload") as! [String : String]
+                        
+                        if !documentsUpload.isEmpty{
+                            if documentsUpload[self.documentName] != nil {
+                                if self.localFileExists(fileName: documentsUpload[self.documentName]!) {
+                                    let isRemoved = self.removeImageData(fileName: documentsUpload[self.documentName]!)
+                                    print(isRemoved)
+                                }
+                            }
+                        }
+                    }
                 }
             })
 //            var success : [String: [String]] = [:]

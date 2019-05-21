@@ -809,31 +809,41 @@ class FirestoreDAO: NSObject {
             let filePath = pathComponent.path
             let fileManager = FileManager.default
             fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
+            
+            let defaults = UserDefaults()
+            var documentsUpload = defaults.dictionary(forKey: "documentsUpload")
+            if documentsUpload == nil || documentsUpload!.isEmpty {
+                documentsUpload = [String: String]()
+                documentsUpload![name] = "\(date)"
+            } else {
+                documentsUpload![name] = "\(date)"
+            }
+            defaults.set(documentsUpload, forKey: "documentsUpload")
         }
     }
     
-//    static func getBaits(complete : @escaping ([Bait]) -> Void){
-//        usersRef.getDocuments(completion: {(document, error) in
-//            if (document?.documents.isEmpty ?? nil)! {
-//                complete([])
-//            } else {
-//                for document in document!.documents {
-//                    let programs = document["programs"] as! NSDictionary
-//                    if programs != nil {
-//                        for program in programs {
-//                            let value = program.value as! NSDictionary
-//                            let baits = value["baits"] as! NSDictionary
-//                            if baits != nil {
-//                                for bait in baits {
-//                                    Bait b = Bait(id: <#T##String#>, laidDate: <#T##NSDate?#>, latitude: <#T##Double#>, longitude: <#T##Double#>, photoPath: <#T##String?#>, photoURL: <#T##String?#>, program: <#T##Program#>, isRemoved: <#T##Bool?#>)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    
-//                }
-//            }
-//        })
-//    }
+    static func getBaits(complete : @escaping ([Bait]) -> Void){
+        usersRef.getDocuments(completion: {(document, error) in
+            if (document?.documents.isEmpty ?? nil)! {
+                complete([])
+            } else {
+                var baitsList = [Bait]()
+                for document in document!.documents {
+                    let programs = document["programs"] as? NSDictionary
+                    if programs != nil {
+                        for program in programs! {
+                            let value = program.value as! NSDictionary
+                            let baits = value["baits"] as? NSDictionary
+                            if baits != nil {
+                                baitsList.append(contentsOf: getAllBaitsss(for: baits!, program: programs as! Program))
+                            }
+                        }
+                    }
+
+                }
+                complete(baitsList)
+            }
+        })
+    }
     
 }

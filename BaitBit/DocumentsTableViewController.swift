@@ -24,6 +24,7 @@ class DocumentsTableViewController: UITableViewController, DocumentUploadDelegat
     var fromCreateAdd : Bool! = false
     
     var delegate: SegueDelegate!
+    let defaults = UserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,7 @@ class DocumentsTableViewController: UITableViewController, DocumentUploadDelegat
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
 
     // MARK: - Table view data source
 
@@ -48,10 +50,38 @@ class DocumentsTableViewController: UITableViewController, DocumentUploadDelegat
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DocumentCell", for: indexPath) as! DocumentTableViewCell
         
         cell.textLabel?.text = documentNames[indexPath.row]
         cell.imageView?.image = UIImage(named: documentImageNames[indexPath.row])
+        
+        // test
+        
+        if fromCreateAdd {
+            if self.defaults.dictionary(forKey: "documentsUpload") != nil {
+                var documentsUpload = self.defaults.dictionary(forKey: "documentsUpload") as! [String : String]
+                
+                if !documentsUpload.isEmpty{
+                    if documentsUpload[documentNames[indexPath.row]] != nil {
+                        if documentsUpload.keys.contains(documentNames[indexPath.row]) {
+                            cell.doneImage.image = UIImage(named: "checked")
+                        }
+                        
+                    }
+                }
+            }
+        } else {
+            let documents = program.documents
+            if !documents.isEmpty {
+                let document = documents.filter({(document) -> Bool in
+                    document?.name == documentNames[indexPath.row]
+                })
+                if !document.isEmpty {
+                    cell.doneImage.image = UIImage(named: "checked")
+                }
+            }
+        }
+        
         self.tableView.deselectRow(at: indexPath, animated: true)
         return cell
     }
@@ -67,6 +97,7 @@ class DocumentsTableViewController: UITableViewController, DocumentUploadDelegat
         if !fromCreateAdd {
             self.program = FirestoreDAO.authenticatedUser.programs[program.id]
         }
+        self.tableView.reloadData()
     }
 
     /*

@@ -33,6 +33,12 @@ class NotificationsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
+        if !loggedIn {
+            Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")
+            return
+        }
 
 //        self.notifcationOfUser = FirestoreDAO.notificationDetails
 //        isDueSoon = notifcationOfUser["dueSoon"] as? Bool
@@ -72,6 +78,11 @@ class NotificationsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
+        if !loggedIn {
+            Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")
+            return
+        }
         self.setNavigationBarItems()
         DispatchQueue.main.async { [weak self] in
             self!.loadData()
@@ -181,7 +192,7 @@ class NotificationsTableViewController: UITableViewController {
                         if days! >= 0{
                             cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: users.licenseExpiryDate!))"
                         } else {
-                            cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: users.licenseExpiryDate!))"
+                            cell.textLabel?.text = "License is over due by \(abs(days!)) day(s) from  \(Util.setDateAsString(date: users.licenseExpiryDate!))"
                         }
                         
                         cell.imageView!.image = UIImage(named: "exclamation-mark")

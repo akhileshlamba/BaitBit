@@ -16,6 +16,11 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
+        if !loggedIn {
+            Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")
+            return
+        }
         self.reloadProgramList()
         
         // Uncomment the following line to preserve selection between presentations
@@ -44,6 +49,11 @@ class ProgramInProgressTableViewController: UITableViewController, AddProgramDel
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
+        if !loggedIn {
+            Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")
+            return
+        }
         self.setNavigationBarItems()
         self.reloadProgramList()
     }

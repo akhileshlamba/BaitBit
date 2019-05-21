@@ -45,6 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
         let defaults = UserDefaults.standard
+        
+        defaults.removeObject(forKey: "documentsUpload")
         let skipTutorialPages = defaults.bool(forKey:"skipTutorialPages")
         
         
@@ -144,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if days! >= 0{
             content.subtitle = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
         } else {
-            content.subtitle = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
+            content.subtitle = "License is over due by \(abs(days!)) day(s) from  \(Util.setDateAsString(date: FirestoreDAO.authenticatedUser.licenseExpiryDate!))"
         }
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 20, repeats: false)
         return UNNotificationRequest(identifier: "License", content: content, trigger: trigger)

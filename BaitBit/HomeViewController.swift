@@ -63,6 +63,8 @@ class HomeViewController: UIViewController {
     var countForSwitchBetweenOverDueAndDueSoon = 0
     var countForAction = 0
     
+    @IBOutlet weak var baitSeasonButton: UIButton!
+    
     var recentlyViewedPrograms = [String: Double]()
     var action = [String: Int]()
     
@@ -73,6 +75,7 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
+        
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
             self.newProgramButton.isHidden = true
@@ -99,6 +102,17 @@ class HomeViewController: UIViewController {
     }
 
     func getAllMyBaits() {
+        
+//        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
+//        if !loggedIn {
+//            FirestoreDAO.getBaits(complete: {(result) in
+//                self.baits = result.filter({(bait) -> Bool in
+//                    return !bait.isRemoved
+//                })
+//            })
+//            return
+//        }
+        
         for program in self.user.programs.values {
             self.baits.append(contentsOf: program.baits.values)
         }
@@ -176,6 +190,7 @@ class HomeViewController: UIViewController {
             }
         }
         
+        
         if !dueSoonBaitsForProgram.isEmpty {
             for program in dueSoonBaitsForProgram {
                 let id = String(program.key.split(separator: "%")[0])
@@ -207,6 +222,25 @@ class HomeViewController: UIViewController {
             }
         }
         
+        if user.licenseExpiryDate != nil {
+
+            if sections.contains("License") {
+                let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+                if days! >= 0{
+                    let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                    tableToLoad[user.id+"%License"] = string
+                } else {
+                    
+                    let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                    tableToLoad[user.id+"%License"] = string
+                    
+                }
+            }
+        } else {
+            let string = "Please uplaod the Baiting License"
+            tableToLoad[user.id+"%License"] = string
+        }
+        
         self.actionRequired.reloadData()
     }
     
@@ -228,11 +262,13 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
+            self.baitSeasonButton.isEnabled = false
             self.recentlyViewed.isHidden = true
             self.actionRequired.isHidden = true
             self.setNavigationBarItemsForGuest()
             return
         }
+        defaults.removeObject(forKey: "documentsUpload")
         self.notifcationOfUser = FirestoreDAO.notificationDetails
 //        checkForNotifications()
 //        calculateTotalNotifications()
@@ -249,6 +285,7 @@ class HomeViewController: UIViewController {
                 if request.identifier == months[dateComponents.month!] {
                     DispatchQueue.main.async { [weak self] in
                         self!.reminder.text = request.content.body
+                        self?.baitSeasonButton.isEnabled = true
                         //self?.tableView.reloadData()
                     }
                     flag = true
@@ -261,6 +298,7 @@ class HomeViewController: UIViewController {
             if !flag {
                 DispatchQueue.main.async { [weak self] in
                     self!.reminder.text = "Reminders disabled for Baits Season"
+                    self?.baitSeasonButton.isEnabled = false
                     //self?.tableView.reloadData()
                 }
             }
@@ -339,24 +377,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.restorationIdentifier == "recentlyViewed" {
-            if recentlyViewedPrograms == nil || recentlyViewedPrograms.isEmpty {
+            if recentlyViewedPrograms.isEmpty {
                 return 0
             } else {
                 return recentlyViewedPrograms.count
             }
         } else {
-            let license = FirestoreDAO.notificationDetails["license"] as? Bool
-            var total = overDueBaitsForProgram.count + dueSoonBaitsForProgram.count + documentsPending.count + scheduledPrograms.count
-            if user.licenseExpiryDate == nil || license! && user.licenseExpiringSoon {
-                total += 1
-            }
-            if total == 0 {
-                return 0
-            } else if total == 1 {
-                return 1
+//            let total = overDueBaitsForProgram.count + dueSoonBaitsForProgram.count + documentsPending.count + scheduledPrograms.count
+            if !tableToLoad.isEmpty {
+                if tableToLoad.count == 0 {
+                    return 0
+                } else if tableToLoad.count == 1 {
+                    return 1
+                } else {
+                    return 2
+                }
             } else {
-                return 2
+                return 0
             }
+            
         }
     }
     
@@ -380,28 +419,30 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.imageView!.image = UIImage(named: "warning")
                     cell.textLabel?.text = Array(tableToLoad.values)[indexPath.row]
                     cell.textLabel?.numberOfLines = 2
-                }else if user.licenseExpiryDate != nil {
-                    
-                    if FirestoreDAO.notificationDetails["license"] as! Bool {
-                        let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
-                        if days! >= 0{
-                            cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                        } else {
-                            cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                        }
-                        
-                        cell.imageView!.image = UIImage(named: "exclamation-mark")
-                        cell.textLabel?.numberOfLines = 2
-                        countForAction += 1
-                    }
-                    
-                    
-                } else {
-                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.text = "Please uplaod the Baiting License"
-                    cell.textLabel?.numberOfLines = 2
                     countForAction += 1
                 }
+//                else if user.licenseExpiryDate != nil {
+//
+//                    if FirestoreDAO.notificationDetails["license"] as! Bool {
+//                        let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+//                        if days! >= 0{
+//                            cell.textLabel?.text = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+//                        } else {
+//                            cell.textLabel?.text = "License is over due by \(days!) day(s) from  \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+//                        }
+//
+//                        cell.imageView!.image = UIImage(named: "exclamation-mark")
+//                        cell.textLabel?.numberOfLines = 2
+//                        countForAction += 1
+//                    }
+//
+//
+//                } else {
+//                    cell.imageView!.image = UIImage(named: "exclamation-mark")
+//                    cell.textLabel?.text = "Please uplaod the Baiting License"
+//                    cell.textLabel?.numberOfLines = 2
+//                    countForAction += 1
+//                }
             }
             
         }
@@ -417,14 +458,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             if !tableToLoad.isEmpty{
                 let key = Array(tableToLoad.keys)[indexPath.row]
                 let id = String(key.split(separator: "%")[0])
-                self.program = self.user.programs[id]
-                performSegue(withIdentifier: "programActionSegue", sender: nil)
-                tableView.deselectRow(at: indexPath, animated: true)
-            }
+                let type = String(key.split(separator: "%")[1])
+                if type == "License" {
+                    performSegue(withIdentifier: "licenseActionSegue", sender: nil)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                } else {
+                    self.program = self.user.programs[id]
+                    performSegue(withIdentifier: "programActionSegue", sender: nil)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                }
                 
-            else {
-                performSegue(withIdentifier: "licenseActionSegue", sender: nil)
-                tableView.deselectRow(at: indexPath, animated: true)
+//                self.program = self.user.programs[id]
+//                performSegue(withIdentifier: "programActionSegue", sender: nil)
+//                tableView.deselectRow(at: indexPath, animated: true)
+//            }
+//
+//            else {
+//                performSegue(withIdentifier: "licenseActionSegue", sender: nil)
+//                tableView.deselectRow(at: indexPath, animated: true)
+//            }
             }
         }
     }

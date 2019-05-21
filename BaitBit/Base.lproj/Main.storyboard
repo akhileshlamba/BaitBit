@@ -2380,6 +2380,7 @@
                     <size key="freeformSize" width="375" height="1000"/>
                     <connections>
                         <outlet property="actionRequired" destination="w47-eb-n8H" id="uVL-xC-8sJ"/>
+                        <outlet property="baitSeasonButton" destination="c5h-Ra-QbN" id="2B6-W8-kMJ"/>
                         <outlet property="nearbyBaits" destination="fUy-ZN-H71" id="7AE-X2-j7Z"/>
                         <outlet property="newProgramButton" destination="09x-Ad-XMy" id="GBD-Y6-rsQ"/>
                         <outlet property="recentlyViewed" destination="Mm3-Il-yMs" id="i7n-Ht-bUh"/>
@@ -4046,13 +4047,13 @@
         <image name="user1" width="21.333333969116211" height="21.333333969116211"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ayS-vr-VPL"/>
+        <segue reference="3Vf-Pw-7U0"/>
         <segue reference="Mah-cT-pM5"/>
         <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="XSh-ec-wXm"/>
+        <segue reference="9G0-J6-Wy4"/>
         <segue reference="Rhh-JI-IqV"/>
-        <segue reference="Jag-bg-Z1u"/>
+        <segue reference="PhL-KH-tkF"/>
         <segue reference="4po-OH-zlt"/>
-        <segue reference="91M-ev-XBb"/>
+        <segue reference="RAn-hk-cYE"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -36,7 +36,7 @@ class AddProgramViewController: UIViewController, SegueDelegate {
     
     let speciesType: [String] = ["(Please Select)", "Dog", "Pig", "Rabbit", "Fox"]
     
-    var docs: [Documents!] = []
+    var docs: [Documents?] = []
     
     let datePicker = UIDatePicker()
     
@@ -199,6 +199,7 @@ class AddProgramViewController: UIViewController, SegueDelegate {
         if segue.identifier == "ProgramStartedSegue" {
             let controller = segue.destination as! ProgramDetailsViewController
             controller.program = self.program
+            controller.isFromAdd = true
         }
         
         if segue.identifier == "DocumentSegue" {

@@ -31,6 +31,7 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var showDueSoonButton: UIButton!
     
     var flag : Bool = false
+    var isFromAdd : Bool = false
     
     @IBOutlet weak var durationLabel: UILabel!
     let defaults = UserDefaults.standard
@@ -44,7 +45,7 @@ class ProgramDetailsViewController: UIViewController {
         
         
         
-        if program.documents.count == 4 {
+        if program.documents.count >= 4 {
             docPendingLabel.text = "Documents"
         }
         // Do any additional setup after loading the view.
@@ -67,9 +68,12 @@ class ProgramDetailsViewController: UIViewController {
                 //                    recentlyViewed![self.program.id] = NSDate().timeIntervalSinceNow
                 //                }
             } else {
-                let temp = recentlyViewed?.min{a,b in (a.value as! Double) < (b.value as! Double)}
-                recentlyViewed?.removeValue(forKey: temp!.key)
-                recentlyViewed![self.program.id] = NSDate().timeIntervalSince1970
+                
+                if !(recentlyViewed?.keys.contains(self.program.id))! {
+                    let temp = recentlyViewed?.min{a,b in (a.value as! Double) < (b.value as! Double)}
+                    recentlyViewed?.removeValue(forKey: temp!.key)
+                    recentlyViewed![self.program.id] = NSDate().timeIntervalSince1970
+                }
             }
             defaults.set(recentlyViewed, forKey: "recentlyViewed")
             print(recentlyViewed!.count)
@@ -112,7 +116,12 @@ class ProgramDetailsViewController: UIViewController {
         //self.program = FirestoreDAO.authenticatedUser.programs[program.id]
         self.updateTextFields()
         self.setRightBarButtonItem()
-        if self.program.documents.count == 4 {
+        
+        if !isFromAdd {
+            self.program = FirestoreDAO.authenticatedUser.programs[self.program.id]
+        }
+        
+        if self.program.documents.count >= 4 {
             docPendingLabel.text = "Documents"
         }
     }

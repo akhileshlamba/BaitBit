@@ -172,7 +172,7 @@ class Program: NSObject {
     }
     
     var areDocumentsPending : Bool {
-        return documents.count != 4
+        return documents.count < 4
     }
     
     var futureDate : Bool {
