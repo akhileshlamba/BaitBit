@@ -812,28 +812,39 @@ class FirestoreDAO: NSObject {
         }
     }
     
-//    static func getBaits(complete : @escaping ([Bait]) -> Void){
-//        usersRef.getDocuments(completion: {(document, error) in
-//            if (document?.documents.isEmpty ?? nil)! {
-//                complete([])
-//            } else {
-//                for document in document!.documents {
-//                    let programs = document["programs"] as! NSDictionary
-//                    if programs != nil {
-//                        for program in programs {
-//                            let value = program.value as! NSDictionary
-//                            let baits = value["baits"] as! NSDictionary
-//                            if baits != nil {
-//                                for bait in baits {
-//                                    Bait b = Bait(id: <#T##String#>, laidDate: <#T##NSDate?#>, latitude: <#T##Double#>, longitude: <#T##Double#>, photoPath: <#T##String?#>, photoURL: <#T##String?#>, program: <#T##Program#>, isRemoved: <#T##Bool?#>)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    
-//                }
-//            }
-//        })
-//    }
+    static func getBaits(complete : @escaping ([Bait]) -> Void){
+        var baitList = [Bait]()
+        usersRef.getDocuments(completion: {(document, error) in
+            if (document?.documents.isEmpty ?? nil)! {
+                complete([])
+            } else {
+                for document in document!.documents {
+//                    let programs = document["programs"] as? NSDictionary
+                    if let programs = document["programs"] as? NSDictionary {
+                        for elem in programs {
+                            let id = elem.key as! String
+                            let p = elem.value as! NSDictionary
+                            let baitType = p["baitType"] as! String
+                            let species = p["species"] as! String
+                            let startDate = p["startDate"] as! String
+                            let isActive = p["isActive"] as! Bool
+                            let dateformatter = DateFormatter()
+                            dateformatter.dateFormat = "MMM dd, yyyy"
+                            let program:Program = Program(id: id,
+                                                          baitType: baitType,
+                                                          species: species,
+                                                          startDate: dateformatter.date(from: startDate) as NSDate?,
+                                                          isActive: isActive)
+                            
+                            if p["baits"] != nil {
+                                baitList.append(contentsOf: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
+                            }
+                        }
+                    }
+                }
+                complete(baitList)
+            }
+        })
+    }
     
 }

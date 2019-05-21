@@ -2105,7 +2105,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <segue destination="ZSX-rJ-Ras" kind="show" identifier="baitsSegue" id="PhL-KH-tkF"/>
+                                                    <action selector="viewAllBaitNearMe:" destination="VNR-3w-AnT" eventType="touchUpInside" id="l9h-7J-GgQ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09x-Ad-XMy">
@@ -2386,6 +2386,7 @@
                         <outlet property="reminder" destination="2Bl-h2-MzR" id="7Ud-e1-mV3"/>
                         <segue destination="yr6-W9-ivw" kind="show" identifier="programActionSegue" id="9G0-J6-Wy4"/>
                         <segue destination="8lv-Gw-Vzf" kind="show" identifier="licenseActionSegue" id="3Vf-Pw-7U0"/>
+                        <segue destination="ZSX-rJ-Ras" kind="show" identifier="baitsSegue" id="2oa-rw-dSb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ALT-Fi-2pw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4046,13 +4047,13 @@
         <image name="user1" width="21.333333969116211" height="21.333333969116211"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ayS-vr-VPL"/>
+        <segue reference="3Vf-Pw-7U0"/>
         <segue reference="Mah-cT-pM5"/>
         <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="XSh-ec-wXm"/>
+        <segue reference="9G0-J6-Wy4"/>
         <segue reference="Rhh-JI-IqV"/>
-        <segue reference="Jag-bg-Z1u"/>
+        <segue reference="2oa-rw-dSb"/>
         <segue reference="4po-OH-zlt"/>
-        <segue reference="91M-ev-XBb"/>
+        <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>
 </document>

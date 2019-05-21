@@ -99,15 +99,36 @@ class HomeViewController: UIViewController {
     }
 
     func getAllMyBaits() {
-        for program in self.user.programs.values {
-            self.baits.append(contentsOf: program.baits.values)
+//        for program in self.user.programs.values {
+//            self.baits.append(contentsOf: program.baits.values)
+//        }
+//
+//        self.baits = self.baits.filter({ (bait) -> Bool in
+//            return !bait.isRemoved
+//        })
+        FirestoreDAO.getBaits { (baitList) in
+            self.baits = baitList
+            self.baits = self.baits.filter({ (bait) -> Bool in
+                return !bait.isRemoved
+            })
         }
-        
-        self.baits = self.baits.filter({ (bait) -> Bool in
-            return !bait.isRemoved
-        })
     }
-
+    
+    
+    @IBAction func viewAllBaitNearMe(_ sender: Any) {
+        if self.baits.isEmpty {
+            FirestoreDAO.getBaits { (baitList) in
+                self.baits = baitList
+                self.baits = self.baits.filter({ (bait) -> Bool in
+                    return !bait.isRemoved
+                })
+                self.performSegue(withIdentifier: "baitsSegue", sender: nil)
+            }
+        } else {
+            self.performSegue(withIdentifier: "baitsSegue", sender: nil)
+        }
+    }
+    
     @objc func logout() {
         // TODO: implement logout: embed the pop action inside logout action
         defaults.set(false, forKey: "loggedIn")
