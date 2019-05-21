@@ -56,18 +56,18 @@ class HomeViewController: UIViewController {
     var overDueBaitsForProgram : [String : Int] = [:]
     var dueSoonBaitsForProgram : [String : Int] = [:]
     var scheduledPrograms : [String: Int] = [:]
-    
+
     var textForReminderOnHomeScreen = ""
     var flagForCreation = false
     var flagForSelection = false
     var countForSwitchBetweenOverDueAndDueSoon = 0
     var countForAction = 0
-    
+
     @IBOutlet weak var baitSeasonButton: UIButton!
-    
+
     var recentlyViewedPrograms = [String: Double]()
     var action = [String: Int]()
-    
+
     var program : Program!
 
     override func viewDidLoad() {
@@ -75,7 +75,7 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
 //        self.navigationController?.setNavigationBarHidden(true, animated: true)
 
-        
+
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
             self.newProgramButton.isHidden = true
@@ -84,13 +84,13 @@ class HomeViewController: UIViewController {
             self.setNavigationBarItemsForGuest()
             return
         }
-        
+
         self.recentlyViewed.dataSource = self
         self.recentlyViewed.delegate = self
-        
+
         self.actionRequired.dataSource = self
         self.actionRequired.delegate = self
-        
+
         self.user = FirestoreDAO.authenticatedUser!
         self.notifcationOfUser = FirestoreDAO.notificationDetails
         //checkForNotifications()
@@ -102,24 +102,34 @@ class HomeViewController: UIViewController {
     }
 
     func getAllMyBaits() {
-        
-//        let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
-//        if !loggedIn {
-//            FirestoreDAO.getBaits(complete: {(result) in
-//                self.baits = result.filter({(bait) -> Bool in
-//                    return !bait.isRemoved
-//                })
-//            })
-//            return
+//        for program in self.user.programs.values {
+//            self.baits.append(contentsOf: program.baits.values)
 //        }
-        
-        for program in self.user.programs.values {
-            self.baits.append(contentsOf: program.baits.values)
+//
+//        self.baits = self.baits.filter({ (bait) -> Bool in
+//            return !bait.isRemoved
+//        })
+        FirestoreDAO.getBaits { (baitList) in
+            self.baits = baitList
+            self.baits = self.baits.filter({ (bait) -> Bool in
+                return !bait.isRemoved
+            })
         }
-        
-        self.baits = self.baits.filter({ (bait) -> Bool in
-            return !bait.isRemoved
-        })
+    }
+
+
+    @IBAction func viewAllBaitNearMe(_ sender: Any) {
+        if self.baits.isEmpty {
+            FirestoreDAO.getBaits { (baitList) in
+                self.baits = baitList
+                self.baits = self.baits.filter({ (bait) -> Bool in
+                    return !bait.isRemoved
+                })
+                self.performSegue(withIdentifier: "baitsSegue", sender: nil)
+            }
+        } else {
+            self.performSegue(withIdentifier: "baitsSegue", sender: nil)
+        }
     }
 
     @objc func logout() {
@@ -169,9 +179,9 @@ class HomeViewController: UIViewController {
         user = FirestoreDAO.authenticatedUser
         countForSwitchBetweenOverDueAndDueSoon = 0
         let response = Notifications.calculateTotalNotifications(of: FirestoreDAO.authenticatedUser, with: FirestoreDAO.notificationDetails)
-        
+
         tableToLoad = [:]
-        
+
         if !response.isEmpty {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]
             dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
@@ -179,7 +189,7 @@ class HomeViewController: UIViewController {
             scheduledPrograms = response["scheduledPrograms"] as! [String: Int]
             sections = response["sections"] as! [String]
         }
-        
+
         if !overDueBaitsForProgram.isEmpty {
             for program in overDueBaitsForProgram {
                 let id = String(program.key.split(separator: "%")[0])
@@ -189,8 +199,8 @@ class HomeViewController: UIViewController {
                 tableToLoad[id+"%OverDue"] = string
             }
         }
-        
-        
+
+
         if !dueSoonBaitsForProgram.isEmpty {
             for program in dueSoonBaitsForProgram {
                 let id = String(program.key.split(separator: "%")[0])
@@ -200,7 +210,7 @@ class HomeViewController: UIViewController {
                 tableToLoad[id+"%DueSoon"] = string
             }
         }
-        
+
         if !documentsPending.isEmpty {
             for program in documentsPending {
                 let id = String(program.key.split(separator: "%")[0])
@@ -210,7 +220,7 @@ class HomeViewController: UIViewController {
                 tableToLoad[id+"%Documents"] = string
             }
         }
-        
+
         if !scheduledPrograms.isEmpty {
             for p in scheduledPrograms {
                 let id = String(p.key.split(separator: "%")[0])
@@ -221,7 +231,7 @@ class HomeViewController: UIViewController {
                 tableToLoad[id+"%Scheduled"] = string
             }
         }
-        
+
         if user.licenseExpiryDate != nil {
 
             if sections.contains("License") {
@@ -230,20 +240,20 @@ class HomeViewController: UIViewController {
                     let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
                     tableToLoad[user.id+"%License"] = string
                 } else {
-                    
+
                     let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
                     tableToLoad[user.id+"%License"] = string
-                    
+
                 }
             }
         } else {
             let string = "Please uplaod the Baiting License"
             tableToLoad[user.id+"%License"] = string
         }
-        
+
         self.actionRequired.reloadData()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
@@ -274,7 +284,7 @@ class HomeViewController: UIViewController {
 //        calculateTotalNotifications()
         self.loadData()
         self.setNavigationBarItems()
-        
+
         // Notification for the current Month to be shown on home screen
         let current = UNUserNotificationCenter.current()
         current.getPendingNotificationRequests(completionHandler: {(requests) in
@@ -292,9 +302,9 @@ class HomeViewController: UIViewController {
                     print(request.content.body)
                     self.textForReminderOnHomeScreen = request.content.body
                 }
-                
+
             }
-            
+
             if !flag {
                 DispatchQueue.main.async { [weak self] in
                     self!.reminder.text = "Reminders disabled for Baits Season"
@@ -303,13 +313,13 @@ class HomeViewController: UIViewController {
                 }
             }
         })
-        
+
         self.user = FirestoreDAO.authenticatedUser!
         if self.defaults.dictionary(forKey: "recentlyViewed") != nil {
             recentlyViewedPrograms = self.defaults.dictionary(forKey: "recentlyViewed") as! [String : Double]
             self.recentlyViewed.reloadData()
         }
-        
+
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -336,13 +346,13 @@ class HomeViewController: UIViewController {
             let controller = segue.destination as! BaitsProgramMapViewController
             controller.baits = baits
         }
-        
+
         if segue.identifier == "programActionSegue" {
             let controller = segue.destination as! ProgramDetailsViewController
             controller.program = program
             Program.program = controller.program
         }
-        
+
         if segue.identifier == "licenseActionSegue" {
             let controller = segue.destination as! MoreTableViewController
             controller.user = user
@@ -370,11 +380,11 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.restorationIdentifier == "recentlyViewed" {
             if recentlyViewedPrograms.isEmpty {
@@ -395,13 +405,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 return 0
             }
-            
+
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recentlyViewed", for: indexPath)
-        
+
         if tableView.restorationIdentifier == "recentlyViewed" {
             if recentlyViewedPrograms.isEmpty {
                 return cell
@@ -414,7 +424,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             if countForAction < 2 {
-                
+
                 if !tableToLoad.isEmpty{
                     cell.imageView!.image = UIImage(named: "warning")
                     cell.textLabel?.text = Array(tableToLoad.values)[indexPath.row]
@@ -444,11 +454,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //                    countForAction += 1
 //                }
             }
-            
+
         }
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.restorationIdentifier == "recentlyViewed" {
             program = self.user.programs[Array(recentlyViewedPrograms.keys)[indexPath.row]]
@@ -467,7 +477,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     performSegue(withIdentifier: "programActionSegue", sender: nil)
                     tableView.deselectRow(at: indexPath, animated: true)
                 }
-                
+
 //                self.program = self.user.programs[id]
 //                performSegue(withIdentifier: "programActionSegue", sender: nil)
 //                tableView.deselectRow(at: indexPath, animated: true)
@@ -480,6 +490,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-    
-    
+
+
 }

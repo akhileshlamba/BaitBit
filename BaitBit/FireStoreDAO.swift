@@ -109,7 +109,7 @@ class FirestoreDAO: NSObject {
                     }
                 }
             } else {
-                
+
                 complete(["Duplicate User" : nil])
             }
         })
@@ -121,7 +121,7 @@ class FirestoreDAO: NSObject {
             username: userInfo["username"] as! String,
             password: userInfo["password"] as! String
         )
-        
+
         if userInfo["licensePath"] != nil {
             self.authenticatedUser.setLicensePath(path: (userInfo["licensePath"] as? String)!)
             self.authenticatedUser.setLicenseExpiryDate(date: Util.convertStringToDate(string: (userInfo["licenseExpiryDate"] as! String))!)
@@ -147,7 +147,7 @@ class FirestoreDAO: NSObject {
                                               startDate: dateformatter.date(from: startDate) as NSDate?,
                                               isActive: isActive)
                 self.authenticatedUser.addToPrograms(program: program)
-                
+
                 if p["documents"] != nil {
                     let documents = p["documents"] as! NSDictionary
                     for document in documents {
@@ -160,15 +160,15 @@ class FirestoreDAO: NSObject {
                         doc.imageFirebaseURL = firebaseURL
                         program.addToDocuments(document: doc)
                     }
-                    
+
                 }
-                
+
                 if p["baits"] != nil {
                     program.addToBaits(baits: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
                 } else {
                     program.baits = [:]
                 }
-                
+
                 if p["endDate"] != nil {
                     program.endDate = dateformatter.date(from: p["endDate"] as! String)
                 }
@@ -188,11 +188,11 @@ class FirestoreDAO: NSObject {
             if error != nil {
                 print("Error")
             } else {
-                
+
                 setUserData(with: result?.data() as! NSDictionary, id: result!.documentID)
                 let notificationsRef = Firestore.firestore().collection("notifications")
                 let query = notificationsRef.whereField("notificationOfUser", isEqualTo: userId)
-                
+
                 query.getDocuments(completion: {(result, error) in
                     if ((result?.documents.isEmpty)!) {
                         complete!(nil)
@@ -208,7 +208,7 @@ class FirestoreDAO: NSObject {
             }
         })
     }
-    
+
     static func getUserData(from userId: String, complete: (([String: Any]) -> Void)?) {
         let user = usersRef.document(userId)
         user.getDocument(completion: {(result, error) in
@@ -242,7 +242,7 @@ class FirestoreDAO: NSObject {
                 print("Error updating document: \(err)")
             } else {
                 self.notificationDetails = updated
-                
+
                 if previous["scheduledPrograms"] != nil {
                     if updated["scheduledPrograms"] as! Bool != previous["scheduledPrograms"] as! Bool {
                         var programsList = [Program]()
@@ -265,7 +265,7 @@ class FirestoreDAO: NSObject {
                         }
                     }
                 }
-                
+
                 Reminder.removePendingNotifications(for: "animal", programs: nil)
                 Reminder.setOrUpdateRemindersForAnimals(notifications: updated)
                 print("Document successfully updated")
@@ -316,7 +316,7 @@ class FirestoreDAO: NSObject {
         let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(image, 0.1)!
-        
+
         // save the image to a local file
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -463,7 +463,7 @@ class FirestoreDAO: NSObject {
             } else {
                 photoURL = nil
             }
-            
+
             let isRemoved = b["isRemoved"] as! Bool
             let dateformatter = DateFormatter()
             dateformatter.dateFormat = "MMM dd, yyyy"
@@ -546,7 +546,7 @@ class FirestoreDAO: NSObject {
                 tempDoc["photoURL"] = document?.imageFirebaseURL
                 doc[document?.imageLocalURL] = tempDoc
             }
-            
+
             document.setData([
                 "programs": [
                     program.id: [
@@ -567,7 +567,7 @@ class FirestoreDAO: NSObject {
                         complete(true)
                     }
             })
-            
+
         } else {
             document.setData([
                 "programs": [
@@ -633,7 +633,7 @@ class FirestoreDAO: NSObject {
     static func delete(bait: Bait, for program: Program, complete: ((Bool) -> Void)?) {
 
     }
-    
+
     static func remove(bait: Bait, from program: Program, complete: ((Bool) -> Void)?) {
         self.setData(for: authenticatedUser, data: [
                 "programs": [
@@ -651,13 +651,13 @@ class FirestoreDAO: NSObject {
                 ]
             ], complete: complete)
     }
-    
+
     static func end(program: Program, complete: ((Bool) -> Void)?) {
         self.setData(for: self.authenticatedUser,
                      data: ["programs": [program.id: ["isActive": false, "endDate": Util.setDateAsString(date: program.endDate as! NSDate)]]],
                      complete: complete)
     }
-    
+
     static private func setData(for user: User, data: [String : Any], complete: ((Bool) -> Void)?) {
         let document = usersRef.document("\(user.id)")
         document.setData(data, merge: true) { (err) in
@@ -677,24 +677,24 @@ class FirestoreDAO: NSObject {
             })
         }
     }
-    
+
     static func fetchImage(for bait: Bait, complete: @escaping (UIImage) -> Void) {
         if let photoPath = bait.photoPath, let photoURL = bait.photoURL {
             self.fetchImage(from: bait.photoPath, otherwiseFrom: bait.photoURL, complete: complete)
         }
     }
-    
+
     static private func fetchImage(from localPath: String?, otherwiseFrom photoURL: String?, complete: @escaping (UIImage) -> Void) {
         var image: UIImage?
         if let photoPath = localPath {
-            
+
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
             let url = NSURL(fileURLWithPath: path)
-            
+
             if let pathComponent = url.appendingPathComponent(photoPath) {
                 let filePath = pathComponent.path
                 let fileManager = FileManager.default
-                
+
                 if fileManager.fileExists(atPath: filePath) {
                     guard let fileData = fileManager.contents(atPath: filePath) else {return}
                     image = UIImage(data: fileData)
@@ -715,13 +715,13 @@ class FirestoreDAO: NSObject {
             }
         }
     }
-    
-    
+
+
     static func uploadDocument(of userId: String,  programId: String, document: UIImage, name: String, complete: @escaping (Bool) -> Void) {
         let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(document, 0.1)!
-        
+
         // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
         let imageRef = storageRef.child("\(userId)/Program/\(name)/\(date)")
         let metadata = StorageMetadata()
@@ -763,7 +763,7 @@ class FirestoreDAO: NSObject {
                 })
             }
         }
-        
+
         // save the image to a local file
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -773,12 +773,12 @@ class FirestoreDAO: NSObject {
             fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
         }
     }
-    
+
     static func uploadDocument(of userId: String, document: UIImage, name: String, complete: @escaping (Documents?) -> Void) {
         let date = UInt(Date().timeIntervalSince1970) // This will be used as the photoPath of local storage
         var data = Data()
         data = UIImageJPEGRepresentation(document, 0.1)!
-        
+
         // save image to firebase storage, get the photoURL, then save photoURL and photoPath(i.e. date)
         let imageRef = storageRef.child("\(userId)/Program/\(name)/\(date)")
         let metadata = StorageMetadata()
@@ -801,7 +801,7 @@ class FirestoreDAO: NSObject {
                 })
             }
         }
-        
+
         // save the image to a local file
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let url = NSURL(fileURLWithPath: path)
@@ -809,7 +809,7 @@ class FirestoreDAO: NSObject {
             let filePath = pathComponent.path
             let fileManager = FileManager.default
             fileManager.createFile(atPath: filePath, contents: data, attributes: nil)
-            
+
             let defaults = UserDefaults()
             var documentsUpload = defaults.dictionary(forKey: "documentsUpload")
             if documentsUpload == nil || documentsUpload!.isEmpty {
@@ -821,29 +821,40 @@ class FirestoreDAO: NSObject {
             defaults.set(documentsUpload, forKey: "documentsUpload")
         }
     }
-    
+
     static func getBaits(complete : @escaping ([Bait]) -> Void){
+        var baitList = [Bait]()
         usersRef.getDocuments(completion: {(document, error) in
             if (document?.documents.isEmpty ?? nil)! {
                 complete([])
             } else {
-                var baitsList = [Bait]()
                 for document in document!.documents {
-                    let programs = document["programs"] as? NSDictionary
-                    if programs != nil {
-                        for program in programs! {
-                            let value = program.value as! NSDictionary
-                            let baits = value["baits"] as? NSDictionary
-                            if baits != nil {
-                                baitsList.append(contentsOf: getAllBaitsss(for: baits!, program: programs as! Program))
+//                    let programs = document["programs"] as? NSDictionary
+                    if let programs = document["programs"] as? NSDictionary {
+                        for elem in programs {
+                            let id = elem.key as! String
+                            let p = elem.value as! NSDictionary
+                            let baitType = p["baitType"] as! String
+                            let species = p["species"] as! String
+                            let startDate = p["startDate"] as! String
+                            let isActive = p["isActive"] as! Bool
+                            let dateformatter = DateFormatter()
+                            dateformatter.dateFormat = "MMM dd, yyyy"
+                            let program:Program = Program(id: id,
+                                                          baitType: baitType,
+                                                          species: species,
+                                                          startDate: dateformatter.date(from: startDate) as NSDate?,
+                                                          isActive: isActive)
+
+                            if p["baits"] != nil {
+                                baitList.append(contentsOf: getAllBaitsss(for: p["baits"] as! NSDictionary, program: program))
                             }
                         }
                     }
-
                 }
-                complete(baitsList)
+                complete(baitList)
             }
         })
     }
-    
+
 }
