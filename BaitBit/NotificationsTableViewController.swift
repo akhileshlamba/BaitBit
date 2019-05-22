@@ -200,7 +200,7 @@ class NotificationsTableViewController: UITableViewController {
                     }
                 } else {
                     cell.imageView!.image = UIImage(named: "exclamation-mark")
-                    cell.textLabel?.text = "Please uplaod the Baiting License"
+                    cell.textLabel?.text = "Please upload the Baiting License"
                     cell.textLabel?.numberOfLines = 2
                 }
                 break
