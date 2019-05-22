@@ -39,6 +39,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var recentlyViewed: UITableView!
     var sections = [String]()
     var tableToLoad: [String: String] = [:]
+    var tablesToLoad : [Int : [String: String]] = [:]
+    var data = [String]()
 
     var user : User!
 
@@ -175,13 +177,14 @@ class HomeViewController: UIViewController {
 //    }
 
     func loadData() {
+        data = []
         countForAction = 0
         user = FirestoreDAO.authenticatedUser
         countForSwitchBetweenOverDueAndDueSoon = 0
         let response = Notifications.calculateTotalNotifications(of: FirestoreDAO.authenticatedUser, with: FirestoreDAO.notificationDetails)
 
         tableToLoad = [:]
-
+        
         if !response.isEmpty {
             overDueBaitsForProgram = response["overDue"] as! [String: Int]
             dueSoonBaitsForProgram = response["dueSoon"] as! [String: Int]
@@ -191,65 +194,193 @@ class HomeViewController: UIViewController {
         }
 
         if !overDueBaitsForProgram.isEmpty {
+            var t : [String: String] = [:]
             for program in overDueBaitsForProgram {
                 let id = String(program.key.split(separator: "%")[0])
                 let name = String(program.key.split(separator: "%")[1])
                 let count = program.value
                 let string = "\(count) Baits over due in \(name) program"
                 tableToLoad[id+"%OverDue"] = string
-            }
-        }
-
-
-        if !dueSoonBaitsForProgram.isEmpty {
-            for program in dueSoonBaitsForProgram {
-                let id = String(program.key.split(separator: "%")[0])
-                let name = String(program.key.split(separator: "%")[1])
-                let count = program.value
-                let string = "\(count) Baits due soon in \(name) program"
-                tableToLoad[id+"%DueSoon"] = string
-            }
-        }
-
-        if !documentsPending.isEmpty {
-            for program in documentsPending {
-                let id = String(program.key.split(separator: "%")[0])
-                let name = String(program.key.split(separator: "%")[1])
-                let count = program.value
-                let string = "\(count) documents pending in \(name) program"
-                tableToLoad[id+"%Documents"] = string
-            }
-        }
-
-        if !scheduledPrograms.isEmpty {
-            for p in scheduledPrograms {
-                let id = String(p.key.split(separator: "%")[0])
-                let name = String(p.key.split(separator: "%")[1])
-                let programs = user.programs
-                program = programs[id]
-                let string = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
-                tableToLoad[id+"%Scheduled"] = string
-            }
-        }
-
-        if user.licenseExpiryDate != nil {
-
-            if sections.contains("License") {
-                let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
-                if days! >= 0{
-                    let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                    tableToLoad[user.id+"%License"] = string
+                t[id+"%OverDue"] = string
+                if data.count < 2 {
+                    data.append(id+"%OverDue%\(count) Baits over due in \(name) program")
                 } else {
-
-                    let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
-                    tableToLoad[user.id+"%License"] = string
-
+                    break
                 }
             }
-        } else {
-            let string = "Please uplaod the Baiting License"
-            tableToLoad[user.id+"%License"] = string
+            tablesToLoad[0] = t
         }
+
+
+        if data.count < 2 {
+            if !dueSoonBaitsForProgram.isEmpty {
+                var t : [String: String] = [:]
+                for program in dueSoonBaitsForProgram {
+                    let id = String(program.key.split(separator: "%")[0])
+                    let name = String(program.key.split(separator: "%")[1])
+                    let count = program.value
+                    let string = "\(count) Baits due soon in \(name) program"
+                    tableToLoad[id+"%DueSoon"] = string
+                    t[id+"%DueSoon"] = string
+                    if data.count < 2 {
+                        data.append(id+"%DueSoon%\(count) Baits due soon in \(name) program")
+                    } else {
+                        break
+                    }
+                }
+                tablesToLoad[1] = t
+            }
+        }
+        
+//        if !dueSoonBaitsForProgram.isEmpty {
+//            var t : [String: String] = [:]
+//            for program in dueSoonBaitsForProgram {
+//                let id = String(program.key.split(separator: "%")[0])
+//                let name = String(program.key.split(separator: "%")[1])
+//                let count = program.value
+//                let string = "\(count) Baits due soon in \(name) program"
+//                tableToLoad[id+"%DueSoon"] = string
+//                t[id+"%DueSoon"] = string
+//            }
+//            tablesToLoad[1] = t
+//        }
+        
+        if data.count < 2 {
+            if user.licenseExpiryDate != nil {
+                var t : [String: String] = [:]
+                if sections.contains("License") {
+                    let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+                    if days! >= 0{
+                        let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                        tableToLoad[user.id+"%License"] = string
+                        t[user.id+"%License"] = string
+                        tablesToLoad[2] = t
+                        
+                        if data.count < 2 {
+                            data.append(user.id+"%License%License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))")
+                        }
+                        
+                    } else {
+                        
+                        let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+                        tableToLoad[user.id+"%License"] = string
+                        t[user.id+"%License"] = string
+                        tablesToLoad[2] = t
+                        
+                        if data.count < 2 {
+                            data.append(user.id+"%License%License over due by \(abs(days!)) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))")
+                        }
+                        
+                    }
+                }
+            } else {
+                var t : [String: String] = [:]
+                let string = "Please upload the Baiting License"
+                tableToLoad[user.id+"%License"] = string
+                t[user.id+"%License"] = string
+                tablesToLoad[2] = t
+                
+                data.append(user.id+"%License%Please upload the Baiting License")
+            }
+        }
+        
+//        if user.licenseExpiryDate != nil {
+//            var t : [String: String] = [:]
+//            if sections.contains("License") {
+//                let days = Calendar.current.dateComponents([.day], from: Date(), to: user.licenseExpiryDate! as Date).day
+//                if days! >= 0{
+//                    let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+//                    tableToLoad[user.id+"%License"] = string
+//                    t[user.id+"%License"] = string
+//                    tablesToLoad[2] = t
+//                } else {
+//
+//                    let string = "License expiring in \(days!) day(s) on \(Util.setDateAsString(date: user.licenseExpiryDate!))"
+//                    tableToLoad[user.id+"%License"] = string
+//                    t[user.id+"%License"] = string
+//                    tablesToLoad[2] = t
+//
+//                }
+//            }
+//        } else {
+//            var t : [String: String] = [:]
+//            let string = "Please upload the Baiting License"
+//            tableToLoad[user.id+"%License"] = string
+//            t[user.id+"%License"] = string
+//            tablesToLoad[2] = t
+//        }
+
+        if data.count < 2 {
+            if !documentsPending.isEmpty {
+                var t : [String: String] = [:]
+                for program in documentsPending {
+                    let id = String(program.key.split(separator: "%")[0])
+                    let name = String(program.key.split(separator: "%")[1])
+                    let count = program.value
+                    let string = "\(count) documents pending in \(name) program"
+                    tableToLoad[id+"%Documents"] = string
+                    t[id+"%Documents"] = string
+                    
+                    if data.count < 2 {
+                        data.append(id+"%Documents%\(count) documents pending in \(name) program")
+                    } else {
+                        break
+                    }
+                    
+                }
+                tablesToLoad[3] = t
+            }
+        }
+        
+//        if !documentsPending.isEmpty {
+//            var t : [String: String] = [:]
+//            for program in documentsPending {
+//                let id = String(program.key.split(separator: "%")[0])
+//                let name = String(program.key.split(separator: "%")[1])
+//                let count = program.value
+//                let string = "\(count) documents pending in \(name) program"
+//                tableToLoad[id+"%Documents"] = string
+//                t[id+"%Documents"] = string
+//            }
+//            tablesToLoad[3] = t
+//        }
+
+        if data.count < 2 {
+            if !scheduledPrograms.isEmpty {
+                var t : [String: String] = [:]
+                for p in scheduledPrograms {
+                    let id = String(p.key.split(separator: "%")[0])
+                    let name = String(p.key.split(separator: "%")[1])
+                    let programs = user.programs
+                    program = programs[id]
+                    let string = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
+                    tableToLoad[id+"%Scheduled"] = string
+                    t[id+"%Scheduled"] = string
+                    
+                    if data.count < 2 {
+                        data.append(id+"%Scheduled%\(name) program starting on \(Util.setDateAsString(date: program.startDate))")
+                    } else {
+                        break
+                    }
+                    
+                }
+                tablesToLoad[4] = t
+            }
+        }
+        
+//        if !scheduledPrograms.isEmpty {
+//            var t : [String: String] = [:]
+//            for p in scheduledPrograms {
+//                let id = String(p.key.split(separator: "%")[0])
+//                let name = String(p.key.split(separator: "%")[1])
+//                let programs = user.programs
+//                program = programs[id]
+//                let string = "\(name) program starting on \(Util.setDateAsString(date: program.startDate))"
+//                tableToLoad[id+"%Scheduled"] = string
+//                t[id+"%Scheduled"] = string
+//            }
+//            tablesToLoad[4] = t
+//        }
 
         self.actionRequired.reloadData()
     }
@@ -394,17 +525,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
 //            let total = overDueBaitsForProgram.count + dueSoonBaitsForProgram.count + documentsPending.count + scheduledPrograms.count
-            if !tableToLoad.isEmpty {
-                if tableToLoad.count == 0 {
-                    return 0
-                } else if tableToLoad.count == 1 {
-                    return 1
-                } else {
-                    return 2
-                }
-            } else {
-                return 0
-            }
+            
+//            if let data = tablesToLoad.values  {
+//                
+//            }
+            
+            
+            return data.count
+            
+            
+//            if !tableToLoad.isEmpty {
+//                if tableToLoad.count == 0 {
+//                    return 0
+//                } else if tableToLoad.count == 1 {
+//                    return 1
+//                } else {
+//                    return 2
+//                }
+//            } else {
+//                return 0
+//            }
 
         }
     }
@@ -423,14 +563,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         } else {
-            if countForAction < 2 {
-
-                if !tableToLoad.isEmpty{
-                    cell.imageView!.image = UIImage(named: "warning")
-                    cell.textLabel?.text = Array(tableToLoad.values)[indexPath.row]
-                    cell.textLabel?.numberOfLines = 2
-                    countForAction += 1
-                }
+            
+            if data.count != 0 {
+                cell.imageView!.image = UIImage(named: "warning")
+                cell.textLabel?.text = String(data[indexPath.row].split(separator: "%")[2])
+                cell.textLabel?.numberOfLines = 2
+            }
+            
+            
+//            if countForAction < 2 {
+//
+//                if !tableToLoad.isEmpty{
+//                    cell.imageView!.image = UIImage(named: "warning")
+//                    cell.textLabel?.text = Array(tableToLoad.values)[indexPath.row]
+//                    cell.textLabel?.numberOfLines = 2
+//                    countForAction += 1
+//                }
 //                else if user.licenseExpiryDate != nil {
 //
 //                    if FirestoreDAO.notificationDetails["license"] as! Bool {
@@ -453,7 +601,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //                    cell.textLabel?.numberOfLines = 2
 //                    countForAction += 1
 //                }
-            }
+            //}
 
         }
         return cell
@@ -465,18 +613,33 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             performSegue(withIdentifier: "programActionSegue", sender: nil)
         } else {
-            if !tableToLoad.isEmpty{
-                let key = Array(tableToLoad.keys)[indexPath.row]
-                let id = String(key.split(separator: "%")[0])
-                let type = String(key.split(separator: "%")[1])
-                if type == "License" {
+            
+            if data.count != 0 {
+                if String(data[indexPath.row].split(separator: "%")[1]) == "License" {
                     performSegue(withIdentifier: "licenseActionSegue", sender: nil)
                     tableView.deselectRow(at: indexPath, animated: true)
                 } else {
-                    self.program = self.user.programs[id]
+                    self.program = self.user.programs[String(data[indexPath.row].split(separator: "%")[0])]
                     performSegue(withIdentifier: "programActionSegue", sender: nil)
                     tableView.deselectRow(at: indexPath, animated: true)
                 }
+            }
+            
+            
+            
+            
+//            if !tableToLoad.isEmpty{
+//                let key = Array(tableToLoad.keys)[indexPath.row]
+//                let id = String(key.split(separator: "%")[0])
+//                let type = String(key.split(separator: "%")[1])
+//                if type == "License" {
+//                    performSegue(withIdentifier: "licenseActionSegue", sender: nil)
+//                    tableView.deselectRow(at: indexPath, animated: true)
+//                } else {
+//                    self.program = self.user.programs[id]
+//                    performSegue(withIdentifier: "programActionSegue", sender: nil)
+//                    tableView.deselectRow(at: indexPath, animated: true)
+//                }
 
 //                self.program = self.user.programs[id]
 //                performSegue(withIdentifier: "programActionSegue", sender: nil)
@@ -487,7 +650,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //                performSegue(withIdentifier: "licenseActionSegue", sender: nil)
 //                tableView.deselectRow(at: indexPath, animated: true)
 //            }
-            }
+            //}
         }
     }
 

@@ -41,6 +41,7 @@ class MoreTableViewController: UITableViewController {
         items.append(["Completed Programs", "Scheduled Programs"])
         items.append(["Resources", "Quick Links"])
         items.append(["Notifications"])
+        items.append(["Emergency"])
         
         images.append([""])
         images.append(["in-progress", "completed"])
@@ -137,12 +138,19 @@ class MoreTableViewController: UITableViewController {
                 cell.viewLicense.text = "Add License"
             }
             return cell
+        }
+        
+        if indexPath.section == 4 {
+            return tableView.dequeueReusableCell(withIdentifier: "emergency", for: indexPath)
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "basic", for: indexPath)
             cell.textLabel?.text = items[indexPath.section][indexPath.row]
             cell.imageView!.image = UIImage(named: images[indexPath.section][indexPath.row])
             return cell
         }
+        
+        
         //        let cell = tableView.dequeueReusableCell(withIdentifier: "basic", for: indexPath)
         //
         //        if indexPath.section == 2 {
@@ -160,7 +168,13 @@ class MoreTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 100.0
-        } else {
+        }
+        
+        if indexPath.section == 4 {
+            return 120.0
+        }
+        
+        else {
             return 50.0
         }
     }
@@ -182,7 +196,7 @@ class MoreTableViewController: UITableViewController {
             return "Settings"
         }
         
-        return "Empty"
+        return "Emergency"
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
