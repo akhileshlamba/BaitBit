@@ -600,19 +600,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TNf-R4-yZd">
-                                            <rect key="frame" x="16" y="7" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="Hpj-Eq-UFm"/>
-                                                <constraint firstAttribute="width" secondItem="TNf-R4-yZd" secondAttribute="height" multiplier="1:1" id="JXG-HF-eMn"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n75-3H-MA8">
-                                            <rect key="frame" x="54" y="11.5" width="34" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kym-9T-0Lv">
                                             <rect key="frame" x="334" y="7" width="25" height="30"/>
                                             <nil key="textColor"/>
@@ -622,17 +609,11 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="kym-9T-0Lv" secondAttribute="trailing" constant="16" id="1Kr-2x-Xv5"/>
-                                        <constraint firstItem="TNf-R4-yZd" firstAttribute="centerY" secondItem="62M-J3-hNO" secondAttribute="centerY" id="7Sa-vY-sjb"/>
-                                        <constraint firstItem="n75-3H-MA8" firstAttribute="leading" secondItem="TNf-R4-yZd" secondAttribute="trailing" constant="8" id="9N7-OG-Ak9"/>
-                                        <constraint firstItem="n75-3H-MA8" firstAttribute="centerY" secondItem="62M-J3-hNO" secondAttribute="centerY" id="fCC-cR-flX"/>
                                         <constraint firstItem="kym-9T-0Lv" firstAttribute="centerY" secondItem="62M-J3-hNO" secondAttribute="centerY" id="fuG-Ur-73K"/>
-                                        <constraint firstItem="TNf-R4-yZd" firstAttribute="leading" secondItem="62M-J3-hNO" secondAttribute="leading" constant="16" id="yKD-AI-kqy"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dateTextField" destination="kym-9T-0Lv" id="FkK-Ou-lHu"/>
-                                    <outlet property="icon" destination="TNf-R4-yZd" id="NQN-WJ-I7U"/>
-                                    <outlet property="label" destination="n75-3H-MA8" id="B6h-PJ-yaU"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusCell" id="kRA-pP-3BF" customClass="BaitFilterTableViewCell" customModule="BaitBit" customModuleProvider="target">
@@ -645,32 +626,13 @@
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lmh-2V-plf">
                                             <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                         </switch>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p1w-iF-pUj">
-                                            <rect key="frame" x="16" y="7" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="p1w-iF-pUj" secondAttribute="height" multiplier="1:1" id="THV-Ru-fq5"/>
-                                                <constraint firstAttribute="height" constant="30" id="njl-JF-2BG"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fYO-ax-9Zo">
-                                            <rect key="frame" x="54" y="11.5" width="34" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="lmh-2V-plf" firstAttribute="centerY" secondItem="Pin-Vm-fyV" secondAttribute="centerY" id="2bA-Bp-dvc"/>
-                                        <constraint firstItem="fYO-ax-9Zo" firstAttribute="centerY" secondItem="Pin-Vm-fyV" secondAttribute="centerY" id="am3-v0-JCU"/>
-                                        <constraint firstItem="p1w-iF-pUj" firstAttribute="leading" secondItem="Pin-Vm-fyV" secondAttribute="leading" constant="16" id="dRg-bc-FYW"/>
-                                        <constraint firstItem="fYO-ax-9Zo" firstAttribute="leading" secondItem="p1w-iF-pUj" secondAttribute="trailing" constant="8" id="fOC-bK-gJa"/>
-                                        <constraint firstItem="p1w-iF-pUj" firstAttribute="centerY" secondItem="Pin-Vm-fyV" secondAttribute="centerY" id="hHf-h2-QsU"/>
                                         <constraint firstAttribute="trailing" secondItem="lmh-2V-plf" secondAttribute="trailing" constant="16" id="nHG-lx-nk5"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="icon" destination="p1w-iF-pUj" id="Rkp-KK-fQh"/>
-                                    <outlet property="label" destination="fYO-ax-9Zo" id="6xB-Oh-hyF"/>
                                     <outlet property="toggle" destination="lmh-2V-plf" id="Lyy-5c-q2m"/>
                                 </connections>
                             </tableViewCell>
@@ -4054,7 +4016,7 @@
         <segue reference="9G0-J6-Wy4"/>
         <segue reference="Rhh-JI-IqV"/>
         <segue reference="2oa-rw-dSb"/>
-        <segue reference="4po-OH-zlt"/>
+        <segue reference="pDB-Mg-oLQ"/>
         <segue reference="Wes-0h-Ath"/>
     </inferredMetricsTieBreakers>
 </document>

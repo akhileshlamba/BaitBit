@@ -10,8 +10,6 @@ import UIKit
 
 class PeriodTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var icon: UIImageView!
-    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var dateTextField: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()

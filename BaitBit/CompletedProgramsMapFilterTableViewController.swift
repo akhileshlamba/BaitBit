@@ -9,14 +9,17 @@
 import UIKit
 
 protocol CompletedProgramsMapFilterUpdateDelegate {
-    func updateData(filters: (isTaken: Bool, isRemovedOverdue: Bool, target: Bool, nontarget: Bool))
+    func updateData(filters: (isTaken: Bool, isUntouched: Bool, noCarcassFound: Bool, targetCarcassFound: Bool, nontargetCarcassFound: Bool, isRemovedOverdue: Bool, isRemovedOnTime: Bool))
 }
 
 class CompletedProgramsMapFilterTableViewController: UITableViewController {
 
-    let titles = ["Taken", "Remove after due", "Targeted carcass", "Non-targeted carcass"]
+    let taken = ["Taken", "Untouched"]
+    let carcass = ["No carcass found", "Targeted carcass", "Non-targeted carcass"]
+    let due = ["Removed after due", "Removed on time"]
+    var titles = [[String]]()
     var delegate: CompletedProgramsMapFilterUpdateDelegate?
-    var filters: (isTaken: Bool, isRemovedOverdue: Bool, target: Bool, nontarget: Bool)?
+    var filters: (isTaken: Bool, isUntouched: Bool, noCarcassFound: Bool, targetCarcassFound: Bool, nontargetCarcassFound: Bool, isRemovedOverdue: Bool, isRemovedOnTime: Bool)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +32,12 @@ class CompletedProgramsMapFilterTableViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(self.reset))
         
         if self.filters == nil {
-            self.filters = (true, true, true, true)
+            self.filters = (true, true, true, true, true, true, true)
         }
+        
+        self.titles.append(self.taken)
+        self.titles.append(self.carcass)
+        self.titles.append(self.due)
     }
     
     @objc func cancel() {
@@ -38,26 +45,54 @@ class CompletedProgramsMapFilterTableViewController: UITableViewController {
     }
     
     @objc func reset() {
-        self.filters = (true, true, true, true)
+        self.filters = (true, true, true, true, true, true, true)
         self.tableView.reloadData()
     }
     
     @IBAction func applyFilters(_ sender: Any) {
         for cell in tableView.visibleCells {
             let toggleIsOn = (cell as! BaitFilterTableViewCell).toggle.isOn
+            let section = tableView.indexPath(for: cell)?.section
             let row = tableView.indexPath(for: cell)?.row
-            switch row {
+            switch section {
             case 0:
-                filters?.isTaken = toggleIsOn
+                switch row {
+                case 0:
+                    filters?.isTaken = toggleIsOn
+                    break
+                case 1:
+                    filters?.isUntouched = toggleIsOn
+                    break
+                default:
+                    break
+                }
                 break
             case 1:
-                filters?.isRemovedOverdue = toggleIsOn
+                switch row {
+                case 0:
+                    filters?.noCarcassFound = toggleIsOn
+                    break
+                case 1:
+                    filters?.targetCarcassFound = toggleIsOn
+                    break
+                case 2:
+                    filters?.nontargetCarcassFound = toggleIsOn
+                    break
+                default:
+                    break
+                }
                 break
             case 2:
-                filters?.target = toggleIsOn
-                break
-            case 3:
-                filters?.nontarget = toggleIsOn
+                switch row {
+                case 0:
+                    filters?.isRemovedOverdue = toggleIsOn
+                    break
+                case 1:
+                    filters?.isRemovedOnTime = toggleIsOn
+                    break
+                default:
+                    break
+                }
                 break
             default:
                 break
@@ -71,12 +106,12 @@ class CompletedProgramsMapFilterTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return titles.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.titles.count
+        return self.titles[section].count
     }
 
     
@@ -84,20 +119,47 @@ class CompletedProgramsMapFilterTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MapFilterCell", for: indexPath) as! BaitFilterTableViewCell
 
         // Configure the cell...
-        cell.imageView?.image = UIImage(named: titles[indexPath.row])
-        cell.textLabel?.text = titles[indexPath.row]
-        switch indexPath.row {
+        cell.imageView?.image = UIImage(named: titles[indexPath.section][indexPath.row])
+        cell.textLabel?.text = titles[indexPath.section][indexPath.row]
+        switch indexPath.section {
         case 0:
-            cell.toggle.isOn = filters?.isTaken ?? true
+            switch indexPath.row {
+            case 0:
+                cell.toggle.isOn = filters?.isTaken ?? true
+                break
+            case 1:
+                cell.toggle.isOn = filters?.isUntouched ?? true
+                break
+            default:
+                break
+            }
             break
         case 1:
-            cell.toggle.isOn = filters?.isRemovedOverdue ?? true
+            switch indexPath.row {
+            case 0:
+                cell.toggle.isOn = filters?.noCarcassFound ?? true
+                break
+            case 1:
+                cell.toggle.isOn = filters?.targetCarcassFound ?? true
+                break
+            case 2:
+                cell.toggle.isOn = filters?.nontargetCarcassFound ?? true
+                break
+            default:
+                break
+            }
             break
         case 2:
-            cell.toggle.isOn = filters?.target ?? true
-            break
-        case 3:
-            cell.toggle.isOn = filters?.nontarget ?? true
+            switch indexPath.row {
+            case 0:
+                cell.toggle.isOn = filters?.isRemovedOverdue ?? true
+                break
+            case 1:
+                cell.toggle.isOn = filters?.isRemovedOnTime ?? true
+                break
+            default:
+                break
+            }
             break
         default:
             break
@@ -109,18 +171,45 @@ class CompletedProgramsMapFilterTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! BaitFilterTableViewCell
         cell.toggle.isOn = !cell.toggle.isOn
-        switch indexPath.row {
+        switch indexPath.section {
         case 0:
-            filters?.isTaken = cell.toggle.isOn
+            switch indexPath.row {
+            case 0:
+                filters?.isTaken = cell.toggle.isOn
+                break
+            case 1:
+                filters?.isUntouched = cell.toggle.isOn
+                break
+            default:
+                break
+            }
             break
         case 1:
-            filters?.isRemovedOverdue = cell.toggle.isOn
+            switch indexPath.row {
+            case 0:
+                filters?.noCarcassFound = cell.toggle.isOn
+                break
+            case 1:
+                filters?.targetCarcassFound = cell.toggle.isOn
+                break
+            case 2:
+                filters?.nontargetCarcassFound = cell.toggle.isOn
+                break
+            default:
+                break
+            }
             break
         case 2:
-            filters?.target = cell.toggle.isOn
-            break
-        case 3:
-            filters?.nontarget = cell.toggle.isOn
+            switch indexPath.row {
+            case 0:
+                filters?.isRemovedOverdue = cell.toggle.isOn
+                break
+            case 1:
+                filters?.isRemovedOnTime = cell.toggle.isOn
+                break
+            default:
+                break
+            }
             break
         default:
             break

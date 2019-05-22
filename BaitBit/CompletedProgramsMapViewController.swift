@@ -17,13 +17,13 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
     var program: Program?
     var baits: [Bait] = []
     var selectedBait: Bait?
-    var filters: (isTaken: Bool, isRemovedOverdue: Bool, target: Bool, nontarget: Bool)?
+    var filters: (isTaken: Bool, isUntouched: Bool, noCarcassFound: Bool, targetCarcassFound: Bool, nontargetCarcassFound: Bool, isRemovedOverdue: Bool, isRemovedOnTime: Bool)?
     @IBOutlet weak var backToCurrentLocationButton: UIButton!
 
     var baitAnnotations: [BaitAnnotation] = []
     var filteredBaitAnnotations: [BaitAnnotation] = []
     
-    var isTrackingCurrentLoc: Bool = true
+    var isTrackingCurrentLoc: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +44,8 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
         
         // Do any additional setup after loading the view.
         var focus: CLLocationCoordinate2D?
-        if self.baitAnnotations.count > 0 {
-            focus = baitAnnotations[0].coordinate
+        if self.filteredBaitAnnotations.count > 0 {
+            focus = filteredBaitAnnotations[0].coordinate
         } else {
             focus = currentLocation
         }
@@ -71,7 +71,8 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
     }
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+//        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
     }
     
@@ -80,7 +81,7 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
     }
     
     @objc func tapping() {
-        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
+//        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
     }
 
     func loadData() {
@@ -127,21 +128,39 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
             })
         }
         
+        if !filters!.isUntouched {
+            filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
+                return annotation.bait.isTaken ?? false
+            })
+        }
+        
+        if !filters!.noCarcassFound {
+            filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
+                return annotation.bait.carcassFound ?? true
+            })
+        }
+        
+        if !filters!.targetCarcassFound {
+            filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
+                return !(annotation.bait.targetCarcassFound ?? false)
+            })
+        }
+        
+        if !filters!.nontargetCarcassFound {
+            filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
+                return annotation.bait.targetCarcassFound ?? true
+            })
+        }
+
         if !filters!.isRemovedOverdue {
             filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
                 return !(annotation.bait.isRemovedOverdue ?? false)
             })
         }
         
-        if !filters!.target {
+        if !filters!.isRemovedOnTime {
             filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
-                return !(annotation.bait.targetCarcassFound ?? false)
-            })
-        }
-        
-        if !filters!.nontarget {
-            filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
-                return annotation.bait.targetCarcassFound ?? true
+                return annotation.bait.isRemovedOverdue ?? true
             })
         }
         
@@ -219,7 +238,7 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
 }
 
 extension CompletedProgramsMapViewController: CompletedProgramsMapFilterUpdateDelegate {
-    func updateData(filters: (isTaken: Bool, isRemovedOverdue: Bool, target: Bool, nontarget: Bool)) {
+    func updateData(filters: (isTaken: Bool, isUntouched: Bool, noCarcassFound: Bool, targetCarcassFound: Bool, nontargetCarcassFound: Bool, isRemovedOverdue: Bool, isRemovedOnTime: Bool)) {
         self.filters = filters
     }
 }

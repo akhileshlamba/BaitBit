@@ -50,7 +50,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedSpeciesIndex: Int = 0
     @IBOutlet weak var backToCurrentLocationButton: UIButton!
     
-    var isTrackingCurrentLoc: Bool = true
+    var isTrackingCurrentLoc: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +89,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+//        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
     }
     
@@ -112,7 +113,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //        } else {
 //            self.navigationController?.setNavigationBarHidden(true, animated: true)
 //        }
-        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
+//        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
     }
     
     // This method is to load data from remote dataset

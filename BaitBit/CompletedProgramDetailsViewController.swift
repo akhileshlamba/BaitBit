@@ -60,19 +60,19 @@ class CompletedProgramDetailsViewController: UIViewController {
         if segue.identifier == "BaitsTakenSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
             controller.program = self.program
-            controller.filters = (true, true, true, true)
+            controller.filters = (true, false, true, true, true, true, true)
         }
         
         if segue.identifier == "NontargetedCarcassSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
             controller.program = self.program
-            controller.filters = (true, true, false, true)
+            controller.filters = (true, false, false, false, true, true, true)
         }
         
         if segue.identifier == "RemovedOverdueSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
             controller.program = self.program
-            controller.filters = (true, true, true, true)
+            controller.filters = (true, true, true, true, true, true, false)
         }
     }
 

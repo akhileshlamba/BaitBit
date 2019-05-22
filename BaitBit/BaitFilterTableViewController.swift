@@ -105,8 +105,8 @@ class BaitFilterTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == -1 { // change back after finish date picker
             let cell = tableView.dequeueReusableCell(withIdentifier: "PeriodCell", for: indexPath) as! PeriodTableViewCell
-            cell.icon.image = UIImage(named: titleDataSources[indexPath.section][indexPath.row])
-            cell.label.text = titleDataSources[indexPath.section + 1][indexPath.row] // change back after finish date picker
+            cell.imageView?.image = UIImage(named: titleDataSources[indexPath.section][indexPath.row])
+            cell.textLabel?.text = titleDataSources[indexPath.section + 1][indexPath.row] // change back after finish date picker
             if indexPath.row == 0 {
                 if let startDate = filters?.startDate {
                     cell.dateTextField.text = Util.setDateAsString(date: startDate as NSDate)
@@ -123,8 +123,8 @@ class BaitFilterTableViewController: UITableViewController {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusCell", for: indexPath) as! BaitFilterTableViewCell
-            cell.icon.image = UIImage(named: titleDataSources[indexPath.section + 1][indexPath.row]) // change back after finish date picker
-            cell.label.text = titleDataSources[indexPath.section + 1][indexPath.row] // change back after finish date picker
+            cell.imageView?.image = UIImage(named: titleDataSources[indexPath.section + 1][indexPath.row]) // change back after finish date picker
+            cell.textLabel?.text = titleDataSources[indexPath.section + 1][indexPath.row] // change back after finish date picker
             if indexPath.section == 0 {
                 switch indexPath.row {
                 case 0:

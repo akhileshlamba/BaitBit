@@ -24,7 +24,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     var baitAnnotations: [BaitAnnotation] = []
     var filteredBaitAnnotations: [BaitAnnotation] = []
     
-    var isTrackingCurrentLoc: Bool = true
+    var isTrackingCurrentLoc: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +53,8 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
 
         // Do any additional setup after loading the view.
         var focus: CLLocationCoordinate2D?
-        if self.baitAnnotations.count > 0 {
-            focus = baitAnnotations[0].coordinate
+        if self.filteredBaitAnnotations.count > 0 {
+            focus = filteredBaitAnnotations[0].coordinate
         } else {
             focus = currentLocation
         }
@@ -86,7 +86,8 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     }
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+//        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
     }
     
@@ -95,7 +96,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     }
     
     @objc func tapping() {
-        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
+//        self.backToCurrentLocationButton.isHidden = !self.backToCurrentLocationButton.isHidden
     }
 
     func loadData() {

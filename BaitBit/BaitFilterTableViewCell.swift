@@ -10,8 +10,6 @@ import UIKit
 
 class BaitFilterTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var icon: UIImageView!
-    @IBOutlet weak var label: UILabel!
     @IBOutlet weak var toggle: UISwitch!
     override func awakeFromNib() {
         super.awakeFromNib()

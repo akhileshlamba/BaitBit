@@ -64,9 +64,9 @@ class CompletedProgramsViewController: UIViewController {
             self.nonTargetedCarcass.text = "\(Analytics.numOfNontargetedCarcass(programs: self.filteredProgramList))"
             self.RemovedOverdue.text = "\(Analytics.numOfRemovedOverdue(programs: self.filteredProgramList))"
         } else {
-            self.duration.text = "no data"
+            self.duration.text = "No programs"
             self.minMax.text = ""
-            self.baitType.text = "no data"
+            self.baitType.text = "No programs"
             self.usedTimes.text = ""
             self.baitsTaken.text = ""
             self.nonTargetedCarcass.text = ""
@@ -96,25 +96,25 @@ class CompletedProgramsViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "MapForAllCompletedProgramsSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
-            controller.baits = self.getAllBaits(from: self.programList)
+            controller.baits = self.getAllBaits(from: self.filteredProgramList)
         }
         
         if segue.identifier == "BaitsTakenSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
-            controller.baits = self.getAllBaits(from: self.programList)
-            controller.filters = (true, true, true, true)
+            controller.baits = self.getAllBaits(from: self.filteredProgramList)
+            controller.filters = (true, false, true, true, true, true, true)
         }
         
         if segue.identifier == "NontargetedCarcassSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
-            controller.baits = self.getAllBaits(from: self.programList)
-            controller.filters = (true, true, false, true)
+            controller.baits = self.getAllBaits(from: self.filteredProgramList)
+            controller.filters = (true, false, false, false, true, true, true)
         }
         
         if segue.identifier == "RemovedOverdueSegue" {
             let controller = segue.destination as! CompletedProgramsMapViewController
-            controller.baits = self.getAllBaits(from: self.programList)
-            controller.filters = (true, true, true, true)
+            controller.baits = self.getAllBaits(from: self.filteredProgramList)
+            controller.filters = (true, true, true, true, true, true, false)
         }
     }
     
