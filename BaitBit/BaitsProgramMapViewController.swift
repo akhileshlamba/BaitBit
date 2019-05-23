@@ -35,8 +35,7 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
                 self.navigationItem.rightBarButtonItem?.isEnabled = false
                 self.navigationItem.rightBarButtonItem?.tintColor = .clear
             } else {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Add bait"), style: .plain, target: self, action: #selector(self.addBait))
-                self.navigationItem.rightBarButtonItems?.append(UIBarButtonItem(image: UIImage(named: "filter"), style: .plain, target: self, action: #selector(self.filter)))
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add bait", style: .plain, target: self, action: #selector(self.addBait))
             }
         }
         
@@ -70,10 +69,6 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         performSegue(withIdentifier: "AddBaitSegue", sender: nil)
     }
     
-    @objc func filter() {
-        performSegue(withIdentifier: "BaitFilterSegue", sender: nil)
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -87,8 +82,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
 //        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        locationManager.stopUpdatingLocation()
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
+        locationManager.startUpdatingLocation()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

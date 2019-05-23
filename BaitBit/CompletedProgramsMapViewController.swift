@@ -29,8 +29,6 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "filter"), style: .plain, target: self, action: #selector(self.filter))
-        
         
         loadData()
         print(self.baits.count)
@@ -56,10 +54,6 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
         self.view.addGestureRecognizer(tap)
     }
     
-    @objc func filter() {
-        performSegue(withIdentifier: "MapFilterSegue", sender: nil)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -72,8 +66,10 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
 //        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
+        locationManager.stopUpdatingLocation()
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
+        locationManager.startUpdatingLocation()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
