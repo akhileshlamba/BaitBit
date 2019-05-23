@@ -809,7 +809,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 days" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8o9-MJ-uEu">
-                                                        <rect key="frame" x="269" y="20" width="51" height="21"/>
+                                                        <rect key="frame" x="269.5" y="20.5" width="50.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" red="0.2613815665" green="0.31529960039999999" blue="0.6863128543" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
@@ -914,19 +914,19 @@
                                                             <constraint firstAttribute="height" constant="85" id="CLh-Ue-hpi"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJK-ai-Vm2">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5%" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJK-ai-Vm2">
                                                         <rect key="frame" x="2" y="0.0" width="85" height="85"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1N-WP-VaU">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1N-WP-VaU">
                                                         <rect key="frame" x="125" y="0.0" width="85" height="85"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlv-nS-BX7">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qlv-nS-BX7">
                                                         <rect key="frame" x="248" y="0.0" width="85" height="85"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="27"/>
                                                         <nil key="textColor"/>
@@ -4122,8 +4122,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="vuz-8r-zAP"/>
         <segue reference="Mah-cT-pM5"/>
-        <segue reference="6Fw-Ph-v0g"/>
-        <segue reference="lRn-pD-xYm"/>
+        <segue reference="cr2-hU-SUH"/>
+        <segue reference="T0e-2L-rHm"/>
         <segue reference="xSR-ls-uec"/>
         <segue reference="Jag-bg-Z1u"/>
         <segue reference="pDB-Mg-oLQ"/>

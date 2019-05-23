@@ -61,16 +61,22 @@ class CompletedProgramsViewController: UIViewController {
             self.baitType.text = bait
             self.usedTimes.text = "Used in \(Analytics.numberOfPrograms(of: bait!, in: self.filteredProgramList)) out of \(self.filteredProgramList.count) program(s)"
             self.baitsTaken.text = "\(Int((Analytics.baitsTakenRate(programs: self.filteredProgramList) ?? 0) * 100))%"
+            self.baitsTaken.font = self.baitsTaken.font.withSize(27)
             self.nonTargetedCarcass.text = "\(Analytics.numOfNontargetedCarcass(programs: self.filteredProgramList))"
+            self.nonTargetedCarcass.font = self.nonTargetedCarcass.font.withSize(27)
             self.RemovedOverdue.text = "\(Analytics.numOfRemovedOverdue(programs: self.filteredProgramList))"
+            self.RemovedOverdue.font = self.RemovedOverdue.font.withSize(27)
         } else {
-            self.duration.text = "No programs"
-            self.minMax.text = ""
-            self.baitType.text = "No programs"
-            self.usedTimes.text = ""
-            self.baitsTaken.text = ""
-            self.nonTargetedCarcass.text = ""
-            self.RemovedOverdue.text = ""
+            self.duration.text = ""
+            self.minMax.text = "No programs"
+            self.baitType.text = ""
+            self.usedTimes.text = "No programs"
+            self.baitsTaken.text = "No\nprograms"
+            self.baitsTaken.font = self.baitsTaken.font.withSize(12)
+            self.nonTargetedCarcass.text = "No\nprograms"
+            self.nonTargetedCarcass.font = self.nonTargetedCarcass.font.withSize(12)
+            self.RemovedOverdue.text = "No\nprograms"
+            self.RemovedOverdue.font = self.RemovedOverdue.font.withSize(12)
         }
     }
     
