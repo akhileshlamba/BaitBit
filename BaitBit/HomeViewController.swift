@@ -476,6 +476,7 @@ class HomeViewController: UIViewController {
         if segue.identifier == "baitsSegue" {
             let controller = segue.destination as! BaitsProgramMapViewController
             controller.baits = baits
+            controller.isViewingAllBaitsNearBy = true
         }
 
         if segue.identifier == "programActionSegue" {

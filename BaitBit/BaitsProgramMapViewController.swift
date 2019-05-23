@@ -26,6 +26,10 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     
     var isTrackingCurrentLoc: Bool = false
     
+    var isViewingAllBaitsNearBy: Bool = false
+    
+    var lastRegion: MKCoordinateRegion?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,18 +55,37 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         locationManager.startUpdatingLocation()
 
         // Do any additional setup after loading the view.
+        self.setInitialRegion()
+        // add a tap gesture recognizer
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
+        self.view.addGestureRecognizer(tap)
+
+    }
+    
+    func setInitialRegion() {
         var focus: CLLocationCoordinate2D?
-        if self.filteredBaitAnnotations.count > 0 {
+        if self.filteredBaitAnnotations.count > 0 && !self.isViewingAllBaitsNearBy {
             focus = filteredBaitAnnotations[0].coordinate
         } else {
             focus = currentLocation
         }
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: focus!.latitude, longitude: focus!.longitude), 4000, 4000), animated: false)
-
-        // add a tap gesture recognizer
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
-        self.view.addGestureRecognizer(tap)
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.lastRegion = self.mapView.region
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.program = Program.program
+        loadData()
+        if let region = self.lastRegion {
+            self.mapView.setRegion(region, animated: true)
+        } else {
+            self.setInitialRegion()
+        }
     }
     
     @objc func addBait() {
@@ -74,18 +97,9 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.program = Program.program
-        loadData()
-    }
-    
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-//        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
-        locationManager.stopUpdatingLocation()
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
-        locationManager.startUpdatingLocation()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -196,35 +210,38 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var annoationView = MKAnnotationView()
+        var annotationView = MKAnnotationView()
         
         if let fencedAnnotation = annotation as? BaitAnnotation {
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: fencedAnnotation.identifier) {
-                annoationView = dequeuedView
+                annotationView = dequeuedView
             } else {
-                annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
+                annotationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
+            }
+            if self.isViewingAllBaitsNearBy {
+                annotationView.image = UIImage(named: "REMOVED")
+            } else {
+                annotationView.image = UIImage(named: fencedAnnotation.imageName)
+                annotationView.canShowCallout = true
+                let calloutButton = UIButton(type: .infoLight)
+                calloutButton.addTarget(self, action: #selector(self.didSelectBait), for: .touchUpInside)
+                annotationView.rightCalloutAccessoryView = calloutButton
             }
             
-            annoationView.image = UIImage(named: fencedAnnotation.imageName)
-            annoationView.canShowCallout = true
-            let calloutButton = UIButton(type: .infoLight)
-            calloutButton.addTarget(self, action: #selector(self.didSelectBait), for: .touchUpInside)
-            annoationView.rightCalloutAccessoryView = calloutButton
-            
-            return annoationView
+            return annotationView
         } else if let myLocationAnnotation = annotation as? PinAnnotation {
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: myLocationAnnotation.identifier) {
-                annoationView = dequeuedView
+                annotationView = dequeuedView
             } else {
-                annoationView = MKAnnotationView(annotation: myLocationAnnotation, reuseIdentifier: myLocationAnnotation.identifier)
+                annotationView = MKAnnotationView(annotation: myLocationAnnotation, reuseIdentifier: myLocationAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: "pin")
-            annoationView.canShowCallout = true
+            annotationView.image = UIImage(named: "pin")
+            annotationView.canShowCallout = true
         }
         
         
-        return annoationView
+        return annotationView
     }
     
     @objc func didSelectBait() {

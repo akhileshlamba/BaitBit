@@ -24,6 +24,8 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
     var filteredBaitAnnotations: [BaitAnnotation] = []
     
     var isTrackingCurrentLoc: Bool = false
+    
+    var lastRegion: MKCoordinateRegion?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +43,7 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
         locationManager.startUpdatingLocation()
         
         // Do any additional setup after loading the view.
-        var focus: CLLocationCoordinate2D?
-        if self.filteredBaitAnnotations.count > 0 {
-            focus = filteredBaitAnnotations[0].coordinate
-        } else {
-            focus = currentLocation
-        }
-        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: focus!.latitude, longitude: focus!.longitude), 4000, 4000), animated: false)
+        self.setInitialRegion()
         
         // add a tap gesture recognizer
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
@@ -61,15 +57,32 @@ class CompletedProgramsMapViewController: UIViewController, MKMapViewDelegate, C
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadData()
+        self.loadData()
+        if let region = self.lastRegion {
+            self.mapView.setRegion(region, animated: true)
+        } else {
+            self.setInitialRegion()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.lastRegion = self.mapView.region
+    }
+    
+    func setInitialRegion() {
+        var focus: CLLocationCoordinate2D?
+        if self.filteredBaitAnnotations.count > 0 {
+            focus = filteredBaitAnnotations[0].coordinate
+        } else {
+            focus = currentLocation
+        }
+        self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: focus!.latitude, longitude: focus!.longitude), 4000, 4000), animated: false)
     }
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-//        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
-        locationManager.stopUpdatingLocation()
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
-        locationManager.startUpdatingLocation()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
