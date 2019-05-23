@@ -126,36 +126,37 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         toggle = !toggle
     }
     
-    @IBAction func register(_ sender: Any) {
-        guard let password = password.text else {
+//    @IBAction func register(_ sender: Any) {
+//        guard let password = password.text else {
+//            displayErrorMessage("Please Enter a password")
+//            return
+//        }
+//
+//        guard let username = username.text else {
+//            displayErrorMessage("Please Enter a password")
+//            return
+//        }
+//
+//        Auth.auth().createUser(withEmail: username, password: password){(user, error) in
+//            if error != nil{
+//                self.displayErrorMessage(error!.localizedDescription)
+//            }
+//        }
+//
+//    }
+
+    @IBAction func logIn(_ sender: UIButton) {
+        guard let password = password.text, password != "" else {
             displayErrorMessage("Please Enter a password")
             return
         }
 
-        guard let username = username.text else {
-            displayErrorMessage("Please Enter a password")
-            return
-        }
-
-        Auth.auth().createUser(withEmail: username, password: password){(user, error) in
-            if error != nil{
-                self.displayErrorMessage(error!.localizedDescription)
-            }
-        }
-
-    }
-
-    @IBAction func logIn(_ sender: Any) {
-        guard let password = password.text else {
-            displayErrorMessage("Please Enter a password")
-            return
-        }
-
-        guard let username = username.text else {
-            displayErrorMessage("Please Enter a password")
+        guard let username = username.text, username != "" else {
+            displayErrorMessage("Please Enter a username")
             return
         }
         //self.startAnimating()
+        self.view.endEditing(true)
         indicator.isHidden = false
         indicator.startAnimating()
         indicator.center = view.center

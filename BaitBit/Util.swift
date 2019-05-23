@@ -63,8 +63,17 @@ class Util: NSObject {
         let alertController = UIAlertController(title: title, message: message,
                                                 preferredStyle: UIAlertControllerStyle.alert)
         alertController.addAction(UIAlertAction(title: "OK", style:
-            UIAlertActionStyle.default, handler: confirmAction))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: cancelAction))
+            .default, handler: confirmAction))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancelAction))
+        view.present(alertController, animated: true, completion: nil)
+    }
+    
+    static func confirmDestructiveActionMessage(view: UIViewController, _ message: String, _ title: String, actionTitle: String, destructiveAction:((UIAlertAction) -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message,
+                                                preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: actionTitle, style:
+            .destructive, handler: destructiveAction))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         view.present(alertController, animated: true, completion: nil)
     }
 

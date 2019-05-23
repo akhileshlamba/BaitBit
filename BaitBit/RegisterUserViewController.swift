@@ -100,7 +100,7 @@ class RegisterUserViewController: UIViewController, UITextFieldDelegate {
         // display the actionSheet
         self.present(self.actionSheet!, animated: true, completion: nil)
         
-        chooseCamera.setTitle("Upload your License", for: .normal)
+//        chooseCamera.setTitle("Upload your License", for: .normal)
         
     }
     
@@ -387,6 +387,7 @@ extension RegisterUserViewController: UIImagePickerControllerDelegate, UINavigat
             print("did get into the if statement")
             //            self.savePhoto(pickedImage)
             self.licenseImage.image = pickedImage
+            self.chooseCamera.setTitle("", for: .normal)
             
 //            DocumentVerification.checkLicense(pickedImage: pickedImage, complete: {(result) in
 //                if result.keys.contains("Problem in recognising the image") {

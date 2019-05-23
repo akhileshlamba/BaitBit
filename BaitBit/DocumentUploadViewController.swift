@@ -57,13 +57,21 @@ class DocumentUploadViewController: UIViewController {
     func loadImage() {
         
         if document != nil {
+            activityIndicator.center = self.view.center
+            view.addSubview(activityIndicator)
+            self.activityIndicator.isHidden = false
+            self.activityIndicator.startAnimating()
             if self.localFileExists(fileName: document!.imageLocalURL!) {
                 if let localImage = self.loadImageData(fileName: document!.imageLocalURL!)
                 {
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
                     self.image.image = localImage
                 }
             } else {
                 self.storageRef.reference(forURL: document!.imageFirebaseURL!).getData(maxSize: 5 * 1024 * 1024, completion: { (data, error) in
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.isHidden = true
                     if let error = error {
                         print(error.localizedDescription)
                     } else{
@@ -75,11 +83,13 @@ class DocumentUploadViewController: UIViewController {
             }
             uploadButton.isHidden = true
             
-        }
-        
-        if image.image == nil {
+        } else {
             chooseCamers.setTitle("Upload your Document", for: .normal)
         }
+        
+//        if image.image == nil {
+//            chooseCamers.setTitle("Upload your Document", for: .normal)
+//        }
         
         
     }
@@ -166,9 +176,9 @@ class DocumentUploadViewController: UIViewController {
         }
     }
     
-    @IBAction func uplaod(_ sender: Any) {
+    @IBAction func upload(_ sender: Any) {
         if image.image == nil {
-            displayErrorMessage("Please select document to uplaod", "Document Upload Error")
+            displayErrorMessage("Please select document to upload", "Document Upload Error")
             return
         } else {
             savePhoto(image.image!)
@@ -196,10 +206,10 @@ class DocumentUploadViewController: UIViewController {
         // display the actionSheet
         self.present(self.actionSheet!, animated: true, completion: nil)
         
-        if fromCreateAdd{
-            chooseCamers.setTitle("", for: .normal)
-        }
-        chooseCamers.setTitle("", for: .normal)
+//        if fromCreateAdd{
+//            chooseCamers.setTitle("", for: .normal)
+//        }
+//        chooseCamers.setTitle("", for: .normal)
         
     }
     
@@ -259,6 +269,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
         if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
             print("did get into the if statement")
             //            self.savePhoto(pickedImage)
+            self.chooseCamers.setTitle("", for: .normal)
             self.image.image = pickedImage
             
             //            DocumentVerification.checkLicense(pickedImage: pickedImage, complete: {(result) in
@@ -307,7 +318,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
     }
     
     func savePhoto(_ pickedImage: UIImage) -> Bool? {
-        
+        self.uploadButton.isEnabled = false
         activityIndicator.center = self.view.center
         view.addSubview(activityIndicator)
         activityIndicator.isHidden = false
@@ -342,6 +353,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
                         }
                     }
                 }
+                self.uploadButton.isEnabled = true
             })
 //            var success : [String: [String]] = [:]
 //            success["asd"] = ["asda","ewfe"]
@@ -349,6 +361,7 @@ extension DocumentUploadViewController: UIImagePickerControllerDelegate, UINavig
         } else {
         
             FirestoreDAO.uploadDocument(of: userId, programId: program.id, document: pickedImage, name: documentName, complete: {(result) in
+                self.uploadButton.isEnabled = true
                 if result {
                     self.activityIndicator.isHidden = true
                     self.activityIndicator.stopAnimating()

@@ -10,6 +10,7 @@ import UIKit
 
 class MoreTableViewController: UITableViewController {
 
+    let defaults = UserDefaults()
     var items = [[String]]()
     var user : User!
     var notificationDetails = [String: Any]()
@@ -41,6 +42,7 @@ class MoreTableViewController: UITableViewController {
         items.append(["Completed Programs", "Scheduled Programs"])
         items.append(["Resources", "Quick Links"])
         items.append(["Notifications"])
+        items.append(["Logout"])
         items.append(["Emergency"])
         
         images.append([""])
@@ -63,6 +65,15 @@ class MoreTableViewController: UITableViewController {
             nil)
     }
     
+    @IBAction func logout(_ sender: UIButton) {
+        defaults.set(false, forKey: "loggedIn")
+        defaults.set(nil, forKey: "userId")
+        defaults.removeObject(forKey: "recentlyViewed")
+        defaults.set(false, forKey: "setRemindersForAnimals")
+        defaults.set(false, forKey: "scheduledProgramReminder")
+        Reminder.removeAllNotifications()
+        self.navigationController?.popViewController(animated: true)
+    }
     
     func setNavigationBarItems() {
         self.tabBarController?.navigationItem.leftBarButtonItem = nil
@@ -141,6 +152,10 @@ class MoreTableViewController: UITableViewController {
         }
         
         if indexPath.section == 4 {
+            return tableView.dequeueReusableCell(withIdentifier: "logout", for: indexPath)
+        }
+        
+        if indexPath.section == 5 {
             return tableView.dequeueReusableCell(withIdentifier: "emergency", for: indexPath)
             
         } else {
@@ -169,12 +184,10 @@ class MoreTableViewController: UITableViewController {
         if indexPath.section == 0 {
             return 100.0
         }
-        
-        if indexPath.section == 4 {
-            return 120.0
-        }
-        
-        else {
+
+        if indexPath.section == 5 {
+            return 100.0
+        } else {
             return 50.0
         }
     }
@@ -196,7 +209,7 @@ class MoreTableViewController: UITableViewController {
             return "Settings"
         }
         
-        return "Emergency"
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -229,6 +242,9 @@ class MoreTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 4 || section == 5 {
+            return 0.0
+        }
         return 50.0
     }
     

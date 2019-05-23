@@ -13,6 +13,7 @@ class EditProgramViewController: UIViewController {
     var progrom: Program!
     @IBOutlet weak var baitTypeTextField: UITextField!
     @IBOutlet weak var speciesTextField: UITextField!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     
     var baitTypePicker = UIPickerView()
     var speciesPicker = UIPickerView()
@@ -59,24 +60,35 @@ class EditProgramViewController: UIViewController {
             Util.displayErrorMessage(view: self, "Please select bait type and species before saving", "Error")
             return
         }
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        self.loading.startAnimating()
+        
         self.progrom.baitType = self.baitTypeTextField.text
         self.progrom.species = self.speciesTextField.text
         Program.program = self.progrom
         FirestoreDAO.createOrUpdate(program: self.progrom, complete: {(success) in
+            self.loading.stopAnimating()
             if success {
                 self.navigationController?.popViewController(animated: true)
+            } else {
+                Util.displayErrorMessage(view: self, "Unable to update program due to internet connection issue", "Error")
             }
         })
         
     }
     
-    @IBAction func deleteProgram(_ sender: Any) {
+    @IBAction func deleteProgram(_ sender: UIButton) {
         let id = self.progrom.id
         let program = self.progrom
-        Util.confirmMessage(view: self, "Are you sure to delete the program", "Delete program", confirmAction: { (_) in
-            FirestoreDAO.delete(program: self.progrom, complete: { (result) in
-                if !result {
-                    Util.displayErrorMessage(view: self, "Could not delete program due to internet connection issue", "Error")
+        Util.confirmDestructiveActionMessage(view: self, "Are you sure to delete the program", "Delete program", actionTitle: "Delete") { (_) in
+            sender.isEnabled = false
+            self.loading.startAnimating()
+            FirestoreDAO.delete(program: self.progrom, complete: { (success) in
+                self.loading.stopAnimating()
+                if !success {
+                    sender.isEnabled = true
+                    Util.displayErrorMessage(view: self, "Unable to delete program due to internet connection issue", "Error")
                     return
                 }
                 Reminder.removePendingNotifications(for: "scheduledPrograms", programs: [program!])
@@ -86,7 +98,7 @@ class EditProgramViewController: UIViewController {
                 let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
                 self.navigationController?.popToViewController(controller!, animated: true)
             })
-        }, cancelAction: nil)
+        }
     }
     
 

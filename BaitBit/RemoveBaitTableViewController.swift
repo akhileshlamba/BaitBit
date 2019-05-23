@@ -23,6 +23,8 @@ class RemoveBaitTableViewController: UITableViewController {
     
     let checked: [Bool:UITableViewCellAccessoryType] = [true:.checkmark, false:.none]
 
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,7 +43,7 @@ class RemoveBaitTableViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func removeBait(_ sender: Any) {
+    @IBAction func removeBait(_ sender: UIButton) {
         guard self.isTaken != nil else {
             Util.displayErrorMessage(view: self, "Please specify whether the bait was taken.", "Error")
             return
@@ -50,24 +52,32 @@ class RemoveBaitTableViewController: UITableViewController {
         if self.isTaken! && self.carcassFound == nil {
             self.carcassFound = false
         }
-        print("isTaken: \(self.isTaken)")
-        print("carcassFound: \(self.carcassFound)")
-        print("targetCarcassFound: \(self.targetCarcassFound)")
         
-        Util.confirmMessage(view: self, "You are going to remove this bait, please make sure everything is clear.", "Remove bait", confirmAction: { (_) in
-            // TODO: remove bait, i.e. set bait.isRemove = true, then update to firestore,
+        Util.confirmDestructiveActionMessage(view: self, "Are you sure to remove this bait?", "Remove bait", actionTitle: "Remove") { (_) in
+            sender.isEnabled = false
+            self.loading.startAnimating()
+            
+            // remove bait, i.e. set bait.isRemove = true, then update to firestore,
             self.bait.isRemoved = true
             self.bait.removedDate = Date()
             self.bait.isTaken = self.isTaken
             self.bait.carcassFound = self.carcassFound
             self.bait.targetCarcassFound = self.targetCarcassFound
-            FirestoreDAO.remove(bait: self.bait, from: self.bait.program!, complete: { (result) in
-                if result {
+            FirestoreDAO.remove(bait: self.bait, from: self.bait.program!, complete: { (success) in
+                self.loading.stopAnimating()
+                if !success {
+                    sender.isEnabled = true
+                    Util.displayErrorMessage(view: self, "Unable to remove bait due to internet connetion issue", "Error")
+                    return
+                }
+                if success {
                     let controller = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 3]
                     self.navigationController?.popToViewController(controller!, animated: true)
+                } else {
+                    
                 }
             })
-        }, cancelAction: nil)
+        }
     }
     
 

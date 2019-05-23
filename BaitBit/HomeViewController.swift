@@ -43,7 +43,8 @@ class HomeViewController: UIViewController {
     var data = [String]()
 
     var user : User!
-
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
 //    var isDueSoon: Bool! = false
 //    var isOverDue: Bool! = false
 //    var isDocumentationPending: Bool! = false
@@ -120,13 +121,17 @@ class HomeViewController: UIViewController {
     }
 
 
-    @IBAction func viewAllBaitNearMe(_ sender: Any) {
+    @IBAction func viewAllBaitNearMe(_ sender: UIButton) {
         if self.baits.isEmpty {
+            sender.isEnabled = false
+            self.loading.startAnimating()
+            
             FirestoreDAO.getBaits { (baitList) in
                 self.baits = baitList
                 self.baits = self.baits.filter({ (bait) -> Bool in
                     return !bait.isRemoved
                 })
+                self.loading.stopAnimating()
                 self.performSegue(withIdentifier: "baitsSegue", sender: nil)
             }
         } else {
@@ -134,19 +139,8 @@ class HomeViewController: UIViewController {
         }
     }
 
-    @objc func logout() {
-        // TODO: implement logout: embed the pop action inside logout action
-        defaults.set(false, forKey: "loggedIn")
-        defaults.set(nil, forKey: "userId")
-        defaults.removeObject(forKey: "recentlyViewed")
-        defaults.set(false, forKey: "setRemindersForAnimals")
-        defaults.set(false, forKey: "scheduledProgramReminder")
-        Reminder.removeAllNotifications()
-        self.navigationController?.popViewController(animated: true)
-    }
-
     func setNavigationBarItems() {
-        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logout))
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
 
 //        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "notification"), style: .done, target: self, action: #selector(notification))
@@ -401,6 +395,7 @@ class HomeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getAllMyBaits()
         let loggedIn = UserDefaults.standard.bool(forKey:"loggedIn")
         if !loggedIn {
             self.baitSeasonButton.isEnabled = false
@@ -598,7 +593,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 //
 //                } else {
 //                    cell.imageView!.image = UIImage(named: "exclamation-mark")
-//                    cell.textLabel?.text = "Please uplaod the Baiting License"
+//                    cell.textLabel?.text = "Please upload the Baiting License"
 //                    cell.textLabel?.numberOfLines = 2
 //                    countForAction += 1
 //                }

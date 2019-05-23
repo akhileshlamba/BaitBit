@@ -76,7 +76,9 @@ class BaitDetailsViewController: UIViewController {
     func loadBaitImage() {
         if self.bait.isRemoved {
             self.takePhotoButton.isHidden = true
-        } else if self.bait.photoPath == nil {
+        }
+        
+        if self.bait.photoPath == nil {
             self.takePhotoButton.setTitle("Take a photo", for: .normal)
         } else {
             self.takePhotoButton.setTitle("", for: .normal)
@@ -186,8 +188,8 @@ extension BaitDetailsViewController: UIImagePickerControllerDelegate, UINavigati
             FirestoreDAO.updateImageAndData(for: self.bait, image: pickedImage) { (success) in
                 self.loading.stopAnimating()
                 if success {
-                    print("did get into the if statement")
                     self.baitImageView.image = pickedImage
+                    self.takePhotoButton.isHidden = true
                 } else {
                     Util.displayErrorMessage(view: self, "Fail to update photo", "Error")
                 }

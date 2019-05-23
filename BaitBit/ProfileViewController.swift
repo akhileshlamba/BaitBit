@@ -42,7 +42,8 @@ class ProfileViewController: UIViewController {
             addLicense = true
         }
         
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+//        activityIndicator.color = .black
         
         storage = Storage.storage()
         storageRef = storage.reference()

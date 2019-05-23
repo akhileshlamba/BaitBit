@@ -58,7 +58,7 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func addBait(_ sender: Any) {
+    @IBAction func addBait(_ sender: UIButton) {
         let lat = self.valueDataSource[1]
         let long = self.valueDataSource[2]
         guard lat != "" && long != "" else {
@@ -83,10 +83,11 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
         self.program.addToBaits(bait: bait)
 
         self.loading.startAnimating()
+        sender.isEnabled = false
         FirestoreDAO.createOrUpdate(bait: bait, for: self.program, complete: {(result) in
             guard result else {
                 self.loading.stopAnimating()
-                self.displayMessage("Problem in updating bait", "Error", completion: {(_) in
+                self.displayMessage("Unable to create bait due to internet connection issue", "Error", completion: {(_) in
                     self.navigationController?.popViewController(animated: true)
                     self.dismiss(animated: true, completion: nil)
                 })
@@ -104,9 +105,9 @@ class AddBaitViewController: UIViewController, CLLocationManagerDelegate {
                 return
             }
 
-            FirestoreDAO.updateImageAndData(for: bait, image: image, complete: {(result) in
+            FirestoreDAO.updateImageAndData(for: bait, image: image, complete: {(success) in
                 self.loading.stopAnimating()
-                if result {
+                if success {
                     self.displayMessage("Bait created successfully!", "Sucess", "OK", completion: {(_) in
                         self.navigationController?.popViewController(animated: true)
                         self.dismiss(animated: true, completion: nil)

@@ -180,9 +180,15 @@ class BaitsProgramMapViewController: UIViewController, MKMapViewDelegate, CLLoca
             })
         }
         
-        if !filters!.showTaken && !filters!.showUntouched {
+        if !filters!.showTaken {
             filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
-                return !annotation.bait.isRemoved
+                return !(annotation.bait.isTaken ?? false)
+            })
+        }
+        
+        if !filters!.showUntouched {
+            filteredBaitAnnotations = filteredBaitAnnotations.filter({ (annotation) -> Bool in
+                return annotation.bait.isTaken ?? true
             })
         }
         

@@ -21,8 +21,9 @@ class AddProgramViewController: UIViewController, SegueDelegate {
     var program: Program?
     @IBOutlet weak var documentTableView: UITableView!
     
+    @IBOutlet weak var loading: UIActivityIndicatorView!
+    
     let formatter = DateFormatter()
-    var currentTextFieldTag : Int = 1
     
     var delegate: AddProgramDelegate?
     
@@ -39,8 +40,6 @@ class AddProgramViewController: UIViewController, SegueDelegate {
     var docs: [Documents?] = []
     
     let datePicker = UIDatePicker()
-    
-//    private var context : NSManagedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,7 +123,7 @@ class AddProgramViewController: UIViewController, SegueDelegate {
     }
     
     
-    @IBAction func addProgram(_ sender: Any) {
+    @IBAction func addProgram(_ sender: UIButton) {
         if (name.text?.isEmpty)! || (start_date.text?.isEmpty)! || (species.text?.isEmpty)! {
             displayMessage("You have not entered value in any one field. Please Try again", "Save Failed")
         } else {
@@ -137,6 +136,8 @@ class AddProgramViewController: UIViewController, SegueDelegate {
             }
             
             
+            sender.isEnabled = false
+            self.loading.startAnimating()
             
             let defaults = UserDefaults.standard
             defaults.setValue(true, forKey:"program_counter")
@@ -155,21 +156,26 @@ class AddProgramViewController: UIViewController, SegueDelegate {
             Program.program = self.program
             delegate?.didAddBaitProgram(self.program!)
             FirestoreDAO.createOrUpdate(program: self.program!, complete: {(success) in
-                if success {
-                    self.delegate?.didAddBaitProgram(self.program!)
-                    if !(self.formatter.date(from: self.start_date.text!)!  > Date()) {
-                        //                    performSegue(withIdentifier: "addbait", sender: nil)
-                    } else {
-                        //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
-                        let flag = FirestoreDAO.notificationDetails["scheduledPrograms"]
-                        if flag != nil {
-                            if flag as! Bool {
-                                Reminder.scheduledProgramReminder(for: self.program!)
-                            }
+                self.loading.stopAnimating()
+                if !success {
+                    sender.isEnabled = true
+                    Util.displayErrorMessage(view: self, "Unable to create a new program due to internet connection issue", "Error")
+                    return
+                }
+                
+                self.delegate?.didAddBaitProgram(self.program!)
+                if !(self.formatter.date(from: self.start_date.text!)!  > Date()) {
+                    //                    performSegue(withIdentifier: "addbait", sender: nil)
+                } else {
+                    //                    displayMessage("Program has been saved. Since you chose the future date, you cannot add baits.", "Program saved.")
+                    let flag = FirestoreDAO.notificationDetails["scheduledPrograms"]
+                    if flag != nil {
+                        if flag as! Bool {
+                            Reminder.scheduledProgramReminder(for: self.program!)
                         }
                     }
-                    self.performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
                 }
+                self.performSegue(withIdentifier: "ProgramStartedSegue", sender: nil)
             })
             
             
