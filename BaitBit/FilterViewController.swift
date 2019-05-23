@@ -70,6 +70,9 @@ class FilterViewController: UIViewController {
         }
         
         loadFilter()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapping))
+        self.view.addGestureRecognizer(tap)
     }
     
     @objc func cancel() {
@@ -115,6 +118,9 @@ class FilterViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func tapping() {
+        self.view.endEditing(true)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)

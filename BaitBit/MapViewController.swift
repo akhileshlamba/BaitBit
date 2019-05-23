@@ -49,6 +49,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedMonthIndex: Int = 0
     var selectedSpeciesIndex: Int = 0
     @IBOutlet weak var backToCurrentLocationButton: UIButton!
+    var lastRegion: MKCoordinateRegion?
     
     var isTrackingCurrentLoc: Bool = false
     
@@ -78,27 +79,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func setNavigationBarItems() {
-//        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         self.tabBarController?.navigationItem.leftBarButtonItem = nil
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.title = "Invasive Species Map"
-//        self.navigationController?.hidesBarsOnTap = true
-//        self.tabBarController?.hidesBottomBarWhenPushed = false
     }
     
     
     @IBAction func backToCurrentLocation(_ sender: UIButton) {
-//        self.mapView.setCenter(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), animated: true)
-        locationManager.stopUpdatingLocation()
         self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude), 4000, 4000), animated: true)
         self.isTrackingCurrentLoc = true
-        locationManager.startUpdatingLocation()
     }
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setNavigationBarItems()
+        if let region = self.lastRegion {
+            self.mapView.setRegion(region, animated: true)
+        } else {
+            self.mapView.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude:currentLocation.latitude, longitude:currentLocation.longitude), 400000, 400000), animated: false)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.lastRegion = self.mapView.region
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -116,6 +121,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // This method is to load data from remote dataset
     func updateData(yearIndex: Int, monthIndex: Int, speciesIndex: Int) {
+        // remove all annotations, leave only the current location annotation
         for annotation in self.mapView.annotations {
             if !(annotation is PinAnnotation) {
                 self.mapView.removeAnnotation(annotation)
@@ -125,12 +131,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy"
         let currentYear = dateFormatter.string(from: Date())
-        
-//        for annotation in occurrenceAnnotations {
-//            if annotation.isWithin(year: Int(currentYear)! - yearIndex) && annotation.isWithin(month: monthIndex) && annotation.isWithin(species: speciesIndex) {
-//                self.mapView.addAnnotation(annotation)
-//            }
-//        }
         
         let filteredAnnotations = occurrenceAnnotations.filter { (annotation) -> Bool in
             return annotation.isWithin(year: Int(currentYear)! - yearIndex) && annotation.isWithin(month: monthIndex) && annotation.isWithin(species: speciesIndex)
@@ -214,41 +214,33 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var annoationView = MKAnnotationView()
+        var annotationView = MKAnnotationView()
         
         if let fencedAnnotation = annotation as? OccurrenceAnnotation {
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: fencedAnnotation.identifier) {
-                annoationView = dequeuedView
+                annotationView = dequeuedView
             } else {
-                annoationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
+                annotationView = MKAnnotationView(annotation: fencedAnnotation, reuseIdentifier: fencedAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: fencedAnnotation.identifier.lowercased())
-            annoationView.canShowCallout = true
+            annotationView.image = UIImage(named: fencedAnnotation.identifier.lowercased())
+            annotationView.canShowCallout = true
 //            annoationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
             
-            return annoationView
+            return annotationView
         } else if let myLocationAnnotation = annotation as? PinAnnotation {
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: myLocationAnnotation.identifier) {
-                annoationView = dequeuedView
+                annotationView = dequeuedView
             } else {
-                annoationView = MKAnnotationView(annotation: myLocationAnnotation, reuseIdentifier: myLocationAnnotation.identifier)
+                annotationView = MKAnnotationView(annotation: myLocationAnnotation, reuseIdentifier: myLocationAnnotation.identifier)
             }
             
-            annoationView.image = UIImage(named: "pin")
-            annoationView.canShowCallout = true
+            annotationView.image = UIImage(named: "pin")
+            annotationView.canShowCallout = true
         }
         
         
-        return annoationView
+        return annotationView
     }
 
 }
-
-
-
-//extension MapViewController: UITextViewDelegate {
-//    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-//
-//    }
-//}
