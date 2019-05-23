@@ -76,8 +76,8 @@ class ProgramDetailsViewController: UIViewController {
                 }
             }
             defaults.set(recentlyViewed, forKey: "recentlyViewed")
-            print(recentlyViewed!.count)
-            print(recentlyViewed)
+//            print(recentlyViewed!.count)
+//            print(recentlyViewed)
         }
     }
     
@@ -126,14 +126,6 @@ class ProgramDetailsViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-//        if self.isMovingFromParentViewController {
-//            self.back()
-//        }
-    }
-    
     func setRightBarButtonItem() {
         if self.program.numberOfAllBaits == 0 {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.edit))
@@ -156,17 +148,22 @@ class ProgramDetailsViewController: UIViewController {
             self.durationLabel.text = "Start In"
         }
         
-        if self.program.numberOfAllBaits == 0 {
-            self.addOrViewBaitButton.setTitle("Add Baits", for: .normal)
-            self.numberOfRemovedBaitsTextField.text = ""
-            self.hidesStatsView()
-        } else {
-            self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
-            self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
-            self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
-            self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
-            self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
-        }
+//        if self.program.numberOfAllBaits == 0 {
+//            self.addOrViewBaitButton.setTitle("Add Baits", for: .normal)
+//            self.numberOfRemovedBaitsTextField.text = ""
+//            self.hidesStatsView()
+//        } else {
+//            self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
+//            self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
+//            self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
+//            self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
+//            self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
+//        }
+        self.addOrViewBaitButton.setTitle("View Bait Map", for: .normal)
+        self.numberOfActiveBaitsTextField.text = "\(self.program.numberOfActiveBaits)"
+        self.numberOfOverdueBaitsTextField.text = "\(self.program.numberOfOverdueBaits)"
+        self.numberOfDueSoonBaitsTextField.text = "\(self.program.numberOfDueSoonBaits)"
+        self.numberOfRemovedBaitsTextField.text = "Removed baits: \(self.program.numberOfRemovedBaits)"
         
         self.programImage.image = UIImage(named: self.program.species!)
     }
@@ -208,18 +205,6 @@ class ProgramDetailsViewController: UIViewController {
     @IBOutlet weak var overdueBaits: UILabel!
     @IBOutlet weak var dueSoonBaits: UILabel!
     
-//    func removeStatsView() {
-//        self.circleGreen.removeFromSuperview()
-//        self.circleRed.removeFromSuperview()
-//        self.circleOrange.removeFromSuperview()
-//        self.activeBaits.removeFromSuperview()
-//        self.overdueBaits.removeFromSuperview()
-//        self.dueSoonBaits.removeFromSuperview()
-//        self.numberOfActiveBaitsTextField.removeFromSuperview()
-//        self.numberOfOverdueBaitsTextField.removeFromSuperview()
-//        self.numberOfDueSoonBaitsTextField.removeFromSuperview()
-//    }
-    
     func hidesStatsView() {
         self.circleGreen.isHidden = true
         self.circleRed.isHidden = true
@@ -252,11 +237,12 @@ class ProgramDetailsViewController: UIViewController {
 
     
     @IBAction func addOrViewBait(_ sender: Any) {
-        if self.program.numberOfAllBaits == 0 {
-            performSegue(withIdentifier: "AddBaitSegue", sender: nil)
-        } else {
-            performSegue(withIdentifier: "ViewMapSegue", sender: nil)
-        }
+//        if self.program.numberOfAllBaits == 0 {
+//            performSegue(withIdentifier: "AddBaitSegue", sender: nil)
+//        } else {
+//            performSegue(withIdentifier: "ViewMapSegue", sender: nil)
+//        }
+        performSegue(withIdentifier: "ViewMapSegue", sender: nil)
     }
     
     

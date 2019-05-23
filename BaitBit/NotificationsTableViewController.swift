@@ -78,6 +78,7 @@ class NotificationsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
         if !loggedIn {
             Util.displayErrorMessage(view: self, "You have to login to see more information", "Login Required")

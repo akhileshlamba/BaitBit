@@ -68,11 +68,11 @@ class MoreTableViewController: UITableViewController {
         self.tabBarController?.navigationItem.leftBarButtonItem = nil
         self.tabBarController?.navigationItem.rightBarButtonItem = nil
         self.tabBarController?.navigationItem.hidesBackButton = true
-        self.tabBarController?.navigationItem.title = "Settings"
+        self.tabBarController?.navigationItem.title = "More"
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         tableView.reloadData()
         self.setNavigationBarItems()
         let loggedIn = UserDefaults.standard.bool(forKey: "loggedIn")
